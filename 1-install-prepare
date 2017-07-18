@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# --------------------------------------------------
+# "PARTITIONIEREN WENN BENÖTIGT"
+# cgdisk
+#
+# efi = ef00
+# swap = 8200
+# linux = 8300
+ 
+# "FORMATIEREN WENN BENÖTIGT"
+# z.B :
+#    mkfs.fat -F32 /dev/…
+#    mkfs.btrfs /dev/...
+#    mkswap /dev/...
+#    mkfs.ext4 /dev/...
+# 
+# -------------------------------------------------
+# mount -o umask=0077 /dev/…  /mnt/boot
+# mount -o defaults,noatime,discard /dev/… /mnt
+# mount -o defaults,noatime,discard /dev/… /mnt/home
+# swapon /dev/...
+# --------------------------------------------------------------
+
+loadkeys de-latin1
+
+pacstrap -i /mnt base base-devel grub os-prober efibootmgr vim zsh wget
+
+genfstab -U -p /mnt  >> /mnt/etc/fstab
+ 
+arch-chroot /mnt
+

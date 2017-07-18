@@ -1,0 +1,121 @@
+
+
+loadkeys de-latin1
+
+--------------------------------------------------
+"PARTITIONIEREN WENN BENÖTIGT"
+cgdisk
+
+efi = ef00
+swap = 8200
+linux = 8300
+ 
+"FORMATIEREN WENN BENÖTIGT"
+   
+z.B :
+    mkfs.fat -F32 /dev/…
+    mkfs.btrfs /dev/...
+   	mkswap /dev/...
+   	mkfs.ext4 /dev/...
+ 
+-------------------------------------------------
+mount -o umask=0077 /dev/…  /mnt/boot
+mount -o defaults,noatime,discard /dev/… /mnt
+mount -o defaults,noatime,discard /dev/… /mnt/home
+swapon /dev/...
+---------------------------------------------------------------
+ 
+pacstrap -i /mnt base base-devel grub os-prober parted linux-zen linux-zen-headers bash-completion    
+( optional: btrfs-progs  efibootmgr dosfstools grub-bios )
+ 
+genfstab -U -p /mnt  >> /mnt/etc/fstab
+ 
+///////////////////////////////////////////////////////////////////////////////////////////
+ 
+arch-chroot /mnt
+echo 4eburDom >> /etc/hostname
+nano  /etc/locale.gen
+locale-gen
+ln -sf usr/share/zoneinfo/Europe/Berlin /etc/localtime
+hwclock --systohc
+passwd
+useradd -m -g users -G wheel,video,audio -s /bin/bash wlad
+passwd wlad
+ 
+/////////////////////////////////////////////////////////////////////////////
+    GRUB - Way 
+
+grub-install --efi-directory=/boot
+	( /dev/…  )
+grub-mkconfig -o /boot/grub/grub.cfg
+
+efibootmgr -q -c -d /dev/sdX -p 1 -w -L "GRUB: Arch-Linux" -l '\EFI\arch_grub\grubx64.efi'
+
+//////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+    Systemd Boot
+
+bootctl install
+
+nano /boot/loader/entries/arch.conf
+    "title Arch Linux
+     linux /vmlinuz-linux
+     initrd /initramfs-linux.img
+     options root=PARTUUID=[] rw
+    "
+
+lsblk -f     ( blkid -s PARTUUID -o value /dev/sdxY )
+
+///////////////////////////////////////////////////////////////////////////////////////////
+ 
+pacman -S xorg-server xorg-xinit lightdm lightdm-gtk-greeter acpid ntp dbus avahi 
+
+pacman -S networkmanager network-manager-applet nm-connection-editor
+
+pacman -S pulseaudio alsa-tools alsa-utils pulseaudio-alsa
+
+pacman -S  cronie  chromium pavucontrol qt5 vlc mpv audacious noto-fonts arc-gtk-theme arc-icon-theme hunspell-de 
+ 
+pacman -S nvidia xf86-video-vesa (virtualbox-guest-utils)
+
+pacman -S mate mate-extra
+
+localectl set-locale LANG=”de_DE.UTF-8”
+systemctl enable acpid
+systemctl enable ntpd 
+systemctl enable avahi-daemon 
+systemctl enable cronie 
+systemctl enable lightdm.service 
+systemctl enable NetworkManager
+ 
+exit
+REBOOT
+ 
+//////////////////////////////////////////////////////////////////////////////////////////// 
+ 
+mkinitcpio -p linux
+xorg-utils        pamac-aur xorg-server-utils
+echo  > /etc/locale.conf
+echo LANGUAGE=de_DE >> /etc/locale.conf
+el
+ 
+ ( dhcpcd )
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
