@@ -1,4 +1,8 @@
 #!/bin/bash
+wget https://github.com/dikiy4eburator/arch-helpers/blob/master/2-system-config
+wget https://github.com/dikiy4eburator/arch-helpers/blob/master/3-install-gui
+
+# Set hostname
 echo 4eburDom >> /etc/hostname
 
 # /etc/locale.conf
@@ -10,22 +14,22 @@ echo LANGUAGE=de_DE >> /etc/locale.conf
 echo KEYMAP=de-latin1 > /etc/vconsole.conf
 
 # /etc/locale.gen
-
 echo de_DE.UTF-8 UTF-8 >> /etc/locale.gen
 locale-gen
-
 localectl set-locale LANG=”de_DE.UTF-8”
+
+# Set Time
 ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 
+# Set Root password
 passwd
 
+# Set new user
 useradd -m -g users -G wheel,video,audio -s /bin/zsh wlad
 passwd wlad
 
 # GRUB 
-
 grub-install --efi-directory=/boot/efi
-
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # efibootmgr -q -c -d /dev/sdX -p 1 -w -L "GRUB: Arch-Linux" -l '\EFI\arch_grub\grubx64.efi'
