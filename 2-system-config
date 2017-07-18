@@ -1,6 +1,4 @@
 #!/bin/bash
-wget https://github.com/dikiy4eburator/arch-helpers/blob/master/2-system-config
-wget https://github.com/dikiy4eburator/arch-helpers/blob/master/3-install-gui
 
 # Set hostname
 echo 4eburDom >> /etc/hostname
