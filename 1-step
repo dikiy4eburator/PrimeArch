@@ -24,15 +24,9 @@
 
 loadkeys de-latin1
 
-pacstrap -i /mnt base base-devel grub os-prober efibootmgr vim zsh wget
+pacstrap -i /mnt base base-devel grub os-prober efibootmgr vim zsh
 
 genfstab -U -p /mnt  >> /mnt/etc/fstab
  
 arch-chroot /mnt
-
-cd /tmp
-
-# Download scripts
-wget https://github.com/dikiy4eburator/arch-helpers/blob/master/2-system-config
-wget https://github.com/dikiy4eburator/arch-helpers/blob/master/3-install-gui
 
