@@ -52,6 +52,7 @@ systemctl enable avahi-daemon
 # systemctl enable cronie 
 systemctl enable lightdm.service 
 systemctl enable NetworkManager
+localectl set-keymap --no-convert de
 
 
 # GRUB 
