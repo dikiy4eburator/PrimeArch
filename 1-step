@@ -31,8 +31,8 @@ SWAP_HD="${HDD}2"
 
 # formating partitions
 mkfs.fat -F32 /dev/$BOOT_HD
-mkswap /dev/$ROOT_HD
-mkfs.ext4 /dev/$SWAP_HD
+mkswap /dev/$SWAP_HD
+mkfs.ext4 /dev/$ROOT_HD
 
 # Mounting partitions
 mount /dev/$ROOT_HD /mnt
