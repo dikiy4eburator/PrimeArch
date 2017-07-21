@@ -22,27 +22,27 @@
 # swapon /dev/...
 # --------------------------------------------------------------
 
-loadkeys de-latin1
+#loadkeys de-latin1
 
-read -p "Bitte Festplatte angeben: " HDD
-BOOT_HD="${HDD}1"
-ROOT_HD="${HDD}3"
-SWAP_HD="${HDD}2"
+#read -p "Bitte Festplatte angeben: " HDD
+#BOOT_HD="${HDD}1"
+#ROOT_HD="${HDD}3"
+#SWAP_HD="${HDD}2"
 
 # formating partitions
-mkfs.fat -F32 /dev/$BOOT_HD
-mkswap /dev/$SWAP_HD
-mkfs.ext4 /dev/$ROOT_HD
+#mkfs.fat -F32 /dev/$BOOT_HD
+#mkswap /dev/$SWAP_HD
+#mkfs.ext4 /dev/$ROOT_HD
 
 # Mounting partitions
-mount /dev/$ROOT_HD /mnt
-mkdir /mnt/boot
-mkdir /mnt/boot/efi
-mount /dev/$BOOT_HD /mnt/boot/efi
-swapon /dev/$SWAP_HD
+#mount /dev/$ROOT_HD /mnt
+#mkdir /mnt/boot
+#mkdir /mnt/boot/efi
+#mount /dev/$BOOT_HD /mnt/boot/efi
+#swapon /dev/$SWAP_HD
 
 # Install base pacages
-pacstrap -i /mnt base base-devel grub os-prober efibootmgr vim zsh linux-headers
+pacstrap -i /mnt base base-devel grub os-prober efibootmgr linux-headers ranger
 
 # Generate fstab
 genfstab -U -p /mnt  >> /mnt/etc/fstab
