@@ -24,8 +24,24 @@
 
 loadkeys de-latin1
 
-pacstrap -i /mnt base base-devel grub os-prober efibootmgr vim zsh
+read -p "Bitte Festplatte angeben: " HDD
 
+# formating partitions
+mkfs.fat -F32 /dev/$HDD+1
+mkswap /dev/$HDD+2
+mkfs.ext4 /dev/$HDD+3
+
+# Mounting partitions
+mount /dev/$HDD+3 /mnt
+mkdir /mnt/boot
+mkdir /mnt/boot/efi
+mount /dev/$HDD+1 /mnt/boot/efi
+swapon /dev/$HDD+2
+
+# Install base pacages
+pacstrap -i /mnt base base-devel grub os-prober efibootmgr vim zsh linux-headers
+
+# Generate fstab
 genfstab -U -p /mnt  >> /mnt/etc/fstab
  
 arch-chroot /mnt

@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Set hostname
-echo 4eburDom >> /etc/hostname
+read -p "Bitte Hostname eingeben: " HOSTNAME
+echo $HOSTNAME >> /etc/hostname
 
 # /etc/locale.conf
 echo LANG=de_DE.UTF-8 > /etc/locale.conf
@@ -24,10 +25,12 @@ echo "Set Root pasword"
 passwd
 
 # Set new user
+
+read -p "Bitte User Namen eingeben: " USER
 echo "Generate new User"
-useradd -m -g users -G wheel,video,audio -s /bin/zsh wlad
+useradd -m -g users -G wheel,video,audio -s /bin/zsh $USER
 echo "Set User pasword"
-passwd wlad
+passwd $USER
 
 
 
@@ -42,9 +45,7 @@ pacman -S chromium qt5 vlc mpv audacious noto-fonts arc-gtk-theme arc-icon-theme
 
 pacman -S vim-spell-de vim-spell-en zsh-autosuggestion zsh-completions zsh-syntax-highlighting
  
-pacman -S xf86-video-vesa
-
-pacman -S i3
+pacman -S xf86-video-vesa virtualbox-guest-dkms
 
 systemctl enable acpid
 systemctl enable ntpd 
@@ -60,3 +61,34 @@ grub-install --efi-directory=/boot/efi
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # efibootmgr -q -c -d /dev/sdX -p 1 -w -L "GRUB: Arch-Linux" -l '\EFI\arch_grub\grubx64.efi'
+
+su $USER
+
+# install yaourt
+curl -O https://aur.archlinux.org/cgit/aur.git/snapshot/package-query.tar.gz
+tar -xvzf package-query.tar.gz
+cd package-query
+makepkg -si
+
+cd ..
+curl -O https://aur.archlinux.org/cgit/aur.git/snapshot/yaourt.tar.gz
+tar -xvzf yaourt.tar.gz
+cd yaourt
+makepkg -si
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
