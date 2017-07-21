@@ -45,7 +45,7 @@ pacman -S chromium qt5 vlc mpv audacious noto-fonts arc-gtk-theme arc-icon-theme
 
 pacman -S vim-spell-de vim-spell-en zsh-autosuggestion zsh-completions zsh-syntax-highlighting git
  
-pacman -S xf86-video-vesa virtualbox-guest-dkms
+pacman -S xf86-video-vesa virtualbox-guest-dkms i3
 
 systemctl enable acpid
 systemctl enable ntpd 
@@ -57,7 +57,7 @@ localectl set-keymap --no-convert de
 
 
 # GRUB 
-grub-install --efi-directory=/boot/efi
+grub-install --efi-directory=/boot/efi --bootloader-id=grub
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # efibootmgr -q -c -d /dev/sdX -p 1 -w -L "GRUB: Arch-Linux" -l '\EFI\arch_grub\grubx64.efi'
