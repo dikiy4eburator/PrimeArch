@@ -42,7 +42,7 @@
 #swapon /dev/$SWAP_HD
 
 # Install base pacages
-pacstrap -i /mnt base base-devel grub os-prober efibootmgr linux-headers ranger xorg-server xorg-xinit lightdm lightdm-gtk-greeter acpid ntp dbus avahi networkmanager network-manager-applet nm-connection-editor pulseaudio alsa-tools alsa-utils pulseaudio-alsa pavucontrol xfce4-appfinder caja mate-terminal chromium qt5 vlc mpv audacious noto-fonts arc-gtk-theme arc-icon-theme hunspell-de compton rofi neofetch nitrogen ranger
+pacstrap -i /mnt base base-devel grub os-prober efibootmgr linux-headers xorg-server xorg-xinit lightdm lightdm-gtk-greeter acpid ntp dbus avahi networkmanager network-manager-applet nm-connection-editor pulseaudio alsa-tools alsa-utils pulseaudio-alsa pavucontrol xfce4-appfinder caja mate-terminal chromium qt5 vlc mpv audacious noto-fonts arc-gtk-theme arc-icon-theme hunspell-de compton rofi neofetch nitrogen ranger
 
 # Generate fstab
 genfstab -U -p /mnt  >> /mnt/etc/fstab
