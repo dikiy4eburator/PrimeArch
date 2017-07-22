@@ -31,9 +31,6 @@ useradd -m -g users -G wheel,video,audio -s /bin/bash $USER
 echo "Set User pasword"
 passwd $USER
 
-pacman -S xf86-video-vesa virtualbox-guest-dkms nvidia 
-
-
 systemctl enable acpid
 systemctl enable ntpd 
 systemctl enable avahi-daemon 
