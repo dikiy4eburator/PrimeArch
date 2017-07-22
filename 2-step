@@ -15,7 +15,6 @@ echo KEYMAP=de-latin1 > /etc/vconsole.conf
 # /etc/locale.gen
 echo de_DE.UTF-8 UTF-8 >> /etc/locale.gen
 locale-gen
-localectl set-locale LANG=”de_DE.UTF-8”
 
 # Set Time
 ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
@@ -28,24 +27,11 @@ passwd
 
 read -p "Bitte User Namen eingeben: " USER
 echo "Generate new User"
-useradd -m -g users -G wheel,video,audio -s /bin/zsh $USER
+useradd -m -g users -G wheel,video,audio -s /bin/bash $USER
 echo "Set User pasword"
 passwd $USER
 
-
-
-# Install Gui
-pacman -S xorg-server xorg-xinit lightdm lightdm-gtk-greeter acpid ntp dbus avahi 
-
-pacman -S networkmanager network-manager-applet nm-connection-editor
-
-pacman -S pulseaudio alsa-tools alsa-utils pulseaudio-alsa pavucontrol xfce4-appfinder caja mate-terminal
-
-pacman -S chromium qt5 vlc mpv audacious noto-fonts arc-gtk-theme arc-icon-theme hunspell-de compton rofi neofetch nitrogen ranger
-
-pacman -S vim-spell-de vim-spell-en zsh-autosuggestion zsh-completions zsh-syntax-highlighting git
- 
-pacman -S xf86-video-vesa virtualbox-guest-dkms i3
+pacman -S xf86-video-vesa virtualbox-guest-dkms i3 git
 
 systemctl enable acpid
 systemctl enable ntpd 
@@ -53,7 +39,8 @@ systemctl enable avahi-daemon
 # systemctl enable cronie 
 systemctl enable lightdm.service 
 systemctl enable NetworkManager
-localectl set-keymap --no-convert de
+
+localectl --no-convert set-x11-keymap de
 
 
 # GRUB 
@@ -61,11 +48,6 @@ grub-install --efi-directory=/boot/efi --bootloader-id=grub
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # efibootmgr -q -c -d /dev/sdX -p 1 -w -L "GRUB: Arch-Linux" -l '\EFI\arch_grub\grubx64.efi'
-
-su $USER
-
-
-
 
 
 
