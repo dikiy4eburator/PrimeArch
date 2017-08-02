@@ -54,7 +54,7 @@ pacstrap -i /mnt i3 xfce4
 #Install Additional apps
 pacstrap -i /mnt xfce4-appfinder nemo mate-terminal urxvt chromium qt5 vlc mpv audacious hunspell-de polkit-gnome nitrogen rofi imagewriter
 #Install Themes
-pacstrap -i /mnt noto-fonts ttf_dejavu arc-gtk-theme arc-icon-theme vertex-maia-themes xcursor-breeze
+pacstrap -i /mnt noto-fonts ttf_dejavu arc-gtk-theme arc-icon-theme vertex-maia-themes xcursor-breeze adwaita-icon-theme
 
 # Generate fstab
 genfstab -U -p /mnt  >> /mnt/etc/fstab
