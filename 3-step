@@ -12,4 +12,4 @@ cd yaourt
 makepkg -si
 
 
- neofetch-git pamac
+# neofetch-git pamac
