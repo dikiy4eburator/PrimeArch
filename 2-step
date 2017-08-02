@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Set hostname
-read -p "Bitte Hostname eingeben: " HOSTNAME
-echo $HOSTNAME >> /etc/hostname
+read -p "Bitte Hostname eingeben: " HOST
+echo $HOST >> /etc/hostname
 
 # /etc/locale.conf
 echo LANG=de_DE.UTF-8 > /etc/locale.conf
@@ -24,12 +24,13 @@ echo "Set Root pasword"
 passwd
 
 # Set new user
-
-read -p "Bitte User Namen eingeben: " USER
+read -p "Bitte neuen User Namen eingeben: " US
 echo "Generate new User"
-useradd -m -g users -G wheel,video,audio -s /bin/bash $USER
+useradd -m -g users -G wheel,video,audio -s /bin/bash $US
 echo "Set User pasword"
-passwd $USER
+passwd $US
+# Enable WHEEL group for ROOT
+ echo %wheel ALL=(ALL) ALL >> /etc/sudoers
 
 systemctl enable acpid
 systemctl enable ntpd 
