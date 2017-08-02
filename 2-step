@@ -6,17 +6,17 @@ echo $HOST >> /etc/hostname
 
 # /etc/locale.conf
 echo LANG=de_DE.UTF-8 > /etc/locale.conf
-echo LC_COLLATE=C >> /etc/locale.conf
 echo LANGUAGE=de_DE >> /etc/locale.conf
 
 # /etc/vconsole.conf
-echo KEYMAP=de-latin1 > /etc/vconsole.conf
+echo KEYMAP=de-latin1-nodeadkeys > /etc/vconsole.conf
 
 # /etc/locale.gen
 echo de_DE.UTF-8 UTF-8 >> /etc/locale.gen
 locale-gen
 
 # Set Time
+rm /etc/localtime
 ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 
 # Set Root password
