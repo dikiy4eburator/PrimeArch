@@ -54,9 +54,9 @@ pacstrap -i /mnt pulseaudio alsa-tools alsa-utils pulseaudio-alsa pavucontrol fl
 #Install Video pakages
 pacstrap -i /mnt xf86-video-vesa xf86-input-keyboard xorg-server xorg-xinit compton ffmpeg
 #Install GUI pakages
-pacstrap -i /mnt i3 xfce4
+pacstrap -i /mnt i3 xfce4 lightdm lightdm-gtk-greeter
 #Install Additional apps
-pacstrap -i /mnt xfce4-appfinder urxvt chromium qt5 vlc mpv audacious hunspell-de polkit-gnome nitrogen rofi imagewriter conky
+pacstrap -i /mnt xfce4-appfinder chromium qt5 vlc mpv audacious hunspell-de polkit-gnome nitrogen rofi imagewriter conky
 #Install Themes
 pacstrap -i /mnt noto-fonts arc-gtk-theme arc-icon-theme adwaita-icon-theme
 
