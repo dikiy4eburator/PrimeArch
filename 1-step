@@ -58,10 +58,10 @@ pacstrap -i /mnt i3 xfce4 xfce4-goodies lightdm lightdm-gtk-greeter
 #Install Additional apps
 pacstrap -i /mnt xfce4-appfinder chromium qt5 vlc mpv audacious hunspell-de polkit-gnome nitrogen rofi conky
 #Install Themes
-pacstrap -i /mnt noto-fonts arc-gtk-theme arc-icon-theme adwaita-icon-theme
+pacstrap -i /mnt arc-gtk-theme arc-icon-theme adwaita-icon-theme noto-fonts
 
 # Generate fstab
-genfstab -U -p /mnt  >> /mnt/etc/fstab
+genfstab -U -p /mnt >> /mnt/etc/fstab
  
 arch-chroot /mnt
 
