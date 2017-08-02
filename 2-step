@@ -30,7 +30,7 @@ useradd -m -g users -G wheel,video,audio -s /bin/bash $US
 echo "Set User pasword"
 passwd $US
 # Enable WHEEL group for ROOT
- echo %wheel ALL=(ALL) ALL >> /etc/sudoers
+ echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 
 systemctl enable acpid
 systemctl enable ntpd 
