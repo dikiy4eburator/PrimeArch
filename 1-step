@@ -56,7 +56,7 @@ pacstrap -i /mnt xf86-video-vesa xf86-input-keyboard xorg-server xorg-xinit comp
 #Install GUI pakages
 pacstrap -i /mnt i3 xfce4
 #Install Additional apps
-pacstrap -i /mnt xfce4-appfinder urxvt chromium qt5 vlc mpv audacious hunspell-de polkit-gnome nitrogen rofi imagewriter
+pacstrap -i /mnt xfce4-appfinder urxvt chromium qt5 vlc mpv audacious hunspell-de polkit-gnome nitrogen rofi imagewriter conky
 #Install Themes
 pacstrap -i /mnt noto-fonts ttf_dejavu arc-gtk-theme arc-icon-theme vertex-maia-themes vertex-maia-icon-theme xcursor-breeze adwaita-icon-theme
 
