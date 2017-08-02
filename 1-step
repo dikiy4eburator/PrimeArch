@@ -42,7 +42,19 @@
 #swapon /dev/$SWAP_HD
 
 # Install base pacages
-pacstrap -i /mnt base base-devel grub os-prober efibootmgr linux-headers xf86-video-vesa xf86-input-keyboard xorg-server xorg-xinit lightdm lightdm-gtk-greeter acpid ntp dbus avahi networkmanager network-manager-applet nm-connection-editor pulseaudio alsa-tools alsa-utils pulseaudio-alsa pavucontrol xfce4-appfinder caja mate-terminal urxvt chromium qt5 vlc mpv audacious noto-fonts arc-gtk-theme arc-icon-theme hunspell-de compton rofi neofetch nitrogen ranger polkit-gnome git i3 xfce4
+pacstrap -i /mnt base base-devel linux-headers grub os-prober efibootmgr acpid dbus ranger moc git tmux
+#Install Network pakages
+pacstrap -i /mnt avahi networkmanager network-manager-applet nm-connection-editor ntp
+#Install Audio pakages
+pacstrap -i /mnt pulseaudio alsa-tools alsa-utils pulseaudio-alsa pavucontrol flac
+#Install Video pakages
+pacstrap -i /mnt xf86-video-vesa xf86-input-keyboard xorg-server xorg-xinit compton ffmpeg
+#Install GUI pakages
+pacstrap -i /mnt i3 xfce4
+#Install Additional apps
+pacstrap -i /mnt xfce4-appfinder nemo mate-terminal urxvt chromium qt5 vlc mpv audacious hunspell-de polkit-gnome nitrogen rofi imagewriter
+#Install Themes
+pacstrap -i /mnt noto-fonts ttf_dejavu arc-gtk-theme arc-icon-theme vertex-maia-themes xcursor-breeze
 
 # Generate fstab
 genfstab -U -p /mnt  >> /mnt/etc/fstab
