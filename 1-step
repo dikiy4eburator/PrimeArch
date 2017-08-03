@@ -24,7 +24,9 @@
 
 #loadkeys de-latin1
 
-read -p "Bitte Festplatte angeben: " HDD
+read -p "Bitte Festplatte für die installation angeben: " HDD
+cgdisk /dev/$HDD
+
 BOOT_HD="${HDD}1"
 SWAP_HD="${HDD}2"
 ROOT_HD="${HDD}3"
