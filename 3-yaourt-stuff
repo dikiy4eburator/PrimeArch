@@ -11,8 +11,8 @@ tar -xvzf yaourt.tar.gz
 cd yaourt
 makepkg -si
 
-yaourt -S pamac-aur 
 yaourt -S i3-gaps-git
+yaourt -S pamac-aur 
 yaourt -S pamac-tray-appindicator 
 yaourt -S neofetch-git 
 yaourt -S imagewriter-git
