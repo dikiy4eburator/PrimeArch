@@ -58,9 +58,9 @@ pacstrap -i /mnt xf86-input-keyboard xorg-server xorg-xinit compton ffmpeg
 #Install GUI pakages
 pacstrap -i /mnt i3 xfce4 xfce4-goodies lightdm lightdm-gtk-greeter
 #Install Additional apps
-pacstrap -i /mnt xfce4-appfinder chromium qt5 vlc mpv audacious hunspell-de polkit-gnome nitrogen rofi conky atom nemo dunst xautolok lxappearance-gtk3
+pacstrap -i /mnt xfce4-appfinder chromium qt5 vlc mpv audacious hunspell-de polkit-gnome nitrogen rofi conky atom nemo dunst xautolok
 #Install Themes
-pacstrap -i /mnt arc-gtk-theme arc-icon-theme noto-fonts awesome-terminal-fonts
+pacstrap -i /mnt lxappearance-gtk3 arc-gtk-theme arc-icon-theme adapta-gtk-theme noto-fonts awesome-terminal-fonts
 
 # Generate fstab
 genfstab -U -p /mnt >> /mnt/etc/fstab
