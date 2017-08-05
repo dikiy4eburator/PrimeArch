@@ -1,3 +1,5 @@
+# set global keyboard layout
+localectl --no-convert set-x11-keymap de
 
 cd ~
 
