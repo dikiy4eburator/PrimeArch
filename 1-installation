@@ -17,12 +17,12 @@ mkfs.ext4 /dev/$ROOT_HD
 mkfs.ext4 /dev/$HOME_HD
 
 # Mounting partitions
-mount /dev/$ROOT_HD /mnt
+mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
 mkdir /mnt/boot
 mkdir /mnt/boot/efi
 mount /dev/$BOOT_HD /mnt/boot/efi
 mkdir /mnt/home
-mount /dev/$HOME_HD /mnt/home
+mount -o defaults,noatime,discard /dev/$HOME_HD /mnt/home
 swapon /dev/$SWAP_HD
 
 # Install base pacages
