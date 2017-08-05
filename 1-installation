@@ -1,27 +1,5 @@
 #!/bin/bash
 
-# --------------------------------------------------
-# "PARTITIONIEREN WENN BENÖTIGT"
-# cgdisk
-#
-# efi = ef00
-# swap = 8200
-# linux = 8300
- 
-# "FORMATIEREN WENN BENÖTIGT"
-# z.B :
-#    mkfs.fat -F32 /dev/…
-#    mkfs.btrfs /dev/...
-#    mkswap /dev/...
-#    mkfs.ext4 /dev/...
-# 
-# -------------------------------------------------
-# mount -o umask=0077 /dev/…  /mnt/boot
-# mount -o defaults,noatime,discard /dev/… /mnt
-# mount -o defaults,noatime,discard /dev/… /mnt/home
-# swapon /dev/...
-# --------------------------------------------------------------
-
 #loadkeys de-latin1
 
 read -p "Bitte Festplatte für die installation angeben: " HDD
@@ -66,4 +44,30 @@ pacstrap -i /mnt lxappearance-gtk3 arc-gtk-theme arc-icon-theme noto-fonts aweso
 genfstab -U -p /mnt >> /mnt/etc/fstab
  
 arch-chroot /mnt
+
+#/////////////////////////////////////////////////////////////////
+
+# --------------------------------------------------
+# "PARTITIONIEREN WENN BENÖTIGT"
+# cgdisk
+#
+# efi = ef00
+# swap = 8200
+# linux = 8300
+ 
+# "FORMATIEREN WENN BENÖTIGT"
+# z.B :
+#    mkfs.fat -F32 /dev/…
+#    mkfs.btrfs /dev/...
+#    mkswap /dev/...
+#    mkfs.ext4 /dev/...
+# 
+# -------------------------------------------------
+# mount -o umask=0077 /dev/…  /mnt/boot
+# mount -o defaults,noatime,discard /dev/… /mnt
+# mount -o defaults,noatime,discard /dev/… /mnt/home
+# swapon /dev/...
+# --------------------------------------------------------------
+
+
 
