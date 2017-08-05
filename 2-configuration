@@ -39,22 +39,9 @@ systemctl enable avahi-daemon
 systemctl enable lightdm.service 
 systemctl enable NetworkManager
 
-localectl --no-convert set-x11-keymap de
-
 
 # GRUB 
-grub-install --efi-directory=/boot/efi --bootloader-id=grub
+grub-install --efi-directory=/boot/efi --bootloader-id=ArchVanilla
 grub-mkconfig -o /boot/grub/grub.cfg
 
-# efibootmgr -q -c -d /dev/sdX -p 1 -w -L "GRUB: Arch-Linux" -l '\EFI\arch_grub\grubx64.efi'
-
-
-
-
-
-
-
-
-
-
-
+localectl --no-convert set-x11-keymap de
