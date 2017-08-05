@@ -12,6 +12,8 @@ cd yaourt
 makepkg -si
 
 yaourt -S i3-gaps-git
+yaourt -S zsh-autosuggestions
+yaourt -S zsh-history-substring-search-git
 yaourt -S pamac-aur 
 yaourt -S pamac-tray-appindicator 
 yaourt -S neofetch-git 
