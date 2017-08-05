@@ -38,7 +38,8 @@ pacstrap -i /mnt avahi networkmanager network-manager-applet nm-connection-edito
 pacstrap -i /mnt pulseaudio alsa-tools alsa-utils pulseaudio-alsa pavucontrol flac volumeicon audacious
 
 #Install Video pakages
-pacstrap -i /mnt xf86-input-keyboard xorg-server xorg-xinit compton ffmpeg vlc mpv
+pacstrap -i /mnt xf86-input-keyboard xorg-server xorg-xinit compton ffmpeg vlc mpv 
+pacstrap -i /mnt virtualbox-guest-dkms nvidia
 
 #Install GUI pakages
 pacstrap -i /mnt i3 xfce4 xfce4-goodies lightdm lightdm-gtk-greeter
