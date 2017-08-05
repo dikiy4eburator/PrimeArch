@@ -23,25 +23,27 @@ ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 echo "Set Root pasword"
 passwd
 
-# Set new user
+# get user name
 read -p "Bitte neuen User Namen eingeben: " US
-echo "Generate new User"
-useradd -m -g users -G wheel,video,audio -s /bin/zsh $US
-echo "Set User pasword"
+# add neu user
+echo "Generating user $US"
+useradd -m -g users -G wheel,video,audio,network -s /bin/zsh $US
+echo "Set User pasword for $US"
+#add pasword for new user
 passwd $US
-# Enable WHEEL group for USER
+# Enable WHEEL group for user
  echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 
+#start system daemons
 systemctl enable acpid
 systemctl enable ntpd 
 systemctl enable avahi-daemon 
-# systemctl enable cronie 
 systemctl enable lightdm.service 
 systemctl enable NetworkManager
 
-
-# GRUB 
+# install grub 
 grub-install --efi-directory=/boot/efi --bootloader-id=ArchVanilla
 grub-mkconfig -o /boot/grub/grub.cfg
 
+# set global keyboard layout
 localectl --no-convert set-x11-keymap de
