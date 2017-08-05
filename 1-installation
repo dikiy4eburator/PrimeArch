@@ -1,6 +1,8 @@
 #!/bin/bash
 
 #loadkeys de-latin1
+clear
+lsblk
 
 read -p "Bitte Festplatte für die installation angeben: " HDD
 cgdisk /dev/$HDD
