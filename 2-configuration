@@ -45,8 +45,5 @@ systemctl enable NetworkManager
 grub-install --efi-directory=/boot/efi --bootloader-id=ArchVanilla
 grub-mkconfig -o /boot/grub/grub.cfg
 
-# set global keyboard layout
-localectl --no-convert set-x11-keymap de
-
-reboot
+exit
 
