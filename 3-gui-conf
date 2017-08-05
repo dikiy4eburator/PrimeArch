@@ -1,4 +1,6 @@
 
+cd ~
+
 # install yaourt
 curl -O https://aur.archlinux.org/cgit/aur.git/snapshot/package-query.tar.gz
 tar -xvzf package-query.tar.gz
@@ -18,3 +20,13 @@ yaourt -S pamac-aur
 yaourt -S pamac-tray-appindicator 
 yaourt -S neofetch-git 
 yaourt -S imagewriter-git
+
+
+# install i3 configs
+
+cd ~
+git clone https://github.com/dikiy4eburator/i3-config.git ~/.config/i3
+cd ~/.config/i3/urxvt
+ln .Xdefaults ~/.Xdefaults
+cd ~/.config/i3/zsh
+ln .zshrc ~/.zshrc
