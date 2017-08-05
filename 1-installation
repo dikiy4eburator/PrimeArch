@@ -42,6 +42,8 @@ pacstrap -i /mnt lxappearance-gtk3 arc-gtk-theme arc-icon-theme noto-fonts aweso
 
 # Generate fstab
 genfstab -U -p /mnt >> /mnt/etc/fstab
+
+curl -o /mnt/home/2 https://raw.githubusercontent.com/dikiy4eburator/arch-helpers/master/2-configuration
  
 arch-chroot /mnt
 
