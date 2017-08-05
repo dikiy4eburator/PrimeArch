@@ -34,3 +34,5 @@ ln .Xdefaults ~/.Xdefaults
 
 cd ~/.config/i3/zsh
 ln .zshrc ~/.zshrc
+
+sudo ln ~/.config/i3/font/square.ttf /usr/share/fonts/TTF/square.ttf
