@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# set global keyboard layout
-sudo localectl --no-convert set-x11-keymap de
-
 cd ~
 
 # install yaourt
@@ -38,3 +35,6 @@ cd ~/.config/i3/zsh
 ln .zshrc ~/.zshrc
 
 sudo cp ~/.config/i3/font/square.ttf /usr/share/fonts/TTF/square.ttf
+
+# set global keyboard layout
+sudo localectl --no-convert set-x11-keymap de
