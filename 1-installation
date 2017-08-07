@@ -28,28 +28,7 @@ mount -o defaults,noatime,discard /dev/$HOME_HD /mnt/home
 swapon /dev/$SWAP_HD
 
 # Install base pacages
-pacstrap -i /mnt base base-devel linux-headers grub os-prober efibootmgr
-pacstrap -i /mnt acpid dbus ranger git htop zsh zsh-completions zsh-syntax-highlighting
-
-#Install Network pakages
-pacstrap -i /mnt avahi networkmanager network-manager-applet nm-connection-editor ntp
-
-#Install Audio pakages
-pacstrap -i /mnt pulseaudio alsa-tools alsa-utils pulseaudio-alsa pavucontrol flac volumeicon audacious
-
-#Install Video pakages
-pacstrap -i /mnt xf86-input-keyboard xorg-server xorg-xinit compton ffmpeg vlc mpv 
-pacstrap -i /mnt virtualbox-guest-dkms nvidia
-
-#Install GUI pakages
-pacstrap -i /mnt i3 xfce4 xfce4-goodies lightdm lightdm-gtk-greeter
-
-#Install Additional apps
-pacstrap -i /mnt xfce4-appfinder chromium atom
-pacstrap -i /mnt nitrogen rofi conky dunst urxvt-perls hunspell-de polkit-gnome xautolok
-
-#Install Themes
-pacstrap -i /mnt lxappearance-gtk3 arc-gtk-theme arc-icon-theme noto-fonts awesome-terminal-fonts
+pacstrap -i /mnt base base-devel linux-headers grub os-prober efibootmgr acpid dbus
 
 # Generate fstab
 genfstab -U -p /mnt >> /mnt/etc/fstab
