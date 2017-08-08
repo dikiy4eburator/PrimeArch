@@ -3,14 +3,14 @@
 #loadkeys de-latin1
 clear
 lsblk
-
+echo
 read -p "Bitte Festplatte für die installation angeben: " HDD
 cgdisk /dev/$HDD
 
-BOOT_HD="${HDD}1"
-SWAP_HD="${HDD}2"
-ROOT_HD="${HDD}3"
-HOME_HD="${HDD}4"
+BOOT_HD="${HDD}p1"
+SWAP_HD="${HDD}p2"
+ROOT_HD="${HDD}p3"
+HOME_HD="${HDD}p4"
 
 # formating partitions
 mkfs.fat -F32 /dev/$BOOT_HD
