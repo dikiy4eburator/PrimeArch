@@ -15,7 +15,7 @@ pacman -S i3 lightdm lightdm-gtk-greeter xfce4 xfce4-goodies
 
 #Install Additional apps
 pacman -S polkit-gnome xfce4-appfinder firefox atom ranger git htop zsh zsh-completions zsh-syntax-highlighting
-pacman -S nitrogen rofi conky dunst urxvt-perls hunspell-de xautolok
+pacman -S nitrogen rofi conky dunst urxvt-perls hunspell-de
 
 #Install Themes
 pacman -S lxappearance-gtk3 arc-gtk-theme arc-icon-theme noto-fonts awesome-terminal-fonts
