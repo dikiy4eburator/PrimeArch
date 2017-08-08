@@ -29,10 +29,10 @@ cd ~
 git clone https://github.com/dikiy4eburator/i3-config.git ~/.config/i3
 
 cd ~/.config/i3/urxvt
-ln .Xdefaults ~/.Xdefaults
+ln -f .Xdefaults ~/.Xdefaults
 
 cd ~/.config/i3/zsh
-ln .zshrc ~/.zshrc
+ln -f .zshrc ~/.zshrc
 
 sudo cp ~/.config/i3/font/square.ttf /usr/share/fonts/TTF/square.ttf
 
