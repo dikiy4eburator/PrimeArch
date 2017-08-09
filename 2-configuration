@@ -5,25 +5,25 @@
 ###################
 
 #Install Network pakages
-pacman -S avahi networkmanager network-manager-applet nm-connection-editor ntp
+pacman -S --noconfirm avahi networkmanager network-manager-applet nm-connection-editor ntp
 
 #Install Audio pakages
-pacman -S pulseaudio alsa-tools alsa-utils pulseaudio-alsa pavucontrol flac volumeicon audacious
+pacman -S --noconfirm pulseaudio alsa-tools alsa-utils pulseaudio-alsa pavucontrol flac volumeicon audacious
 
 #Install Video pakages
-pacman -S xf86-input-keyboard xorg-server xorg-xinit compton ffmpeg vlc mpv virtualbox-guest-dkms nvidia
+pacman -S --noconfirm xf86-input-keyboard xorg-server xorg-xinit compton ffmpeg vlc mpv virtualbox-guest-dkms nvidia
 
 #Install GUI pakages
-pacman -S i3 lightdm lightdm-gtk-greeter
+pacman -S --noconfirm i3 lightdm lightdm-gtk-greeter
 
 #Install Additional apps
-pacman -S polkit-gnome xfce4-appfinder firefox firefox-i18n-de atom ranger git htop zsh zsh-completions zsh-syntax-highlighting nitrogen rofi conky dunst urxvt-perls hunspell-de
+pacman -S --noconfirm polkit-gnome xfce4-appfinder firefox firefox-i18n-de atom ranger git htop zsh zsh-completions zsh-syntax-highlighting nitrogen rofi conky dunst urxvt-perls hunspell-de
 
 #Install Themes
-pacman -S lxappearance-gtk3 arc-gtk-theme arc-icon-theme
+pacman -S --noconfirm lxappearance-gtk3 arc-gtk-theme arc-icon-theme
 
 #Install fonts
-pacman -S noto-fonts awesome-terminal-fonts
+pacman -S --noconfirm noto-fonts awesome-terminal-fonts
 
 ################
 # START CONFIG #
