@@ -1,8 +1,8 @@
 #!/bin/bash
 
-###################
-# INSTALL PACAGES #
-###################
+echo "###################"
+echo "# INSTALL PACAGES #"
+echo "###################"
 
 #Install Network pakages
 pacman -S --noconfirm avahi networkmanager network-manager-applet nm-connection-editor ntp
@@ -27,10 +27,11 @@ pacman -S --noconfirm lxappearance-gtk3 arc-gtk-theme arc-icon-theme
 #Install fonts
 pacman -S --noconfirm noto-fonts awesome-terminal-fonts
 
-################
-# START CONFIG #
-################
-
+echo "################"
+echo "# START CONFIG #"
+echo "################"
+echo 
+echo 
 # Set hostname
 read -p "Bitte Hostname eingeben: " HOST
 echo $HOST >> /etc/hostname
@@ -76,10 +77,10 @@ systemctl enable NetworkManager
 grub-install --efi-directory=/boot/efi --bootloader-id=ArchVanilla
 grub-mkconfig -o /boot/grub/grub.cfg
 
-echo ##################################
-echo #### REBOOT AND LOGIN AS USER ####
-echo #### then start script nr. 3  ####
-echo ##################################
+echo "##################################"
+echo "#### REBOOT AND LOGIN AS USER ####"
+echo "#### then start script nr. 3  ####"
+echo "##################################"
 
 exit
 
