@@ -1,5 +1,9 @@
 #!/bin/bash
 
+###################
+# INSTALL PACAGES #
+###################
+
 #Install Network pakages
 pacman -S avahi networkmanager network-manager-applet nm-connection-editor ntp
 
@@ -7,18 +11,23 @@ pacman -S avahi networkmanager network-manager-applet nm-connection-editor ntp
 pacman -S pulseaudio alsa-tools alsa-utils pulseaudio-alsa pavucontrol flac volumeicon audacious
 
 #Install Video pakages
-pacman -S xf86-input-keyboard xorg-server xorg-xinit compton ffmpeg vlc mpv 
-pacman -S virtualbox-guest-dkms nvidia
+pacman -S xf86-input-keyboard xorg-server xorg-xinit compton ffmpeg vlc mpv virtualbox-guest-dkms nvidia
 
 #Install GUI pakages
-pacman -S i3 lightdm lightdm-gtk-greeter xfce4 xfce4-goodies
+pacman -S i3 lightdm lightdm-gtk-greeter
 
 #Install Additional apps
-pacman -S polkit-gnome xfce4-appfinder firefox firefox-i18n-de atom ranger git htop zsh zsh-completions zsh-syntax-highlighting
-pacman -S nitrogen rofi conky dunst urxvt-perls hunspell-de
+pacman -S polkit-gnome xfce4-appfinder firefox firefox-i18n-de atom ranger git htop zsh zsh-completions zsh-syntax-highlighting nitrogen rofi conky dunst urxvt-perls hunspell-de
 
 #Install Themes
-pacman -S lxappearance-gtk3 arc-gtk-theme arc-icon-theme noto-fonts awesome-terminal-fonts
+pacman -S lxappearance-gtk3 arc-gtk-theme arc-icon-theme
+
+#Install fonts
+pacman -S noto-fonts awesome-terminal-fonts
+
+################
+# START CONFIG #
+################
 
 # Set hostname
 read -p "Bitte Hostname eingeben: " HOST
@@ -64,6 +73,11 @@ systemctl enable NetworkManager
 # install grub 
 grub-install --efi-directory=/boot/efi --bootloader-id=ArchVanilla
 grub-mkconfig -o /boot/grub/grub.cfg
+
+echo ##################################
+echo #### REBOOT AND LOGIN AS USER ####
+echo #### then start script nr. 3  ####
+echo ##################################
 
 exit
 
