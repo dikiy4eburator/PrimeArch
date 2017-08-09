@@ -3,6 +3,8 @@
 echo "###################"
 echo "# INSTALL PACAGES #"
 echo "###################"
+echo 
+echo 
 
 #Install Network pakages
 pacman -S --noconfirm avahi networkmanager network-manager-applet nm-connection-editor ntp
@@ -32,6 +34,7 @@ echo "# START CONFIG #"
 echo "################"
 echo 
 echo 
+
 # Set hostname
 read -p "Bitte Hostname eingeben: " HOST
 echo $HOST >> /etc/hostname
@@ -53,19 +56,26 @@ ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 
 # Set Root password
 echo "Set Root pasword"
+echo 
 passwd
+echo 
+echo 
 
 # get user name
 read -p "Bitte neuen User Namen eingeben: " US
+echo 
 # add neu user
 echo "Generating user $US"
+echo 
 useradd -m -g users -G wheel,video,audio,network -s /bin/zsh $US
 echo "Set User pasword for $US"
 #add pasword for new user
 passwd $US
 # Enable WHEEL group for user
- echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
+echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 
+echo 
+echo 
 #start system daemons
 systemctl enable acpid
 systemctl enable ntpd 
@@ -73,6 +83,8 @@ systemctl enable avahi-daemon
 systemctl enable lightdm.service 
 systemctl enable NetworkManager
 
+echo 
+echo 
 # install grub 
 grub-install --efi-directory=/boot/efi --bootloader-id=ArchVanilla
 grub-mkconfig -o /boot/grub/grub.cfg
