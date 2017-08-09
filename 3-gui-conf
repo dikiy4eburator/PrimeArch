@@ -14,13 +14,13 @@ tar -xvzf yaourt.tar.gz
 cd yaourt
 makepkg -si
 
-yaourt -S i3-gaps-git
-yaourt -S zsh-autosuggestions
-yaourt -S zsh-history-substring-search-git
-yaourt -S pamac-aur 
-yaourt -S pamac-tray-appindicator 
-yaourt -S neofetch-git 
-yaourt -S imagewriter-git
+yaourt -S --noconfirm i3-gaps-git
+yaourt -S --noconfirm zsh-autosuggestions
+yaourt -S --noconfirm zsh-history-substring-search-git
+yaourt -S --noconfirm pamac-aur 
+yaourt -S --noconfirm pamac-tray-appindicator 
+yaourt -S --noconfirm neofetch-git 
+yaourt -S --noconfirm imagewriter-git
 
 
 # install i3 configs
