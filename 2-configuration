@@ -14,7 +14,7 @@ pacman -S --noconfirm pulseaudio alsa-tools alsa-utils pulseaudio-alsa pavucontr
 pacman -S --noconfirm xf86-input-keyboard xorg-server xorg-xinit compton ffmpeg vlc mpv virtualbox-guest-dkms nvidia
 
 #Install GUI pakages
-pacman -S --noconfirm i3 lightdm lightdm-gtk-greeter
+pacman -S --noconfirm i3blocks i3lock i3status lightdm lightdm-gtk-greeter
 
 #Install Additional apps
 pacman -S --noconfirm polkit-gnome xfce4-appfinder firefox firefox-i18n-de atom ranger git htop zsh zsh-completions zsh-syntax-highlighting nitrogen rofi conky dunst urxvt-perls hunspell-de
