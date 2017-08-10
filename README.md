@@ -1,6 +1,8 @@
 # arch-helpers
 
-Arch linux (EFI) Installatins script
+Arch linux (EFI) Installatins script. es ist zwar flexiebel wie ein ziegelstein :) aber es macht seine arbeit.
+
+
 
 Installation:
   1. Arch iso booten
@@ -16,7 +18,8 @@ Installation:
   4. In das home verzeichniss weckseln und script 2 starten
     $ cd /home
     $ sh 2
-  ( das script instaliert zusäzliche pakete und konfiguriert das system )
+  ( das script instaliert zusäzliche pakete und konfiguriert das system. Als grafiktreiber werden
+  virtualbox-guest-utils und nvidia installiert, alle anderen grafikkartentreiber sollten von hand installiert werden )
   
   5. Restarten
     $ exit
@@ -27,5 +30,7 @@ Installation:
     $ sh 3
   ( das script instaliert yaourt und einige pakete aus dem AUR. zusäzlich wird mein i3-config repository geclont und eingerichtet )
   
-  7. HAVE FUN :)
+  7.zur sicherheit noch einmal rebooten
+  
+  8.HAVE FUN :)
   
