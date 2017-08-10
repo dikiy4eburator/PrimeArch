@@ -38,3 +38,7 @@ sudo cp ~/.config/i3/font/square.ttf /usr/share/fonts/TTF/square.ttf
 
 # set global keyboard layout
 sudo localectl --no-convert set-x11-keymap de
+
+# enable LightDm
+systemctl enable lightdm.service
+systemctl start lightdm.service
