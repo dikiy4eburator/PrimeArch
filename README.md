@@ -1,6 +1,7 @@
 # arch-helpers
 
-Arch linux (EFI) Installatins script. es ist zwar flexiebel wie ein ziegelstein :) aber es macht seine arbeit.
+Arch linux (EFI) Installatins script. 
+( es ist zwar flexiebel wie ein ziegelstein :) aber es macht seine arbeit. )
 
 
 
