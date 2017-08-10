@@ -1,5 +1,4 @@
 # arch-helpers
-a few scripts to install arch linux with i3-gaps Wm
 
 Arch linux (EFI) Installatins script
 
