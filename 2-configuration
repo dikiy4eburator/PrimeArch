@@ -1,5 +1,6 @@
 #!/bin/bash
 
+clear
 echo "###################"
 echo "# INSTALL PACAGES #"
 echo "###################"
@@ -29,6 +30,7 @@ pacman -S --noconfirm lxappearance-gtk3 arc-gtk-theme arc-icon-theme
 #Install fonts
 pacman -S --noconfirm noto-fonts awesome-terminal-fonts
 
+clear
 echo "################"
 echo "# START CONFIG #"
 echo "################"
@@ -89,6 +91,7 @@ echo
 grub-install --efi-directory=/boot/efi --bootloader-id=ArchVanilla
 grub-mkconfig -o /boot/grub/grub.cfg
 
+clear
 echo "##################################"
 echo "#### REBOOT AND LOGIN AS USER ####"
 echo "#### then start script nr. 3  ####"
