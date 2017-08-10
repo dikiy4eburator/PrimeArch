@@ -82,7 +82,6 @@ echo
 systemctl enable acpid
 systemctl enable ntpd 
 systemctl enable avahi-daemon 
-systemctl enable lightdm.service 
 systemctl enable NetworkManager
 
 echo 
