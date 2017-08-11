@@ -15,8 +15,7 @@ Installation:
   $ curl -o 1 https://raw.githubusercontent.com/dikiy4eburator/arch-helpers/master/1-installation
   $ sh 1
 
-  ( das script läd automatich die scripte 2 und 3 automatich in das /home verzeichniss der neuen installation herunter. )
-
+  das script läd automatich die scripte 2 und 3 automatich in das /home verzeichniss der neuen installation herunter.
 
   Bitte beachten:
   Das script erwartet folgende partitionierung  1. EFI (code ef00)    ca. 100-256 Mb 
@@ -24,6 +23,7 @@ Installation:
                                                 3. ROOT (code 8300)   ca. 20-40 Gb
                                                 4. HOME (code 8300)   rest der festplatte
   
+
 4. In das home verzeichniss weckseln und script 2 starten
   $ cd /home
   $ sh 2
