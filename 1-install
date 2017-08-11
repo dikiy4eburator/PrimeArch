@@ -37,30 +37,3 @@ curl -o /mnt/home/2 https://raw.githubusercontent.com/dikiy4eburator/arch-helper
 curl -o /mnt/home/3 https://raw.githubusercontent.com/dikiy4eburator/arch-helpers/master/3-gui-conf
 
 arch-chroot /mnt
-
-#/////////////////////////////////////////////////////////////////
-
-# --------------------------------------------------
-# "PARTITIONIEREN WENN BENÖTIGT"
-# cgdisk
-#
-# efi = ef00
-# swap = 8200
-# linux = 8300
- 
-# "FORMATIEREN WENN BENÖTIGT"
-# z.B :
-#    mkfs.fat -F32 /dev/…
-#    mkfs.btrfs /dev/...
-#    mkswap /dev/...
-#    mkfs.ext4 /dev/...
-# 
-# -------------------------------------------------
-# mount -o umask=0077 /dev/…  /mnt/boot
-# mount -o defaults,noatime,discard /dev/… /mnt
-# mount -o defaults,noatime,discard /dev/… /mnt/home
-# swapon /dev/...
-# --------------------------------------------------------------
-
-
-
