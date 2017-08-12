@@ -20,9 +20,9 @@ pacman -S --noconfirm xf86-input-keyboard xorg-server xorg-xinit compton ffmpeg 
 pacman -S --noconfirm i3blocks i3lock i3status lightdm lightdm-gtk-greeter
 
 #Install Additional apps
-pacman -S --noconfirm polkit-gnome xfce4-appfinder ranger git htop zsh zsh-completions zsh-syntax-highlighting nitrogen
+pacman -S --noconfirm polkit-gnome xfce4-appfinder ranger git htop nitrogen
 pacman -S --noconfirm firefox firefox-i18n-de atom rofi conky dunst urxvt-perls hunspell-de darktable gimp
-pacman -S --noconfirm nemo nemo-fileroller nemo-terminal nemo-share nemo-python
+pacman -S --noconfirm nemo nemo-fileroller nemo-terminal
 
 #Install Themes
 pacman -S --noconfirm lxappearance-gtk3 arc-gtk-theme arc-icon-theme archlinux-wallpaper
