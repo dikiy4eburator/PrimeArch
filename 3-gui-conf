@@ -15,12 +15,9 @@ cd yaourt
 makepkg -sci
 
 yaourt -S --noconfirm i3-gaps-git
-yaourt -S --noconfirm zsh-autosuggestions
-yaourt -S --noconfirm zsh-history-substring-search-git
 yaourt -S --noconfirm pamac-aur 
 yaourt -S --noconfirm pamac-tray-appindicator 
 yaourt -S --noconfirm neofetch-git 
-yaourt -S --noconfirm imagewriter-git
 yaourt -S --noconfirm vertex-themes-git
 yaourt -S --noconfirm vertex-icons-git
 
@@ -34,7 +31,7 @@ git clone https://github.com/dikiy4eburator/i3-config.git ~/.config/i3
 ln -sf ~/.config/i3/urxvt/.Xdefaults ~/.Xdefaults
 
 # link zsh config
-ln -sf ~/.config/i3/zsh/.zshrc ~/.zshrc
+# ln -sf ~/.config/i3/zsh/.zshrc ~/.zshrc
 
 sudo cp ~/.config/i3/font/square.ttf /usr/share/fonts/TTF/square.ttf
 
