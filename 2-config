@@ -25,7 +25,7 @@ pacman -S --noconfirm firefox firefox-i18n-de atom rofi conky dunst urxvt-perls 
 pacman -S --noconfirm nemo nemo-fileroller nemo-terminal nemo-share nemo-python
 
 #Install Themes
-pacman -S --noconfirm lxappearance-gtk3 arc-gtk-theme arc-icon-theme
+pacman -S --noconfirm lxappearance-gtk3 arc-gtk-theme arc-icon-theme archlinux-wallpaper
 
 #Install fonts
 pacman -S --noconfirm noto-fonts awesome-terminal-fonts
@@ -38,6 +38,11 @@ echo
 echo 
 
 # Set hostname
+clear
+echo "################"
+echo "# Set Hostname #"
+echo "################"
+echo 
 read -p "Bitte Hostname eingeben: " HOST
 echo $HOST >> /etc/hostname
 
@@ -57,23 +62,32 @@ rm /etc/localtime
 ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 
 # Set Root password
+clear
+echo "################"
+echo "# Set ROOT PW  #"
+echo "################"
+echo 
 echo "Set Root pasword"
 echo 
 passwd
 echo 
 echo 
 
-# get user name
+# Set user
+clear
+echo "#################"
+echo "# Set new USER  #"
+echo "#################"
+echo 
 read -p "Bitte neuen User Namen eingeben: " US
 echo 
-# add neu user
 echo "Generating user $US"
 echo 
 useradd -m -g users -G wheel,video,audio,network -s /bin/zsh $US
 echo "Set User pasword for $US"
-#add pasword for new user
 passwd $US
-# Enable WHEEL group for user
+echo
+echo "Gebe $US ROOT rechte"
 echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 
 echo 
