@@ -33,6 +33,7 @@ ln -sf ~/.config/i3/urxvt/.Xdefaults ~/.Xdefaults
 # link zsh config
 # ln -sf ~/.config/i3/zsh/.zshrc ~/.zshrc
 
+# font used on the panel
 sudo cp ~/.config/i3/font/square.ttf /usr/share/fonts/TTF/square.ttf
 
 # set global keyboard layout
