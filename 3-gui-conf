@@ -30,11 +30,11 @@ yaourt -S --noconfirm vertex-icons-git
 cd ~
 git clone https://github.com/dikiy4eburator/i3-config.git ~/.config/i3
 
-cd ~/.config/i3/urxvt
-ln -f .Xdefaults ~/.Xdefaults
+# link urxvt config
+ln -sf ~/.config/i3/urxvt/.Xdefaults ~/.Xdefaults
 
-cd ~/.config/i3/zsh
-ln -f .zshrc ~/.zshrc
+# link zsh config
+ln -sf ~/.config/i3/zsh/.zshrc ~/.zshrc
 
 sudo cp ~/.config/i3/font/square.ttf /usr/share/fonts/TTF/square.ttf
 
