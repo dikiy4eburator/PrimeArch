@@ -93,14 +93,22 @@ echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 echo 
 echo 
 #start system daemons
+clear
+echo "#################"
+echo "# Start Daemons #"
+echo "#################"
+echo 
 systemctl enable acpid
 systemctl enable ntpd 
 systemctl enable avahi-daemon 
 systemctl enable NetworkManager
 
-echo 
-echo 
 # install grub 
+clear
+echo "#################"
+echo "# Setup GRUB    #"
+echo "#################"
+echo 
 grub-install --efi-directory=/boot/efi --bootloader-id=ArchVanilla
 grub-mkconfig -o /boot/grub/grub.cfg
 
