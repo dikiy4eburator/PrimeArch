@@ -83,7 +83,7 @@ read -p "Bitte neuen User Namen eingeben: " US
 echo 
 echo "Generating user $US"
 echo 
-useradd -m -g users -G wheel,video,audio,network -s /bin/zsh $US
+useradd -m -g users -G wheel,video,audio,network -s /usr/bin/fish $US
 echo "Set User pasword for $US"
 passwd $US
 echo
@@ -109,7 +109,7 @@ echo "#################"
 echo "# Setup GRUB    #"
 echo "#################"
 echo 
-grub-install --efi-directory=/boot/efi --bootloader-id=ArchVanilla
+grub-install --efi-directory=/boot/efi --bootloader-id=Arch_i3
 grub-mkconfig -o /boot/grub/grub.cfg
 
 clear
