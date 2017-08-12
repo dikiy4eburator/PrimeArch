@@ -28,7 +28,7 @@ pacman -S --noconfirm nemo nemo-fileroller nemo-terminal nemo-share nemo-python
 pacman -S --noconfirm lxappearance-gtk3 arc-gtk-theme arc-icon-theme archlinux-wallpaper
 
 #Install fonts
-pacman -S --noconfirm noto-fonts awesome-terminal-fonts
+pacman -S --noconfirm gnome-font-viewer noto-fonts awesome-terminal-fonts
 
 clear
 echo "################"
