@@ -28,7 +28,7 @@ mount -o defaults,noatime,discard /dev/$HOME_HD /mnt/home
 swapon /dev/$SWAP_HD
 
 # Install base pacages
-pacstrap -i /mnt base base-devel linux-headers grub os-prober efibootmgr acpid dbus
+pacstrap -i /mnt base base-devel linux-headers grub os-prober efibootmgr acpid dbus fish
 
 # Generate fstab
 genfstab -U -p /mnt >> /mnt/etc/fstab
