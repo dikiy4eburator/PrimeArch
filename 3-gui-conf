@@ -42,5 +42,5 @@ sudo cp ~/.config/i3/font/square.ttf /usr/share/fonts/TTF/square.ttf
 sudo localectl --no-convert set-x11-keymap de
 
 # enable LightDm
-systemctl enable lightdm.service
-systemctl start lightdm.service
+sudo systemctl enable lightdm.service
+sudo systemctl start lightdm.service
