@@ -13,7 +13,7 @@ echo "Mochten Sie eine extra HOME Partition haben? (ja/nein)"
 read -p ">> " EXTRAHOME
 echo
 echo
-lsblk
+lsblk -o NAME,SIZE,MODEL,PARTLABEL,HOTPLUG
 echo
 echo
 echo "Welche Festplatte soll für die Installation benutzt werden? (z.B. sda, nvme0n1 etc.) "
