@@ -15,8 +15,6 @@ cd yaourt
 makepkg -sci
 
 yaourt -S --noconfirm i3-gaps-git
-yaourt -S --noconfirm pamac-aur 
-yaourt -S --noconfirm pamac-tray-appindicator 
 yaourt -S --noconfirm neofetch-git 
 yaourt -S --noconfirm vertex-themes-git
 yaourt -S --noconfirm vertex-icons-git
