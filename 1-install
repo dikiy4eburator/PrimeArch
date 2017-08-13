@@ -85,6 +85,8 @@ case $EXTRAHOME in
       break
       ;;
 
+    break
+
     *)
       echo "HDD eingabe unbekant"
       exit
@@ -130,6 +132,8 @@ case $EXTRAHOME in
       swapon /dev/$SWAP_HD
       break
       ;;
+
+    break
 
     *)
       echo "HDD eingabe unbekant"
