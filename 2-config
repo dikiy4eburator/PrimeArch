@@ -4,8 +4,46 @@ clear
 echo "###################"
 echo "# INSTALL PACAGES #"
 echo "###################"
-echo 
-echo 
+echo
+echo
+echo "############################################"
+echo
+echo "1. virtualbox"
+echo "2. Nvidia"
+echo "3. ATI (xf86-video-ati basis Treiber)"
+echo "4. Intel (xf86-video-intel basis Treiber)"
+echo "5. VESA (xf86-video-vesa basis Treiber für den Notfall)"
+echo
+echo "############################################"
+echo "### Bitte wählen Sie ihren Grafiktreiber ###"
+echo "(1-5)"
+echo
+read -p " >> " GR
+echo
+case $GR in
+  1 )
+    pacman -S --noconfirm virtualbox-guest-dkms
+    ;;
+  2 )
+    pacman -S --noconfirm nvidia
+    ;;
+  3 )
+    pacman -S --noconfirm xf86-video-ati
+    ;;
+  4 )
+    pacman -S --noconfirm xf86-video-intel
+    ;;
+  5)
+    pacman -S --noconfirm xf86-video-vesa
+    ;;
+  * )
+    echo "falsche eingabe"
+    exit
+esac
+
+
+
+
 
 #Install Network pakages
 pacman -S --noconfirm avahi networkmanager network-manager-applet nm-connection-editor ntp
@@ -14,7 +52,7 @@ pacman -S --noconfirm avahi networkmanager network-manager-applet nm-connection-
 pacman -S --noconfirm pulseaudio alsa-tools alsa-utils pulseaudio-alsa pavucontrol flac volumeicon audacious
 
 #Install Video pakages
-pacman -S --noconfirm xf86-input-keyboard xorg-server xorg-xinit compton ffmpeg vlc mpv virtualbox-guest-dkms nvidia
+pacman -S --noconfirm xf86-input-keyboard xorg-server xorg-xinit compton ffmpeg vlc mpv
 
 #Install GUI pakages
 pacman -S --noconfirm i3blocks i3lock i3status lightdm lightdm-gtk-greeter
@@ -34,15 +72,15 @@ clear
 echo "################"
 echo "# START CONFIG #"
 echo "################"
-echo 
-echo 
+echo
+echo
 
 # Set hostname
 clear
 echo "################"
 echo "# Set Hostname #"
 echo "################"
-echo 
+echo
 read -p "Bitte Hostname eingeben: " HOST
 echo $HOST >> /etc/hostname
 
@@ -66,23 +104,23 @@ clear
 echo "################"
 echo "# Set ROOT PW  #"
 echo "################"
-echo 
+echo
 echo "Set Root pasword"
-echo 
+echo
 passwd
-echo 
-echo 
+echo
+echo
 
 # Set user
 clear
 echo "#################"
 echo "# Set new USER  #"
 echo "#################"
-echo 
+echo
 read -p "Bitte neuen User Namen eingeben: " US
-echo 
+echo
 echo "Generating user $US"
-echo 
+echo
 useradd -m -g users -G wheel,video,audio,network -s /usr/bin/fish $US
 echo "Set User pasword for $US"
 passwd $US
@@ -90,25 +128,25 @@ echo
 echo "Gebe $US ROOT rechte"
 echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 
-echo 
-echo 
+echo
+echo
 #start system daemons
 clear
 echo "#################"
 echo "# Start Daemons #"
 echo "#################"
-echo 
+echo
 systemctl enable acpid
-systemctl enable ntpd 
-systemctl enable avahi-daemon 
+systemctl enable ntpd
+systemctl enable avahi-daemon
 systemctl enable NetworkManager
 
-# install grub 
+# install grub
 clear
 echo "#################"
 echo "# Setup GRUB    #"
 echo "#################"
-echo 
+echo
 grub-install --efi-directory=/boot/efi --bootloader-id=Arch_i3
 grub-mkconfig -o /boot/grub/grub.cfg
 
@@ -119,4 +157,3 @@ echo "#### then start script nr. 3  ####"
 echo "##################################"
 
 exit
-
