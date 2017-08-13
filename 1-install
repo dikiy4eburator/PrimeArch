@@ -1,5 +1,83 @@
 #!/bin/sh
 
+function f_defineHdPattern_sata() {
+  case $EXTRAHOME in
+    ja )
+      BOOT_HD="${HDD}1"
+      SWAP_HD="${HDD}2"
+      ROOT_HD="${HDD}3"
+      HOME_HD="${HDD}4"
+      ;;
+
+    nein )
+      BOOT_HD="${HDD}1"
+      SWAP_HD="${HDD}2"
+      ROOT_HD="${HDD}3"
+      ;;
+  esac
+}
+
+function f_defineHdPattern_nvme() {
+  case $EXTRAHOME in
+    ja )
+      BOOT_HD="${HDD}p1"
+      SWAP_HD="${HDD}p2"
+      ROOT_HD="${HDD}p3"
+      HOME_HD="${HDD}p4"
+      ;;
+
+    nein )
+      BOOT_HD="${HDD}p1"
+      SWAP_HD="${HDD}p2"
+      ROOT_HD="${HDD}p3"
+      ;;
+  esac
+}
+
+function f_format() {
+  case $EXTRAHOME in
+    ja )
+      # formating partitions
+      mkfs.fat -F32 /dev/$BOOT_HD
+      mkswap /dev/$SWAP_HD
+      mkfs.ext4 /dev/$ROOT_HD
+      mkfs.ext4 /dev/$HOME_HD
+      ;;
+
+    nein )
+      # formating partitions
+      mkfs.fat -F32 /dev/$BOOT_HD
+      mkswap /dev/$SWAP_HD
+      mkfs.ext4 /dev/$ROOT_HD
+      ;;
+  esac
+}
+
+function f_mount() {
+  case $EXTRAHOME in
+    ja )
+      # Mounting partitions
+      mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
+      mkdir /mnt/boot
+      mkdir /mnt/boot/efi
+      mount /dev/$BOOT_HD /mnt/boot/efi
+      mkdir /mnt/home
+      mount -o defaults,noatime,discard /dev/$HOME_HD /mnt/home
+      swapon /dev/$SWAP_HD
+      ;;
+
+    nein )
+      # Mounting partitions
+      mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
+      mkdir /mnt/boot
+      mkdir /mnt/boot/efi
+      mount /dev/$BOOT_HD /mnt/boot/efi
+      swapon /dev/$SWAP_HD
+      ;;
+  esac
+}
+
+
 clear
 echo "#################################################"
 echo " Wilkommen beim Arch EFI installations skript"
@@ -7,8 +85,6 @@ echo "#################################################"
 echo
 echo "Bitte beantworten Sie einige Fragen zu der Systemconfiguration"
 echo
-#echo "Welchen kontrroler benutzt ihre Festplatte? (nvme oder sata): "
-#read -p ">> " HDCONTROLER
 echo "Mochten Sie eine extra HOME Partition haben? (ja/nein)"
 read -p ">> " EXTRAHOME
 echo
@@ -16,13 +92,15 @@ echo
 lsblk -o NAME,SIZE,MODEL,PARTLABEL,MOUNTPOINT,HOTPLUG
 echo
 echo
-echo "Welche Festplatte soll für die Installation benutzt werden? (z.B. sda, nvme0n1 etc.) "
+echo "Welche Festplatte, von den oben gezeigten,"
+echo "soll für die Installation benutzt werden? (z.B. sda, nvme0n1 etc.) "
+echo
 read -p ">> " HDD
 echo
-echo "Im folgenden wird das Programm Cgpartet gestartet"
-echo "Bitte erstellen Die die Partitione in der folgenden Ordnung:"
+echo "Im folgenden wird das Programm cgdisk gestartet"
+echo "Bitte erstellen Sie die Partitione in der folgenden Ordnung:"
 echo "  1. EFI ca. 100-256 Mb ( code: ef00 )"
-echo "  2. SWAP Gröse nach eigenem Ermessen ( code: 8200 )"
+echo "  2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )"
 echo
 echo "     Wenn Sie keine extra HOME Partition wollen"
 echo "     Könne Sie den restlichen Speicher der ROOT Partition zweisen"
@@ -36,115 +114,24 @@ read -p "Drücken Sie Enter zum fortfahren"
 
 cgdisk /dev/$HDD
 
-case $EXTRAHOME in
-  ja)
-  case $HDD in
-    nvme*)
-      BOOT_HD="${HDD}p1"
-      SWAP_HD="${HDD}p2"
-      ROOT_HD="${HDD}p3"
-      HOME_HD="${HDD}p4"
+case $HDD in
+  nvme*)
+    f_defineHdPattern_nvme
+    ;;
 
-      # formating partitions
-      mkfs.fat -F32 /dev/$BOOT_HD
-      mkswap /dev/$SWAP_HD
-      mkfs.ext4 /dev/$ROOT_HD
-      mkfs.ext4 /dev/$HOME_HD
+  sd*)
+    f_defineHdPattern_sata
+    ;;
 
-      # Mounting partitions
-      mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
-      mkdir /mnt/boot
-      mkdir /mnt/boot/efi
-      mount /dev/$BOOT_HD /mnt/boot/efi
-      mkdir /mnt/home
-      mount -o defaults,noatime,discard /dev/$HOME_HD /mnt/home
-      swapon /dev/$SWAP_HD
-      break
-      ;;
-
-    sd*)
-      BOOT_HD="${HDD}1"
-      SWAP_HD="${HDD}2"
-      ROOT_HD="${HDD}3"
-      HOME_HD="${HDD}4"
-
-      # formating partitions
-      mkfs.fat -F32 /dev/$BOOT_HD
-      mkswap /dev/$SWAP_HD
-      mkfs.ext4 /dev/$ROOT_HD
-      mkfs.ext4 /dev/$HOME_HD
-
-      # Mounting partitions
-      mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
-      mkdir /mnt/boot
-      mkdir /mnt/boot/efi
-      mount /dev/$BOOT_HD /mnt/boot/efi
-      mkdir /mnt/home
-      mount -o defaults,noatime,discard /dev/$HOME_HD /mnt/home
-      swapon /dev/$SWAP_HD
-      break
-      ;;
-
-    *)
-      echo "HDD eingabe unbekant"
-      exit
-      ;;
-  esac
-  ;;
-  
-  nein)
-  case $HDD in
-    nvme*)
-      BOOT_HD="${HDD}p1"
-      SWAP_HD="${HDD}p2"
-      ROOT_HD="${HDD}p3"
-
-      # formating partitions
-      mkfs.fat -F32 /dev/$BOOT_HD
-      mkswap /dev/$SWAP_HD
-      mkfs.ext4 /dev/$ROOT_HD
-
-      # Mounting partitions
-      mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
-      mkdir /mnt/boot
-      mkdir /mnt/boot/efi
-      mount /dev/$BOOT_HD /mnt/boot/efi
-      swapon /dev/$SWAP_HD
-      break
-      ;;
-
-    sd*)
-      BOOT_HD="${HDD}1"
-      SWAP_HD="${HDD}2"
-      ROOT_HD="${HDD}3"
-
-      # formating partitions
-      mkfs.fat -F32 /dev/$BOOT_HD
-      mkswap /dev/$SWAP_HD
-      mkfs.ext4 /dev/$ROOT_HD
-
-      # Mounting partitions
-      mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
-      mkdir /mnt/boot
-      mkdir /mnt/boot/efi
-      mount /dev/$BOOT_HD /mnt/boot/efi
-      swapon /dev/$SWAP_HD
-      break
-      ;;
-
-    *)
-      echo "HDD eingabe unbekant"
-      exit
-      ;;
-  esac
-  ;;
-  
   *)
-  echo "EXTRAHOME eingabe unbekant"
-  exit
-  ;;
-
+    echo "HDD eingabe unbekant"
+    exit
+    ;;
 esac
+
+f_format
+f_mount
+
 
 # Install base pacages
 pacstrap -i /mnt base base-devel linux-headers grub os-prober efibootmgr acpid dbus fish
