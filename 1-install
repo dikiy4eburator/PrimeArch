@@ -37,9 +37,9 @@ read -p "Drücken Sie Enter zum fortfahren"
 cgdisk /dev/$HDD
 
 case $EXTRAHOME in
-  ja )
+  ja)
   case $HDD in
-    nvme* )
+    nvme*)
       BOOT_HD="${HDD}p1"
       SWAP_HD="${HDD}p2"
       ROOT_HD="${HDD}p3"
@@ -62,7 +62,7 @@ case $EXTRAHOME in
       break
       ;;
 
-    sd* )
+    sd*)
       BOOT_HD="${HDD}1"
       SWAP_HD="${HDD}2"
       ROOT_HD="${HDD}3"
@@ -91,9 +91,9 @@ case $EXTRAHOME in
       ;;
   esac
 
-  nein )
+  nein)
   case $HDD in
-    nvme* )
+    nvme*)
       BOOT_HD="${HDD}p1"
       SWAP_HD="${HDD}p2"
       ROOT_HD="${HDD}p3"
@@ -112,7 +112,7 @@ case $EXTRAHOME in
       break
       ;;
 
-    sd* )
+    sd*)
       BOOT_HD="${HDD}1"
       SWAP_HD="${HDD}2"
       ROOT_HD="${HDD}3"
@@ -137,7 +137,7 @@ case $EXTRAHOME in
       ;;
   esac
 
-  * )
+  *)
   echo "EXTRAHOME eingabe unbekant"
   exit
   ;;
