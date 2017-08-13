@@ -85,14 +85,13 @@ case $EXTRAHOME in
       break
       ;;
 
-    break
-
     *)
       echo "HDD eingabe unbekant"
       exit
       ;;
   esac
-
+  ;;
+  
   nein)
   case $HDD in
     nvme*)
@@ -133,14 +132,13 @@ case $EXTRAHOME in
       break
       ;;
 
-    break
-
     *)
       echo "HDD eingabe unbekant"
       exit
       ;;
   esac
-
+  ;;
+  
   *)
   echo "EXTRAHOME eingabe unbekant"
   exit
