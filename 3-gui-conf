@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd ~
+cd /tmp
 
 # install yaourt
 curl -O https://aur.archlinux.org/cgit/aur.git/snapshot/package-query.tar.gz
@@ -15,7 +15,7 @@ cd yaourt
 makepkg -sci
 
 yaourt -S --noconfirm i3-gaps-git
-yaourt -S --noconfirm neofetch-git 
+yaourt -S --noconfirm neofetch-git
 yaourt -S --noconfirm vertex-themes-git
 yaourt -S --noconfirm vertex-icons-git
 yaourt -S --noconfirm pamac-aur
@@ -37,12 +37,14 @@ sudo cp ~/.config/i3/font/square.ttf /usr/share/fonts/TTF/square.ttf
 # link usb automount rule
 sudo ln -sf ~/.config/i3/UDEV-automount-usb/10-my-media-automount.rules /etc/udev/rules.d/10-my-media-automount.rules
 
-# link zsh config
-# ln -sf ~/.config/i3/zsh/.zshrc ~/.zshrc
-
 # set global keyboard layout
 sudo localectl --no-convert set-x11-keymap de
 
+# Clean Instal scripts
+sudo rm /home/2
+sudo rm /home/3
+
 # enable LightDm
 sudo systemctl enable lightdm.service
-sudo systemctl start lightdm.service
+
+sudo reboot
