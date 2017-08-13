@@ -21,21 +21,23 @@ yaourt -S --noconfirm vertex-icons-git
 
 
 # install i3 configs
-
 cd ~
 git clone https://github.com/dikiy4eburator/i3-config.git ~/.config/i3
 
 # link urxvt config
 ln -sf ~/.config/i3/urxvt/.Xdefaults ~/.Xdefaults
 
-# link urxvt config
+# link gtk-theme config
 ln -sf ~/.config/i3/gtk-3.0/settings.ini ~/.config/gtk-3.0/settings.ini
-
-# link zsh config
-# ln -sf ~/.config/i3/zsh/.zshrc ~/.zshrc
 
 # font used on the panel
 sudo cp ~/.config/i3/font/square.ttf /usr/share/fonts/TTF/square.ttf
+
+# link usb automount rule
+sudo ln -sf ~/.config/i3/UDEV-automount-usb/10-my-media-automount.rules /etc/udev/rules.d/10-my-media-automount.rules
+
+# link zsh config
+# ln -sf ~/.config/i3/zsh/.zshrc ~/.zshrc
 
 # set global keyboard layout
 sudo localectl --no-convert set-x11-keymap de
