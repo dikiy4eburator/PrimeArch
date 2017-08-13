@@ -18,6 +18,7 @@ yaourt -S --noconfirm i3-gaps-git
 yaourt -S --noconfirm neofetch-git 
 yaourt -S --noconfirm vertex-themes-git
 yaourt -S --noconfirm vertex-icons-git
+yaourt -S --noconfirm pamac-aur
 
 
 # install i3 configs
