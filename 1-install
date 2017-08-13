@@ -59,6 +59,7 @@ case $EXTRAHOME in
       mkdir /mnt/home
       mount -o defaults,noatime,discard /dev/$HOME_HD /mnt/home
       swapon /dev/$SWAP_HD
+      break
       ;;
 
     sd* )
@@ -81,6 +82,7 @@ case $EXTRAHOME in
       mkdir /mnt/home
       mount -o defaults,noatime,discard /dev/$HOME_HD /mnt/home
       swapon /dev/$SWAP_HD
+      break
       ;;
 
     *)
@@ -107,6 +109,7 @@ case $EXTRAHOME in
       mkdir /mnt/boot/efi
       mount /dev/$BOOT_HD /mnt/boot/efi
       swapon /dev/$SWAP_HD
+      break
       ;;
 
     sd* )
@@ -125,6 +128,7 @@ case $EXTRAHOME in
       mkdir /mnt/boot/efi
       mount /dev/$BOOT_HD /mnt/boot/efi
       swapon /dev/$SWAP_HD
+      break
       ;;
 
     *)
@@ -135,6 +139,7 @@ case $EXTRAHOME in
 
   * )
   echo "EXTRAHOME eingabe unbekant"
+  exit
   ;;
 
 esac
