@@ -84,12 +84,12 @@ case $EXTRAHOME in
       mount -o defaults,noatime,discard /dev/$HOME_HD /mnt/home
       swapon /dev/$SWAP_HD
       ;;
+
     *)
-      echo "eingabe unbekant"
+      echo "HDD eingabe unbekant"
       exit
       ;;
   esac
-    ;;
 
   nein )
   case $HDD in
@@ -128,12 +128,17 @@ case $EXTRAHOME in
       mount /dev/$BOOT_HD /mnt/boot/efi
       swapon /dev/$SWAP_HD
       ;;
+
     *)
-      echo "eingabe unbekant"
+      echo "HDD eingabe unbekant"
       exit
       ;;
   esac
-    ;;
+
+  * )
+  echo "EXTRAHOME eingabe unbekant"
+  ;;
+
 esac
 
 # Install base pacages
