@@ -36,8 +36,6 @@ read -p "Drücken Sie Enter zum fortfahren"
 
 cgdisk /dev/$HDD
 
-
-
 case $EXTRAHOME in
   ja )
   case $HDD in
