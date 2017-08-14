@@ -12,6 +12,7 @@ Installation:
   $ loadkeys de
 
 3. Skript 1-install herunterladen und starten
+
   $ curl -o 1 https://raw.githubusercontent.com/dikiy4eburator/arch-helpers/master/1-install
   $ sh 1
 
