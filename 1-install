@@ -89,7 +89,7 @@ echo "Mochten Sie eine extra HOME Partition haben? (ja/nein)"
 read -p ">> " EXTRAHOME
 echo
 echo
-lsblk -o NAME,SIZE,MODEL,PARTLABEL,MOUNTPOINT,HOTPLUG
+lsblk -o NAME,SIZE,TYPE | grep disk
 echo
 echo
 echo "Welche Festplatte, von den oben gezeigten,"
@@ -99,6 +99,7 @@ read -p ">> " HDD
 echo
 echo "Im folgenden wird das Programm cgdisk gestartet"
 echo "Bitte erstellen Sie die Partitione in der folgenden Ordnung:"
+echo
 echo "  1. EFI ca. 100-256 Mb ( code: ef00 )"
 echo "  2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )"
 echo

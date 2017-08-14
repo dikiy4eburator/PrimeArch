@@ -1,10 +1,6 @@
 #!/bin/bash
 
 clear
-echo "###################"
-echo "# INSTALL PACAGES #"
-echo "###################"
-echo
 echo
 echo "############################################"
 echo
@@ -15,8 +11,7 @@ echo "4. Intel (xf86-video-intel basis Treiber)"
 echo "5. VESA (xf86-video-vesa basis Treiber für den Notfall)"
 echo
 echo "############################################"
-echo "### Bitte wählen Sie ihren Grafiktreiber ###"
-echo "(1-5)"
+echo "Bitte wählen Sie ihren Grafiktreiber (1-5)"
 echo
 read -p " >> " GR
 echo
@@ -41,9 +36,11 @@ case $GR in
     exit
 esac
 
-
-
-
+clear
+echo "###################"
+echo "# INSTALL PACAGES #"
+echo "###################"
+echo
 
 #Install Network pakages
 pacman -S --noconfirm avahi networkmanager network-manager-applet nm-connection-editor ntp
@@ -59,8 +56,8 @@ pacman -S --noconfirm i3blocks i3lock i3status lightdm lightdm-gtk-greeter
 
 #Install Additional apps
 pacman -S --noconfirm polkit-gnome xfce4-appfinder ranger git htop nitrogen
-pacman -S --noconfirm firefox firefox-i18n-de atom rofi conky dunst urxvt-perls hunspell-de darktable gimp
-pacman -S --noconfirm nemo nemo-fileroller nemo-terminal
+pacman -S --noconfirm chromium atom rofi conky dunst urxvt-perls hunspell-de darktable gimp
+pacman -S --noconfirm nemo nemo-fileroller
 
 #Install Themes
 pacman -S --noconfirm lxappearance-gtk3 arc-gtk-theme arc-icon-theme archlinux-wallpaper
@@ -81,8 +78,14 @@ echo "################"
 echo "# Set Hostname #"
 echo "################"
 echo
-read -p "Bitte Hostname eingeben: " HOST
-echo $HOST >> /etc/hostname
+read -p "Bitte Hostname eingeben: " HOSTX
+echo $HOSTX >> /etc/hostname
+
+clear
+echo "################"
+echo "# Set Locale   #"
+echo "################"
+echo
 
 # /etc/locale.conf
 echo LANG=de_DE.UTF-8 > /etc/locale.conf
@@ -105,7 +108,7 @@ echo "################"
 echo "# Set ROOT PW  #"
 echo "################"
 echo
-echo "Set Root pasword"
+echo "Bitte Password für ROOT eingeben"
 echo
 passwd
 echo
@@ -117,19 +120,17 @@ echo "#################"
 echo "# Set new USER  #"
 echo "#################"
 echo
-read -p "Bitte neuen User Namen eingeben: " US
+read -p "Bitte neuen Benutzer Namen eingeben: " US
 echo
-echo "Generating user $US"
+echo "Generire Benutzer $US"
 echo
 useradd -m -g users -G wheel,video,audio,network -s /usr/bin/fish $US
-echo "Set User pasword for $US"
+echo "Bitte Password für $US eingeben"
 passwd $US
 echo
 echo "Gebe $US ROOT rechte"
 echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 
-echo
-echo
 #start system daemons
 clear
 echo "#################"
@@ -147,7 +148,7 @@ echo "#################"
 echo "# Setup GRUB    #"
 echo "#################"
 echo
-grub-install --efi-directory=/boot/efi --bootloader-id=Arch_i3
+grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$HOSTX
 grub-mkconfig -o /boot/grub/grub.cfg
 
 clear
