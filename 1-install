@@ -89,7 +89,7 @@ echo "Mochten Sie eine extra HOME Partition haben? (ja/nein)"
 read -p ">> " EXTRAHOME
 echo
 echo
-lsblk -o NAME,SIZE,MODEL,PARTLABEL,MOUNTPOINT,HOTPLUG
+lsblk -o NAME,SIZE,TYPE | grep disk
 echo
 echo
 echo "Welche Festplatte, von den oben gezeigten,"
