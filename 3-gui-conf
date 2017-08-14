@@ -31,6 +31,9 @@ ln -sf ~/.config/i3/urxvt/.Xdefaults ~/.Xdefaults
 # link gtk-theme config
 ln -sf ~/.config/i3/gtk-3.0/settings.ini ~/.config/gtk-3.0/settings.ini
 
+# Nitrogen config
+cp -r ~/.config/i3/nitrogen ~/.config
+
 # font used on the panel
 sudo cp ~/.config/i3/font/square.ttf /usr/share/fonts/TTF/square.ttf
 
