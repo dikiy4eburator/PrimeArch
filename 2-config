@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Grafiktreiber installation
 clear
 echo
 echo "############################################"
@@ -32,7 +33,51 @@ case $GR in
     pacman -S --noconfirm xf86-video-vesa
     ;;
   * )
-    echo "falsche eingabe"
+    echo "ungültige eingabe"
+    exit
+esac
+
+# GUI installation
+clear
+echo
+echo "############################################"
+echo
+echo "1. i3"
+echo "2. Xfce"
+echo "3. Mate"
+echo "4. KDE-Plasma"
+echo "5. Gnome"
+echo "6. Deepin"
+echo "7. Keine Gui"
+echo
+echo "############################################"
+echo "Bitte wählen Sie ihren Desktop (1-7)"
+echo
+read -p " >> " GUI
+echo
+case $GUI in
+  1 )
+    pacman -S --noconfirm i3
+    ;;
+  2 )
+    pacman -S --noconfirm xfce4 xfce4-goodies
+    ;;
+  3 )
+    pacman -S --noconfirm mate mate-extra
+    ;;
+  4 )
+    pacman -S --noconfirm plasma
+    ;;
+  5)
+    pacman -S --noconfirm gnome gnome-extra
+    ;;
+  6)
+    pacman -S --noconfirm deepin deepin-extra
+    ;;
+  7)
+    ;;
+  * )
+    echo "ungültige eingabe"
     exit
 esac
 
@@ -41,6 +86,8 @@ echo "###################"
 echo "# INSTALL PACAGES #"
 echo "###################"
 echo
+#Install GUI pakages
+pacman -S --noconfirm lightdm lightdm-gtk-greeter
 
 #Install Network pakages
 pacman -S --noconfirm avahi networkmanager network-manager-applet nm-connection-editor ntp
@@ -51,8 +98,6 @@ pacman -S --noconfirm pulseaudio alsa-tools alsa-utils pulseaudio-alsa pavucontr
 #Install Video pakages
 pacman -S --noconfirm xf86-input-keyboard xorg-server xorg-xinit compton ffmpeg vlc mpv
 
-#Install GUI pakages
-pacman -S --noconfirm i3blocks i3lock i3status lightdm lightdm-gtk-greeter
 
 #Install Additional apps
 pacman -S --noconfirm polkit-gnome xfce4-appfinder ranger git htop nitrogen
@@ -65,12 +110,15 @@ pacman -S --noconfirm lxappearance-gtk3 arc-gtk-theme arc-icon-theme archlinux-w
 #Install fonts
 pacman -S --noconfirm gnome-font-viewer noto-fonts awesome-terminal-fonts
 
+# Set Root password
 clear
 echo "################"
-echo "# START CONFIG #"
+echo "# Set ROOT PW  #"
 echo "################"
 echo
+echo "Bitte Password für ROOT eingeben"
 echo
+passwd
 
 # Set hostname
 clear
@@ -82,9 +130,9 @@ read -p "Bitte Hostname eingeben: " HOSTX
 echo $HOSTX >> /etc/hostname
 
 clear
-echo "################"
-echo "# Set Locale   #"
-echo "################"
+echo "#################"
+echo "# Config Locale #"
+echo "#################"
 echo
 
 # /etc/locale.conf
@@ -101,18 +149,6 @@ locale-gen
 # Set Time
 rm /etc/localtime
 ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
-
-# Set Root password
-clear
-echo "################"
-echo "# Set ROOT PW  #"
-echo "################"
-echo
-echo "Bitte Password für ROOT eingeben"
-echo
-passwd
-echo
-echo
 
 # Set user
 clear
@@ -144,9 +180,9 @@ systemctl enable NetworkManager
 
 # install grub
 clear
-echo "#################"
-echo "# Setup GRUB    #"
-echo "#################"
+echo "##################"
+echo "#   Setup GRUB   #"
+echo "##################"
 echo
 grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$HOSTX
 grub-mkconfig -o /boot/grub/grub.cfg
