@@ -143,6 +143,12 @@ genfstab -U -p /mnt >> /mnt/etc/fstab
 curl -o /mnt/home/2 https://raw.githubusercontent.com/dikiy4eburator/arch-helpers/master/2-config
 curl -o /mnt/home/3 https://raw.githubusercontent.com/dikiy4eburator/arch-helpers/master/3-gui-conf
 
+clear
+echo "##################################"
+echo "Bitte in das /home verzeichniss weckseln
+echo "und das skript 2 starten"
+echo "##################################"
+
 arch-chroot /mnt
 
 exit
