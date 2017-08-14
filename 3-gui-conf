@@ -40,11 +40,11 @@ sudo ln -sf ~/.config/i3/UDEV-automount-usb/10-my-media-automount.rules /etc/ude
 # set global keyboard layout
 sudo localectl --no-convert set-x11-keymap de
 
+# enable LightDm
+sudo systemctl enable lightdm.service
+
 # Clean Instal scripts
 sudo rm /home/2
 sudo rm /home/3
-
-# enable LightDm
-sudo systemctl enable lightdm.service
 
 sudo reboot
