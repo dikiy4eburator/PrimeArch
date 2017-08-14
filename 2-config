@@ -59,8 +59,8 @@ pacman -S --noconfirm i3blocks i3lock i3status lightdm lightdm-gtk-greeter
 
 #Install Additional apps
 pacman -S --noconfirm polkit-gnome xfce4-appfinder ranger git htop nitrogen
-pacman -S --noconfirm firefox firefox-i18n-de atom rofi conky dunst urxvt-perls hunspell-de darktable gimp
-pacman -S --noconfirm nemo nemo-fileroller nemo-terminal
+pacman -S --noconfirm chromium atom rofi conky dunst urxvt-perls hunspell-de darktable gimp
+pacman -S --noconfirm nemo nemo-fileroller
 
 #Install Themes
 pacman -S --noconfirm lxappearance-gtk3 arc-gtk-theme arc-icon-theme archlinux-wallpaper
