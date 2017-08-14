@@ -148,7 +148,7 @@ echo "#################"
 echo "# Setup GRUB    #"
 echo "#################"
 echo
-grub-install --efi-directory=/boot/efi --bootloader-id=Arch_i3
+grub-install --efi-directory=/boot/efi --bootloader-id=Arch
 grub-mkconfig -o /boot/grub/grub.cfg
 
 clear
