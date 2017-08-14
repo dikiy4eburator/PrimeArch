@@ -6,6 +6,7 @@ Arch linux (EFI) Installatins script.
 
 
 Installation:
+
 1. Arch iso booten
 
 2. Deutche Tastatur laden
