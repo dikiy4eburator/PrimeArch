@@ -14,7 +14,7 @@ tar -xvzf yaourt.tar.gz
 cd yaourt
 makepkg -sci
 
-yaourt -S --noconfirm i3-gaps-git
+# yaourt -S --noconfirm i3-gaps-git
 yaourt -S --noconfirm neofetch-git
 yaourt -S --noconfirm vertex-themes-git
 yaourt -S --noconfirm vertex-icons-git
@@ -29,7 +29,7 @@ git clone https://github.com/dikiy4eburator/i3-config.git ~/.config/i3
 ln -sf ~/.config/i3/urxvt/.Xdefaults ~/.Xdefaults
 
 # link gtk-theme config
-ln -sf ~/.config/i3/gtk-3.0/settings.ini ~/.config/gtk-3.0/settings.ini
+cp -r ~/.config/i3/gtk-3.0 ~/.config
 
 # Nitrogen config
 cp -r ~/.config/i3/nitrogen ~/.config
