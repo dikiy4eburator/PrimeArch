@@ -1,8 +1,4 @@
-# arch-helpers
-
 Arch linux (EFI) Installations Skript.
-( es ist zwar flexibel wie ein Ziegelstein :)
- aber es macht seine Arbeit. )
 
 
 
