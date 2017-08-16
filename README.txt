@@ -32,8 +32,9 @@ Das Skript instaliert zusäzliche Pakete und konfiguriert das System.
 	$ cd /home
 	$ sh 3
 
-Das Skript instaliert yaourt und einige Pakete aus dem AUR. Zusäzlich wird mein i3-config Repository geklont und
-eingerichtet.
+Das Skript instaliert yaourt und einige Pakete aus dem AUR. 
+Sollte bei der installation das Gui paket i3 installier worden, wird zusäzlich mein i3-config Repository geklont und
+eingerichtet. Die anderen Desktops werden mit der standart Konfiguration installiert.
 
 7.zur sicherheit noch einmal rebooten
 
