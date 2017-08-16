@@ -1,6 +1,27 @@
 #!/bin/sh
 
-function f_defineHdPattern_sata() {
+# ////////////   efi install     //////////////////////////////////////////////
+
+function f_install_efi() {
+  case $HDD in
+    nvme*)
+    f_defineHdPattern_nvme_efi
+    ;;
+
+    sd*)
+    f_defineHdPattern_sata_efi
+    ;;
+
+    *)
+    echo "HDD eingabe unbekant"
+    exit
+    ;;
+esac
+f_format_efi
+f_mount_efi
+}
+
+function f_defineHdPattern_sata_efi() {
   case $EXTRAHOME in
     ja )
       BOOT_HD="${HDD}1"
@@ -17,7 +38,7 @@ function f_defineHdPattern_sata() {
   esac
 }
 
-function f_defineHdPattern_nvme() {
+function f_defineHdPattern_nvme_efi() {
   case $EXTRAHOME in
     ja )
       BOOT_HD="${HDD}p1"
@@ -34,7 +55,7 @@ function f_defineHdPattern_nvme() {
   esac
 }
 
-function f_format() {
+function f_format_efi() {
   case $EXTRAHOME in
     ja )
       # formating partitions
@@ -53,7 +74,7 @@ function f_format() {
   esac
 }
 
-function f_mount() {
+function f_mount_efi() {
   case $EXTRAHOME in
     ja )
       # Mounting partitions
@@ -77,6 +98,95 @@ function f_mount() {
   esac
 }
 
+# ///////////////////  legacy install  //////////////////////////////////////
+
+
+function f_install_legacy() {
+  case $HDD in
+    nvme*)
+    f_defineHdPattern_nvme_legacy
+    ;;
+
+    sd*)
+    f_defineHdPattern_sata_legacy
+    ;;
+
+    *)
+    echo "HDD eingabe unbekant"
+    exit
+    ;;
+esac
+f_format_legacy
+f_mount_legacy
+}
+
+function f_defineHdPattern_sata_legacy() {
+  case $EXTRAHOME in
+    ja )
+      SWAP_HD="${HDD}1"
+      ROOT_HD="${HDD}2"
+      HOME_HD="${HDD}3"
+      ;;
+
+    nein )
+      SWAP_HD="${HDD}1"
+      ROOT_HD="${HDD}2"
+      ;;
+  esac
+}
+
+function f_defineHdPattern_nvme_legacy() {
+  case $EXTRAHOME in
+    ja )
+      SWAP_HD="${HDD}p1"
+      ROOT_HD="${HDD}p2"
+      HOME_HD="${HDD}p3"
+      ;;
+
+    nein )
+      SWAP_HD="${HDD}p1"
+      ROOT_HD="${HDD}p2"
+      ;;
+  esac
+}
+
+function f_format_legacy() {
+  case $EXTRAHOME in
+    ja )
+      # formating partitions
+      mkswap /dev/$SWAP_HD
+      mkfs.ext4 /dev/$ROOT_HD
+      mkfs.ext4 /dev/$HOME_HD
+      ;;
+
+    nein )
+      # formating partitions
+      mkswap /dev/$SWAP_HD
+      mkfs.ext4 /dev/$ROOT_HD
+      ;;
+  esac
+}
+
+function f_mount_legacy() {
+  case $EXTRAHOME in
+    ja )
+      # Mounting partitions
+      mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
+      mkdir /mnt/home
+      mount -o defaults,noatime,discard /dev/$HOME_HD /mnt/home
+      swapon /dev/$SWAP_HD
+      ;;
+
+    nein )
+      # Mounting partitions
+      mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
+      swapon /dev/$SWAP_HD
+      ;;
+  esac
+}
+
+# ///////////////////////////////////////////////////////////////////////////////
+
 
 clear
 echo "#################################################"
@@ -97,42 +207,50 @@ echo "soll für die Installation benutzt werden? (z.B. sda, nvme0n1 etc.) "
 echo
 read -p ">> " HDD
 echo
-echo "Im folgenden wird das Programm cgdisk gestartet"
-echo "Bitte erstellen Sie die Partitione in der folgenden Ordnung:"
-echo
-echo "  1. EFI ca. 100-256 Mb ( code: ef00 )"
-echo "  2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )"
-echo
-echo "     Wenn Sie keine extra HOME Partition wollen"
-echo "     Könne Sie den restlichen Speicher der ROOT Partition zweisen"
-echo "     Ansonsten: "
-echo
-echo "  3. ROOT ca. 20-40 Gb ( code: 8300 )"
-echo "  4. HOME rest des Speichers ( code: 8300 )"
-echo
-echo
+
+# Show info depending on boot mode
+if [[ -d "/sys/firmware/efi/efivars" ]];
+  then
+    echo "Im folgenden wird das Programm cgdisk gestartet"
+    echo "Bitte erstellen Sie die Partitione in der folgenden Ordnung:"
+    echo
+    echo "  1. EFI ca. 100-256 Mb ( code: ef00 )"
+    echo "  2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )"
+    echo
+    echo "     Wenn Sie keine extra HOME Partition wollen"
+    echo "     Könne Sie den restlichen Speicher der ROOT Partition zweisen"
+    echo "     Ansonsten: "
+    echo
+    echo "  3. ROOT ca. 20-40 Gb ( code: 8300 )"
+    echo "  4. HOME rest des Speichers ( code: 8300 )"
+    echo
+    echo
+  else
+    echo "Im folgenden wird das Programm cgdisk gestartet"
+    echo "Bitte erstellen Sie die Partitione in der folgenden Ordnung:"
+    echo
+    echo "  1. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )"
+    echo
+    echo "     Wenn Sie keine extra HOME Partition wollen"
+    echo "     Könne Sie den restlichen Speicher der ROOT Partition zweisen"
+    echo "     Ansonsten: "
+    echo
+    echo "  2. ROOT ca. 20-40 Gb ( code: 8300 )"
+    echo "  3. HOME rest des Speichers ( code: 8300 )"
+    echo
+    echo
+fi
+
 read -p "Drücken Sie Enter zum fortfahren"
 
 cgdisk /dev/$HDD
 
-case $HDD in
-  nvme*)
-    f_defineHdPattern_nvme
-    ;;
-
-  sd*)
-    f_defineHdPattern_sata
-    ;;
-
-  *)
-    echo "HDD eingabe unbekant"
-    exit
-    ;;
-esac
-
-f_format
-f_mount
-
+if [[ -d "/sys/firmware/efi/efivars" ]];
+  then
+    f_install_efi
+  else
+    f_install_legacy
+fi
 
 # Install base pacages
 pacstrap -i /mnt base base-devel linux-headers grub os-prober efibootmgr acpid dbus fish
@@ -142,6 +260,7 @@ genfstab -U -p /mnt >> /mnt/etc/fstab
 
 curl -o /mnt/home/2 https://raw.githubusercontent.com/dikiy4eburator/arch-helpers/master/2-config
 curl -o /mnt/home/3 https://raw.githubusercontent.com/dikiy4eburator/arch-helpers/master/3-gui-conf
+echo "$HDD" > /home/hdd
 
 clear
 echo "##################################"

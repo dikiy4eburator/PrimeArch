@@ -178,14 +178,23 @@ systemctl enable ntpd
 systemctl enable avahi-daemon
 systemctl enable NetworkManager
 
-# install grub
+HDD=$(<hdd)
+
 clear
 echo "##################"
 echo "#   Setup GRUB   #"
 echo "##################"
 echo
-grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$HOSTX
-grub-mkconfig -o /boot/grub/grub.cfg
+
+if [[ -d "/sys/firmware/efi/efivars" ]];
+  then
+    # install grub efi
+    grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$HOSTX
+    grub-mkconfig -o /boot/grub/grub.cfg
+  else
+    # install grub legacy
+      grub-install /dev/$HDD
+fi
 
 clear
 echo "##################################"
