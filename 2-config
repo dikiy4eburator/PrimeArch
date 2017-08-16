@@ -102,7 +102,7 @@ pacman -S --noconfirm xf86-input-keyboard xorg-server xorg-xinit compton ffmpeg 
 #Install Additional apps
 pacman -S --noconfirm polkit-gnome xfce4-appfinder ranger git htop nitrogen
 pacman -S --noconfirm chromium atom rofi conky dunst urxvt-perls hunspell-de darktable gimp
-pacman -S --noconfirm nemo nemo-fileroller
+pacman -S --noconfirm nemo nemo-fileroller rsync
 
 #Install Themes
 pacman -S --noconfirm lxappearance-gtk3 arc-gtk-theme arc-icon-theme archlinux-wallpaper
