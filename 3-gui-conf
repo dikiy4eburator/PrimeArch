@@ -34,7 +34,7 @@ cp -r ~/.config/i3/gtk-3.0 ~/.config
 # Nitrogen config
 cp -r ~/.config/i3/nitrogen ~/.config
 
-# Nitrogen config
+# dunst config
 cp -r ~/.config/i3/dunst ~/.config
 
 # font used on the panel
