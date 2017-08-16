@@ -229,7 +229,7 @@ if [[ -d "/sys/firmware/efi/efivars" ]];
     echo
   else
     clear
-    echo "Im folgenden wird das Programm cgdisk gestartet"
+    echo "Im folgenden wird das Programm cfdisk gestartet"
     echo "Bitte erstellen Sie die Partitione in der folgenden Ordnung:"
     echo
     echo "  1. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )"
@@ -246,7 +246,13 @@ fi
 
 read -p "Drücken Sie Enter zum fortfahren"
 
-cgdisk /dev/$HDD
+if [[ -d "/sys/firmware/efi/efivars" ]];
+  then
+    cgdisk /dev/$HDD
+  else
+    cfdisk /dev/$HDD
+fi
+
 
 if [[ -d "/sys/firmware/efi/efivars" ]];
   then
