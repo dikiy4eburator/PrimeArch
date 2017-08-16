@@ -55,5 +55,6 @@ sudo systemctl enable lightdm.service
 # Clean Instal scripts
 sudo rm /home/2
 sudo rm /home/3
+sudo rm /home/hdd
 
 sudo reboot
