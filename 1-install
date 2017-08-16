@@ -197,6 +197,7 @@ echo "Bitte beantworten Sie einige Fragen zu der Systemconfiguration"
 echo
 echo "Mochten Sie eine extra HOME Partition haben? (ja/nein)"
 read -p ">> " EXTRAHOME
+clear
 echo
 echo
 lsblk -o NAME,SIZE,TYPE | grep disk
@@ -211,6 +212,7 @@ echo
 # Show info depending on boot mode
 if [[ -d "/sys/firmware/efi/efivars" ]];
   then
+    clear
     echo "Im folgenden wird das Programm cgdisk gestartet"
     echo "Bitte erstellen Sie die Partitione in der folgenden Ordnung:"
     echo
@@ -226,6 +228,7 @@ if [[ -d "/sys/firmware/efi/efivars" ]];
     echo
     echo
   else
+    clear
     echo "Im folgenden wird das Programm cgdisk gestartet"
     echo "Bitte erstellen Sie die Partitione in der folgenden Ordnung:"
     echo

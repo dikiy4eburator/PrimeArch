@@ -178,7 +178,7 @@ systemctl enable ntpd
 systemctl enable avahi-daemon
 systemctl enable NetworkManager
 
-HDD=$(<hdd)
+HDD=$(</home/hdd)
 
 clear
 echo "##################"
