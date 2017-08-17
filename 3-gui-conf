@@ -18,7 +18,6 @@ yaourt -S --noconfirm pamac-aur
 yaourt -S --noconfirm neofetch-git
 yaourt -S --noconfirm vertex-themes-git
 yaourt -S --noconfirm vertex-icons-git
-yaourt -S i3-gaps 
 
 # Clone i3-config repo
 git clone https://github.com/dikiy4eburator/i3-config.git ~/.config/i3
@@ -47,9 +46,14 @@ sudo localectl --no-convert set-x11-keymap de
 # enable LightDm
 sudo systemctl enable lightdm.service
 
-# Clean Instal scripts
+# Clean Install scripts
 sudo rm /home/2
 sudo rm /home/3
 sudo rm /home/hdd
+if [[ -f /bin/i3 ]]; then
+  break
+else
+  rm -R ~/.config/i3
+fi
 
 sudo reboot
