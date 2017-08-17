@@ -1,10 +1,202 @@
 #!/bin/sh
 
-curl -o 1-prep-efi https://raw.githubusercontent.com/dikiy4eburator/arch-helpers/master/1-prep-efi
-curl -o 1-prep-legacy https://raw.githubusercontent.com/dikiy4eburator/arch-helpers/master/1-prep-legacy
+# ////////////////////    EFI PREP    /////////////////////////////////////
 
-# source ~/root/1-prep-efi
-# source ~/root/1-prep-legacy
+function f_install_efi() {
+  case $HDD in
+    nvme*)
+    f_defineHdPattern_nvme_efi
+    ;;
+
+    sd*)
+    f_defineHdPattern_sata_efi
+    ;;
+
+    *)
+    echo "HDD eingabe unbekant"
+    exit
+    ;;
+esac
+f_format_efi
+f_mount_efi
+}
+
+function f_defineHdPattern_sata_efi() {
+  case $EXTRAHOME in
+    ja )
+      BOOT_HD="${HDD}1"
+      SWAP_HD="${HDD}2"
+      ROOT_HD="${HDD}3"
+      HOME_HD="${HDD}4"
+      ;;
+
+    nein )
+      BOOT_HD="${HDD}1"
+      SWAP_HD="${HDD}2"
+      ROOT_HD="${HDD}3"
+      ;;
+  esac
+}
+
+function f_defineHdPattern_nvme_efi() {
+  case $EXTRAHOME in
+    ja )
+      BOOT_HD="${HDD}p1"
+      SWAP_HD="${HDD}p2"
+      ROOT_HD="${HDD}p3"
+      HOME_HD="${HDD}p4"
+      ;;
+
+    nein )
+      BOOT_HD="${HDD}p1"
+      SWAP_HD="${HDD}p2"
+      ROOT_HD="${HDD}p3"
+      ;;
+  esac
+}
+
+function f_format_efi() {
+  case $EXTRAHOME in
+    ja )
+      # formating partitions
+      mkfs.fat -F32 /dev/$BOOT_HD
+      mkswap /dev/$SWAP_HD
+      mkfs.ext4 /dev/$ROOT_HD
+      mkfs.ext4 /dev/$HOME_HD
+      ;;
+
+    nein )
+      # formating partitions
+      mkfs.fat -F32 /dev/$BOOT_HD
+      mkswap /dev/$SWAP_HD
+      mkfs.ext4 /dev/$ROOT_HD
+      ;;
+  esac
+}
+
+function f_mount_efi() {
+  case $EXTRAHOME in
+    ja )
+      # Mounting partitions
+      mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
+      mkdir /mnt/boot
+      mkdir /mnt/boot/efi
+      mount /dev/$BOOT_HD /mnt/boot/efi
+      mkdir /mnt/home
+      mount -o defaults,noatime,discard /dev/$HOME_HD /mnt/home
+      swapon /dev/$SWAP_HD
+      ;;
+
+    nein )
+      # Mounting partitions
+      mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
+      mkdir /mnt/boot
+      mkdir /mnt/boot/efi
+      mount /dev/$BOOT_HD /mnt/boot/efi
+      swapon /dev/$SWAP_HD
+      ;;
+  esac
+}
+# ////////////////////    EFI PREP  END  /////////////////////////////////////
+
+# ////////////////////   LEGACY PREP   ///////////////////////////////////////
+
+
+function f_install_legacy() {
+  case $HDD in
+    nvme*)
+    f_defineHdPattern_nvme_legacy
+    ;;
+
+    sd*)
+    f_defineHdPattern_sata_legacy
+    ;;
+
+    *)
+    echo "HDD eingabe unbekant"
+    exit
+    ;;
+esac
+f_format_legacy
+f_mount_legacy
+}
+
+function f_defineHdPattern_sata_legacy() {
+  case $EXTRAHOME in
+    ja )
+      BOOT_HD="${HDD}1"
+      SWAP_HD="${HDD}2"
+      ROOT_HD="${HDD}3"
+      HOME_HD="${HDD}4"
+      ;;
+
+    nein )
+      BOOT_HD="${HDD}1"
+      SWAP_HD="${HDD}2"
+      ROOT_HD="${HDD}3"
+      ;;
+  esac
+}
+
+function f_defineHdPattern_nvme_legacy() {
+  case $EXTRAHOME in
+    ja )
+      BOOT_HD="${HDD}p1"
+      SWAP_HD="${HDD}p2"
+      ROOT_HD="${HDD}p3"
+      HOME_HD="${HDD}p4"
+      ;;
+
+    nein )
+      BOOT_HD="${HDD}p1"
+      SWAP_HD="${HDD}p2"
+      ROOT_HD="${HDD}p3"
+      ;;
+  esac
+}
+
+function f_format_legacy() {
+  case $EXTRAHOME in
+    ja )
+      # formating partitions
+      # mkfs.ext2 /dev/$BOOT_HD
+      mkswap /dev/$SWAP_HD
+      mkfs.ext4 /dev/$ROOT_HD
+      mkfs.ext4 /dev/$HOME_HD
+      ;;
+
+    nein )
+      # formating partitions
+      # mkfs.ext2 /dev/$BOOT_HD
+      mkswap /dev/$SWAP_HD
+      mkfs.ext4 /dev/$ROOT_HD
+      ;;
+  esac
+}
+
+function f_mount_legacy() {
+  case $EXTRAHOME in
+    ja )
+      # Mounting partitions
+      mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
+      mkdir /mnt/boot
+      mount /dev/$BOOT_HD /mnt/boot
+      mkdir /mnt/home
+      mount -o defaults,noatime,discard /dev/$HOME_HD /mnt/home
+      swapon /dev/$SWAP_HD
+      ;;
+
+    nein )
+      # Mounting partitions
+      mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
+      mkdir /mnt/boot
+      mount /dev/$BOOT_HD /mnt/boot
+      swapon /dev/$SWAP_HD
+      ;;
+  esac
+}
+
+# ////////////////////   LEGACY PREP  END  /////////////////////////////////////
 
 clear
 echo "#################################################"
@@ -51,7 +243,7 @@ if [[ -d "/sys/firmware/efi/efivars" ]];
     echo "Im folgenden wird das Programm cgdisk gestartet"
     echo "Bitte erstellen Sie die Partitione in der folgenden Ordnung:"
     echo
-    echo "  1. boot ca. 5 Mb mit (ef02)"
+    echo "  1. boot ca. 5 Mb ( code: ef02)"
     echo "  2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )"
     echo
     echo "     Wenn Sie keine extra HOME Partition wollen"
@@ -71,9 +263,9 @@ cgdisk /dev/$HDD
 
 if [[ -d "/sys/firmware/efi/efivars" ]];
   then
-    sh 1-prep-efi
+    f_install_efi
   else
-    sh 1-prep-legacy
+    f_install_legacy
 fi
 
 # Install base pacages
