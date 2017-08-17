@@ -194,6 +194,7 @@ if [[ -d "/sys/firmware/efi/efivars" ]];
   else
     # install grub legacy
       grub-install /dev/$HDD
+      grub-mkconfig -o /boot/grub/grub.cfg
 fi
 
 clear
