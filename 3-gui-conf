@@ -24,7 +24,7 @@ yaourt -S i3-gaps
 git clone https://github.com/dikiy4eburator/i3-config.git ~/.config/i3
 
 # link urxvt config
-ln -sf ~/.config/i3/urxvt/.Xdefaults ~/.Xdefaults
+cp ~/.config/i3/urxvt/.Xdefaults ~/.Xdefaults
 
 # link gtk-theme config
 cp -r ~/.config/i3/gtk-3.0 ~/.config
@@ -39,7 +39,7 @@ cp -r ~/.config/i3/dunst ~/.config
 sudo cp ~/.config/i3/font/square.ttf /usr/share/fonts/TTF/square.ttf
 
 # link usb automount rule
-sudo ln -sf ~/.config/i3/UDEV-automount-usb/10-my-media-automount.rules /etc/udev/rules.d/10-my-media-automount.rules
+sudo cp ~/.config/i3/UDEV-automount-usb/10-my-media-automount.rules /etc/udev/rules.d/10-my-media-automount.rules
 
 # set global keyboard layout
 sudo localectl --no-convert set-x11-keymap de
