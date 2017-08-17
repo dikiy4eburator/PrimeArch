@@ -3,8 +3,8 @@
 curl -o 1-prep-efi https://raw.githubusercontent.com/dikiy4eburator/arch-helpers/master/1-prep-efi
 curl -o 1-prep-legacy https://raw.githubusercontent.com/dikiy4eburator/arch-helpers/master/1-prep-legacy
 
-source ~/root/1-prep-efi
-source ~/root/1-prep-legacy
+# source ~/root/1-prep-efi
+# source ~/root/1-prep-legacy
 
 clear
 echo "#################################################"
@@ -71,9 +71,9 @@ cgdisk /dev/$HDD
 
 if [[ -d "/sys/firmware/efi/efivars" ]];
   then
-    f_install_efi
+    1-prep-efi
   else
-    f_install_legacy
+    1-prep-legacy
 fi
 
 # Install base pacages

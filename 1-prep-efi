@@ -95,3 +95,5 @@ function f_mount_efi() {
       ;;
   esac
 }
+
+f_install_efi

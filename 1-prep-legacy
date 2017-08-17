@@ -1,6 +1,5 @@
 #!/bin/sh
 
-
 function f_install_legacy() {
   case $HDD in
     nvme*)
@@ -94,3 +93,5 @@ function f_mount_legacy() {
       ;;
   esac
 }
+
+f_install_legacy
