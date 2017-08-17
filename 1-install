@@ -71,9 +71,9 @@ cgdisk /dev/$HDD
 
 if [[ -d "/sys/firmware/efi/efivars" ]];
   then
-    1-prep-efi
+    sh 1-prep-efi
   else
-    1-prep-legacy
+    sh 1-prep-legacy
 fi
 
 # Install base pacages
