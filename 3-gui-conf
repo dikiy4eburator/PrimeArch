@@ -18,33 +18,28 @@ yaourt -S --noconfirm pamac-aur
 yaourt -S --noconfirm neofetch-git
 yaourt -S --noconfirm vertex-themes-git
 yaourt -S --noconfirm vertex-icons-git
+yaourt -S i3-gaps 
 
-# install i3 configs
-if [[ -f /bin/i3 ]];
-  then
-    # Clone i3-config repo
-    git clone https://github.com/dikiy4eburator/i3-config.git ~/.config/i3
+# Clone i3-config repo
+git clone https://github.com/dikiy4eburator/i3-config.git ~/.config/i3
 
-    # link urxvt config
-    ln -sf ~/.config/i3/urxvt/.Xdefaults ~/.Xdefaults
+# link urxvt config
+ln -sf ~/.config/i3/urxvt/.Xdefaults ~/.Xdefaults
 
-    # link gtk-theme config
-    cp -r ~/.config/i3/gtk-3.0 ~/.config
+# link gtk-theme config
+cp -r ~/.config/i3/gtk-3.0 ~/.config
 
-    # Nitrogen config
-    cp -r ~/.config/i3/nitrogen ~/.config
+# Nitrogen config
+cp -r ~/.config/i3/nitrogen ~/.config
 
-    # dunst config
-    cp -r ~/.config/i3/dunst ~/.config
+# dunst config
+cp -r ~/.config/i3/dunst ~/.config
 
-    # font used on the panel
-    sudo cp ~/.config/i3/font/square.ttf /usr/share/fonts/TTF/square.ttf
+# font used on the panel
+sudo cp ~/.config/i3/font/square.ttf /usr/share/fonts/TTF/square.ttf
 
-    # link usb automount rule
-    sudo ln -sf ~/.config/i3/UDEV-automount-usb/10-my-media-automount.rules /etc/udev/rules.d/10-my-media-automount.rules
-  else
-    break
-fi
+# link usb automount rule
+sudo ln -sf ~/.config/i3/UDEV-automount-usb/10-my-media-automount.rules /etc/udev/rules.d/10-my-media-automount.rules
 
 # set global keyboard layout
 sudo localectl --no-convert set-x11-keymap de
