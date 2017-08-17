@@ -3,8 +3,8 @@
 curl -o 1-prep-efi https://raw.githubusercontent.com/dikiy4eburator/arch-helpers/master/1-prep-efi
 curl -o 1-prep-legacy https://raw.githubusercontent.com/dikiy4eburator/arch-helpers/master/1-prep-legacy
 
-source 1-prep-efi
-source 1-prep-legacy
+source ~/root/1-prep-efi
+source ~/root/1-prep-legacy
 
 clear
 echo "#################################################"
