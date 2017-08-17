@@ -99,6 +99,10 @@ function f_mount_efi() {
 }
 # ////////////////////    EFI PREP  END  /////////////////////////////////////
 
+
+
+
+
 # ////////////////////   LEGACY PREP   ///////////////////////////////////////
 
 
@@ -287,3 +291,12 @@ echo "##################################"
 arch-chroot /mnt
 
 exit
+
+
+
+
+
+
+
+# //// NEED TESTING ///////////
+# source /path/to/the/include/My_Other_Other_Script.sh   # explicit PATH
