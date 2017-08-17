@@ -1,4 +1,4 @@
-Arch linux (EFI) Installations Skript.
+Arch linux Installations Skript.
 
 
 
