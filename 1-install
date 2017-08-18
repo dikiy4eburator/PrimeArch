@@ -1,5 +1,10 @@
 #!/bin/sh
 
+# //////////////////////////////////////////////////////////////////////////////
+# //////////////////    FUNKTION DEFENITIONS   /////////////////////////////////
+# //////////////////////////////////////////////////////////////////////////////
+
+
 # ////////////////////    EFI PREP    /////////////////////////////////////
 
 function f_install_efi() {
@@ -202,9 +207,19 @@ function f_mount_legacy() {
 
 # ////////////////////   LEGACY PREP  END  /////////////////////////////////////
 
+
+
+
+
+
+
+# //////////////////////////////////////////////////////////////////////////////
+# //////////////////    START INSTALATION   ////////////////////////////////////
+# //////////////////////////////////////////////////////////////////////////////
+
 clear
 echo "#################################################"
-echo " Wilkommen beim Arch EFI installations skript"
+echo " Wilkommen beim Arch installations skript"
 echo "#################################################"
 echo
 echo "Bitte beantworten Sie einige Fragen zu der Systemconfiguration"
@@ -219,6 +234,7 @@ echo
 echo
 echo "Welche Festplatte, von den oben gezeigten,"
 echo "soll für die Installation benutzt werden? (z.B. sda, nvme0n1 etc.) "
+echo " !!! Beachten Sie, dass die Festplatte komplet gelöscht wird !!!"
 echo
 read -p ">> " HDD
 echo "$HDD" > /mnt/home/hdd
