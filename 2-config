@@ -190,12 +190,12 @@ if [[ -d "/sys/firmware/efi/efivars" ]];
   then
     # install grub efi
     grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$HOSTX
-    grub-mkconfig -o /boot/grub/grub.cfg
   else
     # install grub legacy
-      grub-install /dev/$HDD
-      grub-mkconfig -o /boot/grub/grub.cfg
+    grub-install /dev/$HDD
 fi
+
+grub-mkconfig -o /boot/grub/grub.cfg
 
 clear
 echo "##################################"
