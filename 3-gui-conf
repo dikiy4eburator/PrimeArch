@@ -57,7 +57,7 @@ sudo rm /home/hdd
 if [[ -f /bin/i3 ]]; then
   break
 else
-  rm -R ~/.config/i3
+  sudo rm -R ~/.config/i3
 fi
 
 sudo reboot
