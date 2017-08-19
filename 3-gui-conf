@@ -35,6 +35,9 @@ cp -r ~/.config/i3/nitrogen ~/.config
 # dunst config
 cp -r ~/.config/i3/dunst ~/.config
 
+# fish config
+cp -r ~/.config/i3/fish ~/.config
+
 # font used on the panel
 sudo cp ~/.config/i3/font/square.ttf /usr/share/fonts/TTF/square.ttf
 
