@@ -88,7 +88,7 @@ echo "# INSTALL PACAGES #"
 echo "#"
 echo
 #Install GUI pakages
-pacman -S --noconfirm lightdm lightdm-gtk-greeter
+pacman -S --noconfirm lightdm lightdm-gtk-greeter xdg-user-dirs
 
 #Install Network pakages
 pacman -S --noconfirm avahi networkmanager network-manager-applet nm-connection-editor ntp
