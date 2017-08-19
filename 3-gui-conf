@@ -40,6 +40,9 @@ sudo cp ~/.config/i3/font/square.ttf /usr/share/fonts/TTF/square.ttf
 # link usb automount rule
 sudo cp ~/.config/i3/UDEV-automount-usb/10-my-media-automount.rules /etc/udev/rules.d/10-my-media-automount.rules
 
+# lightdm config
+sudo cp -r ~/.config/i3/lightdm /etc
+
 # set global keyboard layout
 sudo localectl --no-convert set-x11-keymap de
 
