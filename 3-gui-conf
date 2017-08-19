@@ -16,7 +16,7 @@ makepkg -si
 
 # yaourt -S --noconfirm pamac-aur
 # yaourt -S --noconfirm neofetch-git
-yaourt -S --noconfirm lightdm-slick-greeter
+# yaourt -S --noconfirm lightdm-slick-greeter
 yaourt -S --noconfirm vertex-themes-git
 yaourt -S --noconfirm vertex-icons-git
 
