@@ -97,7 +97,7 @@ pacman -S --noconfirm avahi networkmanager network-manager-applet nm-connection-
 pacman -S --noconfirm alsa-tools alsa-utils pavucontrol flac volumeicon audacious
 
 #Install Video pakages
-pacman -S --noconfirm xf86-input-keyboard xorg-server xorg-xinit compton ffmpeg vlc mpv
+pacman -S --noconfirm xorg-server xorg-xinit compton ffmpeg vlc mpv
 
 
 #Install Additional apps
