@@ -103,7 +103,7 @@ pacman -S --noconfirm xorg-server xorg-xinit compton ffmpeg vlc mpv
 #Install Additional apps
 pacman -S --noconfirm polkit-gnome xfce4-appfinder ranger git htop nitrogen
 pacman -S --noconfirm chromium atom rofi conky dunst urxvt-perls hunspell-de darktable gimp
-pacman -S --noconfirm nemo nemo-fileroller rsync cool-retro-term
+pacman -S --noconfirm nemo nemo-fileroller rsync cool-retro-term terminology
 
 #Install Themes
 pacman -S --noconfirm lxappearance-gtk3 arc-gtk-theme arc-icon-theme archlinux-wallpaper
