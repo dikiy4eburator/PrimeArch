@@ -94,7 +94,7 @@ pacman -S --noconfirm lightdm lightdm-gtk-greeter xdg-user-dirs
 pacman -S --noconfirm avahi networkmanager network-manager-applet nm-connection-editor ntp
 
 #Install Audio pakages
-pacman -S --noconfirm alsa-tools alsa-utils pavucontrol flac volumeicon audacious
+pacman -S --noconfirm alsa-tools alsa-utils pulseaudio pulseaudio-alsa pavucontrol flac volumeicon audacious
 
 #Install Video pakages
 pacman -S --noconfirm xorg-server xorg-xinit compton ffmpeg vlc mpv
