@@ -14,8 +14,8 @@ tar -xvzf yaourt.tar.gz
 cd yaourt
 makepkg -si
 
-# yaourt -S --noconfirm pamac-aur
-# yaourt -S --noconfirm neofetch-git
+# Install some cosmetiks
+yaourt -S --noconfirm neofetch-git
 yaourt -S --noconfirm lightdm-slick-greeter
 yaourt -S --noconfirm vertex-themes-git
 yaourt -S --noconfirm vertex-icons-git
@@ -34,9 +34,6 @@ cp -r ~/.config/i3/nitrogen ~/.config
 
 # dunst config
 cp -r ~/.config/i3/dunst ~/.config
-
-# fish config
-cp -r ~/.config/i3/fish ~/.config
 
 # font used on the panel
 sudo cp ~/.config/i3/font/square.ttf /usr/share/fonts/TTF/square.ttf
