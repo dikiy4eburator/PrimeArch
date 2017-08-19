@@ -217,70 +217,85 @@ function f_mount_legacy() {
 # //////////////////    START INSTALATION   ////////////////////////////////////
 # //////////////////////////////////////////////////////////////////////////////
 
+# Welkom Screan
 clear
 echo "#################################################"
-echo " Wilkommen beim Arch installations skript"
+echo "# Wilkommen beim Arch installations skript"
+echo "#################################################"
+echo "#"
+echo "# Bitte beantworten Sie einige Fragen zu der Systemconfiguration"
+echo "#"
+read -p "#     Drücken Sie Enter zum fortfahren"
+echo "#"
+echo
+
+# Home partition Screan
+clear
 echo "#################################################"
 echo
-echo "Bitte beantworten Sie einige Fragen zu der Systemconfiguration"
-echo
-echo "Mochten Sie eine extra HOME Partition haben? (ja/nein)"
-read -p ">> " EXTRAHOME
+echo "# Mochten Sie eine extra HOME Partition haben? (ja/nein)"
+read -p "# >> " EXTRAHOME
+echo "#"
+
+# Partition choose Screan
 clear
+echo "#################################################"
 echo
 echo
 lsblk -o NAME,SIZE,MODEL,TYPE | grep disk
 echo
 echo
-echo "Welche Festplatte, von den oben gezeigten,"
-echo "soll für die Installation benutzt werden? (z.B. sda, nvme0n1 etc.) "
-echo " !!! Beachten Sie, dass die Festplatte komplet gelöscht wird !!!"
+echo "# Welche Festplatte, von den oben gezeigten,"
+echo "# soll für die Installation benutzt werden? (z.B. sda, nvme0n1 etc.) "
+echo "#  !!! Beachten Sie, dass die Festplatte komplet gelöscht wird !!!"
 echo
-read -p ">> " HDD
-echo "$HDD" > /mnt/home/hdd
-echo
+read -p "# >> " HDD
+echo "#"
 
-# Show info depending on boot mode
+# Show Partitioning info depending on boot mode
 if [[ -d "/sys/firmware/efi/efivars" ]];
   then
     clear
-    echo "Im folgenden wird das Programm cgdisk gestartet"
-    echo "Bitte erstellen Sie die Partitione in der folgenden Ordnung:"
-    echo
-    echo "  1. EFI ca. 100-256 Mb ( code: ef00 )"
-    echo "  2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )"
-    echo
-    echo "     Wenn Sie keine extra HOME Partition wollen"
-    echo "     Könne Sie den restlichen Speicher der ROOT Partition zweisen"
-    echo "     Ansonsten: "
-    echo
-    echo "  3. ROOT ca. 20-40 Gb ( code: 8300 )"
-    echo "  4. HOME rest des Speichers ( code: 8300 )"
+    echo "#################################################"
+    echo "# Im folgenden wird das Programm cgdisk gestartet"
+    echo "# Bitte erstellen Sie die Partitione in der folgenden Ordnung:"
+    echo "#"
+    echo "#  1. EFI ca. 100-256 Mb ( code: ef00 )"
+    echo "#  2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )"
+    echo "#"
+    echo "#     Wenn Sie keine extra HOME Partition wollen"
+    echo "#     Könne Sie den restlichen Speicher der ROOT Partition zweisen"
+    echo "#     Ansonsten: "
+    echo "#"
+    echo "#  3. ROOT ca. 20-40 Gb ( code: 8300 )"
+    echo "#  4. HOME rest des Speichers ( code: 8300 )"
     echo
     echo
   else
     clear
-    echo "Im folgenden wird das Programm cgdisk gestartet"
-    echo "Bitte erstellen Sie die Partitione in der folgenden Ordnung:"
-    echo
-    echo "  1. boot ca. 5 Mb ( code: ef02)"
-    echo "  2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )"
-    echo
-    echo "     Wenn Sie keine extra HOME Partition wollen"
-    echo "     Könne Sie den restlichen Speicher der ROOT Partition zweisen"
-    echo "     Ansonsten: "
-    echo
-    echo "  3. ROOT ca. 20-40 Gb ( code: 8300 )"
-    echo "  4. HOME rest des Speichers ( code: 8300 )"
+    echo "#################################################"
+    echo "# Im folgenden wird das Programm cgdisk gestartet"
+    echo "# Bitte erstellen Sie die Partitione in der folgenden Ordnung:"
+    echo "#"
+    echo "#  1. boot ca. 5 Mb ( code: ef02)"
+    echo "#  2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )"
+    echo "#"
+    echo "#     Wenn Sie keine extra HOME Partition wollen"
+    echo "#     Könne Sie den restlichen Speicher der ROOT Partition zweisen"
+    echo "#     Ansonsten: "
+    echo "#"
+    echo "#  3. ROOT ca. 20-40 Gb ( code: 8300 )"
+    echo "#  4. HOME rest des Speichers ( code: 8300 )"
     echo
     echo
 fi
 
-read -p "Drücken Sie Enter zum fortfahren"
+read -p "# Drücken Sie Enter zum fortfahren"
 
+# Start cgdisk
 cgdisk /dev/$HDD
 
-
+# Start Base installation
 if [[ -d "/sys/firmware/efi/efivars" ]];
   then
     f_install_efi
@@ -296,13 +311,13 @@ genfstab -U -p /mnt >> /mnt/etc/fstab
 
 curl -o /mnt/home/2 https://raw.githubusercontent.com/dikiy4eburator/arch-helpers/master/2-config
 curl -o /mnt/home/3 https://raw.githubusercontent.com/dikiy4eburator/arch-helpers/master/3-gui-conf
-
+echo "$HDD" > /mnt/home/hdd
 
 clear
-echo "##################################"
-echo "Bitte in das /home verzeichniss der neuen installation weckseln"
-echo "und das skript 2 starten"
-echo "##################################"
+echo "#################################################"
+echo "# Bitte in das /home verzeichniss der neuen installation weckseln"
+echo "# und das skript 2 starten"
+echo "#"
 
 arch-chroot /mnt
 

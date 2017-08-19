@@ -4,17 +4,17 @@
 clear
 echo
 echo "############################################"
-echo
-echo "1. virtualbox"
-echo "2. Nvidia"
-echo "3. ATI (xf86-video-ati basis Treiber)"
-echo "4. Intel (xf86-video-intel basis Treiber)"
-echo "5. VESA (xf86-video-vesa basis Treiber für den Notfall)"
-echo
-echo "############################################"
-echo "Bitte wählen Sie ihren Grafiktreiber (1-5)"
-echo
-read -p " >> " GR
+echo "#"
+echo "# 1. virtualbox"
+echo "# 2. Nvidia"
+echo "# 3. ATI (xf86-video-ati basis Treiber)"
+echo "# 4. Intel (xf86-video-intel basis Treiber)"
+echo "# 5. VESA (xf86-video-vesa basis Treiber für den Notfall)"
+echo "#"
+echo "#"
+echo "#    Bitte wählen Sie ihren Grafiktreiber (1-5)"
+echo "#"
+read -p "#  >> " GR
 echo
 case $GR in
   1 )
@@ -41,19 +41,19 @@ esac
 clear
 echo
 echo "############################################"
-echo
-echo "1. i3"
-echo "2. Xfce"
-echo "3. Mate"
-echo "4. KDE-Plasma"
-echo "5. Gnome"
-echo "6. Deepin"
-echo "7. Keine Gui"
-echo
-echo "############################################"
-echo "Bitte wählen Sie ihren Desktop (1-7)"
-echo
-read -p " >> " GUI
+echo "#"
+echo "# 1. i3"
+echo "# 2. Xfce"
+echo "# 3. Mate"
+echo "# 4. KDE-Plasma"
+echo "# 5. Gnome"
+echo "# 6. Deepin"
+echo "# 7. Keine Gui"
+echo "#"
+echo "#"
+echo "     Bitte wählen Sie ihren Desktop (1-7)"
+echo "#"
+read -p "#  >> " GUI
 echo
 case $GUI in
   1 )
@@ -81,10 +81,11 @@ case $GUI in
     exit
 esac
 
+# INSTALL PACAGES
 clear
-echo "###################"
+echo "############################################"
 echo "# INSTALL PACAGES #"
-echo "###################"
+echo "#"
 echo
 #Install GUI pakages
 pacman -S --noconfirm lightdm lightdm-gtk-greeter lightdm-slick-greeter
@@ -112,27 +113,27 @@ pacman -S --noconfirm gnome-font-viewer noto-fonts awesome-terminal-fonts
 
 # Set Root password
 clear
-echo "################"
-echo "# Set ROOT PW  #"
-echo "################"
-echo
-echo "Bitte Password für ROOT eingeben"
+echo "############################################"
+echo "# ROOT Password festlegen"
+echo "#"
+echo "#"
+echo "# Bitte Password für ROOT eingeben"
 echo
 passwd
 
 # Set hostname
 clear
-echo "################"
-echo "# Set Hostname #"
-echo "################"
-echo
-read -p "Bitte Hostname eingeben: " HOSTX
+echo "############################################"
+echo "# HOST Erstellen "
+echo "#"
+echo "#"
+read -p "# Bitte Hostname eingeben: " HOSTX
 echo $HOSTX >> /etc/hostname
 
 clear
-echo "#################"
-echo "# Config Locale #"
-echo "#################"
+echo "############################################"
+echo "# Configuriere Lokale Variablen "
+echo "#"
 echo
 
 # /etc/locale.conf
@@ -152,26 +153,26 @@ ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 
 # Set user
 clear
-echo "#################"
-echo "# Set new USER  #"
-echo "#################"
-echo
-read -p "Bitte neuen Benutzer Namen eingeben: " US
-echo
-echo "Generire Benutzer $US"
-echo
+echo "############################################"
+echo "# Neuen Benutzer erstellen  "
+echo "#"
+echo "#"
+read -p "# Bitte neuen Benutzer Namen eingeben: " US
+echo "#"
+echo "# Generire Benutzer $US"
+echo "#"
 useradd -m -g users -G wheel,video,audio,network -s /usr/bin/fish $US
-echo "Bitte Password für $US eingeben"
+echo "# Bitte Password für $US eingeben"
 passwd $US
-echo
-echo "Gebe $US ROOT rechte"
+echo "#"
+echo "# Gebe $US ROOT rechte"
 echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 
 #start system daemons
 clear
-echo "#################"
-echo "# Start Daemons #"
-echo "#################"
+echo "############################################"
+echo "# Starte Systemdienste "
+echo "#"
 echo
 systemctl enable acpid
 systemctl enable ntpd
@@ -181,9 +182,9 @@ systemctl enable NetworkManager
 HDD=$(</home/hdd)
 
 clear
-echo "##################"
-echo "#   Setup GRUB   #"
-echo "##################"
+echo "############################################"
+echo "#   Installiere GRUB   "
+echo "#"
 echo
 
 if [[ -d "/sys/firmware/efi/efivars" ]];
@@ -198,9 +199,10 @@ fi
 grub-mkconfig -o /boot/grub/grub.cfg
 
 clear
-echo "##################################"
-echo "#### REBOOT AND LOGIN AS USER ####"
-echo "#### then start script nr. 3  ####"
-echo "##################################"
+echo "############################################"
+echo "# Bitte System neu starten und als normaler Benutzer anmelden"
+echo "# Nach dem Anmelden Skript 3 starten."
+echo "#"
+read -p "# Drücken Sie Enter zum fortfahren"
 
 exit
