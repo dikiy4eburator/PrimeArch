@@ -11,31 +11,39 @@ echo "# 3. ATI (xf86-video-ati basis Treiber)"
 echo "# 4. Intel (xf86-video-intel basis Treiber)"
 echo "# 5. VESA (xf86-video-vesa basis Treiber für den Notfall)"
 echo "#"
+echo "# 0. Keine Videotreiber"
 echo "#"
 echo "#    Bitte wählen Sie ihren Grafiktreiber (1-5)"
 echo "#"
-read -p "#  >> " GR
+# read -p "#  >> " GR
 echo
-case $GR in
-  1 )
-    pacman -S --noconfirm virtualbox-guest-dkms
-    ;;
-  2 )
-    pacman -S --noconfirm nvidia
-    ;;
-  3 )
-    pacman -S --noconfirm xf86-video-ati
-    ;;
-  4 )
-    pacman -S --noconfirm xf86-video-intel
-    ;;
-  5)
-    pacman -S --noconfirm xf86-video-vesa
-    ;;
-  * )
+
+while :
+do
+  read INPUT_STRING
+  case $INPUT_STRING in
+    1 )
+      pacman -S --noconfirm virtualbox-guest-dkms
+      ;;
+    2 )
+      pacman -S --noconfirm nvidia
+      ;;
+    3 )
+      pacman -S --noconfirm xf86-video-ati
+      ;;
+    4 )
+      pacman -S --noconfirm xf86-video-intel
+      ;;
+    5)
+      pacman -S --noconfirm xf86-video-vesa
+      ;;
+    0)
+      break
+      ;;
+    * )
     echo "ungültige eingabe"
-    exit
-esac
+  esac
+done
 
 # GUI installation
 clear
@@ -48,36 +56,44 @@ echo "# 3. Mate"
 echo "# 4. KDE-Plasma"
 echo "# 5. Gnome"
 echo "# 6. Deepin"
-echo "# 7. Keine Gui"
+echo "# 0. Keine Gui"
 echo "#"
 echo "#"
 echo "     Bitte wählen Sie ihren Desktop (1-7)"
 echo "#"
-read -p "#  >> " GUI
+# read -p "#  >> " GUI
 echo
+
+while :
+do
+  read INPUT_STRING
+  case $INPUT_STRING in
+    1 )
+      pacman -S --noconfirm i3
+      ;;
+    2 )
+      pacman -S --noconfirm xfce4 xfce4-goodies
+      ;;
+    3 )
+      pacman -S --noconfirm mate mate-extra
+      ;;
+    4 )
+      pacman -S --noconfirm plasma
+      ;;
+    5)
+      pacman -S --noconfirm gnome gnome-extra
+      ;;
+    6)
+      pacman -S --noconfirm deepin deepin-extra
+      ;;
+    0)
+      break
+      ;;
+    * )
+      echo "ungültige eingabe"
+  esac
+done
 case $GUI in
-  1 )
-    pacman -S --noconfirm i3
-    ;;
-  2 )
-    pacman -S --noconfirm xfce4 xfce4-goodies
-    ;;
-  3 )
-    pacman -S --noconfirm mate mate-extra
-    ;;
-  4 )
-    pacman -S --noconfirm plasma
-    ;;
-  5)
-    pacman -S --noconfirm gnome gnome-extra
-    ;;
-  6)
-    pacman -S --noconfirm deepin deepin-extra
-    ;;
-  7)
-    ;;
-  * )
-    echo "ungültige eingabe"
     exit
 esac
 
@@ -99,7 +115,6 @@ pacman -S --noconfirm alsa-tools alsa-utils pulseaudio pulseaudio-alsa pavucontr
 #Install Video pakages
 pacman -S --noconfirm xorg-server xorg-xinit compton ffmpeg vlc mpv
 
-
 #Install Additional apps
 pacman -S --noconfirm mate-polkit ranger git htop nitrogen terminology
 pacman -S --noconfirm chromium atom rofi conky dunst urxvt-perls hunspell-de darktable gimp
@@ -118,7 +133,7 @@ echo "# ROOT Password festlegen"
 echo "#"
 echo "#"
 echo "# Bitte Password für ROOT eingeben"
-echo
+echo "#"
 passwd
 
 # Set hostname
@@ -126,8 +141,8 @@ clear
 echo "############################################"
 echo "# HOST Erstellen "
 echo "#"
-echo "#"
-read -p "# Bitte Hostname eingeben: " HOSTX
+echo "# Bitte Hostname eingeben: "
+read -p "#  >> " HOSTX
 echo $HOSTX >> /etc/hostname
 
 clear

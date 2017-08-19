@@ -168,7 +168,6 @@ function f_format_legacy() {
   case $EXTRAHOME in
     ja )
       # formating partitions
-      # mkfs.ext2 /dev/$BOOT_HD
       mkswap /dev/$SWAP_HD
       mkfs.ext4 /dev/$ROOT_HD
       mkfs.ext4 /dev/$HOME_HD
@@ -176,7 +175,6 @@ function f_format_legacy() {
 
     nein )
       # formating partitions
-      # mkfs.ext2 /dev/$BOOT_HD
       mkswap /dev/$SWAP_HD
       mkfs.ext4 /dev/$ROOT_HD
       ;;
@@ -290,7 +288,7 @@ if [[ -d "/sys/firmware/efi/efivars" ]];
     echo
 fi
 
-read -p "# Drücken Sie Enter zum fortfahren"
+read -p "#        Drücken Sie Enter zum fortfahren"
 
 # Start cgdisk
 cgdisk /dev/$HDD
