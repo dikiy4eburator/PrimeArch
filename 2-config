@@ -15,35 +15,31 @@ echo "# 0. Keine Videotreiber"
 echo "#"
 echo "#    Bitte wählen Sie ihren Grafiktreiber (1-5)"
 echo "#"
-# read -p "#  >> " GR
+read -p "#  >> " GR
 echo
 
-while :
-do
-  read INPUT_STRING
-  case $INPUT_STRING in
-    1 )
-      pacman -S --noconfirm virtualbox-guest-dkms
-      ;;
-    2 )
-      pacman -S --noconfirm nvidia
-      ;;
-    3 )
-      pacman -S --noconfirm xf86-video-ati
-      ;;
-    4 )
-      pacman -S --noconfirm xf86-video-intel
-      ;;
-    5)
-      pacman -S --noconfirm xf86-video-vesa
-      ;;
-    0)
-      break
-      ;;
-    * )
+case $GR in
+  1 )
+    pacman -S --noconfirm virtualbox-guest-dkms
+    ;;
+  2 )
+    pacman -S --noconfirm nvidia
+    ;;
+  3 )
+    pacman -S --noconfirm xf86-video-ati
+    ;;
+  4 )
+    pacman -S --noconfirm xf86-video-intel
+    ;;
+  5)
+    pacman -S --noconfirm xf86-video-vesa
+    ;;
+  0)
+    break
+    ;;
+  * )
     echo "ungültige eingabe"
-  esac
-done
+esac
 
 # GUI installation
 clear
@@ -61,40 +57,33 @@ echo "#"
 echo "#"
 echo "     Bitte wählen Sie ihren Desktop (1-7)"
 echo "#"
-# read -p "#  >> " GUI
+read -p "#  >> " GUI
 echo
 
-while :
-do
-  read INPUT_STRING
-  case $INPUT_STRING in
-    1 )
-      pacman -S --noconfirm i3
-      ;;
-    2 )
-      pacman -S --noconfirm xfce4 xfce4-goodies
-      ;;
-    3 )
-      pacman -S --noconfirm mate mate-extra
-      ;;
-    4 )
-      pacman -S --noconfirm plasma
-      ;;
-    5)
-      pacman -S --noconfirm gnome gnome-extra
-      ;;
-    6)
-      pacman -S --noconfirm deepin deepin-extra
-      ;;
-    0)
-      break
-      ;;
-    * )
-      echo "ungültige eingabe"
-  esac
-done
 case $GUI in
-    exit
+  1 )
+    pacman -S --noconfirm i3
+    ;;
+  2 )
+    pacman -S --noconfirm xfce4 xfce4-goodies
+    ;;
+  3 )
+    pacman -S --noconfirm mate mate-extra
+    ;;
+  4 )
+    pacman -S --noconfirm plasma
+    ;;
+  5)
+    pacman -S --noconfirm gnome gnome-extra
+    ;;
+  6)
+    pacman -S --noconfirm deepin deepin-extra
+    ;;
+  0)
+    break
+    ;;
+  * )
+    echo "ungültige eingabe"
 esac
 
 # INSTALL PACAGES
