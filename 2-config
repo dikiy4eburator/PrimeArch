@@ -9,7 +9,6 @@ echo "# 1. virtualbox"
 echo "# 2. Nvidia"
 echo "# 3. ATI (xf86-video-ati basis Treiber)"
 echo "# 4. Intel (xf86-video-intel basis Treiber)"
-echo "# 5. VESA (xf86-video-vesa basis Treiber für den Notfall)"
 echo "#"
 echo "# 0. Keine Videotreiber"
 echo "#"
@@ -30,9 +29,6 @@ case $GR in
     ;;
   4 )
     pacman -S --noconfirm xf86-video-intel
-    ;;
-  5)
-    pacman -S --noconfirm xf86-video-vesa
     ;;
   0)
     break
