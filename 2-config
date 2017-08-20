@@ -199,6 +199,10 @@ if [[ -d "/sys/firmware/efi/efivars" ]];
     # install grub legacy
     grub-install /dev/$HDD
 fi
+echo "############################################"
+echo "#   Erstelle GRUB configuration  "
+echo "#"
+echo
 
 grub-mkconfig -o /boot/grub/grub.cfg
 
