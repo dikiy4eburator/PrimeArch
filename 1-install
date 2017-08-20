@@ -244,8 +244,11 @@ lsblk -o NAME,SIZE,MODEL,TYPE | grep disk
 echo
 echo
 echo "# Welche Festplatte, von den oben gezeigten,"
-echo "# soll für die Installation benutzt werden? (z.B. sda, nvme0n1 etc.) "
-echo "#  !!! Beachten Sie, dass die Festplatte komplet gelöscht wird !!!"
+echo "# soll für die Installation benutzt werden?"
+echo "#     (z.B. sda, nvme0n1 etc.)"
+echo "#"
+echo "#          !!! ACHTUNG  !!!"
+echo "#   die Festplatte wird komplet gelöscht"
 echo "#"
 read -p "# >> " HDD
 echo "#"
