@@ -232,7 +232,7 @@ echo
 # Home partition Screan
 clear
 echo "#################################################"
-echo
+echo "#"
 echo "# Mochten Sie eine extra HOME Partition haben? (ja/nein)"
 read -p "# >> " EXTRAHOME
 echo "#"
@@ -248,7 +248,7 @@ echo
 echo "# Welche Festplatte, von den oben gezeigten,"
 echo "# soll für die Installation benutzt werden? (z.B. sda, nvme0n1 etc.) "
 echo "#  !!! Beachten Sie, dass die Festplatte komplet gelöscht wird !!!"
-echo
+echo "#"
 read -p "# >> " HDD
 echo "#"
 
@@ -290,7 +290,7 @@ if [[ -d "/sys/firmware/efi/efivars" ]];
     echo
 fi
 
-read -p "# Drücken Sie Enter zum fortfahren"
+read -p "#        Drücken Sie Enter zum fortfahren"
 
 # Start cgdisk
 cgdisk /dev/$HDD
