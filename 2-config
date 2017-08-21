@@ -168,17 +168,6 @@ echo "#"
 echo "# Gebe $US ROOT rechte"
 echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 
-#start system daemons
-clear
-echo "############################################"
-echo "# Starte Systemdienste "
-echo "#"
-echo
-systemctl enable acpid
-systemctl enable ntpd
-systemctl enable avahi-daemon
-systemctl enable NetworkManager
-
 HDD=$(</home/hdd)
 
 clear
@@ -201,6 +190,19 @@ echo "#"
 echo
 
 grub-mkconfig -o /boot/grub/grub.cfg
+
+#start system daemons
+clear
+echo "############################################"
+echo "# Starte Systemdienste "
+echo "#"
+echo
+systemctl enable acpid
+systemctl enable ntpd
+systemctl enable avahi-daemon
+systemctl enable NetworkManager
+# NFS utils
+systemctl enable rpcbind
 
 clear
 echo "############################################"
