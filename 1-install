@@ -305,7 +305,7 @@ if [[ -d "/sys/firmware/efi/efivars" ]];
 fi
 
 # Install base pacages
-pacstrap -i /mnt base base-devel linux-headers grub os-prober efibootmgr acpid dbus fish nfs-utils
+pacstrap -i /mnt base base-devel linux-headers grub os-prober efibootmgr acpid dbus fish nfs-utils openssh
 
 # Generate fstab
 genfstab -U -p /mnt >> /mnt/etc/fstab
