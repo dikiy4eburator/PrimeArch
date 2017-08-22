@@ -235,7 +235,7 @@ echo "# Mochten Sie eine extra HOME Partition haben? (ja/nein)"
 read -p "# >> " EXTRAHOME
 echo "#"
 
-# Partition choose Screan
+# HDD select Screan
 clear
 echo "#################################################"
 echo
@@ -293,10 +293,13 @@ fi
 
 read -p "#        Drücken Sie Enter zum fortfahren"
 
+
+
+
 # Start cgdisk
 cgdisk /dev/$HDD
 
-# Start Base installation
+# Start HDD preparation
 if [[ -d "/sys/firmware/efi/efivars" ]];
   then
     f_install_efi
@@ -310,8 +313,11 @@ pacstrap -i /mnt base base-devel linux-headers grub os-prober efibootmgr acpid d
 # Generate fstab
 genfstab -U -p /mnt >> /mnt/etc/fstab
 
+# Download script 2 and 3
 curl -o /mnt/home/2 https://raw.githubusercontent.com/dikiy4eburator/arch-helpers/master/2-config
 curl -o /mnt/home/3 https://raw.githubusercontent.com/dikiy4eburator/arch-helpers/master/3-gui-conf
+
+# Save HDD name for script 2
 echo "$HDD" > /mnt/home/hdd
 
 clear
@@ -320,6 +326,7 @@ echo "# Bitte in das /home verzeichniss der neuen installation weckseln"
 echo "# und das skript 2 starten"
 echo "#"
 
+# Chroot in to the new system
 arch-chroot /mnt
 
 exit
