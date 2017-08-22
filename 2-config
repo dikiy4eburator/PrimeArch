@@ -12,7 +12,7 @@ echo "# 4. Intel (xf86-video-intel basis Treiber)"
 echo "#"
 echo "# 0. Keine Videotreiber"
 echo "#"
-echo "#    Bitte wählen Sie ihren Grafiktreiber (1-5)"
+echo "#    Bitte wählen Sie ihren Grafiktreiber (1-4)"
 echo "#"
 read -p "#  >> " GR
 echo
@@ -48,10 +48,10 @@ echo "# 3. Mate"
 echo "# 4. KDE-Plasma"
 echo "# 5. Gnome"
 echo "# 6. Deepin"
+echo "#"
 echo "# 0. Keine Gui"
 echo "#"
-echo "#"
-echo "     Bitte wählen Sie ihren Desktop (1-7)"
+echo "     Bitte wählen Sie ihren Desktop (1-6)"
 echo "#"
 read -p "#  >> " GUI
 echo
@@ -88,6 +88,7 @@ echo "############################################"
 echo "# INSTALL PACAGES #"
 echo "#"
 echo
+
 #Install GUI pakages
 pacman -S --noconfirm lightdm lightdm-gtk-greeter xdg-user-dirs
 
@@ -132,7 +133,7 @@ echo $HOSTX >> /etc/hostname
 
 clear
 echo "############################################"
-echo "# Configuriere Lokale Variablen "
+echo "# Configuriere Spracheinstellungen "
 echo "#"
 echo
 
@@ -209,6 +210,6 @@ echo "############################################"
 echo "# Bitte System neu starten und als normaler Benutzer anmelden"
 echo "# Nach dem Anmelden Skript 3 starten."
 echo "#"
-read -p "# Drücken Sie Enter zum fortfahren"
+read -p "#   Drücken Sie Enter zum fortfahren"
 
 exit
