@@ -5,23 +5,24 @@
 # //////////////////////////////////////////////////////////////////////////////
 
 
-# ////////////////////    EFI PREP    /////////////////////////////////////
+# ////////////////////    EFI MODE HDD PREPARATION    /////////////////////////////////////
 
 function f_install_efi() {
   case $HDD in
     nvme*)
-    f_defineHdPattern_nvme_efi
-    ;;
+      f_defineHdPattern_nvme_efi
+      ;;
 
     sd*)
-    f_defineHdPattern_sata_efi
-    ;;
+      f_defineHdPattern_sata_efi
+      ;;
 
     *)
-    echo "HDD eingabe unbekant"
-    exit
-    ;;
-esac
+      echo "HDD eingabe unbekant"
+      exit
+      ;;
+  esac
+  
 f_format_efi
 f_mount_efi
 }
@@ -114,18 +115,18 @@ function f_mount_efi() {
 function f_install_legacy() {
   case $HDD in
     nvme*)
-    f_defineHdPattern_nvme_legacy
-    ;;
+     f_defineHdPattern_nvme_legacy
+      ;;
 
     sd*)
-    f_defineHdPattern_sata_legacy
-    ;;
+     f_defineHdPattern_sata_legacy
+     ;;
 
     *)
-    echo "HDD eingabe unbekant"
-    exit
-    ;;
-esac
+      echo "HDD eingabe unbekant"
+      exit
+     ;;
+  esac
 f_format_legacy
 f_mount_legacy
 }
