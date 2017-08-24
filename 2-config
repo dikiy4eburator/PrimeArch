@@ -204,6 +204,8 @@ systemctl enable avahi-daemon
 systemctl enable NetworkManager
 # NFS utils
 systemctl enable rpcbind
+# Cronie
+systemctl enable cronie.service
 
 clear
 echo "############################################"
