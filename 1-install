@@ -321,11 +321,12 @@ curl -o /mnt/home/3 https://raw.githubusercontent.com/dikiy4eburator/arch-helper
 # Save HDD name for script 2
 echo "$HDD" > /mnt/home/hdd
 
-clear
+# clear
 echo "#################################################"
 echo "# Bitte in das /home verzeichniss der neuen installation weckseln"
 echo "# und das skript 2 starten"
 echo "#"
+read -p "#        Drücken Sie Enter zum fortfahren"
 
 # Chroot in to the new system
 arch-chroot /mnt
