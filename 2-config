@@ -193,7 +193,7 @@ echo
 grub-mkconfig -o /boot/grub/grub.cfg
 
 #start system daemons
-clear
+# clear
 echo "############################################"
 echo "# Starte Systemdienste "
 echo "#"
@@ -207,7 +207,7 @@ systemctl enable rpcbind
 # Cronie
 systemctl enable cronie.service
 
-clear
+# clear
 echo "############################################"
 echo "# Bitte System neu starten und als normaler Benutzer anmelden"
 echo "# Nach dem Anmelden Skript 3 starten."
