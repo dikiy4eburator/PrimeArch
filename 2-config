@@ -105,7 +105,7 @@ pacman -S --noconfirm xorg-server xorg-xinit compton ffmpeg vlc mpv
 pacman -S --noconfirm mate-polkit ranger git htop nitrogen terminology
 pacman -S --noconfirm chromium atom rofi conky dunst hunspell-de
 pacman -S --noconfirm nemo nemo-fileroller rsync cool-retro-term
-# pacman -S --noconfirm nfs-utils openssh vim tmux cronie
+pacman -S --noconfirm nfs-utils openssh vim tmux cronie fish
 
 #Install Themes
 pacman -S --noconfirm lxappearance-gtk3 arc-gtk-theme arc-icon-theme archlinux-wallpaper
