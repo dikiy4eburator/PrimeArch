@@ -187,8 +187,8 @@ function f_mount_legacy() {
     ja )
       # Mounting partitions
       mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
-      mkdir /mnt/boot
-      mount /dev/$BOOT_HD /mnt/boot
+#      mkdir /mnt/boot
+#      mount /dev/$BOOT_HD /mnt/boot
       mkdir /mnt/home
       mount -o defaults,noatime,discard /dev/$HOME_HD /mnt/home
       swapon /dev/$SWAP_HD
@@ -197,8 +197,8 @@ function f_mount_legacy() {
     nein )
       # Mounting partitions
       mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
-      mkdir /mnt/boot
-      mount /dev/$BOOT_HD /mnt/boot
+#      mkdir /mnt/boot
+#      mount /dev/$BOOT_HD /mnt/boot
       swapon /dev/$SWAP_HD
       ;;
   esac
