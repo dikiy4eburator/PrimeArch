@@ -6,20 +6,21 @@ echo
 echo "############################################"
 echo "#"
 echo "# 1. virtualbox"
-echo "# 2. Nvidia"
-echo "# 3. ATI (xf86-video-ati basis Treiber)"
-echo "# 4. Intel (xf86-video-intel basis Treiber)"
+echo "# 2. Nvidia (NVIDIA drivers for linux )"
+echo "# 3. ATI (xf86-video-ati basis Treiber )"
+echo "# 4. Intel (xf86-video-intel basis Treiber )"
+echo "# 5. Nouveau (xf86-video-nouveau open sorce )"
 echo "#"
 echo "# 0. Keine Videotreiber"
 echo "#"
-echo "#    Bitte wählen Sie ihren Grafiktreiber (1-4)"
+echo "#    Bitte wählen Sie ihren Grafiktreiber (1-5)"
 echo "#"
 read -p "#  >> " GR
 echo
 
 case $GR in
   1 )
-    pacman -S --noconfirm virtualbox-guest-dkms
+    pacman -S --noconfirm virtualbox-guest-dkms virtualbox-guest-utils
     ;;
   2 )
     pacman -S --noconfirm nvidia
@@ -29,6 +30,9 @@ case $GR in
     ;;
   4 )
     pacman -S --noconfirm xf86-video-intel
+    ;;
+  5 )
+    pacman -S --noconfirm xf86-video-nouveau
     ;;
   0)
     break
