@@ -101,7 +101,7 @@ pacman -S --noconfirm nfs-utils openssh vim tmux cronie fish base-devel linux-he
 pacman -S --noconfirm lightdm lightdm-gtk-greeter xdg-user-dirs
 
 #Install Network pakages
-pacman -S --noconfirm avahi networkmanager network-manager-applet nm-connection-editor ntp wireless_tools wpa_supplicant
+pacman -S --noconfirm avahi networkmanager network-manager-applet nm-connection-editor ntp wireless_tools wpa_supplicant gnome-keyring
 
 #Install Audio pakages
 pacman -S --noconfirm alsa-tools alsa-utils pulseaudio pulseaudio-alsa pavucontrol flac volumeicon audacious
