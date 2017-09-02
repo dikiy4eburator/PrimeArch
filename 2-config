@@ -189,7 +189,6 @@ case $MKUSER in
     break
     ;;
 esac
-HDD=$(</home/hdd)
 
 clear
 echo "############################################"
@@ -203,8 +202,10 @@ if [[ -d "/sys/firmware/efi/efivars" ]];
     grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$HOSTX
   else
     # install grub legacy
+    HDD=$(</home/hdd)
     grub-install /dev/$HDD
 fi
+
 echo "############################################"
 echo "#   Erstelle GRUB configuration  "
 echo "#"
@@ -213,7 +214,7 @@ echo
 grub-mkconfig -o /boot/grub/grub.cfg
 
 #start system daemons
-# clear
+clear
 echo "############################################"
 echo "# Starte Systemdienste "
 echo "#"
@@ -229,7 +230,7 @@ systemctl enable rpcbind
 # Cronie
 systemctl enable cronie.service
 
-# clear
+clear
 echo "############################################"
 echo "# Bitte System neu starten und als normaler Benutzer anmelden"
 echo "# Nach dem Anmelden Skript 3 starten."
