@@ -165,18 +165,29 @@ clear
 echo "############################################"
 echo "# Neuen Benutzer erstellen  "
 echo "#"
-echo "#"
-read -p "# Bitte neuen Benutzer Namen eingeben: " US
-echo "#"
-echo "# Generire Benutzer $US"
-echo "#"
-useradd -m -g users -G wheel,video,audio,network -s /usr/bin/fish $US
-echo "# Bitte Password für $US eingeben"
-passwd $US
-echo "#"
-echo "# Gebe $US ROOT rechte"
-echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
+read -p "# Möchten Sie einen neuen Benutzer anlegen? (ja/nein): " MKUSER
 
+case $MKUSER in
+  ja )
+    clear
+    echo "############################################"
+    echo "#"
+    read -p "# Bitte neuen Benutzer Namen eingeben: " US
+    echo "#"
+    echo "# Generire Benutzer $US"
+    echo "#"
+    useradd -m -g users -G wheel,video,audio,network -s /usr/bin/fish $US
+    echo "# Bitte Password für Benutzer $US eingeben"
+    passwd $US
+    echo "#"
+    echo "# Gebe Benutzer $US ROOT rechte"
+    echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
+    ;;
+
+  nein )
+    break
+    ;;
+esac
 HDD=$(</home/hdd)
 
 clear
