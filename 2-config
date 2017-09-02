@@ -172,7 +172,8 @@ case $MKUSER in
     clear
     echo "############################################"
     echo "#"
-    read -p "# Bitte neuen Benutzer Namen eingeben: " US
+    echo "# Bitte einen Namen für den neuen Benutzer eingeben: "
+    read -p " >> " US
     echo "#"
     echo "# Generire Benutzer $US"
     echo "#"
