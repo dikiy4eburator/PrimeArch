@@ -98,7 +98,7 @@ echo
 pacman -S --noconfirm fish base-devel linux-headers grub os-prober efibootmgr acpid dbus
 
 #Install GUI pakages
-pacman -S --noconfirm gdm xdg-user-dirs # lightdm lightdm-gtk-greeter
+pacman -S --noconfirm xdg-user-dirs lightdm lightdm-gtk-greeter
 
 #Install Network pakages
 pacman -S --noconfirm avahi networkmanager network-manager-applet nm-connection-editor ntp wireless_tools wpa_supplicant gnome-keyring nfs-utils openssh
