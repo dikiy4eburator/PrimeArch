@@ -10,7 +10,7 @@ Installation:
 	$ loadkeys de
 
 3. Skript "1-install" herunterladen und starten.
-	$ curl -o 1 https://raw.githubusercontent.com/dikiy4eburator/arch-helpers/master/1-install
+	$ curl -o 1 https://raw.githubusercontent.com/dikiy4eburator/PrimeArch/master/1-install
 	$ sh 1
 
 Das Skript läd automatisch die Skripte 2 und 3 in das /home Verzeichnis der neuen Installation herunter.
