@@ -5,7 +5,7 @@
 # //////////////////////////////////////////////////////////////////////////////
 
 
-# ////////////////////    EFI MODE HDD PREPARATION    /////////////////////////////////////
+# ////////////////////    EFI PREP START    /////////////////////////////////////
 
 function f_install_efi() {
   case $HDD in
@@ -109,7 +109,7 @@ function f_mount_efi() {
 
 
 
-# ////////////////////   LEGACY PREP   ///////////////////////////////////////
+# ////////////////////   LEGACY PREP START  ///////////////////////////////////////
 
 
 function f_install_legacy() {
@@ -315,8 +315,8 @@ pacstrap -i /mnt base
 genfstab -U -p /mnt >> /mnt/etc/fstab
 
 # Download script 2 and 3
-curl -o /mnt/home/2 https://raw.githubusercontent.com/dikiy4eburator/arch-helpers/master/2-config
-curl -o /mnt/home/3 https://raw.githubusercontent.com/dikiy4eburator/arch-helpers/master/3-gui-conf
+curl -o /mnt/home/2 https://raw.githubusercontent.com/dikiy4eburator/PrimeArch/master/2-config
+curl -o /mnt/home/3 https://raw.githubusercontent.com/dikiy4eburator/PrimeArch/master/3-gui-conf
 
 # Save HDD name for script 2
 echo "$HDD" > /mnt/home/hdd
