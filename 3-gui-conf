@@ -24,9 +24,6 @@ yaourt -S --noconfirm pamac-aur
 # Clone i3-config repo
 git clone https://github.com/dikiy4eburator/i3-config.git ~/.config/i3
 
-# link urxvt config
-cp ~/.config/i3/urxvt/.Xdefaults ~/.Xdefaults
-
 # link gtk-theme config
 cp -r ~/.config/i3/gtk-3.0 ~/.config
 
