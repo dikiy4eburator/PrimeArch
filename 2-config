@@ -110,7 +110,7 @@ pacman -S --noconfirm alsa-tools alsa-utils pulseaudio pulseaudio-alsa pavucontr
 pacman -S --noconfirm xorg-server xorg-xinit compton ffmpeg vlc mpv
 
 #Install Additional apps
-pacman -S --noconfirm mate-polkit ranger git htop nitrogen rxvt-unicode vim cronie
+pacman -S --noconfirm mate-polkit ranger git htop nitrogen terminology vim cronie
 pacman -S --noconfirm chromium atom dmenu conky dunst hunspell-de
 pacman -S --noconfirm nemo nemo-fileroller rsync cool-retro-term
 
