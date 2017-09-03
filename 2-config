@@ -98,7 +98,7 @@ echo
 pacman -S --noconfirm fish base-devel linux-headers grub os-prober efibootmgr acpid dbus
 
 #Install GUI pakages
-pacman -S --noconfirm lightdm lightdm-gtk-greeter xdg-user-dirs
+pacman -S --noconfirm gdm xdg-user-dirs # lightdm lightdm-gtk-greeter
 
 #Install Network pakages
 pacman -S --noconfirm avahi networkmanager network-manager-applet nm-connection-editor ntp wireless_tools wpa_supplicant gnome-keyring nfs-utils openssh
@@ -110,7 +110,7 @@ pacman -S --noconfirm alsa-tools alsa-utils pulseaudio pulseaudio-alsa pavucontr
 pacman -S --noconfirm xorg-server xorg-xinit compton ffmpeg vlc mpv
 
 #Install Additional apps
-pacman -S --noconfirm mate-polkit ranger git htop nitrogen terminology vim cronie
+pacman -S --noconfirm mate-polkit ranger git htop nitrogen rxvt-unicode vim cronie
 pacman -S --noconfirm chromium atom dmenu conky dunst hunspell-de
 pacman -S --noconfirm nemo nemo-fileroller rsync cool-retro-term
 
