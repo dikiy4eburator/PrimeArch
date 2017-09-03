@@ -15,8 +15,8 @@ cd yaourt
 makepkg -si
 
 # Install some cosmetiks
-yaourt -S --noconfirm neofetch-git
-yaourt -S --noconfirm lightdm-webkit2-greeter
+# yaourt -S --noconfirm neofetch-git
+# yaourt -S --noconfirm lightdm-webkit2-greeter
 yaourt -S --noconfirm vertex-themes-git
 yaourt -S --noconfirm vertex-icons-git
 
