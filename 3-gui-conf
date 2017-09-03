@@ -19,6 +19,7 @@ makepkg -si
 # yaourt -S --noconfirm lightdm-webkit2-greeter
 yaourt -S --noconfirm vertex-themes-git
 yaourt -S --noconfirm vertex-icons-git
+yaourt -S --noconfirm pamac-aur
 
 # Clone i3-config repo
 git clone https://github.com/dikiy4eburator/i3-config.git ~/.config/i3
