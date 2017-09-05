@@ -1,11 +1,13 @@
 #!/bin/sh
 
 # includes
-source efi_handeler   # explicit PATH
-source legacy_handeler
+source /root/efi_handeler   # explicit PATH
+source /root/legacy_handeler
 
 # set Variabels
 BoxWhith=70
+BoxStartX=2
+BoxStartY=2
 
 # //////////////////////////////////////////////////////////////////////////////
 # //////////////////    START INSTALATION   ////////////////////////////////////
@@ -16,7 +18,7 @@ BoxWhith=70
 dialog \
   --backtitle 'PrimeArch Installer' \
   --title 'Wilkommen' \
-  --begin 5 20 \
+  --begin $BoxStartX $BoxStartY \
   --msgbox '
 
 Bitte beantworten Sie einige Fragen zu der Systemconfiguration' 10 $BoxWhith
@@ -26,7 +28,7 @@ Bitte beantworten Sie einige Fragen zu der Systemconfiguration' 10 $BoxWhith
 dialog \
   --backtitle 'PrimeArch Installer' \
   --title 'Extra HOME Partition' \
-  --begin 5 20 \
+  --begin $BoxStartX $BoxStartY \
   --yesno '
 
 Mochten Sie eine extra HOME Partition haben?' 10 $BoxWhith \
@@ -47,7 +49,7 @@ lsblk -o NAME,SIZE,MODEL,TYPE | grep disk >> /tmp/hdlist
 dialog \
   --backtitle 'PrimeArch Installer' \
   --title 'Gefundene Festplatten' \
-  --begin 5 20 \
+  --begin $BoxStartX $BoxStartY \
   --tailboxbg '/tmp/hdlist' 15 $BoxWhith \
   --and-widget --keep-window --begin 21 20 \
   --inputbox 'Bitte den Namen der Festplatte eingeben' 10 $BoxWhith \
@@ -60,7 +62,7 @@ if [[ -d "/sys/firmware/efi/efivars" ]];
     dialog \
       --backtitle 'PrimeArch Installer' \
       --title 'Wilkommen' \
-      --begin 5 20 \
+      --begin $BoxStartX $BoxStartY \
       --msgbox '
 
 Im folgenden wird das Programm cgdisk gestartet
@@ -81,7 +83,7 @@ Ansonsten:
     dialog \
       --backtitle 'PrimeArch Installer' \
       --title 'Wilkommen' \
-      --begin 5 20 \
+      --begin $BoxStartX $BoxStartY \
       --msgbox '
 
 Im folgenden wird das Programm cgdisk gestartet
@@ -128,7 +130,7 @@ cp 3-gui-conf /mnt/home/3
 dialog \
   --backtitle 'PrimeArch Installer' \
   --title 'Ende Skript 1' \
-  --begin 5 20 \
+  --begin $BoxStartX $BoxStartY \
   --msgbox '
 
 Nachden das Skript gleich über CHROOT in das neue System
