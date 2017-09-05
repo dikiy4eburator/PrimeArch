@@ -1,11 +1,12 @@
 #!/bin/sh
+loadkeys de
 
 # includes
 source /root/efi_handeler   # explicit PATH
 source /root/legacy_handeler
 
 # set Variabels
-BoxWhith=70
+BoxWhith=75
 BoxStartX=2
 BoxStartY=2
 
@@ -31,7 +32,7 @@ dialog \
   --begin $BoxStartX $BoxStartY \
   --yesno '
 
-Mochten Sie eine extra HOME Partition haben?' 10 $BoxWhith \
+Mochten Sie eine extra HOME Partition haben?' 5 $BoxWhith \
 
   if [[ $? -eq 0 ]];
     then
@@ -50,9 +51,9 @@ dialog \
   --backtitle 'PrimeArch Installer' \
   --title 'Gefundene Festplatten' \
   --begin $BoxStartX $BoxStartY \
-  --tailboxbg '/tmp/hdlist' 15 $BoxWhith \
-  --and-widget --keep-window --begin 21 20 \
-  --inputbox 'Bitte den Namen der Festplatte eingeben' 10 $BoxWhith \
+  --tailboxbg '/tmp/hdlist' 10 $BoxWhith \
+  --and-widget --keep-window --begin $BoxStartX 11 \
+  --inputbox 'Bitte den Namen der Festplatte eingeben' 5 $BoxWhith \
   2>/tmp/hdd_name
 
 
