@@ -202,8 +202,7 @@ if [[ -d "/sys/firmware/efi/efivars" ]];
     grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$HOSTX
   else
     # install grub legacy
-    HDD=$(</home/hdd)
-    grub-install /dev/$HDD
+    grub-install /dev/$(</tmp/hdd_name)
 fi
 
 echo "############################################"

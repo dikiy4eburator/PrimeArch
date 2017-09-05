@@ -1,304 +1,109 @@
 #!/bin/sh
 
-# //////////////////////////////////////////////////////////////////////////////
-# //////////////////    FUNKTION DEFENITIONS   /////////////////////////////////
-# //////////////////////////////////////////////////////////////////////////////
+# includes
+source efi_handeler   # explicit PATH
+source legacy_handeler
 
-
-# ////////////////////    EFI PREP START    /////////////////////////////////////
-
-function f_install_efi() {
-  case $HDD in
-    nvme*)
-      f_defineHdPattern_nvme_efi
-      ;;
-
-    sd*)
-      f_defineHdPattern_sata_efi
-      ;;
-
-    *)
-      echo "HDD eingabe unbekant"
-      exit
-      ;;
-  esac
-  
-f_format_efi
-f_mount_efi
-}
-
-function f_defineHdPattern_sata_efi() {
-  case $EXTRAHOME in
-    ja )
-      BOOT_HD="${HDD}1"
-      SWAP_HD="${HDD}2"
-      ROOT_HD="${HDD}3"
-      HOME_HD="${HDD}4"
-      ;;
-
-    nein )
-      BOOT_HD="${HDD}1"
-      SWAP_HD="${HDD}2"
-      ROOT_HD="${HDD}3"
-      ;;
-  esac
-}
-
-function f_defineHdPattern_nvme_efi() {
-  case $EXTRAHOME in
-    ja )
-      BOOT_HD="${HDD}p1"
-      SWAP_HD="${HDD}p2"
-      ROOT_HD="${HDD}p3"
-      HOME_HD="${HDD}p4"
-      ;;
-
-    nein )
-      BOOT_HD="${HDD}p1"
-      SWAP_HD="${HDD}p2"
-      ROOT_HD="${HDD}p3"
-      ;;
-  esac
-}
-
-function f_format_efi() {
-  case $EXTRAHOME in
-    ja )
-      # formating partitions
-      mkfs.fat -F32 /dev/$BOOT_HD
-      mkswap /dev/$SWAP_HD
-      mkfs.ext4 /dev/$ROOT_HD
-      mkfs.ext4 /dev/$HOME_HD
-      ;;
-
-    nein )
-      # formating partitions
-      mkfs.fat -F32 /dev/$BOOT_HD
-      mkswap /dev/$SWAP_HD
-      mkfs.ext4 /dev/$ROOT_HD
-      ;;
-  esac
-}
-
-function f_mount_efi() {
-  case $EXTRAHOME in
-    ja )
-      # Mounting partitions
-      mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
-      mkdir /mnt/boot
-      mkdir /mnt/boot/efi
-      mount /dev/$BOOT_HD /mnt/boot/efi
-      mkdir /mnt/home
-      mount -o defaults,noatime,discard /dev/$HOME_HD /mnt/home
-      swapon /dev/$SWAP_HD
-      ;;
-
-    nein )
-      # Mounting partitions
-      mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
-      mkdir /mnt/boot
-      mkdir /mnt/boot/efi
-      mount /dev/$BOOT_HD /mnt/boot/efi
-      swapon /dev/$SWAP_HD
-      ;;
-  esac
-}
-# ////////////////////    EFI PREP  END  /////////////////////////////////////
-
-
-
-
-
-# ////////////////////   LEGACY PREP START  ///////////////////////////////////////
-
-
-function f_install_legacy() {
-  case $HDD in
-    nvme*)
-     f_defineHdPattern_nvme_legacy
-      ;;
-
-    sd*)
-     f_defineHdPattern_sata_legacy
-     ;;
-
-    *)
-      echo "HDD eingabe unbekant"
-      exit
-     ;;
-  esac
-f_format_legacy
-f_mount_legacy
-}
-
-function f_defineHdPattern_sata_legacy() {
-  case $EXTRAHOME in
-    ja )
-      BOOT_HD="${HDD}1"
-      SWAP_HD="${HDD}2"
-      ROOT_HD="${HDD}3"
-      HOME_HD="${HDD}4"
-      ;;
-
-    nein )
-      BOOT_HD="${HDD}1"
-      SWAP_HD="${HDD}2"
-      ROOT_HD="${HDD}3"
-      ;;
-  esac
-}
-
-function f_defineHdPattern_nvme_legacy() {
-  case $EXTRAHOME in
-    ja )
-      BOOT_HD="${HDD}p1"
-      SWAP_HD="${HDD}p2"
-      ROOT_HD="${HDD}p3"
-      HOME_HD="${HDD}p4"
-      ;;
-
-    nein )
-      BOOT_HD="${HDD}p1"
-      SWAP_HD="${HDD}p2"
-      ROOT_HD="${HDD}p3"
-      ;;
-  esac
-}
-
-function f_format_legacy() {
-  case $EXTRAHOME in
-    ja )
-      # formating partitions
-      mkswap /dev/$SWAP_HD
-      mkfs.ext4 /dev/$ROOT_HD
-      mkfs.ext4 /dev/$HOME_HD
-      ;;
-
-    nein )
-      # formating partitions
-      mkswap /dev/$SWAP_HD
-      mkfs.ext4 /dev/$ROOT_HD
-      ;;
-  esac
-}
-
-function f_mount_legacy() {
-  case $EXTRAHOME in
-    ja )
-      # Mounting partitions
-      mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
-#      mkdir /mnt/boot
-#      mount /dev/$BOOT_HD /mnt/boot
-      mkdir /mnt/home
-      mount -o defaults,noatime,discard /dev/$HOME_HD /mnt/home
-      swapon /dev/$SWAP_HD
-      ;;
-
-    nein )
-      # Mounting partitions
-      mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
-#      mkdir /mnt/boot
-#      mount /dev/$BOOT_HD /mnt/boot
-      swapon /dev/$SWAP_HD
-      ;;
-  esac
-}
-
-# ////////////////////   LEGACY PREP  END  /////////////////////////////////////
-
-
-
-
-
-
+# set Variabels
+BoxWhith=70
 
 # //////////////////////////////////////////////////////////////////////////////
 # //////////////////    START INSTALATION   ////////////////////////////////////
 # //////////////////////////////////////////////////////////////////////////////
 
 # Welkom Screan
-clear
-echo "#################################################"
-echo "# Wilkommen beim Arch installations skript"
-echo "#################################################"
-echo "#"
-echo "# Bitte beantworten Sie einige Fragen zu der Systemconfiguration"
-echo "#"
-read -p "#     Drücken Sie Enter zum fortfahren"
-echo "#"
-echo
+
+dialog \
+  --backtitle 'PrimeArch Installer' \
+  --title 'Wilkommen' \
+  --begin 5 20 \
+  --msgbox '
+
+Bitte beantworten Sie einige Fragen zu der Systemconfiguration' 10 $BoxWhith
+
 
 # Home partition Screan
-clear
-echo "#################################################"
-echo "#"
-echo "# Mochten Sie eine extra HOME Partition haben? (ja/nein)"
-read -p "# >> " EXTRAHOME
-echo "#"
+dialog \
+  --backtitle 'PrimeArch Installer' \
+  --title 'Extra HOME Partition' \
+  --begin 5 20 \
+  --yesno '
+
+Mochten Sie eine extra HOME Partition haben?' 10 $BoxWhith \
+
+  if [[ $? -eq 0 ]];
+    then
+      echo "ja" > /tmp/extrahome
+    else
+      echo "nein" > /tmp/extrahome
+  fi
 
 # HDD select Screan
-clear
-echo "#################################################"
-echo
-echo
-lsblk -o NAME,SIZE,MODEL,TYPE | grep disk
-echo
-echo
-echo "# Welche Festplatte, von den oben gezeigten,"
-echo "# soll für die Installation benutzt werden?"
-echo "#     (z.B. sda, nvme0n1 etc.)"
-echo "#"
-echo "#          !!! ACHTUNG  !!!"
-echo "#   die Festplatte wird komplet gelöscht"
-echo "#"
-read -p "# >> " HDD
-echo "#"
+echo "" > /tmp/hdlist
+echo "NAME        GRÖSE   MODELL" >> /tmp/hdlist
+echo "---------------------------------------------" >> /tmp/hdlist
+lsblk -o NAME,SIZE,MODEL,TYPE | grep disk >> /tmp/hdlist
+
+dialog \
+  --backtitle 'PrimeArch Installer' \
+  --title 'Gefundene Festplatten' \
+  --begin 5 20 \
+  --tailboxbg '/tmp/hdlist' 15 $BoxWhith \
+  --and-widget --keep-window --begin 21 20 \
+  --inputbox 'Bitte den Namen der Festplatte eingeben' 10 $BoxWhith \
+  2>/tmp/hdd_name
+
 
 # Show Partitioning info depending on boot mode
 if [[ -d "/sys/firmware/efi/efivars" ]];
   then
-    clear
-    echo "#################################################"
-    echo "# Im folgenden wird das Programm cgdisk gestartet"
-    echo "# Bitte erstellen Sie die Partitione in der folgenden Ordnung:"
-    echo "#"
-    echo "#  1. EFI ca. 100-256 Mb ( code: ef00 )"
-    echo "#  2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )"
-    echo "#"
-    echo "#     Wenn Sie keine extra HOME Partition wollen"
-    echo "#     Könne Sie den restlichen Speicher der ROOT Partition zweisen"
-    echo "#     Ansonsten: "
-    echo "#"
-    echo "#  3. ROOT ca. 20-40 Gb ( code: 8300 )"
-    echo "#  4. HOME rest des Speichers ( code: 8300 )"
-    echo
-    echo
+    dialog \
+      --backtitle 'PrimeArch Installer' \
+      --title 'Wilkommen' \
+      --begin 5 20 \
+      --msgbox '
+
+Im folgenden wird das Programm cgdisk gestartet
+Bitte erstellen Sie die Partitione in der folgenden Ordnung:
+
+1. EFI ca. 100-256 Mb ( code: ef00 )"
+2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )
+
+    Wenn Sie keine extra HOME Partition wollen"
+    Könne Sie den restlichen Speicher der ROOT Partition zweisen
+
+Ansonsten:
+3. ROOT ca. 20-40 Gb ( code: 8300 )
+4. HOME rest des Speichers ( code: 8300 )' 20 $BoxWhith
+
+
   else
-    clear
-    echo "#################################################"
-    echo "# Im folgenden wird das Programm cgdisk gestartet"
-    echo "# Bitte erstellen Sie die Partitione in der folgenden Ordnung:"
-    echo "#"
-    echo "#  1. boot ca. 5 Mb ( code: ef02)"
-    echo "#  2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )"
-    echo "#"
-    echo "#     Wenn Sie keine extra HOME Partition wollen"
-    echo "#     Könne Sie den restlichen Speicher der ROOT Partition zweisen"
-    echo "#     Ansonsten: "
-    echo "#"
-    echo "#  3. ROOT ca. 20-40 Gb ( code: 8300 )"
-    echo "#  4. HOME rest des Speichers ( code: 8300 )"
-    echo
-    echo
+    dialog \
+      --backtitle 'PrimeArch Installer' \
+      --title 'Wilkommen' \
+      --begin 5 20 \
+      --msgbox '
+
+Im folgenden wird das Programm cgdisk gestartet
+Bitte erstellen Sie die Partitione in der folgenden Ordnung:
+
+1. BOOT ca. 5 Mb ( code: ef02)"
+2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )
+
+    Wenn Sie keine extra HOME Partition wollen"
+    Könne Sie den restlichen Speicher der ROOT Partition zweisen
+
+Ansonsten:
+3. ROOT ca. 20-40 Gb ( code: 8300 )
+4. HOME rest des Speichers ( code: 8300 )' 20 $BoxWhith
+
+
 fi
 
-read -p "#        Drücken Sie Enter zum fortfahren"
-
-
-
+#------------------------------------------------------------------------------
 
 # Start cgdisk
-cgdisk /dev/$HDD
+cgdisk /dev/$(</tmp/hdd_name)
 
 # Start HDD preparation
 if [[ -d "/sys/firmware/efi/efivars" ]];
@@ -314,19 +119,21 @@ pacstrap -i /mnt base
 # Generate fstab
 genfstab -U -p /mnt >> /mnt/etc/fstab
 
-# Download script 2 and 3
-curl -o /mnt/home/2 https://raw.githubusercontent.com/dikiy4eburator/PrimeArch/master/2-config
-curl -o /mnt/home/3 https://raw.githubusercontent.com/dikiy4eburator/PrimeArch/master/3-gui-conf
+# Copy script 2 and 3
+cp 2-config /mnt/home/2
+cp 3-gui-conf /mnt/home/3
 
-# Save HDD name for script 2
-echo "$HDD" > /mnt/home/hdd
+#------------------------------------------------------------------------------
 
-# clear
-echo "#################################################"
-echo "# Bitte in das /home verzeichniss der neuen installation weckseln"
-echo "# und das skript 2 starten"
-echo "#"
-read -p "#        Drücken Sie Enter zum fortfahren"
+dialog \
+  --backtitle 'PrimeArch Installer' \
+  --title 'Ende Skript 1' \
+  --begin 5 20 \
+  --msgbox '
+
+Nachden das Skript gleich über CHROOT in das neue System
+gewechselt hatt, bitte in das /home verzeichniss weckseln
+und das skript 2 starten' 10 $BoxWhith
 
 # Chroot in to the new system
 arch-chroot /mnt

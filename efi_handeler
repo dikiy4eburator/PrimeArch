@@ -1,0 +1,98 @@
+#!/bin/sh
+
+function f_install_efi() {
+  case $(</tmp/hdd_name) in
+    nvme*)
+      f_defineHdPattern_nvme_efi
+      ;;
+
+    sd*)
+      f_defineHdPattern_sata_efi
+      ;;
+
+    *)
+      echo "HDD eingabe unbekant"
+      exit
+      ;;
+  esac
+
+f_format_efi
+f_mount_efi
+}
+
+function f_defineHdPattern_sata_efi() {
+  case $(</tmp/extrahome) in
+    ja )
+      BOOT_HD="${HDD}1"
+      SWAP_HD="${HDD}2"
+      ROOT_HD="${HDD}3"
+      HOME_HD="${HDD}4"
+      ;;
+
+    nein )
+      BOOT_HD="${HDD}1"
+      SWAP_HD="${HDD}2"
+      ROOT_HD="${HDD}3"
+      ;;
+  esac
+}
+
+function f_defineHdPattern_nvme_efi() {
+  case $(</tmp/extrahome) in
+    ja )
+      BOOT_HD="${HDD}p1"
+      SWAP_HD="${HDD}p2"
+      ROOT_HD="${HDD}p3"
+      HOME_HD="${HDD}p4"
+      ;;
+
+    nein )
+      BOOT_HD="${HDD}p1"
+      SWAP_HD="${HDD}p2"
+      ROOT_HD="${HDD}p3"
+      ;;
+  esac
+}
+
+function f_format_efi() {
+  case $(</tmp/extrahome) in
+    ja )
+      # formating partitions
+      mkfs.fat -F32 /dev/$BOOT_HD
+      mkswap /dev/$SWAP_HD
+      mkfs.ext4 /dev/$ROOT_HD
+      mkfs.ext4 /dev/$HOME_HD
+      ;;
+
+    nein )
+      # formating partitions
+      mkfs.fat -F32 /dev/$BOOT_HD
+      mkswap /dev/$SWAP_HD
+      mkfs.ext4 /dev/$ROOT_HD
+      ;;
+  esac
+}
+
+function f_mount_efi() {
+  case $(</tmp/extrahome) in
+    ja )
+      # Mounting partitions
+      mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
+      mkdir /mnt/boot
+      mkdir /mnt/boot/efi
+      mount /dev/$BOOT_HD /mnt/boot/efi
+      mkdir /mnt/home
+      mount -o defaults,noatime,discard /dev/$HOME_HD /mnt/home
+      swapon /dev/$SWAP_HD
+      ;;
+
+    nein )
+      # Mounting partitions
+      mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
+      mkdir /mnt/boot
+      mkdir /mnt/boot/efi
+      mount /dev/$BOOT_HD /mnt/boot/efi
+      swapon /dev/$SWAP_HD
+      ;;
+  esac
+}
