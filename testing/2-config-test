@@ -1,0 +1,264 @@
+#!/bin/sh
+
+BoxWhith=75
+BoxStartX=2
+BoxStartY=2
+
+# Grafiktreiber installation
+dialog \
+  --backtitle "PrimeArch" \
+  --begin $BoxStartY $BoxStartX \
+  --menu "Grafiktreiber wehlen" 15 $BoxWhith 7 \
+        1 virtualbox \
+        2 Nvidia \
+        3 ATI \
+        4 Intel \
+        5 Nouveau \
+        \
+        0 'Keine Videotreiber' \
+        2>/tmp/grafik_treiber
+
+case $(</tmp/grafik_treiber) in
+  1 )
+    pacstrap /mnt virtualbox-guest-dkms virtualbox-guest-utils
+    ;;
+  2 )
+    pacstrap /mnt nvidia
+    ;;
+  3 )
+    pacstrap /mnt xf86-video-ati
+    ;;
+  4 )
+    pacstrap /mnt xf86-video-intel
+    ;;
+  5 )
+    pacstrap /mnt xf86-video-nouveau
+    ;;
+  0)
+    break
+    ;;
+  * )
+    echo "ungültige eingabe"
+    ;;
+esac
+
+# GUI installation
+dialog \
+  --backtitle "PrimeArch Installer" \
+  --begin $BoxStartY $BoxStartX \
+  --menu "Desktop wehlen" 15 $BoxWhith 8 \
+        1 i3 \
+        2 Xfce \
+        3 Mate \
+        4 KDE-Plasma \
+        5 Gnome \
+        6 Deepin \
+        0 'Keinen Desktop' \
+        2>/tmp/gui
+
+
+case $(</tmp/gui) in
+  1 )
+    pacstrap /mnt i3
+    ;;
+  2 )
+    pacstrap /mnt xfce4 xfce4-goodies
+    ;;
+  3 )
+    pacstrap /mnt mate mate-extra
+    ;;
+  4 )
+    pacstrap /mnt plasma
+    ;;
+  5)
+    pacstrap /mnt gnome gnome-extra
+    ;;
+  6)
+    pacstrap /mnt deepin deepin-extra
+    ;;
+  0)
+    break
+    ;;
+  * )
+    echo "ungültige eingabe"
+    ;;
+esac
+
+# INSTALL PACAGES
+dialog \
+  --backtitle 'PrimeArch Installer' \
+  --title 'Pakete installiere' \
+  --begin $BoxStartY $BoxStartX \
+  --msgbox '
+
+Es werden nun zusäzliche Packete installiert. ' 10 $BoxWhith
+
+#Install GUI pakages
+# pacstrap /mnt xdg-user-dirs lightdm lightdm-gtk-greeter
+
+#Install Network pakages
+# pacstrap /mnt avahi networkmanager network-manager-applet nm-connection-editor ntp wireless_tools wpa_supplicant gnome-keyring nfs-utils openssh
+
+#Install Audio pakages
+# pacstrap /mnt alsa-tools alsa-utils pulseaudio pulseaudio-alsa pavucontrol flac volumeicon audacious
+
+#Install Video pakages
+# pacstrap /mnt xorg-server xorg-xinit compton ffmpeg vlc mpv
+
+#Install Additional apps
+# pacstrap /mnt mate-polkit ranger git htop nitrogen terminology vim cronie
+# pacstrap /mnt chromium pluma dmenu conky dunst hunspell-de
+# pacstrap /mnt nemo nemo-fileroller rsync cool-retro-term
+
+#Install Themes
+# pacstrap /mnt lxappearance-gtk3 arc-gtk-theme arc-icon-theme archlinux-wallpaper
+
+#Install fonts
+# pacstrap /mnt gnome-font-viewer noto-fonts awesome-terminal-fonts ttf-ubuntu-font-family
+
+# Spracheinstellungen konfigurieren
+dialog \
+  --backtitle 'PrimeArch Installer' \
+  --title 'Pakete installiere' \
+  --begin $BoxStartY $BoxStartX \
+  --msgbox '
+
+Spracheinstellungen werden konfiguriert ' 10 $BoxWhith
+
+# /etc/locale.conf
+echo LANG=de_DE.UTF-8 > /mnt/etc/locale.conf
+echo LANGUAGE=de_DE >> /mnt/etc/locale.conf
+
+# /etc/vconsole.conf
+echo KEYMAP=de-latin1-nodeadkeys > /mnt/etc/vconsole.conf
+
+# /etc/locale.gen
+echo de_DE.UTF-8 UTF-8 >> /mnt/etc/locale.gen
+f_arch-chroot "locale-gen"
+
+# Set Time
+rm /mnt/etc/localtime
+ln -sf /mnt/usr/share/zoneinfo/Europe/Berlin /mnt/etc/localtime
+
+# Set hostname
+dialog \
+  --backtitle 'PrimeArch Installer' \
+  --begin $BoxStartY $BoxStartX \
+  --inputbox 'Bitte Hostnamen eingeben' 10 $BoxWhith \
+  2>/mnt/etc/hostname
+
+
+
+# Set ROOT Password
+dialog \
+  --backtitle 'PrimeArch Installer' \
+  --begin $BoxStartY $BoxStartX \
+  --inputbox 'Bitte ROOT Password eingeben' 10 $BoxWhith \
+  2>/tmp/root_pw
+
+dialog \
+  --backtitle 'PrimeArch Installer' \
+  --begin $BoxStartY $BoxStartX \
+  --inputbox 'Bitte ROOT Password eingeben' 10 $BoxWhith \
+  2>/tmp/root_pw_2
+
+if [[ $(</tmp/root_pw) == $(</tmp/root_pw_2) ]];
+  then
+    f_arch_chroot "passwd root" < /tmp/root_pw
+    rm /tmp/root_pw
+
+  else
+    break
+fi
+
+# CREATE NEW USER
+dialog \
+    --backtitle 'PrimeArch Installer' \
+    --title 'Neuen Benutzer erstellen?' \
+    --begin $BoxStartY $BoxStartX \
+    --yesno '
+
+  Möchten sie einen neuen Benutzer erstellen?' 10 $BoxWhith \
+
+    if [[ $? -eq 0 ]];
+      then
+        dialog \
+          --backtitle 'PrimeArch Installer' \
+          --begin $BoxStartY $BoxStartX \
+          --inputbox 'Bitte Benutzernamen eingeben' 10 $BoxWhith \
+          2>/tmp/user_name
+
+        f_arch_chroot "useradd -m -g users -G wheel,storage,power,network,video,audio,lp -s /usr/bin/fish $(</tmp/user_name)"
+
+        dialog \
+          --backtitle 'PrimeArch Installer' \
+          --begin $BoxStartY $BoxStartX \
+          --inputbox 'Bitte Password für $(</tmp/user_name) eingeben' 10 $BoxWhith \
+          2>/tmp/user_pw
+
+        dialog \
+          --backtitle 'PrimeArch Installer' \
+          --begin $BoxStartY $BoxStartX \
+          --inputbox 'Bitte Password für $(</tmp/user_name) wiederholen' 10 $BoxWhith \
+          2>/tmp/user_pw_2
+
+        if [[ $(</tmp/user_pw) == $(</tmp/user_pw_2) ]];
+          then
+            f_arch_chroot "passwd $(</tmp/user_name)" < /tmp/user_pw
+            rm /tmp/user_pw
+            rm /tmp/user_pw_2
+            echo "%wheel ALL=(ALL) ALL" >> /mnt/etc/sudoers
+          else
+            break
+        fi
+
+      else
+        break
+    fi
+
+
+
+
+
+
+
+
+
+
+# GRUB STUFF
+dialog \
+      --backtitle 'PrimeArch Installer' \
+      --title 'GRUB installation' \
+      --begin $BoxStartY $BoxStartX \
+      --msgbox '
+
+    GRUB wird installiert und konfiguriert' 10 $BoxWhith
+
+    if [[ -d "/sys/firmware/efi/efivars" ]];
+      then
+        # install grub efi
+        f_arch_chroot "grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$(</mnt/etc/hostname)"
+      else
+        # install grub legacy
+        f_arch_chroot "grub-install /dev/$(</tmp/hdd_name)"
+    fi
+
+f_arch_chroot "grub-mkconfig -o /boot/grub/grub.cfg"
+
+
+
+
+
+#start system daemons
+f_arch_chroot "systemctl enable acpid"
+f_arch_chroot "systemctl enable ntpd"
+# network managment
+f_arch_chroot "systemctl enable avahi-daemon"
+f_arch_chroot "systemctl enable wpa_supplicant"
+arch_chroot "systemctl enable NetworkManager"
+# NFS utils
+f_arch_chroot "systemctl enable rpcbind"
+# Cronie
+f_arch_chroot "systemctl enable cronie.service"
+#lightdm
+f_arch_chroot "systemctl enable lightdm.service"

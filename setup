@@ -5,14 +5,67 @@ loadkeys de
 # source /root/efi_handeler   # explicit PATH
 # source /root/legacy_handeler
 
+
+
+# //////////////////////////////////////////////////////////////////////////////
+# //////////////////    VARIABELS DEFINITION  ///////////////////////////////////
+# //////////////////////////////////////////////////////////////////////////////
+
 # set Variabels
+MOUNTPOINT=/mnt
+
 BoxWhith=75
 BoxStartX=2
 BoxStartY=2
 
+
 # //////////////////////////////////////////////////////////////////////////////
-# //////////////////    EFI HD PREP   //////////////////////////////////////////
+# //////////////////    FUNKTION DEFINITION  ///////////////////////////////////
 # //////////////////////////////////////////////////////////////////////////////
+
+
+# arch-chroot Bridge
+# Adapted from AIS. An excellent bit of code!
+function f_arch_chroot() {
+    arch-chroot $MOUNTPOINT /bin/bash -c "${1}"
+}
+
+
+
+
+function f_set_root_pw() {
+
+  awk '{ if($1 !~ /root/) print }' /mnt/etc/shadow > /mnt/etc/new_shadow
+
+  openssl passwd -1 -salt xyz  $(</tmp/root_pw) > /tmp/root_pw
+  echo "root:$(</tmp/root_pw):17393::::::" >> /mnt/etc/new_shadow
+  mv /mnt/etc/new_shadow /mnt/etc/shadow
+
+  rm /tmp/root_pw
+  rm /tmp/root_pw_2
+
+}
+
+
+
+function f_set_user_pw() {
+  # Clear User Password
+  awk '{ if($1 !~ /'$(</tmp/user_name)'/) print }' /mnt/etc/shadow > /mnt/etc/new_shadow
+
+  # Set new User Password
+  openssl passwd -1 -salt xyz  $(</tmp/user_pw) > /tmp/user_pw
+  echo "$(</tmp/user_name):$(</tmp/user_pw):17393:0:99999:7:::" >> /mnt/etc/new_shadow
+  mv /mnt/etc/new_shadow /mnt/etc/shadow
+
+  rm /tmp/user_pw
+  rm /tmp/user_pw_2
+
+}
+
+
+
+
+# //////////////////    EFI HDD PREP   //////////////////////////////////////////
 
 function f_install_efi() {
   case $(</tmp/hdd_name) in
@@ -115,9 +168,9 @@ function f_mount_efi() {
 #//////////////////////////////////////////////////////////////////////////////
 
 
-# //////////////////////////////////////////////////////////////////////////////
-# //////////////////    LEGACY HD PREP   ///////////////////////////////////////
-# //////////////////////////////////////////////////////////////////////////////
+
+# //////////////////    LEGACY HDD PREP   ///////////////////////////////////////
+
 
 function f_install_legacy() {
   case $(</tmp/hdd_name) in
@@ -215,6 +268,11 @@ function f_mount_legacy() {
 #//////////////////////////////////////////////////////////////////////////////
 
 
+
+
+
+
+
 # //////////////////////////////////////////////////////////////////////////////
 # //////////////////    START INSTALATION   ////////////////////////////////////
 # //////////////////////////////////////////////////////////////////////////////
@@ -224,42 +282,48 @@ function f_mount_legacy() {
 dialog \
   --backtitle 'PrimeArch Installer' \
   --title 'Wilkommen' \
-  --begin $BoxStartX $BoxStartY \
+  --begin $BoxStartY $BoxStartX \
   --msgbox '
 
 Bitte beantworten Sie einige Fragen zu der Systemconfiguration' 10 $BoxWhith
 
 
-# Home partition Screan
+# Extra Home partition Screan
 dialog \
   --backtitle 'PrimeArch Installer' \
   --title 'Extra HOME Partition' \
-  --begin $BoxStartX $BoxStartY \
+  --begin $BoxStartY $BoxStartX \
   --yesno '
 
 Mochten Sie eine extra HOME Partition haben?' 10 $BoxWhith \
 
-  if [[ $? -eq 0 ]];
-    then
-      echo "ja" > /tmp/extrahome
-    else
-      echo "nein" > /tmp/extrahome
-  fi
+if [[ $? -eq 0 ]];
+  then
+    echo "ja" > /tmp/extrahome
+  else
+    echo "nein" > /tmp/extrahome
+fi
+
+
 
 # HDD select Screan
+
+#Prepare Disklist
 echo "" > /tmp/hdlist
 echo "NAME        GRÖSE   MODELL" >> /tmp/hdlist
 echo "---------------------------------------------" >> /tmp/hdlist
 lsblk -o NAME,SIZE,MODEL,TYPE | grep disk >> /tmp/hdlist
 
+#Selekt HDD screan
 dialog \
   --backtitle 'PrimeArch Installer' \
   --title 'Gefundene Festplatten' \
-  --begin $BoxStartX $BoxStartY \
+  --begin $BoxStartY $BoxStartX \
   --tailboxbg '/tmp/hdlist' 10 $BoxWhith \
   --and-widget --keep-window --begin 13 $BoxStartX \
   --inputbox 'Bitte den Namen der Festplatte eingeben' 10 $BoxWhith \
   2>/tmp/hdd_name
+
 
 
 # Show Partitioning info depending on boot mode
@@ -267,8 +331,8 @@ if [[ -d "/sys/firmware/efi/efivars" ]];
   then
     dialog \
       --backtitle 'PrimeArch Installer' \
-      --title 'Wilkommen' \
-      --begin $BoxStartX $BoxStartY \
+      --title 'Partitions Tabelle' \
+      --begin $BoxStartY $BoxStartX \
       --msgbox '
 
 Im folgenden wird das Programm cgdisk gestartet
@@ -288,8 +352,8 @@ Ansonsten:
   else
     dialog \
       --backtitle 'PrimeArch Installer' \
-      --title 'Wilkommen' \
-      --begin $BoxStartX $BoxStartY \
+      --title 'Partitions Tabelle' \
+      --begin $BoxStartY $BoxStartX \
       --msgbox '
 
 Im folgenden wird das Programm cgdisk gestartet
@@ -304,7 +368,6 @@ Bitte erstellen Sie die Partitione in der folgenden Ordnung:
 Ansonsten:
 3. ROOT ca. 20-40 Gb ( code: 8300 )
 4. HOME rest des Speichers ( code: 8300 )' 20 $BoxWhith
-
 
 fi
 
@@ -322,42 +385,301 @@ if [[ -d "/sys/firmware/efi/efivars" ]];
 fi
 
 # Install base pacages
-pacstrap -i /mnt base
+pacstrap /mnt base fish base-devel linux-headers grub os-prober efibootmgr acpid dbus
 
 # Generate fstab
 genfstab -U -p /mnt >> /mnt/etc/fstab
 
-# Copy script 2 and 3
-cp 2-config /mnt/home/2
-cp 3-gui-conf /mnt/home/3
 
-#------------------------------------------------------------------------------
+
+
+
+
+
+
+#/////////////////////////////////////////////////////
+#///////////    Script 2 /////////////////////////////
+#/////////////////////////////////////////////////////
+
+
+
+# Grafiktreiber installation
+dialog \
+  --backtitle "PrimeArch" \
+  --begin $BoxStartY $BoxStartX \
+  --menu "Grafiktreiber wehlen" 15 $BoxWhith 7 \
+        1 virtualbox \
+        2 Nvidia \
+        3 ATI \
+        4 Intel \
+        5 Nouveau \
+        0 'Keine Videotreiber' \
+        2>/tmp/grafik_treiber
+
+case $(</tmp/grafik_treiber) in
+  1 )
+    pacstrap /mnt virtualbox-guest-dkms virtualbox-guest-utils
+    ;;
+  2 )
+    pacstrap /mnt nvidia
+    ;;
+  3 )
+    pacstrap /mnt xf86-video-ati
+    ;;
+  4 )
+    pacstrap /mnt xf86-video-intel
+    ;;
+  5 )
+    pacstrap /mnt xf86-video-nouveau
+    ;;
+  0)
+    break
+    ;;
+esac
+
+
+
+# GUI installation
+dialog \
+  --backtitle "PrimeArch Installer" \
+  --begin $BoxStartY $BoxStartX \
+  --menu "Desktop wehlen" 15 $BoxWhith 8 \
+        1 i3 \
+        2 Xfce \
+        3 Mate \
+        4 KDE-Plasma \
+        5 Gnome \
+        6 Deepin \
+        0 'Keinen Desktop' \
+        2>/tmp/gui
+
+
+case $(</tmp/gui) in
+  1 )
+    pacstrap /mnt i3
+    ;;
+  2 )
+    pacstrap /mnt xfce4 xfce4-goodies
+    ;;
+  3 )
+    pacstrap /mnt mate mate-extra
+    ;;
+  4 )
+    pacstrap /mnt plasma
+    ;;
+  5)
+    pacstrap /mnt gnome gnome-extra
+    ;;
+  6)
+    pacstrap /mnt deepin deepin-extra
+    ;;
+  0)
+    break
+    ;;
+esac
+
+
+
+
+# INSTALL PACAGES
+dialog \
+  --backtitle 'PrimeArch Installer' \
+  --title 'Pakete installiere' \
+  --begin $BoxStartY $BoxStartX \
+  --msgbox '
+
+Es werden nun zusäzliche Packete installiert. ' 10 $BoxWhith
+
+#Install GUI pakages
+pacstrap /mnt xdg-user-dirs lightdm lightdm-gtk-greeter
+
+#Install Network pakages
+pacstrap /mnt avahi networkmanager network-manager-applet nm-connection-editor ntp wireless_tools wpa_supplicant gnome-keyring nfs-utils openssh
+
+#Install Audio pakages
+pacstrap /mnt alsa-tools alsa-utils pulseaudio pulseaudio-alsa pavucontrol flac volumeicon audacious
+
+#Install Video pakages
+pacstrap /mnt xorg-server xorg-xinit compton ffmpeg vlc mpv
+
+#Install Additional apps
+pacstrap /mnt mate-polkit ranger git htop nitrogen terminology vim cronie
+pacstrap /mnt chromium pluma dmenu conky dunst hunspell-de
+pacstrap /mnt nemo nemo-fileroller rsync cool-retro-term
+
+#Install Themes
+pacstrap /mnt lxappearance-gtk3 arc-gtk-theme arc-icon-theme archlinux-wallpaper
+
+#Install fonts
+pacstrap /mnt gnome-font-viewer noto-fonts awesome-terminal-fonts ttf-ubuntu-font-family
+
+
+
+
+
+
+
+
+# Spracheinstellungen konfigurieren
+dialog \
+  --backtitle 'PrimeArch Installer' \
+  --title 'Pakete installiere' \
+  --begin $BoxStartY $BoxStartX \
+  --msgbox '
+
+Spracheinstellungen werden konfiguriert ' 10 $BoxWhith
+
+# /etc/locale.conf
+echo LANG=de_DE.UTF-8 > /mnt/etc/locale.conf
+echo LANGUAGE=de_DE >> /mnt/etc/locale.conf
+
+# /etc/vconsole.conf
+echo KEYMAP=de-latin1-nodeadkeys > /mnt/etc/vconsole.conf
+
+# /etc/locale.gen
+echo de_DE.UTF-8 UTF-8 >> /mnt/etc/locale.gen
+f_arch-chroot "locale-gen"
+
+# Set Time
+rm /mnt/etc/localtime
+ln -sf /mnt/usr/share/zoneinfo/Europe/Berlin /mnt/etc/localtime
+
+
+
+
+
+# Set hostname
+dialog \
+  --backtitle 'PrimeArch Installer' \
+  --begin $BoxStartY $BoxStartX \
+  --inputbox 'Bitte Hostnamen eingeben' 10 $BoxWhith \
+  2>/mnt/etc/hostname
+
+
+
+
+# Set ROOT Password
+dialog \
+  --backtitle 'PrimeArch Installer' \
+  --begin $BoxStartY $BoxStartX \
+  --insecure \
+  --passwordbox 'Bitte ROOT Password eingeben' 10 $BoxWhith \
+  2>/tmp/root_pw
 
 dialog \
   --backtitle 'PrimeArch Installer' \
-  --title 'Ende Skript 1' \
-  --begin $BoxStartX $BoxStartY \
-  --msgbox '
+  --begin $BoxStartY $BoxStartX \
+  --insecure \
+  --passwordbox 'Bitte ROOT Password wiederholen' 10 $BoxWhith \
+  2>/tmp/root_pw_2
 
-Nachden das Skript gleich über CHROOT in das neue System
-gewechselt hatt, bitte in das /home verzeichniss weckseln
-und das skript 2 starten' 10 $BoxWhith
+if [[ $(</tmp/root_pw) == $(</tmp/root_pw_2) ]];
+  then
+    f_set_root_pw
+  else
+    break
+fi
 
-# Chroot in to the new system
-arch-chroot /mnt
+
+
+
+
+# CREATE NEW USER
+dialog \
+  --backtitle 'PrimeArch Installer' \
+  --title 'Neuen Benutzer erstellen?' \
+  --begin $BoxStartY $BoxStartX \
+  --yesno '
+
+Möchten sie einen neuen Benutzer erstellen?' 10 $BoxWhith \
+
+if [[ $? -eq 0 ]]; # IF YES !!!
+  then
+    dialog \
+      --backtitle 'PrimeArch Installer' \
+      --begin $BoxStartY $BoxStartX \
+      --inputbox 'Bitte Benutzernamen eingeben' 10 $BoxWhith \
+      2>/tmp/user_name
+
+      f_arch_chroot 'useradd -m -g users -G wheel,storage,power,network,video,audio -s /usr/bin/fish '$(</tmp/user_name)''
+
+    # Generate Password
+    dialog \
+      --backtitle 'PrimeArch Installer' \
+      --begin $BoxStartY $BoxStartX \
+      --insecure \
+      --passwordbox "Bitte Password für $(</tmp/user_name) eingeben" 10 $BoxWhith \
+      2>/tmp/user_pw
+
+    dialog \
+      --backtitle 'PrimeArch Installer' \
+      --begin $BoxStartY $BoxStartX \
+      --insecure \
+      --passwordbox "Bitte Password für $(</tmp/user_name) wiederholen" 10 $BoxWhith \
+      2>/tmp/user_pw_2
+
+    if [[ $(</tmp/user_pw) == $(</tmp/user_pw_2) ]];
+      then
+        f_set_user_pw
+      else
+        break
+    fi
+
+    echo "%wheel ALL=(ALL) ALL" >> /mnt/etc/sudoers
+
+  else
+    break
+fi
+
+
+
+
+
+
+# GRUB STUFF
+dialog \
+      --backtitle 'PrimeArch Installer' \
+      --title 'GRUB installation' \
+      --begin $BoxStartY $BoxStartX \
+      --msgbox '
+
+    GRUB wird installiert und konfiguriert' 10 $BoxWhith
+
+    if [[ -d "/sys/firmware/efi/efivars" ]];
+      then
+        # install grub efi
+        f_arch_chroot "grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$(</mnt/etc/hostname)"
+      else
+        # install grub legacy
+        f_arch_chroot "grub-install /dev/$(</tmp/hdd_name)"
+    fi
+
+f_arch_chroot "grub-mkconfig -o /boot/grub/grub.cfg"
+
+
+
+#start system daemons
+f_arch_chroot "systemctl enable acpid"
+f_arch_chroot "systemctl enable ntpd"
+# network managment
+f_arch_chroot "systemctl enable avahi-daemon"
+f_arch_chroot "systemctl enable wpa_supplicant"
+f_arch_chroot "systemctl enable NetworkManager"
+# NFS utils
+f_arch_chroot "systemctl enable rpcbind"
+# Cronie
+f_arch_chroot "systemctl enable cronie.service"
+#lightdm
+f_arch_chroot "systemctl enable lightdm.service"
+
+
+
+
+
+
+
+f_arch_chroot 'localectl --no-convert set-x11-keymap de'
+f_arch_chroot 'mkinitcpio'
+
 
 exit
-
-
-
-
-
-
-
-
-
-
-
-
-# //// NEED TESTING ///////////
-# source /path/to/the/include/My_Other_Other_Script.sh   # explicit PATH

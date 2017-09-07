@@ -39,19 +39,10 @@ sudo cp ~/.config/i3/UDEV-automount-usb/10-my-media-automount.rules /etc/udev/ru
 # set global keyboard layout
 sudo localectl --no-convert set-x11-keymap de
 
-# enable LightDm
-sudo systemctl enable lightdm.service
-
-# Clean Install scripts
-sudo rm /home/2
-sudo rm /home/3
-sudo rm /home/hdd
 if [[ -f /bin/i3 ]]; then
   break
 else
   sudo rm -R ~/.config/i3
 fi
-
-sudo systemctl start lightdm.service
 
 exit
