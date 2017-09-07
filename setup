@@ -677,9 +677,29 @@ f_arch_chroot "systemctl enable lightdm.service"
 
 
 
+# Clone i3-config repo
+git clone https://github.com/dikiy4eburator/i3-config.git /mnt/home/$(</tmp/user_name)/.config/i3
+
+# link gtk-theme config
+cp -r /mnt/home/$(</tmp/user_name)/.config/i3/gtk-3.0 /mnt/home/$(</tmp/user_name)/.config
+
+# Nitrogen config
+cp -r /mnt/home/$(</tmp/user_name)/.config/i3/nitrogen /mnt/home/$(</tmp/user_name)/.config
+
+# dunst config
+cp -r /mnt/home/$(</tmp/user_name)/.config/i3/dunst /mnt/home/$(</tmp/user_name)/.config
+
+# link usb automount rule
+cp /mnt/home/$(</tmp/user_name)/.config/i3/UDEV-automount-usb/10-my-media-automount.rules /mnt/etc/udev/rules.d/10-my-media-automount.rules
+
+
+f_arch_chroot "chown -R $(</tmp/user_name) /mnt/home/$(</tmp/user_name)"
+f_arch_chroot "chmod -R 0766 $(</tmp/user_name) /mnt/home/$(</tmp/user_name)"
+
+
 
 f_arch_chroot 'localectl --no-convert set-x11-keymap de'
-f_arch_chroot 'mkinitcpio'
+f_arch_chroot 'mkinitcpio -P linux'
 
 
 exit
