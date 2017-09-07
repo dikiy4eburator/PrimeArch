@@ -692,9 +692,19 @@ cp -r /mnt/home/$(</tmp/user_name)/.config/i3/dunst /mnt/home/$(</tmp/user_name)
 # link usb automount rule
 cp /mnt/home/$(</tmp/user_name)/.config/i3/UDEV-automount-usb/10-my-media-automount.rules /mnt/etc/udev/rules.d/10-my-media-automount.rules
 
+if [[ -f /mnt/bin/i3 ]]; then
+  break
+else
+  rm -R /mnt/home/$(</tmp/user_name)/.config/i3
+fi
 
 f_arch_chroot "chown -R $(</tmp/user_name) /mnt/home/$(</tmp/user_name)"
 f_arch_chroot "chmod -R 0766 $(</tmp/user_name) /mnt/home/$(</tmp/user_name)"
+
+
+
+
+
 
 
 
