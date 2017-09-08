@@ -264,39 +264,6 @@ pacstrap /mnt gnome-font-viewer noto-fonts awesome-terminal-fonts ttf-ubuntu-fon
 
 
 
-
-
-
-
-
-# Spracheinstellungen konfigurieren
-dialog \
-  --backtitle 'PrimeArch Installer' \
-  --title 'Pakete installiere' \
-  --begin $BoxStartY $BoxStartX \
-  --msgbox '
-
-Spracheinstellungen werden konfiguriert ' 10 $BoxWhith
-
-# /etc/locale.conf
-echo LANG=de_DE.UTF-8 > /mnt/etc/locale.conf
-echo LANGUAGE=de_DE >> /mnt/etc/locale.conf
-
-# /etc/vconsole.conf
-echo KEYMAP=de-latin1-nodeadkeys > /mnt/etc/vconsole.conf
-
-# /etc/locale.gen
-echo de_DE.UTF-8 UTF-8 >> /mnt/etc/locale.gen
-f_arch-chroot "locale-gen"
-
-# Set Time
-rm /mnt/etc/localtime
-ln -sf /mnt/usr/share/zoneinfo/Europe/Berlin /mnt/etc/localtime
-
-
-
-
-
 # Set hostname
 dialog \
   --backtitle 'PrimeArch Installer' \
@@ -381,6 +348,27 @@ if [[ $? -eq 0 ]]; # IF YES !!!
 fi
 
 
+# Spracheinstellungen konfigurieren
+dialog \
+  --backtitle 'PrimeArch Installer' \
+  --title 'Pakete installiere' \
+  --begin $BoxStartY $BoxStartX \
+  --tailboxbg 'Spracheinstellungen werden konfiguriert ' 10 $BoxWhith
+
+# /etc/locale.conf
+echo LANG=de_DE.UTF-8 > /mnt/etc/locale.conf
+echo LANGUAGE=de_DE >> /mnt/etc/locale.conf
+
+# /etc/vconsole.conf
+echo KEYMAP=de-latin1-nodeadkeys > /mnt/etc/vconsole.conf
+
+# /etc/locale.gen
+echo de_DE.UTF-8 UTF-8 >> /mnt/etc/locale.gen
+f_arch-chroot 'locale-gen'
+
+# Set Time
+rm /mnt/etc/localtime
+ln -sf /mnt/usr/share/zoneinfo/Europe/Berlin /mnt/etc/localtime
 
 
 
@@ -434,26 +422,54 @@ else
 fi
 
 # link gtk-theme config
-cp -r /lib/gtk-3.0 /mnt/home/$(</tmp/user_name)/.config
+cp -r /root/lib/gtk-3.0 /mnt/home/$(</tmp/user_name)/.config
 
 # Nitrogen config
-cp -r /lib/nitrogen /mnt/home/$(</tmp/user_name)/.config
+cp -r /root/lib/nitrogen /mnt/home/$(</tmp/user_name)/.config
 
 # dunst config
-cp -r /lib/dunst /mnt/home/$(</tmp/user_name)/.config
+cp -r /root/lib/dunst /mnt/home/$(</tmp/user_name)/.config
 
 # link usb automount rule
-cp /lib/UDEV-automount-usb/10-my-media-automount.rules /mnt/etc/udev/rules.d/10-my-media-automount.rules
+cp /root/lib/UDEV-automount-usb/10-my-media-automount.rules /mnt/etc/udev/rules.d/10-my-media-automount.rules
+
+#keyboard Conf
+cp -r /root/lib/xorg.conf.d /mnt/etc/X11
 
 
 
-f_arch_chroot 'chown -R '$(</tmp/user_name)' /mnt/home/'$(</tmp/user_name)''
-f_arch_chroot 'chmod -R 0766 '$(</tmp/user_name)' /mnt/home/'$(</tmp/user_name)''
+f_arch_chroot 'chown -R $(</tmp/user_name) /mnt/home/$(</tmp/user_name)'
+f_arch_chroot 'chmod -R 0766 /mnt/home/$(</tmp/user_name)'
 
 
 
-f_arch_chroot 'localectl --no-convert set-x11-keymap de'
-f_arch_chroot 'mkinitcpio -P linux'
+#f_arch_chroot 'localectl --no-convert set-x11-keymap de'
+#f_arch_chroot 'mkinitcpio -P linux'
 
+
+#Selekt HDD screan
+dialog \
+  --backtitle 'PrimeArch Installer' \
+  --title 'Ende erreicht' \
+  --begin $BoxStartY $BoxStartX \
+  --tailboxbg 'Die Installation ist Abgeschlossen' 10 $BoxWhith \
+  --and-widget --keep-window --begin 13 $BoxStartX \
+  --menu "installation Beendet" 15 $BoxWhith 8 \
+        1 Rebooten \
+        2 Ausschalten \
+        3 "Chroot in das neue Systen" \
+        2>/tmp/exit
+
+case $(</tmp/exit) in
+  1 )
+    reboot
+    ;;
+  2 )
+    powerof
+    ;;
+  3 )
+    arch-chroot /mnt
+    ;;
+esac
 
 exit
