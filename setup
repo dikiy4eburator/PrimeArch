@@ -13,8 +13,6 @@ source /root/lib/user_handeler
 # //////////////////////////////////////////////////////////////////////////////
 
 # set Variabels
-MOUNTPOINT=/mnt
-
 BoxWhith=75
 BoxStartX=2
 BoxStartY=2
@@ -28,7 +26,7 @@ BoxStartY=2
 # arch-chroot Bridge
 # Adapted from AIS. An excellent bit of code!
 function f_arch_chroot() {
-    arch-chroot $MOUNTPOINT /bin/bash -c "${1}"
+    arch-chroot /mnt /bin/bash -c "${1}"
 }
 
 
