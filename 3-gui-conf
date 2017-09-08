@@ -21,37 +21,4 @@ yaourt -S --noconfirm vertex-themes-git
 yaourt -S --noconfirm vertex-icons-git
 yaourt -S --noconfirm pamac-aur
 
-# Clone i3-config repo
-git clone https://github.com/dikiy4eburator/i3-config.git ~/.config/i3
-
-# link gtk-theme config
-cp -r ~/.config/i3/gtk-3.0 ~/.config
-
-# Nitrogen config
-cp -r ~/.config/i3/nitrogen ~/.config
-
-# dunst config
-cp -r ~/.config/i3/dunst ~/.config
-
-# link usb automount rule
-sudo cp ~/.config/i3/UDEV-automount-usb/10-my-media-automount.rules /etc/udev/rules.d/10-my-media-automount.rules
-
-# set global keyboard layout
-sudo localectl --no-convert set-x11-keymap de
-
-# enable LightDm
-sudo systemctl enable lightdm.service
-
-# Clean Install scripts
-sudo rm /home/2
-sudo rm /home/3
-sudo rm /home/hdd
-if [[ -f /bin/i3 ]]; then
-  break
-else
-  sudo rm -R ~/.config/i3
-fi
-
-sudo systemctl start lightdm.service
-
 exit

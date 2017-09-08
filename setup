@@ -77,9 +77,9 @@ dialog \
   --backtitle 'PrimeArch Installer' \
   --title 'Gefundene Festplatten' \
   --begin $BoxStartY $BoxStartX \
-  --tailboxbg '/tmp/hdlist' 10 $BoxWhith \
-  --and-widget --keep-window --begin 13 $BoxStartX \
-  --inputbox 'Bitte den Namen der Festplatte eingeben' 10 $BoxWhith \
+  --tailboxbg '/tmp/hdlist' 15 $BoxWhith \
+  --and-widget --keep-window --begin 17 $BoxStartX \
+  --inputbox 'Bitte den Namen der Festplatte eingeben' 8 $BoxWhith \
   2>/tmp/hdd_name
 
 
@@ -229,16 +229,6 @@ esac
 
 
 
-
-# INSTALL PACAGES
-dialog \
-  --backtitle 'PrimeArch Installer' \
-  --title 'Pakete installiere' \
-  --begin $BoxStartY $BoxStartX \
-  --msgbox '
-
-Es werden nun zusäzliche Packete installiert. ' 10 $BoxWhith
-
 #Install GUI pakages
 pacstrap /mnt xdg-user-dirs lightdm lightdm-gtk-greeter
 
@@ -317,7 +307,7 @@ if [[ $? -eq 0 ]]; # IF YES !!!
       --inputbox 'Bitte Benutzernamen eingeben' 10 $BoxWhith \
       2>/tmp/user_name
 
-      f_arch_chroot "useradd -m -g users -G wheel,storage,power,network,video,audio -s /usr/bin/fish '$(</tmp/user_name)'"
+      arch-chroot /mnt /bin/bash -c "useradd -m -g users -G wheel,storage,power,network,video,audio -s /usr/bin/fish '$(</tmp/user_name)'"
 
     # Generate Password
     dialog \
@@ -356,20 +346,19 @@ dialog \
   --tailboxbg 'Spracheinstellungen werden konfiguriert ' 10 $BoxWhith
 
 # /etc/locale.conf
-echo LANG=de_DE.UTF-8 > /mnt/etc/locale.conf
-echo LANGUAGE=de_DE >> /mnt/etc/locale.conf
+f_arch_chroot "echo LANG=de_DE.UTF-8 > /etc/locale.conf"
+f_arch_chroot "echo LANGUAGE=de_DE >> /etc/locale.conf"
 
 # /etc/vconsole.conf
-echo KEYMAP=de-latin1-nodeadkeys > /mnt/etc/vconsole.conf
-
-# /etc/locale.gen
-echo de_DE.UTF-8 UTF-8 >> /mnt/etc/locale.gen
-f_arch-chroot "locale-gen"
+f_arch_chroot "echo KEYMAP=de-latin1-nodeadkeys > /etc/vconsole.conf"
 
 # Set Time
-rm /mnt/etc/localtime
-ln -sf /mnt/usr/share/zoneinfo/Europe/Berlin /mnt/etc/localtime
+f_arch_chroot "rm /etc/localtime"
+f_arch_chroot "ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime"
 
+# /etc/locale.gen
+f_arch_chroot "echo de_DE.UTF-8 UTF-8 >> /etc/locale.gen"
+arch-chroot /mnt /bin/bash -c locale-gen
 
 
 
@@ -438,13 +427,13 @@ cp -r /root/lib/dunst /mnt/home/$US/.config
 cp /root/lib/UDEV-automount-usb/10-my-media-automount.rules /mnt/etc/udev/rules.d/10-my-media-automount.rules
 
 #keyboard Conf
-cp -r /root/lib/xorg.conf.d/00-keyboard.conf /mnt/etc/X11/xorg.conf.d/00-keyboard.conf
+cp -r /root/lib/xorg.conf.d /mnt/etc/X11
 
 
 
 
-f_arch_chroot "chown -R $(</tmp/user_name) /mnt/home/$(</tmp/user_name)"
-f_arch_chroot "chmod -R 0700 /mnt/home/$(</tmp/user_name)"
+arch-chroot /mnt /bin/bash -c "chown -R $(</tmp/user_name):users /home/$(</tmp/user_name)"
+arch-chroot /mnt /bin/bash -c "chmod -R 0700 /home/$(</tmp/user_name)"
 
 
 
@@ -454,15 +443,15 @@ f_arch_chroot "chmod -R 0700 /mnt/home/$(</tmp/user_name)"
 
 #Selekt HDD screan
 dialog \
-  --backtitle 'PrimeArch Installer' \
-  --title 'Ende erreicht' \
-  --begin $BoxStartY $BoxStartX \
-  --tailboxbg 'Die Installation ist Abgeschlossen' 10 $BoxWhith \
-  --and-widget --keep-window --begin 13 $BoxStartX \
-  --menu "installation Beendet" 15 $BoxWhith 8 \
-        1 Rebooten \
+	--backtitle 'PrimeArch Installer' \
+	--title 'Ende erreicht' \
+	--begin $BoxStartY $BoxStartX \
+	--tailboxbg 'Die Installation ist Abgeschlossen' 10 $BoxWhith \
+	--and-widget --keep-window --begin 13 $BoxStartX \
+	--menu "installation Beendet" 15 $BoxWhith 8 \
+		1 Rebooten \
         2 Ausschalten \
-        3 "Chroot in das neue Systen" \
+        3 Chroot \
         2>/tmp/exit
 
 case $(</tmp/exit) in
