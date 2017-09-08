@@ -317,7 +317,7 @@ if [[ $? -eq 0 ]]; # IF YES !!!
       --inputbox 'Bitte Benutzernamen eingeben' 10 $BoxWhith \
       2>/tmp/user_name
 
-      f_arch_chroot 'useradd -m -g users -G wheel,storage,power,network,video,audio -s /usr/bin/fish '$(</tmp/user_name)''
+      f_arch_chroot "useradd -m -g users -G wheel,storage,power,network,video,audio -s /usr/bin/fish '$(</tmp/user_name)'"
 
     # Generate Password
     dialog \
