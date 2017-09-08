@@ -364,7 +364,7 @@ echo KEYMAP=de-latin1-nodeadkeys > /mnt/etc/vconsole.conf
 
 # /etc/locale.gen
 echo de_DE.UTF-8 UTF-8 >> /mnt/etc/locale.gen
-f_arch-chroot 'locale-gen'
+f_arch-chroot "locale-gen"
 
 # Set Time
 rm /mnt/etc/localtime
@@ -421,14 +421,16 @@ else
   break
 fi
 
+US=$(</tmp/user_name)
+
 # link gtk-theme config
-cp -r /root/lib/gtk-3.0 /mnt/home/$(</tmp/user_name)/.config
+cp -r /root/lib/gtk-3.0 /mnt/home/$US/.config
 
 # Nitrogen config
-cp -r /root/lib/nitrogen /mnt/home/$(</tmp/user_name)/.config
+cp -r /root/lib/nitrogen /mnt/home/$US/.config
 
 # dunst config
-cp -r /root/lib/dunst /mnt/home/$(</tmp/user_name)/.config
+cp -r /root/lib/dunst /mnt/home/$US/.config
 
 
 
@@ -441,8 +443,8 @@ cp -r /root/lib/xorg.conf.d/00-keyboard.conf /mnt/etc/X11/xorg.conf.d/00-keyboar
 
 
 
-f_arch_chroot 'chown -R $(</tmp/user_name) /mnt/home/$(</tmp/user_name)'
-f_arch_chroot 'chmod -R 0700 /mnt/home/$(</tmp/user_name)'
+f_arch_chroot "chown -R $(</tmp/user_name) /mnt/home/$(</tmp/user_name)"
+f_arch_chroot "chmod -R 0700 /mnt/home/$(</tmp/user_name)"
 
 
 
