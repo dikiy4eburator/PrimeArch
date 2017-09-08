@@ -430,16 +430,19 @@ cp -r /root/lib/nitrogen /mnt/home/$(</tmp/user_name)/.config
 # dunst config
 cp -r /root/lib/dunst /mnt/home/$(</tmp/user_name)/.config
 
+
+
 # link usb automount rule
 cp /root/lib/UDEV-automount-usb/10-my-media-automount.rules /mnt/etc/udev/rules.d/10-my-media-automount.rules
 
 #keyboard Conf
-cp -r /root/lib/xorg.conf.d /mnt/etc/X11
+cp -r /root/lib/xorg.conf.d/00-keyboard.conf /mnt/etc/X11/xorg.conf.d/00-keyboard.conf
+
 
 
 
 f_arch_chroot 'chown -R $(</tmp/user_name) /mnt/home/$(</tmp/user_name)'
-f_arch_chroot 'chmod -R 0766 /mnt/home/$(</tmp/user_name)'
+f_arch_chroot 'chmod -R 0700 /mnt/home/$(</tmp/user_name)'
 
 
 
