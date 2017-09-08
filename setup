@@ -2,8 +2,9 @@
 loadkeys de
 
 # includes
-# source /root/efi_handeler   # explicit PATH
-# source /root/legacy_handeler
+source /root/lib/efi_handeler   # explicit PATH
+source /root/lib/legacy_handeler
+source /root/lib/user_handeler
 
 
 
@@ -29,247 +30,6 @@ BoxStartY=2
 function f_arch_chroot() {
     arch-chroot $MOUNTPOINT /bin/bash -c "${1}"
 }
-
-
-
-
-function f_set_root_pw() {
-
-  awk '{ if($1 !~ /root/) print }' /mnt/etc/shadow > /mnt/etc/new_shadow
-
-  openssl passwd -1 -salt xyz  $(</tmp/root_pw) > /tmp/root_pw
-  echo "root:$(</tmp/root_pw):17393::::::" >> /mnt/etc/new_shadow
-  mv /mnt/etc/new_shadow /mnt/etc/shadow
-
-  rm /tmp/root_pw
-  rm /tmp/root_pw_2
-
-}
-
-
-
-function f_set_user_pw() {
-  # Clear User Password
-  awk '{ if($1 !~ /'$(</tmp/user_name)'/) print }' /mnt/etc/shadow > /mnt/etc/new_shadow
-
-  # Set new User Password
-  openssl passwd -1 -salt xyz  $(</tmp/user_pw) > /tmp/user_pw
-  echo "$(</tmp/user_name):$(</tmp/user_pw):17393:0:99999:7:::" >> /mnt/etc/new_shadow
-  mv /mnt/etc/new_shadow /mnt/etc/shadow
-
-  rm /tmp/user_pw
-  rm /tmp/user_pw_2
-
-}
-
-
-
-
-# //////////////////    EFI HDD PREP   //////////////////////////////////////////
-
-function f_install_efi() {
-  case $(</tmp/hdd_name) in
-    nvme*)
-      f_defineHdPattern_nvme_efi
-      ;;
-
-    sd*)
-      f_defineHdPattern_sata_efi
-      ;;
-
-    *)
-      echo "HDD eingabe unbekant"
-      exit
-      ;;
-  esac
-
-f_format_efi
-f_mount_efi
-}
-
-function f_defineHdPattern_sata_efi() {
-  case $(</tmp/extrahome) in
-    ja )
-      BOOT_HD="$(</tmp/hdd_name)1"
-      SWAP_HD="$(</tmp/hdd_name)2"
-      ROOT_HD="$(</tmp/hdd_name)3"
-      HOME_HD="$(</tmp/hdd_name)4"
-      ;;
-
-    nein )
-      BOOT_HD="$(</tmp/hdd_name)1"
-      SWAP_HD="$(</tmp/hdd_name)2"
-      ROOT_HD="$(</tmp/hdd_name)3"
-      ;;
-  esac
-}
-
-function f_defineHdPattern_nvme_efi() {
-  case $(</tmp/extrahome) in
-    ja )
-      BOOT_HD="$(</tmp/hdd_name)p1"
-      SWAP_HD="$(</tmp/hdd_name)p2"
-      ROOT_HD="$(</tmp/hdd_name)p3"
-      HOME_HD="$(</tmp/hdd_name)p4"
-      ;;
-
-    nein )
-      BOOT_HD="$(</tmp/hdd_name)p1"
-      SWAP_HD="$(</tmp/hdd_name)p2"
-      ROOT_HD="$(</tmp/hdd_name)p3"
-      ;;
-  esac
-}
-
-function f_format_efi() {
-  case $(</tmp/extrahome) in
-    ja )
-      # formating partitions
-      mkfs.fat -F32 /dev/$BOOT_HD
-      mkswap /dev/$SWAP_HD
-      mkfs.ext4 /dev/$ROOT_HD
-      mkfs.ext4 /dev/$HOME_HD
-      ;;
-
-    nein )
-      # formating partitions
-      mkfs.fat -F32 /dev/$BOOT_HD
-      mkswap /dev/$SWAP_HD
-      mkfs.ext4 /dev/$ROOT_HD
-      ;;
-  esac
-}
-
-function f_mount_efi() {
-  case $(</tmp/extrahome) in
-    ja )
-      # Mounting partitions
-      mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
-      mkdir /mnt/boot
-      mkdir /mnt/boot/efi
-      mount /dev/$BOOT_HD /mnt/boot/efi
-      mkdir /mnt/home
-      mount -o defaults,noatime,discard /dev/$HOME_HD /mnt/home
-      swapon /dev/$SWAP_HD
-      ;;
-
-    nein )
-      # Mounting partitions
-      mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
-      mkdir /mnt/boot
-      mkdir /mnt/boot/efi
-      mount /dev/$BOOT_HD /mnt/boot/efi
-      swapon /dev/$SWAP_HD
-      ;;
-  esac
-}
-
-#//////////////////////////////////////////////////////////////////////////////
-#//////////////////////////////////////////////////////////////////////////////
-
-
-
-# //////////////////    LEGACY HDD PREP   ///////////////////////////////////////
-
-
-function f_install_legacy() {
-  case $(</tmp/hdd_name) in
-    nvme*)
-     f_defineHdPattern_nvme_legacy
-      ;;
-
-    sd*)
-     f_defineHdPattern_sata_legacy
-     ;;
-
-    *)
-      echo "HDD eingabe unbekant"
-      exit
-     ;;
-  esac
-f_format_legacy
-f_mount_legacy
-}
-
-function f_defineHdPattern_sata_legacy() {
-  case $(</tmp/extrahome) in
-    ja )
-      BOOT_HD="$(</tmp/hdd_name)1"
-      SWAP_HD="$(</tmp/hdd_name)2"
-      ROOT_HD="$(</tmp/hdd_name)3"
-      HOME_HD="$(</tmp/hdd_name)4"
-      ;;
-
-    nein )
-      BOOT_HD="$(</tmp/hdd_name)1"
-      SWAP_HD="$(</tmp/hdd_name)2"
-      ROOT_HD="$(</tmp/hdd_name)3"
-      ;;
-  esac
-}
-
-function f_defineHdPattern_nvme_legacy() {
-  case $(</tmp/extrahome) in
-    ja )
-      BOOT_HD="$(</tmp/hdd_name)p1"
-      SWAP_HD="$(</tmp/hdd_name)p2"
-      ROOT_HD="$(</tmp/hdd_name)p3"
-      HOME_HD="$(</tmp/hdd_name)p4"
-      ;;
-
-    nein )
-      BOOT_HD="$(</tmp/hdd_name)p1"
-      SWAP_HD="$(</tmp/hdd_name)p2"
-      ROOT_HD="$(</tmp/hdd_name)p3"
-      ;;
-  esac
-}
-
-function f_format_legacy() {
-  case $(</tmp/extrahome) in
-    ja )
-      # formating partitions
-      mkswap /dev/$SWAP_HD
-      mkfs.ext4 /dev/$ROOT_HD
-      mkfs.ext4 /dev/$HOME_HD
-      ;;
-
-    nein )
-      # formating partitions
-      mkswap /dev/$SWAP_HD
-      mkfs.ext4 /dev/$ROOT_HD
-      ;;
-  esac
-}
-
-function f_mount_legacy() {
-  case $(</tmp/extrahome) in
-    ja )
-      # Mounting partitions
-      mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
-#      mkdir /mnt/boot
-#      mount /dev/$BOOT_HD /mnt/boot
-      mkdir /mnt/home
-      mount -o defaults,noatime,discard /dev/$HOME_HD /mnt/home
-      swapon /dev/$SWAP_HD
-      ;;
-
-    nein )
-      # Mounting partitions
-      mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
-#      mkdir /mnt/boot
-#      mount /dev/$BOOT_HD /mnt/boot
-      swapon /dev/$SWAP_HD
-      ;;
-  esac
-}
-
-#//////////////////////////////////////////////////////////////////////////////
-#//////////////////////////////////////////////////////////////////////////////
-
-
-
-
 
 
 
@@ -385,21 +145,12 @@ if [[ -d "/sys/firmware/efi/efivars" ]];
 fi
 
 # Install base pacages
-pacstrap /mnt base fish base-devel linux-headers grub os-prober efibootmgr acpid dbus
+pacstrap /mnt base fish base-devel linux-headers grub os-prober efibootmgr acpid dbus  vim cronie
 
 # Generate fstab
 genfstab -U -p /mnt >> /mnt/etc/fstab
 
 
-
-
-
-
-
-
-#/////////////////////////////////////////////////////
-#///////////    Script 2 /////////////////////////////
-#/////////////////////////////////////////////////////
 
 
 
@@ -503,8 +254,8 @@ pacstrap /mnt alsa-tools alsa-utils pulseaudio pulseaudio-alsa pavucontrol flac 
 pacstrap /mnt xorg-server xorg-xinit compton ffmpeg vlc mpv
 
 #Install Additional apps
-pacstrap /mnt mate-polkit ranger git htop nitrogen terminology vim cronie
-pacstrap /mnt chromium pluma dmenu conky dunst hunspell-de
+pacstrap /mnt mate-polkit ranger git htop nitrogen terminology
+pacstrap /mnt chromium atom pluma dmenu conky dunst hunspell-de
 pacstrap /mnt nemo nemo-fileroller rsync cool-retro-term
 
 #Install Themes
@@ -678,33 +429,28 @@ f_arch_chroot "systemctl enable lightdm.service"
 
 
 # Clone i3-config repo
-git clone https://github.com/dikiy4eburator/i3-config.git /mnt/home/$(</tmp/user_name)/.config/i3
-
-# link gtk-theme config
-cp -r /mnt/home/$(</tmp/user_name)/.config/i3/gtk-3.0 /mnt/home/$(</tmp/user_name)/.config
-
-# Nitrogen config
-cp -r /mnt/home/$(</tmp/user_name)/.config/i3/nitrogen /mnt/home/$(</tmp/user_name)/.config
-
-# dunst config
-cp -r /mnt/home/$(</tmp/user_name)/.config/i3/dunst /mnt/home/$(</tmp/user_name)/.config
-
-# link usb automount rule
-cp /mnt/home/$(</tmp/user_name)/.config/i3/UDEV-automount-usb/10-my-media-automount.rules /mnt/etc/udev/rules.d/10-my-media-automount.rules
-
 if [[ -f /mnt/bin/i3 ]]; then
-  break
+  git clone https://github.com/dikiy4eburator/i3-config.git /mnt/home/$(</tmp/user_name)/.config/i3
 else
-  rm -R /mnt/home/$(</tmp/user_name)/.config/i3
+  break
 fi
 
-f_arch_chroot "chown -R $(</tmp/user_name) /mnt/home/$(</tmp/user_name)"
-f_arch_chroot "chmod -R 0766 $(</tmp/user_name) /mnt/home/$(</tmp/user_name)"
+# link gtk-theme config
+cp -r /lib/gtk-3.0 /mnt/home/$(</tmp/user_name)/.config
+
+# Nitrogen config
+cp -r /lib/nitrogen /mnt/home/$(</tmp/user_name)/.config
+
+# dunst config
+cp -r /lib/dunst /mnt/home/$(</tmp/user_name)/.config
+
+# link usb automount rule
+cp /lib/UDEV-automount-usb/10-my-media-automount.rules /mnt/etc/udev/rules.d/10-my-media-automount.rules
 
 
 
-
-
+f_arch_chroot 'chown -R '$(</tmp/user_name)' /mnt/home/'$(</tmp/user_name)''
+f_arch_chroot 'chmod -R 0766 '$(</tmp/user_name)' /mnt/home/'$(</tmp/user_name)''
 
 
 
