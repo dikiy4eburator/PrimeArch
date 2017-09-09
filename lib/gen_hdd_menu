@@ -1,0 +1,18 @@
+#!/bin/bash
+
+function f_gen_hdd_menu() {
+  #Prepare Disklist
+  lsblk -o NAME,SIZE,MODEL,TYPE | grep disk > /tmp/hdlist
+
+  #gen hdd menu
+  echo "#!/bin/bash" > /tmp/hdd_menu
+  echo "BoxWhith=75" >> /tmp/hdd_menu
+  echo "BoxStartX=2" >> /tmp/hdd_menu
+  echo "BoxStartY=2" >> /tmp/hdd_menu
+  echo 'dialog \' >> /tmp/hdd_menu
+  echo '  --backtitle "PrimeArch" \' >> /tmp/hdd_menu
+  echo '  --begin $BoxStartY $BoxStartX \' >> /tmp/hdd_menu
+  echo '  --menu "Grafiktreiber wehlen" 15 $BoxWhith 7 \' >> /tmp/hdd_menu
+  awk ' { print $1"\t", "\047"$2 "\t" $3"\047", "\\" } ' < /tmp/hdlist >> /tmp/hdd_menu
+  echo "2>/tmp/hdd_menu_2" >> /tmp/hdd_name
+}

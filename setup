@@ -5,7 +5,7 @@ loadkeys de
 source /root/lib/efi_handeler
 source /root/lib/legacy_handeler
 source /root/lib/user_handeler
-
+source /root/lib/gen_hdd_menu
 
 
 # //////////////////////////////////////////////////////////////////////////////
@@ -64,24 +64,9 @@ fi
 
 
 
-# HDD select Screan
+f_gen_hdd_menu
 
-#Prepare Disklist
-echo "" > /tmp/hdlist
-echo "NAME        GRÖSE   MODELL" >> /tmp/hdlist
-echo "---------------------------------------------" >> /tmp/hdlist
-lsblk -o NAME,SIZE,MODEL,TYPE | grep disk >> /tmp/hdlist
-
-#Selekt HDD screan
-dialog \
-  --backtitle 'PrimeArch Installer' \
-  --title 'Gefundene Festplatten' \
-  --begin $BoxStartY $BoxStartX \
-  --tailboxbg '/tmp/hdlist' 15 $BoxWhith \
-  --and-widget --keep-window --begin 17 $BoxStartX \
-  --inputbox 'Bitte den Namen der Festplatte eingeben' 8 $BoxWhith \
-  2>/tmp/hdd_name
-
+sh /tmp/hdd_menu
 
 
 # Show Partitioning info depending on boot mode
@@ -143,7 +128,7 @@ if [[ -d "/sys/firmware/efi/efivars" ]];
 fi
 
 # Install base pacages
-pacstrap /mnt base fish base-devel linux-headers grub os-prober efibootmgr acpid dbus  vim cronie
+pacstrap /mnt base fish base-devel linux-headers grub os-prober efibootmgr acpid dbus  vim cronie xdg-user-dirs
 
 # Generate fstab
 genfstab -U -p /mnt >> /mnt/etc/fstab
@@ -205,7 +190,7 @@ dialog \
 
 case $(</tmp/gui) in
   1 )
-    pacstrap /mnt i3
+    pacstrap /mnt i3 dmenu
     ;;
   2 )
     pacstrap /mnt xfce4 xfce4-goodies
@@ -229,8 +214,8 @@ esac
 
 
 
-#Install GUI pakages
-pacstrap /mnt xdg-user-dirs lightdm lightdm-gtk-greeter
+#Install Login managment
+pacstrap /mnt lightdm lightdm-gtk-greeter
 
 #Install Network pakages
 pacstrap /mnt avahi networkmanager network-manager-applet nm-connection-editor ntp wireless_tools wpa_supplicant gnome-keyring nfs-utils openssh
@@ -243,7 +228,7 @@ pacstrap /mnt xorg-server xorg-xinit compton ffmpeg vlc mpv
 
 #Install Additional apps
 pacstrap /mnt ranger git htop nitrogen terminology rsync cool-retro-term
-pacstrap /mnt chromium atom dmenu conky dunst hunspell-de
+pacstrap /mnt chromium atom conky dunst hunspell-de
 
 #Mate pakages
 pacstrap /mnt mate-polkit pluma caja caja-open-terminal caja-sendto caja-share caja-wallpaper engrampa
@@ -421,14 +406,15 @@ cp -r /root/lib/nitrogen /mnt/home/$(</tmp/user_name)/.config
 # dunst config
 cp -r /root/lib/dunst /mnt/home/$(</tmp/user_name)/.config
 
-# Copy Addons script
-cp  /root/lib/Addons /mnt/home/$(</tmp/user_name)/Addons
-
-# link usb automount rule
-cp /root/lib/UDEV-automount-usb/10-my-media-automount.rules /mnt/etc/udev/rules.d/10-my-media-automount.rules
-
 #keyboard Conf
 cp -r /root/lib/xorg.conf.d /mnt/etc/X11
+
+# Copy Addons script
+mv  /root/lib/Addons /mnt/home/$(</tmp/user_name)/Addons
+
+# link usb automount rule
+mv /root/lib/UDEV-automount-usb/10-my-media-automount.rules /mnt/etc/udev/rules.d/10-my-media-automount.rules
+
 
 
 
@@ -438,15 +424,13 @@ arch-chroot /mnt /bin/bash -c "chmod -R 0700 /home/$(</tmp/user_name)"
 
 
 
-#Selekt HDD screan
+##Selekt HDD screan
 dialog \
 	--backtitle 'PrimeArch Installer' \
 	--title 'Ende erreicht' \
 	--begin $BoxStartY $BoxStartX \
-	--tailboxbg 'Die Installation ist Abgeschlossen' 10 $BoxWhith \
-	--and-widget --keep-window --begin 13 $BoxStartX \
 	--menu "installation Beendet" 15 $BoxWhith 8 \
-		1 Rebooten \
+		    1 Rebooten \
         2 Ausschalten \
         3 Chroot \
         2>/tmp/exit
