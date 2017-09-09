@@ -77,14 +77,14 @@ Mochten Sie eine automatiche Partitionierung durchführen?' 10 $BoxWhith \
 
 if [[ $? -eq 0 ]];
   then
-    # Set hostname
+    # Set swap_size
     dialog \
       --backtitle 'PrimeArch Installer' \
       --begin $BoxStartY $BoxStartX \
       --inputbox 'Bitte SWAP Partitionsgröse angeben (GB)' 10 $BoxWhith \
       2>/tmp/swap_size
 
-      # Set hostname
+      # Set root_size
       dialog \
         --backtitle 'PrimeArch Installer' \
         --begin $BoxStartY $BoxStartX \

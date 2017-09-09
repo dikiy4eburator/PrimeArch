@@ -5,10 +5,10 @@ function f_autopartition() {
 
 if [[ -d "/sys/firmware/efi/efivars" ]];
     then
-      sgdisk -n 1:2048:+256M -c 1:"BIOS Boot Partition" -t 1:ef00 $(</tmp/hdd_name)
+      sgdisk -n 1:0:+256M -c 1:"BIOS Boot Partition" -t 1:ef00 $(</tmp/hdd_name)
       ENDSECTOR=`sgdisk -E $(</tmp/hdd_name)`
     else
-      sgdisk -n 1:4096:+5M -c 1:"EFI System Partition" -t 1:ef02 $(</tmp/hdd_name)
+      sgdisk -n 1:0:+5M -c 1:"EFI System Partition" -t 1:ef02 $(</tmp/hdd_name)
       ENDSECTOR=`sgdisk -E $(</tmp/hdd_name)`
 fi
 
