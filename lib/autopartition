@@ -5,20 +5,20 @@ function f_autopartition() {
 
   if [[ -d "/sys/firmware/efi/efivars" ]];
     then
-      sgdisk -n 0:0:+256M -c 0:"EFI System Partition" -t 0:ef00 /dev/$(</tmp/hdd_name)
+      sgdisk -n 1:0:+256M -c 1:"EFI System Partition" -t 1:ef00 /dev/$(</tmp/hdd_name)
     else
-      sgdisk -n 0:0:+5M -c 0:"BIOS Boot Partition" -t 0:ef02 /dev/$(</tmp/hdd_name)
+      sgdisk -n 1:0:+5M -c 1:"BIOS Boot Partition" -t 1:ef02 /dev/$(</tmp/hdd_name)
   fi
 
-  sgdisk -n 0:0:+$(</tmp/swap_size)G -c 0:"SWAP" -t 0:8200 /dev/$(</tmp/hdd_name)
+  sgdisk -n 2:0:+$(</tmp/swap_size)G -c 2:"SWAP" -t 2:8200 /dev/$(</tmp/hdd_name)
 
   case $(</tmp/extrahome)  in
     ja )
-      sgdisk -n 0:0:+$(</tmp/root_size)G -c 0:"ROOT" -t 0:8300 /dev/$(</tmp/hdd_name)
-      sgdisk -n 0:0:0 -c 0:"HOME" -t 0:8300 /dev/$(</tmp/hdd_name)
+      sgdisk -n 3:0:+$(</tmp/root_size)G -c 3:"ROOT" -t 3:8300 /dev/$(</tmp/hdd_name)
+      sgdisk -n 4:0:0 -c 4:"HOME" -t 4:8300 /dev/$(</tmp/hdd_name)
       ;;
     nein )
-      sgdisk -n 0:0:0 -c 0:"ROOT" -t 0:8300 /dev/$(</tmp/hdd_name)
+      sgdisk -n 3:0:0 -c 3:"ROOT" -t 3:8300 /dev/$(</tmp/hdd_name)
       ;;
     esac
 }

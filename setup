@@ -59,6 +59,14 @@ Mochten Sie eine extra HOME Partition haben?' 10 $BoxWhith \
 if [[ $? -eq 0 ]];
   then
     echo "ja" > /tmp/extrahome
+
+    # Set root_size
+    dialog \
+      --backtitle 'PrimeArch Installer' \
+      --begin $BoxStartY $BoxStartX \
+      --inputbox 'Bitte ROOT Partitionsgröse angeben (GB)' 10 $BoxWhith \
+      2>/tmp/root_size
+
   else
     echo "nein" > /tmp/extrahome
 fi
@@ -85,14 +93,7 @@ if [[ $? -eq 0 ]];
       --inputbox 'Bitte SWAP Partitionsgröse angeben (GB)' 10 $BoxWhith \
       2>/tmp/swap_size
 
-      # Set root_size
-      dialog \
-        --backtitle 'PrimeArch Installer' \
-        --begin $BoxStartY $BoxStartX \
-        --inputbox 'Bitte ROOT Partitionsgröse angeben (GB)' 10 $BoxWhith \
-        2>/tmp/root_size
-
-    f_autopartition
+  f_autopartition
 
   else
     # Show Partitioning info depending on boot mode
@@ -159,8 +160,6 @@ f_format
 
 # Mount Partition
 f_mount
-
-
 
 
 
@@ -285,30 +284,8 @@ dialog \
 
 
 
-
-# Set ROOT Password
-dialog \
-  --backtitle 'PrimeArch Installer' \
-  --begin $BoxStartY $BoxStartX \
-  --insecure \
-  --passwordbox 'Bitte ROOT Password eingeben' 10 $BoxWhith \
-  2>/tmp/root_pw
-
-dialog \
-  --backtitle 'PrimeArch Installer' \
-  --begin $BoxStartY $BoxStartX \
-  --insecure \
-  --passwordbox 'Bitte ROOT Password wiederholen' 10 $BoxWhith \
-  2>/tmp/root_pw_2
-
-if [[ $(</tmp/root_pw) == $(</tmp/root_pw_2) ]];
-  then
-    f_set_root_pw
-  else
-    break
-fi
-
-
+#Set ROOT PW
+f_set_root
 
 
 
@@ -331,41 +308,15 @@ if [[ $? -eq 0 ]]; # IF YES !!!
 
       arch-chroot /mnt /bin/bash -c "useradd -m -g users -G wheel,storage,power,network,video,audio -s /usr/bin/fish '$(</tmp/user_name)'"
 
-    # Generate Password
-    dialog \
-      --backtitle 'PrimeArch Installer' \
-      --begin $BoxStartY $BoxStartX \
-      --insecure \
-      --passwordbox "Bitte Password für $(</tmp/user_name) eingeben" 10 $BoxWhith \
-      2>/tmp/user_pw
+      #Set USER PW
+      f_set_user
 
-    dialog \
-      --backtitle 'PrimeArch Installer' \
-      --begin $BoxStartY $BoxStartX \
-      --insecure \
-      --passwordbox "Bitte Password für $(</tmp/user_name) wiederholen" 10 $BoxWhith \
-      2>/tmp/user_pw_2
-
-    if [[ $(</tmp/user_pw) == $(</tmp/user_pw_2) ]];
-      then
-        f_set_user_pw
-      else
-        break
-    fi
-
-    echo "%wheel ALL=(ALL) ALL" >> /mnt/etc/sudoers
-
+      echo "%wheel ALL=(ALL) ALL" >> /mnt/etc/sudoers
   else
     break
 fi
 
 
-# Spracheinstellungen konfigurieren
-dialog \
-  --backtitle 'PrimeArch Installer' \
-  --title 'Pakete installiere' \
-  --begin $BoxStartY $BoxStartX \
-  --tailboxbg 'Spracheinstellungen werden konfiguriert ' 10 $BoxWhith
 
 # /etc/locale.conf
 f_arch_chroot "echo LANG=de_DE.UTF-8 > /etc/locale.conf"
@@ -384,23 +335,15 @@ arch-chroot /mnt /bin/bash -c locale-gen
 
 
 
-# GRUB STUFF
-dialog \
-      --backtitle 'PrimeArch Installer' \
-      --title 'GRUB installation' \
-      --begin $BoxStartY $BoxStartX \
-      --msgbox '
-
-    GRUB wird installiert und konfiguriert' 10 $BoxWhith
-
-    if [[ -d "/sys/firmware/efi/efivars" ]];
-      then
-        # install grub efi
-        f_arch_chroot "grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$(</mnt/etc/hostname)"
-      else
-        # install grub legacy
-        f_arch_chroot "grub-install /dev/$(</tmp/hdd_name)"
-    fi
+#GRUB INSTALLATION
+if [[ -d "/sys/firmware/efi/efivars" ]];
+then
+  # install grub efi
+  f_arch_chroot "grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$(</mnt/etc/hostname)"
+else
+  # install grub legacy
+  f_arch_chroot "grub-install /dev/$(</tmp/hdd_name)"
+fi
 
 f_arch_chroot "grub-mkconfig -o /boot/grub/grub.cfg"
 
@@ -419,9 +362,6 @@ f_arch_chroot "systemctl enable rpcbind"
 f_arch_chroot "systemctl enable cronie.service"
 #lightdm
 f_arch_chroot "systemctl enable lightdm.service"
-
-
-
 
 
 
@@ -452,8 +392,6 @@ mv /root/lib/UDEV-automount-usb/10-my-media-automount.rules /mnt/etc/udev/rules.
 
 
 
-
-
 arch-chroot /mnt /bin/bash -c "chown -R $(</tmp/user_name):users /home/$(</tmp/user_name)"
 arch-chroot /mnt /bin/bash -c "chmod -R 0700 /home/$(</tmp/user_name)"
 
@@ -475,7 +413,7 @@ case $(</tmp/exit) in
     reboot
     ;;
   2 )
-    powerof
+    poweroff
     ;;
   3 )
     arch-chroot /mnt
