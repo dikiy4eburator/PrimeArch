@@ -9,14 +9,15 @@ if [[ -d "/sys/firmware/efi/efivars" ]];
   then
     mkfs.fat -F32 /dev/$BOOT_HD
   else
-    break
+    echo ""
 fi
 
 case $(</tmp/extrahome)  in
-  ja)
+  ja )
     mkfs.ext4 /dev/$HOME_HD
     ;;
-  nein)
+  nein )
+    echo ""
     ;;
 esac
 }
@@ -34,15 +35,16 @@ if [[ -d "/sys/firmware/efi/efivars" ]];
     mkdir /mnt/boot/efi
     mount /dev/$BOOT_HD /mnt/boot/efi
   else
-    break
+    echo ""
 fi
 
 case $(</tmp/extrahome)  in
-  ja)
+  ja )
     mkdir /mnt/home
     mount -o defaults,noatime,discard /dev/$HOME_HD /mnt/home
     ;;
-  nein)
+  nein )
+    echo ""
     ;;
 esac
 }

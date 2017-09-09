@@ -2,10 +2,11 @@
 loadkeys de
 
 # includes
-source /root/lib/define_hdd_patern
 source /root/lib/user_handeler
 source /root/lib/gen_hdd_menu
+
 source /root/lib/autopartition
+source /root/lib/define_hdd_patern
 source /root/lib/format_mount
 
 # //////////////////////////////////////////////////////////////////////////////
