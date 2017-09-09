@@ -6,7 +6,7 @@ source /root/lib/efi_handeler
 source /root/lib/legacy_handeler
 source /root/lib/user_handeler
 source /root/lib/gen_hdd_menu
-
+source /root/lib/autopartition
 
 # //////////////////////////////////////////////////////////////////////////////
 # //////////////////    VARIABELS DEFINITION  ///////////////////////////////////
@@ -62,62 +62,90 @@ if [[ $? -eq 0 ]];
     echo "nein" > /tmp/extrahome
 fi
 
-
-
 f_gen_hdd_menu
-
 sh /tmp/hdd_menu
 
 
-# Show Partitioning info depending on boot mode
-if [[ -d "/sys/firmware/efi/efivars" ]];
+# Partitionierung AUTO MANUEL
+dialog \
+  --backtitle 'PrimeArch Installer' \
+  --title 'Partitionierung' \
+  --begin $BoxStartY $BoxStartX \
+  --yesno '
+
+Mochten Sie eine automatiche Partitionierung durchführen?' 10 $BoxWhith \
+
+if [[ $? -eq 0 ]];
   then
+    # Set hostname
     dialog \
       --backtitle 'PrimeArch Installer' \
-      --title 'Partitions Tabelle' \
       --begin $BoxStartY $BoxStartX \
-      --msgbox '
+      --inputbox 'Bitte SWAP Partitionsgröse angeben (GB)' 10 $BoxWhith \
+      2>/mnt/etc/swap_size
 
-Im folgenden wird das Programm cgdisk gestartet
-Bitte erstellen Sie die Partitione in der folgenden Ordnung:
+      # Set hostname
+      dialog \
+        --backtitle 'PrimeArch Installer' \
+        --begin $BoxStartY $BoxStartX \
+        --inputbox 'Bitte ROOT Partitionsgröse angeben (GB)' 10 $BoxWhith \
+        2>/mnt/etc/hostname
 
-1. EFI ca. 100-256 Mb ( code: ef00 )"
-2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )
-
-    Wenn Sie keine extra HOME Partition wollen"
-    Könne Sie den restlichen Speicher der ROOT Partition zweisen
-
-Ansonsten:
-3. ROOT ca. 20-40 Gb ( code: 8300 )
-4. HOME rest des Speichers ( code: 8300 )' 20 $BoxWhith
-
+    f_autopartition
 
   else
-    dialog \
-      --backtitle 'PrimeArch Installer' \
-      --title 'Partitions Tabelle' \
-      --begin $BoxStartY $BoxStartX \
-      --msgbox '
+    # Show Partitioning info depending on boot mode
+    if [[ -d "/sys/firmware/efi/efivars" ]];
+      then
+        dialog \
+          --backtitle 'PrimeArch Installer' \
+          --title 'Partitions Tabelle' \
+          --begin $BoxStartY $BoxStartX \
+          --msgbox '
 
-Im folgenden wird das Programm cgdisk gestartet
-Bitte erstellen Sie die Partitione in der folgenden Ordnung:
+    Im folgenden wird das Programm cgdisk gestartet
+    Bitte erstellen Sie die Partitione in der folgenden Ordnung:
 
-1. BOOT ca. 5 Mb ( code: ef02)"
-2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )
+    1. EFI ca. 100-256 Mb ( code: ef00 )"
+    2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )
 
-    Wenn Sie keine extra HOME Partition wollen"
-    Könne Sie den restlichen Speicher der ROOT Partition zweisen
+        Wenn Sie keine extra HOME Partition wollen"
+        Könne Sie den restlichen Speicher der ROOT Partition zweisen
 
-Ansonsten:
-3. ROOT ca. 20-40 Gb ( code: 8300 )
-4. HOME rest des Speichers ( code: 8300 )' 20 $BoxWhith
+    Ansonsten:
+    3. ROOT ca. 20-40 Gb ( code: 8300 )
+    4. HOME rest des Speichers ( code: 8300 )' 20 $BoxWhith
+
+
+      else
+        dialog \
+          --backtitle 'PrimeArch Installer' \
+          --title 'Partitions Tabelle' \
+          --begin $BoxStartY $BoxStartX \
+          --msgbox '
+
+    Im folgenden wird das Programm cgdisk gestartet
+    Bitte erstellen Sie die Partitione in der folgenden Ordnung:
+
+    1. BOOT ca. 5 Mb ( code: ef02)"
+    2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )
+
+        Wenn Sie keine extra HOME Partition wollen"
+        Könne Sie den restlichen Speicher der ROOT Partition zweisen
+
+    Ansonsten:
+    3. ROOT ca. 20-40 Gb ( code: 8300 )
+    4. HOME rest des Speichers ( code: 8300 )' 20 $BoxWhith
+
+    fi
+    # Start cgdisk
+    cgdisk /dev/$(</tmp/hdd_name)
 
 fi
 
-#------------------------------------------------------------------------------
 
-# Start cgdisk
-cgdisk /dev/$(</tmp/hdd_name)
+
+
 
 # Start HDD preparation
 if [[ -d "/sys/firmware/efi/efivars" ]];
