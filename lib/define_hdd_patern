@@ -9,6 +9,7 @@ if [[ -d "/sys/firmware/efi/efivars" ]];
   then
     BOOT_HD="$(</tmp/hdd_name)1"
   else
+    break
 fi
 
 case $(</tmp/extrahome)  in
@@ -31,6 +32,7 @@ if [[ -d "/sys/firmware/efi/efivars" ]];
   then
     BOOT_HD="$(</tmp/hdd_name)p1"
   else
+    break
 fi
 
 case $(</tmp/extrahome)  in
