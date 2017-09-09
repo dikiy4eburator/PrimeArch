@@ -373,6 +373,9 @@ fi
 # link gtk-theme config
 cp -r /root/lib/gtk-3.0 /mnt/home/$(</tmp/user_name)/.config
 
+# link gtk-theme config
+cp -r /root/lib/fish /mnt/home/$(</tmp/user_name)/.config
+
 # Nitrogen config
 cp -r /root/lib/nitrogen /mnt/home/$(</tmp/user_name)/.config
 
@@ -388,6 +391,8 @@ mv  /root/lib/Addons /mnt/home/$(</tmp/user_name)/Addons
 # link usb automount rule
 mv /root/lib/UDEV-automount-usb/10-my-media-automount.rules /mnt/etc/udev/rules.d/10-my-media-automount.rules
 
+
+arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_name)/Addons"
 
 
 arch-chroot /mnt /bin/bash -c "chown -R $(</tmp/user_name):users /home/$(</tmp/user_name)"
