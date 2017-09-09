@@ -82,14 +82,14 @@ if [[ $? -eq 0 ]];
       --backtitle 'PrimeArch Installer' \
       --begin $BoxStartY $BoxStartX \
       --inputbox 'Bitte SWAP Partitionsgröse angeben (GB)' 10 $BoxWhith \
-      2>/mnt/etc/swap_size
+      2>/tmp/swap_size
 
       # Set hostname
       dialog \
         --backtitle 'PrimeArch Installer' \
         --begin $BoxStartY $BoxStartX \
         --inputbox 'Bitte ROOT Partitionsgröse angeben (GB)' 10 $BoxWhith \
-        2>/mnt/etc/hostname
+        2>/tmp/root_size
 
     f_autopartition
 
