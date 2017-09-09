@@ -9,6 +9,7 @@ if [[ -d "/sys/firmware/efi/efivars" ]];
   then
     mkfs.fat -F32 /dev/$BOOT_HD
   else
+    break
 fi
 
 case $(</tmp/extrahome)  in
@@ -33,6 +34,7 @@ if [[ -d "/sys/firmware/efi/efivars" ]];
     mkdir /mnt/boot/efi
     mount /dev/$BOOT_HD /mnt/boot/efi
   else
+    break
 fi
 
 case $(</tmp/extrahome)  in
