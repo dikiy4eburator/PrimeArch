@@ -412,19 +412,17 @@ else
   break
 fi
 
-US=$(</tmp/user_name)
-
 # link gtk-theme config
-cp -r /root/lib/gtk-3.0 /mnt/home/$US/.config
+cp -r /root/lib/gtk-3.0 /mnt/home/$(</tmp/user_name)/.config
 
 # Nitrogen config
-cp -r /root/lib/nitrogen /mnt/home/$US/.config
+cp -r /root/lib/nitrogen /mnt/home/$(</tmp/user_name)/.config
 
 # dunst config
-cp -r /root/lib/dunst /mnt/home/$US/.config
+cp -r /root/lib/dunst /mnt/home/$(</tmp/user_name)/.config
 
 # Copy Addons script
-cp  /root/lib/Addons /mnt/home/$US/Addons
+cp  /root/lib/Addons /mnt/home/$(</tmp/user_name)/Addons
 
 # link usb automount rule
 cp /root/lib/UDEV-automount-usb/10-my-media-automount.rules /mnt/etc/udev/rules.d/10-my-media-automount.rules
@@ -438,10 +436,6 @@ cp -r /root/lib/xorg.conf.d /mnt/etc/X11
 arch-chroot /mnt /bin/bash -c "chown -R $(</tmp/user_name):users /home/$(</tmp/user_name)"
 arch-chroot /mnt /bin/bash -c "chmod -R 0700 /home/$(</tmp/user_name)"
 
-
-
-#f_arch_chroot 'localectl --no-convert set-x11-keymap de'
-#f_arch_chroot 'mkinitcpio -P linux'
 
 
 #Selekt HDD screan
