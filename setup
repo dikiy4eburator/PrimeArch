@@ -423,7 +423,8 @@ cp -r /root/lib/nitrogen /mnt/home/$US/.config
 # dunst config
 cp -r /root/lib/dunst /mnt/home/$US/.config
 
-
+# dunst config
+cp  /root/lib/Addons /mnt/home/$US/Addons
 
 # link usb automount rule
 cp /root/lib/UDEV-automount-usb/10-my-media-automount.rules /mnt/etc/udev/rules.d/10-my-media-automount.rules
