@@ -294,9 +294,7 @@ dialog \
   --backtitle 'PrimeArch Installer' \
   --title 'Neuen Benutzer erstellen?' \
   --begin $BoxStartY $BoxStartX \
-  --yesno '
-
-Möchten sie einen neuen Benutzer erstellen?' 10 $BoxWhith \
+  --yesno 'Möchten sie einen neuen Benutzer erstellen?' 10 $BoxWhith \
 
 if [[ $? -eq 0 ]]; # IF YES !!!
   then
