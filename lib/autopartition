@@ -8,7 +8,7 @@ if [[ -d "/sys/firmware/efi/efivars" ]];
       sgdisk -n 1:2048:+256M -c 1:"BIOS Boot Partition" -t 1:ef00 $(</tmp/hdd_name)
       ENDSECTOR=`sgdisk -E $(</tmp/hdd_name)`
     else
-      sgdisk -n 2:4096:+5M -c 1:"EFI System Partition" -t 2:ef02 $(</tmp/hdd_name)
+      sgdisk -n 1:4096:+5M -c 1:"EFI System Partition" -t 1:ef02 $(</tmp/hdd_name)
       ENDSECTOR=`sgdisk -E $(</tmp/hdd_name)`
 fi
 
@@ -17,17 +17,13 @@ ENDSECTOR=`sgdisk -E $(</tmp/hdd_name)`
 
 case $(</tmp/extrahome)  in
   ja)
-    sgdisk -n 3:0:+$(</tmp/root_size)G -c 3:"ROOT" -t 2:8300 $(</tmp/hdd_name)
+    sgdisk -n 3:0:+$(</tmp/root_size)G -c 3:"ROOT" -t 3:8300 $(</tmp/hdd_name)
     ENDSECTOR=`sgdisk -E $(</tmp/hdd_name)`
-    sgdisk -n 4:0:0 -c 4:"HOME" -t 2:8300 $(</tmp/hdd_name)
+    sgdisk -n 4:0:0 -c 4:"HOME" -t 4:8300 $(</tmp/hdd_name)
     ;;
 
   nein)
-    sgdisk - 3:0:0 -c 3:"ROOT" -t 2:8300 $(</tmp/hdd_name)
+    sgdisk - 3:0:0 -c 3:"ROOT" -t 3:8300 $(</tmp/hdd_name)
     ;;
 esac
 }
-
-
-# sgdisk -n 3:413696:823295 -c 3:"Linux /boot" -t 3:8300 $1
-# sgdisk -p $(</tmp/hdd_name)
