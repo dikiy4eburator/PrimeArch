@@ -2,7 +2,7 @@
 loadkeys de
 
 # includes
-source /root/lib/efi_handeler   # explicit PATH
+source /root/lib/efi_handeler
 source /root/lib/legacy_handeler
 source /root/lib/user_handeler
 
@@ -242,15 +242,17 @@ pacstrap /mnt alsa-tools alsa-utils pulseaudio pulseaudio-alsa pavucontrol flac 
 pacstrap /mnt xorg-server xorg-xinit compton ffmpeg vlc mpv
 
 #Install Additional apps
-pacstrap /mnt mate-polkit ranger git htop nitrogen terminology
-pacstrap /mnt chromium atom pluma dmenu conky dunst hunspell-de
-pacstrap /mnt nemo nemo-fileroller rsync cool-retro-term
+pacstrap /mnt ranger git htop nitrogen terminology rsync cool-retro-term
+pacstrap /mnt chromium atom dmenu conky dunst hunspell-de
+
+#Mate pakages
+pacstrap /mnt mate-polkit pluma caja caja-open-terminal caja-sendto caja-share caja-wallpaper engrampa
 
 #Install Themes
 pacstrap /mnt lxappearance-gtk3 arc-gtk-theme arc-icon-theme archlinux-wallpaper
 
 #Install fonts
-pacstrap /mnt gnome-font-viewer noto-fonts awesome-terminal-fonts ttf-ubuntu-font-family
+pacstrap /mnt gnome-font-viewer awesome-terminal-fonts ttf-ubuntu-font-family
 
 
 
