@@ -423,7 +423,7 @@ cp -r /root/lib/nitrogen /mnt/home/$US/.config
 # dunst config
 cp -r /root/lib/dunst /mnt/home/$US/.config
 
-# dunst config
+# Copy Addons script
 cp  /root/lib/Addons /mnt/home/$US/Addons
 
 # link usb automount rule
