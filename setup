@@ -2,11 +2,11 @@
 loadkeys de
 
 # includes
-source /root/lib/efi_handeler
-source /root/lib/legacy_handeler
+source /root/lib/define_hdd_patern
 source /root/lib/user_handeler
 source /root/lib/gen_hdd_menu
 source /root/lib/autopartition
+source /root/lib/format_mount
 
 # //////////////////////////////////////////////////////////////////////////////
 # //////////////////    VARIABELS DEFINITION  ///////////////////////////////////
@@ -144,24 +144,30 @@ if [[ $? -eq 0 ]];
 fi
 
 
-
-
-
 # Start HDD preparation
-if [[ -d "/sys/firmware/efi/efivars" ]];
-  then
-    f_install_efi
-  else
-    f_install_legacy
-fi
+case $(</tmp/hdd_name) in
+  nvme*)
+    f_def_hdd_patern_nvme
+    ;;
+  sd*)
+    f_def_hdd_patern_sata
+esac
+
+# Format Partition
+f_format
+
+# Mount Partition
+f_mount
+
+
+
+
 
 # Install base pacages
 pacstrap /mnt base fish base-devel linux-headers grub os-prober efibootmgr acpid dbus  vim cronie xdg-user-dirs
 
 # Generate fstab
 genfstab -U -p /mnt >> /mnt/etc/fstab
-
-
 
 
 

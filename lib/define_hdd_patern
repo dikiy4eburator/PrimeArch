@@ -1,0 +1,43 @@
+#!/bin/sh
+
+function f_def_hdd_patern_sata() {
+
+  ROOT_HD="$(</tmp/hdd_name)3"
+  SWAP_HD="$(</tmp/hdd_name)2"
+
+if [[ -d "/sys/firmware/efi/efivars" ]];
+  then
+    BOOT_HD="$(</tmp/hdd_name)1"
+  else
+fi
+
+case $(</tmp/extrahome)  in
+  ja)
+    HOME_HD="$(</tmp/hdd_name)4"
+    ;;
+  nein)
+    ;;
+esac
+}
+
+
+
+function f_def_hdd_patern_nvme() {
+
+  ROOT_HD="$(</tmp/hdd_name)p3"
+  SWAP_HD="$(</tmp/hdd_name)p2"
+
+if [[ -d "/sys/firmware/efi/efivars" ]];
+  then
+    BOOT_HD="$(</tmp/hdd_name)p1"
+  else
+fi
+
+case $(</tmp/extrahome)  in
+  ja)
+    HOME_HD="$(</tmp/hdd_name)p4"
+    ;;
+  nein)
+    ;;
+esac
+}

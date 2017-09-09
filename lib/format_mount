@@ -1,0 +1,46 @@
+#!/bin/sh
+
+function f_format() {
+
+  mkfs.ext4 /dev/$ROOT_HD
+  mkswap /dev/$SWAP_HD
+
+if [[ -d "/sys/firmware/efi/efivars" ]];
+  then
+    mkfs.fat -F32 /dev/$BOOT_HD
+  else
+fi
+
+case $(</tmp/extrahome)  in
+  ja)
+    mkfs.ext4 /dev/$HOME_HD
+    ;;
+  nein)
+    ;;
+esac
+}
+
+
+
+function f_mount() {
+
+  mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
+  swapon /dev/$SWAP_HD
+
+if [[ -d "/sys/firmware/efi/efivars" ]];
+  then
+    mkdir /mnt/boot
+    mkdir /mnt/boot/efi
+    mount /dev/$BOOT_HD /mnt/boot/efi
+  else
+fi
+
+case $(</tmp/extrahome)  in
+  ja)
+    mkdir /mnt/home
+    mount -o defaults,noatime,discard /dev/$HOME_HD /mnt/home
+    ;;
+  nein)
+    ;;
+esac
+}
