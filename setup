@@ -39,114 +39,114 @@ function f_arch_chroot() {
 
 # Welkom Screan
 dialog \
-  --backtitle 'PrimeArch Installer' \
-  --title 'Wilkommen beim PrimeArch Installer' \
-  --begin $BoxStartY $BoxStartX \
-  --msgbox 'Last den Spass beginnen' 10 $BoxWhith
+--backtitle 'PrimeArch Installer' \
+--title 'Wilkommen beim PrimeArch Installer' \
+--begin $BoxStartY $BoxStartX \
+--msgbox 'Last den Spass beginnen' 10 $BoxWhith
 
 
 # Extra Home partition Screan
 dialog \
-  --backtitle 'PrimeArch Installer' \
-  --title 'Extra HOME Partition' \
-  --begin $BoxStartY $BoxStartX \
-  --yesno 'Mochten Sie eine extra HOME Partition haben?' 10 $BoxWhith \
+--backtitle 'PrimeArch Installer' \
+--title 'Extra HOME Partition' \
+--begin $BoxStartY $BoxStartX \
+--yesno 'Mochten Sie eine extra HOME Partition haben?' 10 $BoxWhith \
 
 if [[ $? -eq 0 ]];
-  then
+then
     echo "ja" > /tmp/extrahome
 
     # Set root_size
     dialog \
-      --backtitle 'PrimeArch Installer' \
-      --begin $BoxStartY $BoxStartX \
-      --inputbox 'Bitte ROOT Partitionsgröse angeben (GB)' 10 $BoxWhith \
-      2>/tmp/root_size
+    --backtitle 'PrimeArch Installer' \
+    --begin $BoxStartY $BoxStartX \
+    --inputbox 'Bitte ROOT Partitionsgröse angeben (GB)' 10 $BoxWhith \
+    2>/tmp/root_size
 
   else
     echo "nein" > /tmp/extrahome
 fi
 
+#Generate HDD selektion menu & col it
 f_gen_hdd_menu
 sh /tmp/hdd_menu
 
 
 # Partitionierung AUTO MANUEL
 dialog \
-  --backtitle 'PrimeArch Installer' \
-  --title 'Partitionierung' \
-  --begin $BoxStartY $BoxStartX \
-  --yesno 'Mochten Sie eine automatiche Partitionierung durchführen?' 10 $BoxWhith \
+--backtitle 'PrimeArch Installer' \
+--title 'Partitionierung' \
+--begin $BoxStartY $BoxStartX \
+--yesno 'Mochten Sie eine automatiche Partitionierung durchführen?' 10 $BoxWhith \
 
 if [[ $? -eq 0 ]];
-  then
+then
     # Set swap_size
     dialog \
-      --backtitle 'PrimeArch Installer' \
-      --begin $BoxStartY $BoxStartX \
-      --inputbox 'Bitte SWAP Partitionsgröse angeben (GB)' 10 $BoxWhith \
-      2>/tmp/swap_size
+    --backtitle 'PrimeArch Installer' \
+    --begin $BoxStartY $BoxStartX \
+    --inputbox 'Bitte SWAP Partitionsgröse angeben (GB)' 10 $BoxWhith \
+    2>/tmp/swap_size
 
-  f_autopartition
+    f_autopartition
 
-  else
+else
     # Show Partitioning info depending on boot mode
     if [[ -d "/sys/firmware/efi/efivars" ]];
-      then
-        dialog \
-          --backtitle 'PrimeArch Installer' \
-          --title 'Partitions Tabelle' \
-          --begin $BoxStartY $BoxStartX \
-          --msgbox '
+        then
+            dialog \
+            --backtitle 'PrimeArch Installer' \
+            --title 'Partitions Tabelle' \
+            --begin $BoxStartY $BoxStartX \
+            --msgbox '
 
-    Im folgenden wird das Programm cgdisk gestartet
-    Bitte erstellen Sie die Partitione in der folgenden Ordnung:
+            Im folgenden wird das Programm cgdisk gestartet
+            Bitte erstellen Sie die Partitione in der folgenden Ordnung:
 
-    1. EFI ca. 100-256 Mb ( code: ef00 )"
-    2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )
+            1. EFI ca. 100-256 Mb ( code: ef00 )"
+            2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )
 
-        Wenn Sie keine extra HOME Partition wollen"
-        Könne Sie den restlichen Speicher der ROOT Partition zweisen
+            Wenn Sie keine extra HOME Partition wollen"
+            Könne Sie den restlichen Speicher der ROOT Partition zweisen
 
-    Ansonsten:
-    3. ROOT ca. 20-40 Gb ( code: 8300 )
-    4. HOME rest des Speichers ( code: 8300 )' 20 $BoxWhith
+            Ansonsten:
+            3. ROOT ca. 20-40 Gb ( code: 8300 )
+            4. HOME rest des Speichers ( code: 8300 )' 20 $BoxWhith
 
+        else
+            dialog \
+            --backtitle 'PrimeArch Installer' \
+            --title 'Partitions Tabelle' \
+            --begin $BoxStartY $BoxStartX \
+            --msgbox '
 
-      else
-        dialog \
-          --backtitle 'PrimeArch Installer' \
-          --title 'Partitions Tabelle' \
-          --begin $BoxStartY $BoxStartX \
-          --msgbox '
+            Im folgenden wird das Programm cgdisk gestartet
+            Bitte erstellen Sie die Partitione in der folgenden Ordnung:
 
-    Im folgenden wird das Programm cgdisk gestartet
-    Bitte erstellen Sie die Partitione in der folgenden Ordnung:
+            1. BOOT ca. 5 Mb ( code: ef02)"
+            2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )
 
-    1. BOOT ca. 5 Mb ( code: ef02)"
-    2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )
+            Wenn Sie keine extra HOME Partition wollen"
+            Könne Sie den restlichen Speicher der ROOT Partition zweisen
 
-        Wenn Sie keine extra HOME Partition wollen"
-        Könne Sie den restlichen Speicher der ROOT Partition zweisen
+            Ansonsten:
+            3. ROOT ca. 20-40 Gb ( code: 8300 )
+            4. HOME rest des Speichers ( code: 8300 )' 20 $BoxWhith
 
-    Ansonsten:
-    3. ROOT ca. 20-40 Gb ( code: 8300 )
-    4. HOME rest des Speichers ( code: 8300 )' 20 $BoxWhith
+        fi
 
-    fi
     # Start cgdisk
     cgdisk /dev/$(</tmp/hdd_name)
-
 fi
 
 
 # Start HDD preparation
 case $(</tmp/hdd_name) in
-  nvme*)
-    f_def_hdd_patern_nvme
-    ;;
-  sd*)
-    f_def_hdd_patern_sata
+    nvme*)
+        f_def_hdd_patern_nvme
+        ;;
+    sd*)
+        f_def_hdd_patern_sata
 esac
 
 # Format Partition
@@ -167,77 +167,77 @@ genfstab -U -p /mnt >> /mnt/etc/fstab
 
 # Grafiktreiber installation
 dialog \
-  --backtitle "PrimeArch" \
-  --begin $BoxStartY $BoxStartX \
-  --menu "Grafiktreiber wehlen" 15 $BoxWhith 7 \
-        1 virtualbox \
-        2 Nvidia \
-        3 ATI \
-        4 Intel \
-        5 Nouveau \
-        0 'Keine Videotreiber' \
-        2>/tmp/grafik_treiber
+--backtitle "PrimeArch" \
+--begin $BoxStartY $BoxStartX \
+--menu "Grafiktreiber wehlen" 15 $BoxWhith 7 \
+1 virtualbox \
+2 Nvidia \
+3 ATI \
+4 Intel \
+5 Nouveau \
+0 'Keine Videotreiber' \
+2>/tmp/grafik_treiber
 
 case $(</tmp/grafik_treiber) in
-  1 )
-    pacstrap /mnt virtualbox-guest-dkms virtualbox-guest-utils
-    ;;
-  2 )
-    pacstrap /mnt nvidia
-    ;;
-  3 )
-    pacstrap /mnt xf86-video-ati
-    ;;
-  4 )
-    pacstrap /mnt xf86-video-intel
-    ;;
-  5 )
-    pacstrap /mnt xf86-video-nouveau
-    ;;
-  0)
-    break
-    ;;
+    1 )
+        pacstrap /mnt virtualbox-guest-dkms virtualbox-guest-utils
+        ;;
+    2 )
+        pacstrap /mnt nvidia
+        ;;
+    3 )
+        pacstrap /mnt xf86-video-ati
+        ;;
+    4 )
+        pacstrap /mnt xf86-video-intel
+        ;;
+    5 )
+        pacstrap /mnt xf86-video-nouveau
+        ;;
+    0)
+        break
+        ;;
 esac
 
 
 
 # GUI installation
 dialog \
-  --backtitle "PrimeArch Installer" \
-  --begin $BoxStartY $BoxStartX \
-  --menu "Desktop wehlen" 15 $BoxWhith 8 \
-        1 i3 \
-        2 Xfce \
-        3 Mate \
-        4 KDE-Plasma \
-        5 Gnome \
-        6 Deepin \
-        0 'Keinen Desktop' \
-        2>/tmp/gui
+--backtitle "PrimeArch Installer" \
+--begin $BoxStartY $BoxStartX \
+--menu "Desktop wehlen" 15 $BoxWhith 8 \
+1 i3 \
+2 Xfce \
+3 Mate \
+4 KDE-Plasma \
+5 Gnome \
+6 Deepin \
+0 'Keinen Desktop' \
+2>/tmp/gui
 
 
 case $(</tmp/gui) in
-  1 )
-    pacstrap /mnt i3 dmenu
-    ;;
-  2 )
-    pacstrap /mnt xfce4 xfce4-goodies
-    ;;
-  3 )
-    pacstrap /mnt mate mate-extra
-    ;;
-  4 )
-    pacstrap /mnt plasma
-    ;;
-  5)
-    pacstrap /mnt gnome gnome-extra
-    ;;
-  6)
-    pacstrap /mnt deepin deepin-extra
-    ;;
-  0)
-    break
-    ;;
+    1 )
+        pacstrap /mnt i3 dmenu
+        ;;
+    2 )
+        pacstrap /mnt xfce4 xfce4-goodies
+        ;;
+    3 )
+        pacstrap /mnt mate mate-extra
+        ;;
+    4 )
+        pacstrap /mnt plasma
+        ;;
+    5)
+        pacstrap /mnt gnome gnome-extra
+        ;;
+    6)
+        pacstrap /mnt deepin deepin-extra
+        ;;
+    0)
+        break
+        ;;
 esac
 
 
@@ -271,10 +271,10 @@ pacstrap /mnt gnome-font-viewer awesome-terminal-fonts ttf-ubuntu-font-family
 
 # Set hostname
 dialog \
-  --backtitle 'PrimeArch Installer' \
-  --begin $BoxStartY $BoxStartX \
-  --inputbox 'Bitte Hostnamen eingeben' 10 $BoxWhith \
-  2>/mnt/etc/hostname
+--backtitle 'PrimeArch Installer' \
+--begin $BoxStartY $BoxStartX \
+--inputbox 'Bitte Hostnamen eingeben' 10 $BoxWhith \
+2>/mnt/etc/hostname
 
 
 
@@ -285,27 +285,27 @@ f_set_root
 
 # CREATE NEW USER
 dialog \
-  --backtitle 'PrimeArch Installer' \
-  --title 'Neuen Benutzer erstellen?' \
-  --begin $BoxStartY $BoxStartX \
-  --yesno 'Möchten sie einen neuen Benutzer erstellen?' 10 $BoxWhith \
+--backtitle 'PrimeArch Installer' \
+--title 'Neuen Benutzer erstellen?' \
+--begin $BoxStartY $BoxStartX \
+--yesno 'Möchten sie einen neuen Benutzer erstellen?' 10 $BoxWhith \
 
 if [[ $? -eq 0 ]]; # IF YES !!!
-  then
-    dialog \
-      --backtitle 'PrimeArch Installer' \
-      --begin $BoxStartY $BoxStartX \
-      --inputbox 'Bitte Benutzernamen eingeben' 10 $BoxWhith \
-      2>/tmp/user_name
+    then
+       dialog \
+       --backtitle 'PrimeArch Installer' \
+       --begin $BoxStartY $BoxStartX \
+       --inputbox 'Bitte Benutzernamen eingeben' 10 $BoxWhith \
+       2>/tmp/user_name
 
-      arch-chroot /mnt /bin/bash -c "useradd -m -g users -G wheel,storage,power,network,video,audio -s /usr/bin/fish '$(</tmp/user_name)'"
+       arch-chroot /mnt /bin/bash -c "useradd -m -g users -G wheel,storage,power,network,video,audio -s /usr/bin/fish '$(</tmp/user_name)'"
 
-      #Set USER PW
-      f_set_user
+       #Set USER PW
+       f_set_user
 
-      echo "%wheel ALL=(ALL) ALL" >> /mnt/etc/sudoers
-  else
-    break
+       echo "%wheel ALL=(ALL) ALL" >> /mnt/etc/sudoers
+    else
+      break
 fi
 
 
@@ -329,12 +329,12 @@ arch-chroot /mnt /bin/bash -c locale-gen
 
 #GRUB INSTALLATION
 if [[ -d "/sys/firmware/efi/efivars" ]];
-then
-  # install grub efi
-  f_arch_chroot "grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$(</mnt/etc/hostname)"
-else
-  # install grub legacy
-  f_arch_chroot "grub-install /dev/$(</tmp/hdd_name)"
+    then
+       # install grub efi
+       f_arch_chroot "grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$(</mnt/etc/hostname)"
+    else
+      # install grub legacy
+      f_arch_chroot "grub-install /dev/$(</tmp/hdd_name)"
 fi
 
 f_arch_chroot "grub-mkconfig -o /boot/grub/grub.cfg"
@@ -344,24 +344,29 @@ f_arch_chroot "grub-mkconfig -o /boot/grub/grub.cfg"
 #start system daemons
 f_arch_chroot "systemctl enable acpid"
 f_arch_chroot "systemctl enable ntpd"
+
 # network managment
 f_arch_chroot "systemctl enable avahi-daemon"
 f_arch_chroot "systemctl enable wpa_supplicant"
 f_arch_chroot "systemctl enable NetworkManager"
+
 # NFS utils
 f_arch_chroot "systemctl enable rpcbind"
+
 # Cronie
 f_arch_chroot "systemctl enable cronie.service"
+
 #lightdm
 f_arch_chroot "systemctl enable lightdm.service"
 
 
 
 # Clone i3-config repo
-if [[ -f /mnt/bin/i3 ]]; then
-  git clone https://github.com/dikiy4eburator/i3-config.git /mnt/home/$(</tmp/user_name)/.config/i3
-else
-  break
+if [[ -f /mnt/bin/i3 ]];
+    then
+        git clone https://github.com/dikiy4eburator/i3-config.git /mnt/home/$(</tmp/user_name)/.config/i3
+    else
+        break
 fi
 
 # link gtk-theme config
@@ -396,25 +401,25 @@ arch-chroot /mnt /bin/bash -c "chmod -R 0700 /home/$(</tmp/user_name)"
 
 ##Selekt HDD screan
 dialog \
-	--backtitle 'PrimeArch Installer' \
-	--title 'Ende erreicht' \
-	--begin $BoxStartY $BoxStartX \
-	--menu "installation Beendet" 15 $BoxWhith 8 \
-  1 Rebooten \
-  2 Ausschalten \
-  3 Chroot \
-  2>/tmp/exit
+--backtitle 'PrimeArch Installer' \
+--title 'Ende erreicht' \
+--begin $BoxStartY $BoxStartX \
+--menu "installation Beendet" 15 $BoxWhith 8 \
+1 Rebooten \
+2 Ausschalten \
+3 Chroot \
+2>/tmp/exit
 
 case $(</tmp/exit) in
-  1 )
-    reboot
-    ;;
-  2 )
-    poweroff
-    ;;
-  3 )
-    arch-chroot /mnt
-    ;;
+    1 )
+        reboot
+        ;;
+    2 )
+        poweroff
+        ;;
+    3 )
+        arch-chroot /mnt
+        ;;
 esac
 
 exit
