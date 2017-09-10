@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# GENERATE AND WRITE ROOT PW
+#--------------------------------------------------------------------------------------------------------------------------------------
 function f_set_root_pw() {
 
   awk '{ if($1 !~ /root/) print }' /mnt/etc/shadow > /mnt/etc/new_shadow
@@ -11,9 +13,14 @@ function f_set_root_pw() {
   rm /tmp/root_pw
   rm /tmp/root_pw_2
 }
+#--------------------------------------------------------------------------------------------------------------------------------------
 
 
 
+
+
+# GENERATE AND WRITE USER PW
+#--------------------------------------------------------------------------------------------------------------------------------------
 function f_set_user_pw() {
   # Clear User Password
   awk '{ if($1 !~ /'$(</tmp/user_name)'/) print }' /mnt/etc/shadow > /mnt/etc/new_shadow
@@ -26,36 +33,45 @@ function f_set_user_pw() {
   rm /tmp/user_pw
   rm /tmp/user_pw_2
 }
+#--------------------------------------------------------------------------------------------------------------------------------------
 
 
 
-function f_set_root() {
-  # Set ROOT Password
-  dialog \
+
+
+# ROOT PW DIALOG
+#--------------------------------------------------------------------------------------------------------------------------------------
+function f_root_pw_dialog() {
+    dialog \
     --backtitle 'PrimeArch Installer' \
     --begin $BoxStartY $BoxStartX \
     --insecure \
     --passwordbox 'Bitte ROOT Password eingeben' 10 $BoxWhith \
     2>/tmp/root_pw
 
-  dialog \
+    dialog \
     --backtitle 'PrimeArch Installer' \
     --begin $BoxStartY $BoxStartX \
     --insecure \
     --passwordbox 'Bitte ROOT Password wiederholen' 10 $BoxWhith \
     2>/tmp/root_pw_2
 
-  if [[ $(</tmp/root_pw) == $(</tmp/root_pw_2) ]];
-    then
-      f_set_root_pw
-    else
-      f_set_root
-  fi
+    if [[ $(</tmp/root_pw) == $(</tmp/root_pw_2) ]];
+       then
+        f_set_root_pw
+       else
+        f_root_pw_dialog
+    fi
 }
+#--------------------------------------------------------------------------------------------------------------------------------------
 
 
 
-function f_set_user() {
+
+
+# ROOT PW DIALOG
+#--------------------------------------------------------------------------------------------------------------------------------------
+function f_user_pw_dialog() {
   # Generate Password
   dialog \
     --backtitle 'PrimeArch Installer' \
@@ -75,6 +91,7 @@ function f_set_user() {
     then
       f_set_user_pw
     else
-      f_set_user
+      f_user_pw_dialog
   fi
 }
+#--------------------------------------------------------------------------------------------------------------------------------------
