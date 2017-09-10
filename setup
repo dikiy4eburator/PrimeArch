@@ -265,7 +265,7 @@ pacstrap /mnt ranger git htop nitrogen terminology rsync cool-retro-term
 pacstrap /mnt chromium atom conky dunst hunspell-de
 
 #Mate pakages
-pacstrap /mnt mate-polkit pluma caja caja-open-terminal caja-sendto caja-share caja-wallpaper engrampa
+pacstrap /mnt mate-polkit pluma caja caja-open-terminal caja-sendto caja-share caja-wallpaper engrampa  atril eom
 
 #Install Themes
 pacstrap /mnt lxappearance-gtk3 arc-gtk-theme arc-icon-theme archlinux-wallpaper
