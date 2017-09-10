@@ -422,6 +422,9 @@ cp -r /root/lib/nitrogen /mnt/home/$(</tmp/user_name)/.config
 # dunst config
 cp -r /root/lib/dunst /mnt/home/$(</tmp/user_name)/.config
 
+# Terminator config
+cp -r /root/lib/terminator /mnt/home/$(</tmp/user_name)/.config
+
 #keyboard Conf
 cp -r /root/lib/xorg.conf.d /mnt/etc/X11
 
