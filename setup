@@ -5,8 +5,6 @@ loadkeys de
 source /root/lib/user_ops
 source /root/lib/hard_drive_ops
 
-source /root/lib/gen_hdd_menu
-
 # //////////////////////////////////////////////////////////////////////////////
 # //////////////////    VARIABELS DEFINITION  //////////////
 # //////////////////////////////////////////////////////////////////////////////
@@ -72,7 +70,7 @@ fi
 
 
 
-#Generate HDD selektion menu & col it
+#Generate HDD selektion menu & cool it
 #--------------------------------------------------------------------------------------------------------------------------------------
 f_gen_hdd_menu
 sh /tmp/hdd_menu
@@ -174,19 +172,22 @@ f_mount
 
 
 
-# Install base pacages
-#--------------------------------------------------------------------------------------------------------------------------------------
-pacstrap /mnt base fish base-devel linux-headers grub os-prober efibootmgr acpid dbus  vim cronie xdg-user-dirs
-#--------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
 # Generate fstab
 #--------------------------------------------------------------------------------------------------------------------------------------
 genfstab -U -p /mnt >> /mnt/etc/fstab
 #--------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+# Install base pacages
+#--------------------------------------------------------------------------------------------------------------------------------------
+pacstrap /mnt $(</root/lib/pacages)
+#--------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 
 
 # Grafiktreiber installation
@@ -274,40 +275,6 @@ esac
 
 
 
-# PACAGE INSTALLATION
-#--------------------------------------------------------------------------------------------------------------------------------------
-
-#Install Login managment
-pacstrap /mnt lightdm lightdm-gtk-greeter
-
-#Install Network pakages
-pacstrap /mnt avahi networkmanager network-manager-applet nm-connection-editor ntp wireless_tools wpa_supplicant gnome-keyring nfs-utils openssh
-
-#Install Audio pakages
-pacstrap /mnt alsa-tools alsa-utils pulseaudio pulseaudio-alsa pavucontrol flac volumeicon audacious
-
-#Install Video pakages
-pacstrap /mnt xorg-server xorg-xinit compton ffmpeg vlc mpv
-
-#Install Additional apps
-pacstrap /mnt ranger git htop nitrogen terminology rsync cool-retro-term
-pacstrap /mnt chromium atom conky dunst hunspell-de
-
-#Mate pakages
-pacstrap /mnt mate-polkit pluma caja caja-open-terminal caja-sendto engrampa  atril
-
-#Install Themes
-pacstrap /mnt lxappearance-gtk3 arc-gtk-theme arc-icon-theme archlinux-wallpaper
-
-#Install fonts
-pacstrap /mnt gnome-font-viewer awesome-terminal-fonts ttf-ubuntu-font-family
-
-#--------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
 # Set hostname
 #--------------------------------------------------------------------------------------------------------------------------------------
 dialog \
@@ -316,6 +283,9 @@ dialog \
 --inputbox 'Bitte Hostnamen eingeben' 7 $BoxWhith \
 2>/mnt/etc/hostname
 #--------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 
 
 #Set ROOT PW

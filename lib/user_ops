@@ -46,14 +46,14 @@ function f_root_pw_dialog() {
     --backtitle 'PrimeArch Installer' \
     --begin $BoxStartY $BoxStartX \
     --insecure \
-    --passwordbox 'Bitte ROOT Password eingeben' 10 $BoxWhith \
+    --passwordbox 'Bitte ROOT Password eingeben' 7 $BoxWhith \
     2>/tmp/root_pw
 
     dialog \
     --backtitle 'PrimeArch Installer' \
     --begin $BoxStartY $BoxStartX \
     --insecure \
-    --passwordbox 'Bitte ROOT Password wiederholen' 10 $BoxWhith \
+    --passwordbox 'Bitte ROOT Password wiederholen' 7 $BoxWhith \
     2>/tmp/root_pw_2
 
     if [[ $(</tmp/root_pw) == $(</tmp/root_pw_2) ]];
@@ -77,14 +77,14 @@ function f_user_pw_dialog() {
     --backtitle 'PrimeArch Installer' \
     --begin $BoxStartY $BoxStartX \
     --insecure \
-    --passwordbox "Bitte Password für $(</tmp/user_name) eingeben" 10 $BoxWhith \
+    --passwordbox "Bitte Password für $(</tmp/user_name) eingeben" 7 $BoxWhith \
     2>/tmp/user_pw
 
   dialog \
     --backtitle 'PrimeArch Installer' \
     --begin $BoxStartY $BoxStartX \
     --insecure \
-    --passwordbox "Bitte Password für $(</tmp/user_name) wiederholen" 10 $BoxWhith \
+    --passwordbox "Bitte Password für $(</tmp/user_name) wiederholen" 7 $BoxWhith \
     2>/tmp/user_pw_2
 
   if [[ $(</tmp/user_pw) == $(</tmp/user_pw_2) ]];
