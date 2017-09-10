@@ -40,11 +40,9 @@ function f_arch_chroot() {
 # Welkom Screan
 dialog \
   --backtitle 'PrimeArch Installer' \
-  --title 'Wilkommen' \
+  --title 'Wilkommen beim PrimeArch Installer' \
   --begin $BoxStartY $BoxStartX \
-  --msgbox '
-
-Bitte beantworten Sie einige Fragen zu der Systemconfiguration' 10 $BoxWhith
+  --msgbox 'Last den Spass beginnen' 10 $BoxWhith
 
 
 # Extra Home partition Screan
@@ -52,9 +50,7 @@ dialog \
   --backtitle 'PrimeArch Installer' \
   --title 'Extra HOME Partition' \
   --begin $BoxStartY $BoxStartX \
-  --yesno '
-
-Mochten Sie eine extra HOME Partition haben?' 10 $BoxWhith \
+  --yesno 'Mochten Sie eine extra HOME Partition haben?' 10 $BoxWhith \
 
 if [[ $? -eq 0 ]];
   then
@@ -80,9 +76,7 @@ dialog \
   --backtitle 'PrimeArch Installer' \
   --title 'Partitionierung' \
   --begin $BoxStartY $BoxStartX \
-  --yesno '
-
-Mochten Sie eine automatiche Partitionierung durchführen?' 10 $BoxWhith \
+  --yesno 'Mochten Sie eine automatiche Partitionierung durchführen?' 10 $BoxWhith \
 
 if [[ $? -eq 0 ]];
   then
@@ -265,7 +259,7 @@ pacstrap /mnt ranger git htop nitrogen terminology rsync cool-retro-term
 pacstrap /mnt chromium atom conky dunst hunspell-de
 
 #Mate pakages
-pacstrap /mnt mate-polkit pluma caja caja-open-terminal caja-sendto caja-share caja-wallpaper engrampa
+pacstrap /mnt mate-polkit pluma caja caja-open-terminal caja-sendto engrampa  atril
 
 #Install Themes
 pacstrap /mnt lxappearance-gtk3 arc-gtk-theme arc-icon-theme archlinux-wallpaper
@@ -406,10 +400,10 @@ dialog \
 	--title 'Ende erreicht' \
 	--begin $BoxStartY $BoxStartX \
 	--menu "installation Beendet" 15 $BoxWhith 8 \
-		    1 Rebooten \
-        2 Ausschalten \
-        3 Chroot \
-        2>/tmp/exit
+  1 Rebooten \
+  2 Ausschalten \
+  3 Chroot \
+  2>/tmp/exit
 
 case $(</tmp/exit) in
   1 )
