@@ -4,14 +4,18 @@
 #--------------------------------------------------------------------------------------------------------------------------------------
 function f_set_root_pw() {
 
-  awk '{ if($1 !~ /root/) print }' /mnt/etc/shadow > /mnt/etc/new_shadow
+	# remove root from shadow file
+  	awk '{ if($1 !~ /root/) print }' /mnt/etc/shadow > /mnt/etc/new_shadow
+	
+	# generate and add root pasword to the new shadow file 
+  	openssl passwd -1 -salt xyz  $(</tmp/root_pw) > /tmp/root_pw
+  	echo "root:$(</tmp/root_pw):17393::::::" >> /mnt/etc/new_shadow
 
-  openssl passwd -1 -salt xyz  $(</tmp/root_pw) > /tmp/root_pw
-  echo "root:$(</tmp/root_pw):17393::::::" >> /mnt/etc/new_shadow
-  mv /mnt/etc/new_shadow /mnt/etc/shadow
+	# replace shadow with new shadow file
+  	mv /mnt/etc/new_shadow /mnt/etc/shadow
 
-  rm /tmp/root_pw
-  rm /tmp/root_pw_2
+  	rm /tmp/root_pw
+  	rm /tmp/root_pw_2
 }
 #--------------------------------------------------------------------------------------------------------------------------------------
 
@@ -22,16 +26,19 @@ function f_set_root_pw() {
 # GENERATE AND WRITE USER PW
 #--------------------------------------------------------------------------------------------------------------------------------------
 function f_set_user_pw() {
-  # Clear User Password
-  awk '{ if($1 !~ /'$(</tmp/user_name)'/) print }' /mnt/etc/shadow > /mnt/etc/new_shadow
+  	
+	# Clear User Password
+  	awk '{ if($1 !~ /'$(</tmp/user_name)'/) print }' /mnt/etc/shadow > /mnt/etc/new_shadow
 
-  # Set new User Password
-  openssl passwd -1 -salt xyz  $(</tmp/user_pw) > /tmp/user_pw
-  echo "$(</tmp/user_name):$(</tmp/user_pw):17393:0:99999:7:::" >> /mnt/etc/new_shadow
-  mv /mnt/etc/new_shadow /mnt/etc/shadow
+  	# Set new User Password
+  	openssl passwd -1 -salt xyz  $(</tmp/user_pw) > /tmp/user_pw
+  	echo "$(</tmp/user_name):$(</tmp/user_pw):17393:0:99999:7:::" >> /mnt/etc/new_shadow
+  	
+	# replace shadow with new shadow file
+	mv /mnt/etc/new_shadow /mnt/etc/shadow
 
-  rm /tmp/user_pw
-  rm /tmp/user_pw_2
+  	rm /tmp/user_pw
+  	rm /tmp/user_pw_2
 }
 #--------------------------------------------------------------------------------------------------------------------------------------
 
@@ -42,26 +49,26 @@ function f_set_user_pw() {
 # ROOT PW DIALOG
 #--------------------------------------------------------------------------------------------------------------------------------------
 function f_root_pw_dialog() {
-    dialog \
-    --backtitle 'PrimeArch Installer' \
-    --begin $BoxStartY $BoxStartX \
-    --insecure \
-    --passwordbox 'Bitte ROOT Password eingeben' 7 $BoxWhith \
-    2>/tmp/root_pw
+	dialog \
+    	--backtitle 'PrimeArch Installer' \
+    	--begin $BoxStartY $BoxStartX \
+    	--insecure \
+    	--passwordbox 'Bitte ROOT Password eingeben' 7 $BoxWhith \
+    	2>/tmp/root_pw
 
-    dialog \
-    --backtitle 'PrimeArch Installer' \
-    --begin $BoxStartY $BoxStartX \
-    --insecure \
-    --passwordbox 'Bitte ROOT Password wiederholen' 7 $BoxWhith \
-    2>/tmp/root_pw_2
+    	dialog \
+    	--backtitle 'PrimeArch Installer' \
+    	--begin $BoxStartY $BoxStartX \
+    	--insecure \
+    	--passwordbox 'Bitte ROOT Password wiederholen' 7 $BoxWhith \
+    	2>/tmp/root_pw_2
 
-    if [[ $(</tmp/root_pw) == $(</tmp/root_pw_2) ]];
-       then
-        f_set_root_pw
-       else
-        f_root_pw_dialog
-    fi
+    	if [[ $(</tmp/root_pw) == $(</tmp/root_pw_2) ]];
+       		then
+        		f_set_root_pw
+       		else
+        		f_root_pw_dialog
+    	fi
 }
 #--------------------------------------------------------------------------------------------------------------------------------------
 
@@ -72,26 +79,25 @@ function f_root_pw_dialog() {
 # ROOT PW DIALOG
 #--------------------------------------------------------------------------------------------------------------------------------------
 function f_user_pw_dialog() {
-  # Generate Password
-  dialog \
-    --backtitle 'PrimeArch Installer' \
-    --begin $BoxStartY $BoxStartX \
-    --insecure \
-    --passwordbox "Bitte Password für $(</tmp/user_name) eingeben" 7 $BoxWhith \
-    2>/tmp/user_pw
+	dialog \
+    	--backtitle 'PrimeArch Installer' \
+    	--begin $BoxStartY $BoxStartX \
+    	--insecure \
+    	--passwordbox "Bitte Password für $(</tmp/user_name) eingeben" 7 $BoxWhith \
+    	2>/tmp/user_pw
 
-  dialog \
-    --backtitle 'PrimeArch Installer' \
-    --begin $BoxStartY $BoxStartX \
-    --insecure \
-    --passwordbox "Bitte Password für $(</tmp/user_name) wiederholen" 7 $BoxWhith \
-    2>/tmp/user_pw_2
+  	dialog \
+    	--backtitle 'PrimeArch Installer' \
+    	--begin $BoxStartY $BoxStartX \
+    	--insecure \
+    	--passwordbox "Bitte Password für $(</tmp/user_name) wiederholen" 7 $BoxWhith \
+    	2>/tmp/user_pw_2
 
-  if [[ $(</tmp/user_pw) == $(</tmp/user_pw_2) ]];
-    then
-      f_set_user_pw
-    else
-      f_user_pw_dialog
-  fi
+  	if [[ $(</tmp/user_pw) == $(</tmp/user_pw_2) ]];
+    		then
+      			f_set_user_pw
+    		else
+      			f_user_pw_dialog
+  	fi
 }
 #--------------------------------------------------------------------------------------------------------------------------------------

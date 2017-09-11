@@ -53,16 +53,16 @@ dialog \
 --yesno '\n Mochten Sie eine extra HOME Partition haben? \n' 7 $BoxWhith \
 
 if [[ $? -eq 0 ]];
-        then
-             echo "ja" > /tmp/extrahome
+	then
+        	echo "ja" > /tmp/extrahome
 
-             dialog \
-             --backtitle 'PrimeArch Installer' \
-             --begin $BoxStartY $BoxStartX \
-             --inputbox '\n Bitte geben Sie die Gröse der ROOT Partition in GiB an. \n' 10 $BoxWhith \
-             2>/tmp/root_size
-    else
-            echo "nein" > /tmp/extrahome
+		dialog \
+            	--backtitle 'PrimeArch Installer' \
+             	--begin $BoxStartY $BoxStartX \
+             	--inputbox '\n Bitte geben Sie die Gröse der ROOT Partition in GiB an. \n' 10 $BoxWhith \
+             	2>/tmp/root_size
+    	else
+            	echo "nein" > /tmp/extrahome
 fi
 #--------------------------------------------------------------------------------------------------------------------------------------
 
@@ -89,61 +89,61 @@ dialog \
 --yesno '\n Mochten Sie eine automatiche Partitionierung durchführen? \n' 7 $BoxWhith \
 
 if [[ $? -eq 0 ]];
-then
-    # Set swap_size
-    dialog \
-    --backtitle 'PrimeArch Installer' \
-    --begin $BoxStartY $BoxStartX \
-    --inputbox '\n Bitte geben Sie die Gröse der SWAP Partition in GiB an. \n' 10 $BoxWhith \
-    2>/tmp/swap_size
+	then
+    		# Set swap_size
+    		dialog \
+    		--backtitle 'PrimeArch Installer' \
+    		--begin $BoxStartY $BoxStartX \
+    		--inputbox '\n Bitte geben Sie die Gröse der SWAP Partition in GiB an. \n' 10 $BoxWhith \
+    		2>/tmp/swap_size
 
-    f_autopartition
+    		f_autopartition
+	else
+    		# Show Partitioning info depending on boot mode
+    		if [[ -d "/sys/firmware/efi/efivars" ]];
+        		then
+          			dialog \
+          			--backtitle 'PrimeArch Installer' \
+          			--title 'Partitions Tabelle' \
+          			--begin $BoxStartY $BoxStartX \
+          			--msgbox '
 
-else
-    # Show Partitioning info depending on boot mode
-    if [[ -d "/sys/firmware/efi/efivars" ]];
-        then
-          dialog \
-          --backtitle 'PrimeArch Installer' \
-          --title 'Partitions Tabelle' \
-          --begin $BoxStartY $BoxStartX \
-          --msgbox '
+          			Im folgenden wird das Programm cgdisk gestartet
+          			Bitte erstellen Sie die Partitione in der folgenden Ordnung:
 
-          Im folgenden wird das Programm cgdisk gestartet
-          Bitte erstellen Sie die Partitione in der folgenden Ordnung:
+          			1. EFI ca. 100-256 Mb ( code: ef00 )
+          			2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )
 
-          1. EFI ca. 100-256 Mb ( code: ef00 )
-          2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )
+          			     Wenn Sie keine extra HOME Partition wollen
+           			     Könne Sie den restlichen Speicher der ROOT Partition zweisen
 
-               Wenn Sie keine extra HOME Partition wollen
-               Könne Sie den restlichen Speicher der ROOT Partition zweisen
+          			Ansonsten:
+          			3. ROOT ca. 20-40 Gb ( code: 8300 )
+          			4. HOME rest des Speichers ( code: 8300 ) ' 20 $BoxWhith
 
-          Ansonsten:
-          3. ROOT ca. 20-40 Gb ( code: 8300 )
-          4. HOME rest des Speichers ( code: 8300 ) ' 20 $BoxWhith
+        		else
+          			dialog \
+          			--backtitle 'PrimeArch Installer' \
+          			--title 'Partitions Tabelle' \
+          			--begin $BoxStartY $BoxStartX \
+          			--msgbox '
 
-        else
-          dialog \
-          --backtitle 'PrimeArch Installer' \
-          --title 'Partitions Tabelle' \
-          --begin $BoxStartY $BoxStartX \
-          --msgbox '
+          			Im folgenden wird das Programm cgdisk gestartet
+          			Bitte erstellen Sie die Partitione in der folgenden Ordnung:
 
-          Im folgenden wird das Programm cgdisk gestartet
-          Bitte erstellen Sie die Partitione in der folgenden Ordnung:
+          			1. BOOT ca. 5 Mb ( code: ef02)
+          			2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )
 
-          1. BOOT ca. 5 Mb ( code: ef02)
-          2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )
+          			     Wenn Sie keine extra HOME Partition wollen
+          			     Könne Sie den restlichen Speicher der ROOT Partition zweisen
 
-               Wenn Sie keine extra HOME Partition wollen
-               Könne Sie den restlichen Speicher der ROOT Partition zweisen
-
-          Ansonsten:
-          3. ROOT ca. 20-40 Gb ( code: 8300 )
-          4. HOME rest des Speichers ( code: 8300 )' 20 $BoxWhith
-        fi
-    # Start cgdisk
-    cgdisk /dev/$(</tmp/hdd_name)
+          			Ansonsten:
+          			3. ROOT ca. 20-40 Gb ( code: 8300 )
+          			4. HOME rest des Speichers ( code: 8300 )' 20 $BoxWhith
+        	fi
+    		
+		# Start cgdisk
+    		cgdisk /dev/$(</tmp/hdd_name)
 fi
 #--------------------------------------------------------------------------------------------------------------------------------------
 
@@ -154,11 +154,12 @@ fi
 # Start HDD preparation
 #--------------------------------------------------------------------------------------------------------------------------------------
 case $(</tmp/hdd_name) in
-    nvme*)
-        f_def_hdd_patern_nvme
-        ;;
-    sd*)
-        f_def_hdd_patern_sata
+	nvme*)
+        	f_def_hdd_patern_nvme
+        	;;
+	sd*)
+        	f_def_hdd_patern_sata
+		;;
 esac
 
 # Format Partition
@@ -205,24 +206,25 @@ dialog \
 2>/tmp/grafik_treiber
 
 case $(</tmp/grafik_treiber) in
-    1 )
-        pacstrap /mnt virtualbox-guest-dkms virtualbox-guest-utils
-        ;;
-    2 )
-        pacstrap /mnt nvidia
-        ;;
-    3 )
-        pacstrap /mnt xf86-video-ati
-        ;;
-    4 )
-        pacstrap /mnt xf86-video-intel
-        ;;
-    5 )
-        pacstrap /mnt xf86-video-nouveau
-        ;;
-    0)
-        break
-        ;;
+    
+	1 )
+        	pacstrap /mnt virtualbox-guest-dkms virtualbox-guest-utils
+        	;;
+    	2 )
+        	pacstrap /mnt nvidia
+        	;;
+    	3 )
+        	pacstrap /mnt xf86-video-ati
+        	;;
+    	4 )
+        	pacstrap /mnt xf86-video-intel
+        	;;
+    	5 )
+        	pacstrap /mnt xf86-video-nouveau
+        	;;
+    	0 )
+        	break
+        	;;
 esac
 #--------------------------------------------------------------------------------------------------------------------------------------
 
@@ -247,27 +249,27 @@ dialog \
 
 
 case $(</tmp/gui) in
-    1 )
-        pacstrap /mnt i3 dmenu
-        ;;
-    2 )
-        pacstrap /mnt xfce4 xfce4-goodies
-        ;;
-    3 )
-        pacstrap /mnt mate mate-extra
-        ;;
-    4 )
-        pacstrap /mnt plasma
-        ;;
-    5)
-        pacstrap /mnt gnome gnome-extra
-        ;;
-    6)
-        pacstrap /mnt deepin deepin-extra
-        ;;
-    0)
-        break
-        ;;
+    	1 )
+        	pacstrap /mnt i3 dmenu
+        	;;
+    	2 )
+        	pacstrap /mnt xfce4 xfce4-goodies
+        	;;
+    	3 )
+        	pacstrap /mnt mate mate-extra
+        	;;
+    	4 )
+        	pacstrap /mnt plasma
+        	;;
+    	5)
+        	pacstrap /mnt gnome gnome-extra
+        	;;
+    	6)
+        	pacstrap /mnt deepin deepin-extra
+        	;;
+    	0)
+        	break
+        	;;
 esac
 #--------------------------------------------------------------------------------------------------------------------------------------
 
@@ -306,21 +308,21 @@ dialog \
 --yesno '\n Möchten sie einen neuen Benutzer erstellen? \n ' 7 $BoxWhith \
 
 if [[ $? -eq 0 ]]; # IF YES !!!
-    then
-       dialog \
-       --backtitle 'PrimeArch Installer' \
-       --begin $BoxStartY $BoxStartX \
-       --inputbox 'Bitte Benutzernamen eingeben' 7 $BoxWhith \
-       2>/tmp/user_name
+    	then
+       		dialog \
+       		--backtitle 'PrimeArch Installer' \
+       		--begin $BoxStartY $BoxStartX \
+       		--inputbox 'Bitte Benutzernamen eingeben' 7 $BoxWhith \
+       		2>/tmp/user_name
 
-       arch-chroot /mnt /bin/bash -c "useradd -m -g users -G wheel,storage,power,network,video,audio -s /usr/bin/fish '$(</tmp/user_name)'"
+       		arch-chroot /mnt /bin/bash -c "useradd -m -g users -G wheel,storage,power,network,video,audio -s /usr/bin/fish '$(</tmp/user_name)'"
 
-       #Set USER PW
-       f_user_pw_dialog
+       		#Set USER PW
+       		f_user_pw_dialog
 
-       echo "%wheel ALL=(ALL) ALL" >> /mnt/etc/sudoers
-    else
-      break
+       		echo "%wheel ALL=(ALL) ALL" >> /mnt/etc/sudoers
+    	else
+      		break
 fi
 #--------------------------------------------------------------------------------------------------------------------------------------
 
@@ -353,12 +355,12 @@ arch-chroot /mnt /bin/bash -c locale-gen
 #GRUB INSTALLATION
 #--------------------------------------------------------------------------------------------------------------------------------------
 if [[ -d "/sys/firmware/efi/efivars" ]];
-    then
-       # install grub efi
-       f_arch_chroot "grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$(</mnt/etc/hostname)"
-    else
-      # install grub legacy
-      f_arch_chroot "grub-install /dev/$(</tmp/hdd_name)"
+    	then
+       		# install grub efi
+       		f_arch_chroot "grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$(</mnt/etc/hostname)"
+    	else
+      		# install grub legacy
+      		f_arch_chroot "grub-install /dev/$(</tmp/hdd_name)"
 fi
 
 f_arch_chroot "grub-mkconfig -o /boot/grub/grub.cfg"
@@ -396,10 +398,10 @@ f_arch_chroot "systemctl enable lightdm.service"
 #--------------------------------------------------------------------------------------------------------------------------------------
 # Clone i3-config repo
 if [[ -f /mnt/bin/i3 ]];
-    then
-        git clone https://github.com/dikiy4eburator/i3-config.git /mnt/home/$(</tmp/user_name)/.config/i3
-    else
-        break
+    	then
+        	git clone https://github.com/dikiy4eburator/i3-config.git /mnt/home/$(</tmp/user_name)/.config/i3
+    	else
+        	break
 fi
 #--------------------------------------------------------------------------------------------------------------------------------------
 
@@ -472,15 +474,15 @@ dialog \
 2>/tmp/exit
 
 case $(</tmp/exit) in
-    1 )
-        reboot
-        ;;
-    2 )
-        poweroff
-        ;;
-    3 )
-        arch-chroot /mnt
-        ;;
+    	1 )
+        	reboot
+        	;;
+    	2 )
+        	poweroff
+        	;;
+    	3 )
+        	arch-chroot /mnt
+        	;;
 esac
 #--------------------------------------------------------------------------------------------------------------------------------------
 

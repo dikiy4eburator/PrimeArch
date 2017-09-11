@@ -1,4 +1,7 @@
 [global_config]
+  handle_size = 5
+  inactive_color_offset = 0.606557377049
+  window_state = hidden
 [keybindings]
 [layouts]
   [[default]]
@@ -11,6 +14,15 @@
 [plugins]
 [profiles]
   [[default]]
+    allow_bold = False
+    background_darkness = 0.95
+    background_type = transparent
     cursor_color = "#aaaaaa"
-    font = Ubuntu 14
+    font = Noto Mono 12
+    palette = "#000000:#aa0000:#00aa00:#aa5500:#0000aa:#aa00aa:#00aaaa:#aaaaaa:#555555:#ff5555:#55ff55:#ffff55:#5555ff:#ff55ff:#55ffff:#ffffff"
+    scrollback_lines = 10000
+    scrollbar_position = hidden
+    show_titlebar = False
     use_system_font = False
+    use_theme_colors = True
+    visible_bell = True
