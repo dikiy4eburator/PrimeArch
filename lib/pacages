@@ -10,6 +10,7 @@ fish
 vim
 cronie
 xdg-user-dirs
+udiskie
 lightdm
 lightdm-gtk-greeter
 avahi
@@ -44,14 +45,12 @@ terminator
 rsync
 cool-retro-term
 chromium
-atom
 conky
 dunst
 hunspell-de
 mate-polkit
 pluma
 caja
-caja-open-terminal
 caja-sendto
 engrampa
 atril
@@ -60,5 +59,6 @@ arc-gtk-theme
 arc-icon-theme
 archlinux-wallpaper
 gnome-font-viewer
+noto-fonts
 awesome-terminal-fonts
 ttf-ubuntu-font-family
