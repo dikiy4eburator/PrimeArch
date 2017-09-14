@@ -44,6 +44,16 @@ dialog \
 
 
 
+#Generate HDD selektion menu
+#--------------------------------------------------------------------------------------------------------------------------------------
+f_gen_hdd_menu
+sh /tmp/hdd_menu
+#--------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
 # Extra Home partition Screan
 #--------------------------------------------------------------------------------------------------------------------------------------
 dialog \
@@ -64,16 +74,6 @@ if [[ $? -eq 0 ]];
     	else
             	echo "nein" > /tmp/extrahome
 fi
-#--------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-#Generate HDD selektion menu & cool it
-#--------------------------------------------------------------------------------------------------------------------------------------
-f_gen_hdd_menu
-sh /tmp/hdd_menu
 #--------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -141,7 +141,7 @@ if [[ $? -eq 0 ]];
           			3. ROOT ca. 20-40 Gb ( code: 8300 )
           			4. HOME rest des Speichers ( code: 8300 )' 20 $BoxWhith
         	fi
-    		
+
 		# Start cgdisk
     		cgdisk /dev/$(</tmp/hdd_name)
 fi
@@ -206,7 +206,7 @@ dialog \
 2>/tmp/grafik_treiber
 
 case $(</tmp/grafik_treiber) in
-    
+
 	1 )
         	pacstrap /mnt virtualbox-guest-dkms virtualbox-guest-utils
         	;;
@@ -282,7 +282,7 @@ esac
 dialog \
 --backtitle 'PrimeArch Installer' \
 --begin $BoxStartY $BoxStartX \
---inputbox 'Bitte Hostnamen eingeben' 7 $BoxWhith \
+--inputbox 'Bitte Hostnamen eingeben' 8 $BoxWhith \
 2>/mnt/etc/hostname
 #--------------------------------------------------------------------------------------------------------------------------------------
 
@@ -434,7 +434,7 @@ cp -r /root/lib/xorg.conf.d /mnt/etc/X11
 mv  /root/lib/Addons /mnt/home/$(</tmp/user_name)/Addons
 
 # link usb automount rule
-mv /root/lib/UDEV-automount-usb/10-my-media-automount.rules /mnt/etc/udev/rules.d/10-my-media-automount.rules
+#mv /root/lib/UDEV-automount-usb/10-my-media-automount.rules /mnt/etc/udev/rules.d/10-my-media-automount.rules
 
 #--------------------------------------------------------------------------------------------------------------------------------------
 
