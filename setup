@@ -312,7 +312,7 @@ if [[ $? -eq 0 ]]; # IF YES !!!
        		dialog \
        		--backtitle 'PrimeArch Installer' \
        		--begin $BoxStartY $BoxStartX \
-       		--inputbox 'Bitte Benutzernamen eingeben' 7 $BoxWhith \
+       		--inputbox 'Bitte Benutzernamen eingeben' 8 $BoxWhith \
        		2>/tmp/user_name
 
        		arch-chroot /mnt /bin/bash -c "useradd -m -g users -G wheel,storage,power,network,video,audio -s /usr/bin/fish '$(</tmp/user_name)'"
