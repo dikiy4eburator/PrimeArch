@@ -159,7 +159,7 @@ case $(</tmp/hdd_name) in
         	;;
 	sd*)
         	f_def_hdd_patern_sata
-		;;
+		      ;;
 esac
 
 # Format Partition
