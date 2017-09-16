@@ -11,6 +11,7 @@ vim
 cronie
 xdg-user-dirs
 udiskie
+rofi
 lightdm
 lightdm-gtk-greeter
 avahi

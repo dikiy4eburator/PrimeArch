@@ -427,14 +427,14 @@ cp -r /root/lib/dunst /mnt/home/$(</tmp/user_name)/.config
 # Terminator config
 cp -r /root/lib/terminator /mnt/home/$(</tmp/user_name)/.config
 
+# Terminator config
+cp -r /root/lib/rofi /mnt/home/$(</tmp/user_name)/.config
+
 #keyboard Conf
 cp -r /root/lib/xorg.conf.d /mnt/etc/X11
 
 # Addons script
 mv  /root/lib/Addons /mnt/home/$(</tmp/user_name)/Addons
-
-# link usb automount rule
-#mv /root/lib/UDEV-automount-usb/10-my-media-automount.rules /mnt/etc/udev/rules.d/10-my-media-automount.rules
 
 #--------------------------------------------------------------------------------------------------------------------------------------
 
