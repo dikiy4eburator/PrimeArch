@@ -154,11 +154,9 @@ fi
 #--------------------------------------------------------------------------------------------------------------------------------------
 case $(</tmp/hdd_name) in
 	nvme*)
-        	f_def_hdd_patern_nvme
-        	;;
+        	f_def_hdd_patern_nvme ;;
 	sd*)
-        	f_def_hdd_patern_sata
-		      ;;
+        	f_def_hdd_patern_sata ;;
 esac
 
 # Format Partition
@@ -207,23 +205,17 @@ dialog \
 case $(</tmp/grafik_treiber) in
 
 	1 )
-        	pacstrap /mnt virtualbox-guest-dkms virtualbox-guest-utils
-        	;;
+        	pacstrap /mnt virtualbox-guest-dkms virtualbox-guest-utils ;;
     	2 )
-        	pacstrap /mnt nvidia
-        	;;
+        	pacstrap /mnt nvidia ;;
     	3 )
-        	pacstrap /mnt xf86-video-ati
-        	;;
+        	pacstrap /mnt xf86-video-ati ;;
     	4 )
-        	pacstrap /mnt xf86-video-intel
-        	;;
+        	pacstrap /mnt xf86-video-intel ;;
     	5 )
-        	pacstrap /mnt xf86-video-nouveau
-        	;;
+        	pacstrap /mnt xf86-video-nouveau ;;
     	0 )
-        	break
-        	;;
+        	break ;;
 esac
 #--------------------------------------------------------------------------------------------------------------------------------------
 
@@ -261,9 +253,8 @@ case $(</tmp/gui) in
         	pacstrap /mnt gnome gnome-extra  ;;
     	6)
         	pacstrap /mnt deepin deepin-extra  ;;
-      7)
-          pacstrap /mnt lxde-gtk3  ;;
-
+	7)
+	       	pacstrap /mnt lxde-gtk3  ;;
     	0)
         	break  ;;
 esac
@@ -471,15 +462,16 @@ dialog \
 
 case $(</tmp/exit) in
     	1 )
-        	reboot
-        	;;
+        	reboot ;;
     	2 )
-        	poweroff
-        	;;
+        	poweroff ;;
     	3 )
-        	arch-chroot /mnt
-        	;;
+        	arch-chroot /mnt ;;
 esac
 #--------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
 
 exit
