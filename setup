@@ -1,5 +1,4 @@
 #!/bin/sh
-loadkeys de
 
 # includes
 source /root/lib/user_ops
@@ -244,32 +243,29 @@ dialog \
 4 KDE-Plasma \
 5 Gnome \
 6 Deepin \
+7 Lxde-GTK3 \
 0 'Keinen Desktop' \
 2>/tmp/gui
 
 
 case $(</tmp/gui) in
     	1 )
-        	pacstrap /mnt i3 dmenu
-        	;;
+        	pacstrap /mnt i3 dmenu ;;
     	2 )
-        	pacstrap /mnt xfce4 xfce4-goodies
-        	;;
+        	pacstrap /mnt xfce4 xfce4-goodies  ;;
     	3 )
-        	pacstrap /mnt mate mate-extra
-        	;;
+        	pacstrap /mnt mate mate-extra  ;;
     	4 )
-        	pacstrap /mnt plasma
-        	;;
+        	pacstrap /mnt plasma ;;
     	5)
-        	pacstrap /mnt gnome gnome-extra
-        	;;
+        	pacstrap /mnt gnome gnome-extra  ;;
     	6)
-        	pacstrap /mnt deepin deepin-extra
-        	;;
+        	pacstrap /mnt deepin deepin-extra  ;;
+      7)
+          pacstrap /mnt lxde-gtk3  ;;
+
     	0)
-        	break
-        	;;
+        	break  ;;
 esac
 #--------------------------------------------------------------------------------------------------------------------------------------
 
