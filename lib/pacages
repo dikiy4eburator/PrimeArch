@@ -50,11 +50,10 @@ conky
 dunst
 hunspell-de
 mate-polkit
-pluma
-caja
-caja-sendto
-engrampa
-atril
+thunar
+mousepad
+thunar-archive-plugin
+xfce4-appfinder
 lxappearance-gtk3
 arc-gtk-theme
 arc-icon-theme
