@@ -393,6 +393,7 @@ git clone https://github.com/dikiy4eburator/i3-config.git /mnt/home/$(</tmp/user
 # INSTALL COSMETIC ADONS
 #--------------------------------------------------------------------------------------------------------------------------------------
 arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_name)/Addons"
+rm /mnt/home/$(</tmp/user_name)/Addons
 #--------------------------------------------------------------------------------------------------------------------------------------
 
 
