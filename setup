@@ -357,6 +357,9 @@ arch-chroot /mnt /bin/bash -c locale-gen
 # COPY CONFIG FILES
 #--------------------------------------------------------------------------------------------------------------------------------------
 
+# Clone i3-config
+git clone https://github.com/dikiy4eburator/i3-config.git /mnt/home/$(</tmp/user_name)/.config/i3
+
 # gtk-theme config
 cp -r /root/lib/gtk-3.0 /mnt/home/$(</tmp/user_name)/.config
 
@@ -377,9 +380,6 @@ cp -r /root/lib/rofi /mnt/home/$(</tmp/user_name)/.config
 
 #keyboard Conf
 cp -r /root/lib/xorg.conf.d /mnt/etc/X11
-
-# Clone i3-config
-git clone https://github.com/dikiy4eburator/i3-config.git /mnt/home/$(</tmp/user_name)/.config/i3
 
 #--------------------------------------------------------------------------------------------------------------------------------------
 
