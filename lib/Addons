@@ -14,12 +14,10 @@ cd yaourt
 makepkg -si
 
 # Install some cosmetiks
-yaourt -S --noconfirm neofetch-git
-yaourt -S --noconfirm vertex-themes-git
-yaourt -S --noconfirm vertex-icons-git
-yaourt -S --noconfirm pamac-aur
-yaourt -S --noconfirm python-pywal-git
-yaourt -S --noconfirm polybar-git
 yaourt -S --noconfirm i3-gaps
+yaourt -S --noconfirm neofetch-git
+yaourt -S --noconfirm pamac-aur
+yaourt -S --noconfirm polybar-git
+
 
 exit

@@ -12,6 +12,7 @@ cronie
 xdg-user-dirs
 udiskie
 rofi
+dmenu
 lightdm
 lightdm-gtk-greeter
 avahi

@@ -225,39 +225,39 @@ esac
 
 # GUI installation
 #--------------------------------------------------------------------------------------------------------------------------------------
-dialog \
---backtitle "PrimeArch Installer" \
---begin $BoxStartY $BoxStartX \
---menu "Desktop wehlen" 15 $BoxWhith 8 \
-1 i3 \
-2 Xfce \
-3 Mate \
-4 KDE-Plasma \
-5 Gnome \
-6 Deepin \
-7 Lxde-GTK3 \
-0 'Keinen Desktop' \
-2>/tmp/gui
+#dialog \
+#--backtitle "PrimeArch Installer" \
+#--begin $BoxStartY $BoxStartX \
+#--menu "Desktop wehlen" 15 $BoxWhith 8 \
+#1 i3 \
+#2 Xfce \
+#3 Mate \
+#4 KDE-Plasma \
+#5 Gnome \
+#6 Deepin \
+#7 Lxde-GTK3 \
+#0 'Keinen Desktop' \
+#2>/tmp/gui
 
 
-case $(</tmp/gui) in
-    	1 )
-        	pacstrap /mnt i3 dmenu ;;
-    	2 )
-        	pacstrap /mnt xfce4 xfce4-goodies  ;;
-    	3 )
-        	pacstrap /mnt mate mate-extra  ;;
-    	4 )
-        	pacstrap /mnt plasma ;;
-    	5)
-        	pacstrap /mnt gnome gnome-extra  ;;
-    	6)
-        	pacstrap /mnt deepin deepin-extra  ;;
-	7)
-	       	pacstrap /mnt lxde-gtk3  ;;
-    	0)
-        	break  ;;
-esac
+#case $(</tmp/gui) in
+#    	1 )
+#        	pacstrap /mnt i3 dmenu ;;
+#     2 )
+#        	pacstrap /mnt xfce4 xfce4-goodies  ;;
+#    	3 )
+#        	pacstrap /mnt mate mate-extra  ;;
+#    	4 )
+#        	pacstrap /mnt plasma ;;
+#    	5)
+#        	pacstrap /mnt gnome gnome-extra  ;;
+#    	6)
+#        	pacstrap /mnt deepin deepin-extra  ;;
+#   	7)
+#	       	pacstrap /mnt lxde-gtk3  ;;
+#    	0)
+#        	break  ;;
+#esac
 #--------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -339,6 +339,76 @@ arch-chroot /mnt /bin/bash -c locale-gen
 
 
 
+# INSTALL I3 CONFIG
+#--------------------------------------------------------------------------------------------------------------------------------------
+# Clone i3-config repo
+#if [[ -f /mnt/bin/i3 ]];
+#    	then
+#        	git clone https://github.com/dikiy4eburator/i3-config.git /mnt/home/$(</tmp/user_name)/.config/i3
+#    	else
+#        	break
+#fi
+#--------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+# COPY CONFIG FILES
+#--------------------------------------------------------------------------------------------------------------------------------------
+
+# gtk-theme config
+cp -r /root/lib/gtk-3.0 /mnt/home/$(</tmp/user_name)/.config
+
+# fish config
+cp -r /root/lib/fish /mnt/home/$(</tmp/user_name)/.config
+
+# Nitrogen config
+cp -r /root/lib/nitrogen /mnt/home/$(</tmp/user_name)/.config
+
+# dunst config
+cp -r /root/lib/dunst /mnt/home/$(</tmp/user_name)/.config
+
+# Terminator config
+cp -r /root/lib/terminator /mnt/home/$(</tmp/user_name)/.config
+
+# Terminator config
+cp -r /root/lib/rofi /mnt/home/$(</tmp/user_name)/.config
+
+#keyboard Conf
+cp -r /root/lib/xorg.conf.d /mnt/etc/X11
+
+# Addons script
+mv  /root/lib/Addons /mnt/home/$(</tmp/user_name)/Addons
+
+# Clone i3-config
+git clone https://github.com/dikiy4eburator/i3-config.git /mnt/home/$(</tmp/user_name)/.config/i3
+
+#--------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+# INSTALL COSMETIC ADONS
+#--------------------------------------------------------------------------------------------------------------------------------------
+arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_name)/Addons"
+#--------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+# FIX USER HOME OWNERSHIP
+#--------------------------------------------------------------------------------------------------------------------------------------
+arch-chroot /mnt /bin/bash -c "chown -R $(</tmp/user_name):users /home/$(</tmp/user_name)"
+arch-chroot /mnt /bin/bash -c "chmod -R 0700 /home/$(</tmp/user_name)"
+#--------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
 #GRUB INSTALLATION
 #--------------------------------------------------------------------------------------------------------------------------------------
 if [[ -d "/sys/firmware/efi/efivars" ]];
@@ -375,73 +445,6 @@ f_arch_chroot "systemctl enable cronie.service"
 
 #lightdm
 f_arch_chroot "systemctl enable lightdm.service"
-#--------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-# INSTALL I3 CONFIG
-#--------------------------------------------------------------------------------------------------------------------------------------
-# Clone i3-config repo
-if [[ -f /mnt/bin/i3 ]];
-    	then
-        	git clone https://github.com/dikiy4eburator/i3-config.git /mnt/home/$(</tmp/user_name)/.config/i3
-    	else
-        	break
-fi
-#--------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-# COPY CONFIG FILES
-#--------------------------------------------------------------------------------------------------------------------------------------
-
-# gtk-theme config
-cp -r /root/lib/gtk-3.0 /mnt/home/$(</tmp/user_name)/.config
-
-# fish config
-cp -r /root/lib/fish /mnt/home/$(</tmp/user_name)/.config
-
-# Nitrogen config
-cp -r /root/lib/nitrogen /mnt/home/$(</tmp/user_name)/.config
-
-# dunst config
-cp -r /root/lib/dunst /mnt/home/$(</tmp/user_name)/.config
-
-# Terminator config
-cp -r /root/lib/terminator /mnt/home/$(</tmp/user_name)/.config
-
-# Terminator config
-cp -r /root/lib/rofi /mnt/home/$(</tmp/user_name)/.config
-
-#keyboard Conf
-cp -r /root/lib/xorg.conf.d /mnt/etc/X11
-
-# Addons script
-mv  /root/lib/Addons /mnt/home/$(</tmp/user_name)/Addons
-
-#--------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-# FIX USER HOME OWNERSHIP
-#--------------------------------------------------------------------------------------------------------------------------------------
-arch-chroot /mnt /bin/bash -c "chown -R $(</tmp/user_name):users /home/$(</tmp/user_name)"
-arch-chroot /mnt /bin/bash -c "chmod -R 0700 /home/$(</tmp/user_name)"
-#--------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-# INSTALL COSMETIC ADONS
-#--------------------------------------------------------------------------------------------------------------------------------------
-arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_name)/Addons"
 #--------------------------------------------------------------------------------------------------------------------------------------
 
 
