@@ -51,10 +51,9 @@ conky
 dunst
 hunspell-de
 mate-polkit
-thunar
 mousepad
-thunar-archive-plugin
 xfce4-appfinder
+pcmanfm-gtk3
 lxappearance-gtk3
 arc-gtk-theme
 arc-icon-theme

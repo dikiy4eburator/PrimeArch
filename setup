@@ -378,9 +378,6 @@ cp -r /root/lib/rofi /mnt/home/$(</tmp/user_name)/.config
 #keyboard Conf
 cp -r /root/lib/xorg.conf.d /mnt/etc/X11
 
-# Addons script
-mv  /root/lib/Addons /mnt/home/$(</tmp/user_name)/Addons
-
 # Clone i3-config
 git clone https://github.com/dikiy4eburator/i3-config.git /mnt/home/$(</tmp/user_name)/.config/i3
 
@@ -392,6 +389,7 @@ git clone https://github.com/dikiy4eburator/i3-config.git /mnt/home/$(</tmp/user
 
 # INSTALL COSMETIC ADONS
 #--------------------------------------------------------------------------------------------------------------------------------------
+mv  /root/lib/Addons /mnt/home/$(</tmp/user_name)/Addons
 arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_name)/Addons"
 rm /mnt/home/$(</tmp/user_name)/Addons
 #--------------------------------------------------------------------------------------------------------------------------------------
