@@ -9,6 +9,7 @@ dbus
 fish
 vim
 cronie
+gvfs
 xdg-user-dirs
 udiskie
 rofi
