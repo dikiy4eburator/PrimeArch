@@ -223,47 +223,6 @@ esac
 
 
 
-# GUI installation
-#--------------------------------------------------------------------------------------------------------------------------------------
-#dialog \
-#--backtitle "PrimeArch Installer" \
-#--begin $BoxStartY $BoxStartX \
-#--menu "Desktop wehlen" 15 $BoxWhith 8 \
-#1 i3 \
-#2 Xfce \
-#3 Mate \
-#4 KDE-Plasma \
-#5 Gnome \
-#6 Deepin \
-#7 Lxde-GTK3 \
-#0 'Keinen Desktop' \
-#2>/tmp/gui
-
-
-#case $(</tmp/gui) in
-#    	1 )
-#        	pacstrap /mnt i3 dmenu ;;
-#     2 )
-#        	pacstrap /mnt xfce4 xfce4-goodies  ;;
-#    	3 )
-#        	pacstrap /mnt mate mate-extra  ;;
-#    	4 )
-#        	pacstrap /mnt plasma ;;
-#    	5)
-#        	pacstrap /mnt gnome gnome-extra  ;;
-#    	6)
-#        	pacstrap /mnt deepin deepin-extra  ;;
-#   	7)
-#	       	pacstrap /mnt lxde-gtk3  ;;
-#    	0)
-#        	break  ;;
-#esac
-#--------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
 # Set hostname
 #--------------------------------------------------------------------------------------------------------------------------------------
 dialog \
@@ -320,34 +279,20 @@ fi
 #GENERATE SYSTEM LOCALE
 #--------------------------------------------------------------------------------------------------------------------------------------
 # /etc/locale.conf
-f_arch_chroot "echo LANG=de_DE.UTF-8 > /etc/locale.conf"
-f_arch_chroot "echo LANGUAGE=de_DE >> /etc/locale.conf"
+echo LANG=de_DE.UTF-8 >> /mnt/etc/locale.conf
+echo LANGUAGE=de_DE >> /mnt/etc/locale.conf
 
 # /etc/vconsole.conf
-f_arch_chroot "echo KEYMAP=de-latin1-nodeadkeys > /etc/vconsole.conf"
+echo KEYMAP=de-latin1-nodeadkeys > /mnt/etc/vconsole.conf
 
 # Set Time
-f_arch_chroot "rm /etc/localtime"
-f_arch_chroot "ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime"
+rm /etc/localtime
+ln -sf /mnt/usr/share/zoneinfo/Europe/Berlin /mnt/etc/localtime
 
 # /etc/locale.gen
-f_arch_chroot "echo de_DE.UTF-8 UTF-8 >> /etc/locale.gen"
+echo de_DE.UTF-8 UTF-8 >> /mnt/etc/locale.gen
+
 arch-chroot /mnt /bin/bash -c locale-gen
-#--------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-# INSTALL I3 CONFIG
-#--------------------------------------------------------------------------------------------------------------------------------------
-# Clone i3-config repo
-#if [[ -f /mnt/bin/i3 ]];
-#    	then
-#        	git clone https://github.com/dikiy4eburator/i3-config.git /mnt/home/$(</tmp/user_name)/.config/i3
-#    	else
-#        	break
-#fi
 #--------------------------------------------------------------------------------------------------------------------------------------
 
 

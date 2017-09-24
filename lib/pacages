@@ -1,6 +1,4 @@
 base
-base-devel
-linux-headers
 grub
 os-prober
 efibootmgr
@@ -12,7 +10,6 @@ cronie
 xdg-user-dirs
 udiskie
 rofi
-dmenu
 lightdm
 lightdm-gtk-greeter
 avahi

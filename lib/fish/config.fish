@@ -1,3 +1,2 @@
-neofetch
-
 set fish_greeting
+neofetch
