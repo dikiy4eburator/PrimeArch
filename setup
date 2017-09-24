@@ -326,6 +326,10 @@ cp -r /root/lib/rofi /mnt/home/$(</tmp/user_name)/.config
 #keyboard Conf
 cp -r /root/lib/xorg.conf.d /mnt/etc/X11
 
+#keyboard Conf
+mv -f /root/lib/lightdm-config/lightdm-gtk-greeter.conf /mnt/etc/lightdm/lightdm-gtk-greeter.conf
+
+
 #--------------------------------------------------------------------------------------------------------------------------------------
 
 
