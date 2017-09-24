@@ -286,8 +286,8 @@ echo LANGUAGE=de_DE >> /mnt/etc/locale.conf
 echo KEYMAP=de-latin1-nodeadkeys > /mnt/etc/vconsole.conf
 
 # Set Time
-rm /etc/localtime
-ln -sf /mnt/usr/share/zoneinfo/Europe/Berlin /mnt/etc/localtime
+rm /mnt/etc/localtime
+arch-chroot /mnt /bin/bash -c 'ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime'
 
 # /etc/locale.gen
 echo de_DE.UTF-8 UTF-8 >> /mnt/etc/locale.gen
