@@ -20,4 +20,5 @@ yaourt -S --noconfirm pamac-aur
 yaourt -S --noconfirm polybar-git
 yaourt -S --noconfirm vertex-themes
 yaourt -S --noconfirm vertex-icons-git
+yaourt -S --noconfirm gitkraken
 exit

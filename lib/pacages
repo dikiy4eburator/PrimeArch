@@ -41,6 +41,7 @@ vlc
 mpv
 ranger
 git
+atom
 htop
 nitrogen
 terminator
@@ -51,7 +52,6 @@ conky
 dunst
 hunspell-de
 mate-polkit
-mousepad
 xfce4-appfinder
 pcmanfm-gtk3
 lxappearance-gtk3
