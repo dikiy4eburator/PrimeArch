@@ -76,7 +76,41 @@ function f_root_pw_dialog() {
 
 
 
-# ROOT PW DIALOG
+# CREATE NEW USER
+#--------------------------------------------------------------------------------------------------------------------------------------
+function f_create_new_user() {
+	dialog \
+	--backtitle 'PrimeArch Installer' \
+	--title 'Neuen Benutzer erstellen?' \
+	--begin $BoxStartY $BoxStartX \
+	--yesno '\n Möchten sie einen neuen Benutzer erstellen? \n ' 7 $BoxWhith \
+
+	if [[ $? -eq 0 ]]; # IF YES !!!
+	    	then
+	       		dialog \
+	       		--backtitle 'PrimeArch Installer' \
+	       		--begin $BoxStartY $BoxStartX \
+	       		--inputbox 'Bitte Benutzernamen eingeben' 8 $BoxWhith \
+	       		2>/tmp/user_name
+
+	       		arch-chroot /mnt /bin/bash -c "useradd -m -g users -G wheel,storage,power,network,video,audio -s /usr/bin/fish '$(</tmp/user_name)'"
+
+	       		#Set USER PW
+	       		f_user_pw_dialog
+
+	       		echo "%wheel ALL=(ALL) ALL" >> /mnt/etc/sudoers
+	    	else
+	      		break
+	fi
+}
+
+#--------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+# USWR PW DIALOG
 #--------------------------------------------------------------------------------------------------------------------------------------
 function f_user_pw_dialog() {
 	dialog \

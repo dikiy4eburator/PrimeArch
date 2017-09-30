@@ -3,7 +3,7 @@
 #AUTO PARTITION FUNKTION
 #--------------------------------------------------------------------------------------------------------------------------------------
 function f_autopartition() {
-  	sgdisk -Z /dev/$(</tmp/hdd_name)
+  sgdisk -Z /dev/$(</tmp/hdd_name)
 	sgdisk -g /dev/$(</tmp/hdd_name)
 	sgdisk -o /dev/$(</tmp/hdd_name)
 
@@ -25,15 +25,25 @@ function f_autopartition() {
       			sgdisk -n 3:0:0 -c 3:"ROOT" -t 3:8300 /dev/$(</tmp/hdd_name)
       			;;
     	esac
+
+      case $(</tmp/hdd_name) in
+      	nvme*)
+              	f_def_hdd_patern_nvme ;;
+      	sd*)
+              	f_def_hdd_patern_sata ;;
+      esac
+
+
+      # Format Partition
+      f_format
+
+      # Mount Partition
+      f_mount
 }
-#--------------------------------------------------------------------------------------------------------------------------------------
-
-
 
 
 
 #HDD PATERN DEFENITION
-#--------------------------------------------------------------------------------------------------------------------------------------
 function f_def_hdd_patern_sata() {
 
   	ROOT_HD="$(</tmp/hdd_name)3"
@@ -79,14 +89,10 @@ function f_def_hdd_patern_nvme() {
     			;;
 	esac
 }
-#--------------------------------------------------------------------------------------------------------------------------------------
-
-
 
 
 
 # FORMAT HARDDRIVES
-#--------------------------------------------------------------------------------------------------------------------------------------
 function f_format() {
 
   	mkfs.ext4 /dev/$ROOT_HD
@@ -108,14 +114,10 @@ function f_format() {
     			;;
 	esac
 }
-#--------------------------------------------------------------------------------------------------------------------------------------
-
-
 
 
 
 # MOUNT HARDDRIVES
-#--------------------------------------------------------------------------------------------------------------------------------------
 function f_mount() {
 
   	mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
@@ -146,27 +148,221 @@ function f_mount() {
 
 
 
-# MOUNT HARDDRIVE SELECTION MENU
+# MANUAL PARTITIONING
+#--------------------------------------------------------------------------------------------------------------------------------------
+
+function f_man_part() {
+	dialog \
+  	--backtitle "PrimeArch" \
+  	--begin $BoxStartY $BoxStartX \
+  	--menu "Manuele Partitionierung" 15 $BoxWhith 6 \
+  	1 "Festplatte partitionieren" \
+  	2 "Partitionen mounten" \
+  	3 "Fertig" \
+  	2>/tmp/main_man_part
+
+  	case $(</tmp/main_man_part) in
+		1 )
+          		f_gen_hdd_menu
+            		sh /tmp/hdd_menu
+
+            		# Show Partitioning info depending on boot mode
+            		if [[ -d "/sys/firmware/efi/efivars" ]];
+                		then
+                    			dialog \
+                    			--backtitle 'PrimeArch Installer' \
+                    			--title 'Partitions Tabelle' \
+                    			--begin $BoxStartY $BoxStartX \
+                    			--msgbox '
+
+					Im folgenden wird das Programm cgdisk gestartet
+					Bitte erstellen Sie die Partitione in der folgenden Ordnung:
+
+					1. EFI ca. 100-256 Mb ( code: ef00 )
+					2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )
+
+					Wenn Sie keine extra HOME Partition wollen
+					Könne Sie den restlichen Speicher der ROOT Partition zweisen
+
+					Ansonsten:
+					3. ROOT ca. 20-40 Gb ( code: 8300 )
+					4. HOME rest des Speichers ( code: 8300 ) ' 20 $BoxWhith
+
+                		else
+                    			dialog \
+                    			--backtitle 'PrimeArch Installer' \
+                    			--title 'Partitions Tabelle' \
+                    			--begin $BoxStartY $BoxStartX \
+                    			--msgbox '
+
+					Im folgenden wird das Programm cgdisk gestartet
+					Bitte erstellen Sie die Partitione in der folgenden Ordnung:
+
+					1. BOOT ca. 5 Mb ( code: ef02)
+					2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )
+
+					Wenn Sie keine extra HOME Partition wollen
+					Könne Sie den restlichen Speicher der ROOT Partition zweisen
+
+					Ansonsten:
+					3. ROOT ca. 20-40 Gb ( code: 8300 )
+					4. HOME rest des Speichers ( code: 8300 )' 20 $BoxWhith
+              		fi
+
+            		cgdisk /dev/$(</tmp/hdd_name)
+            		f_man_part
+            		;;
+
+      		2 )
+        		case $(</tmp/root_mount)  in
+                		ok )
+                    			;;
+                		* )
+                    			f_mount_root
+                    			;;
+        		esac
+
+        		case $(</tmp/swap_mount)  in
+                		ok )
+                    			;;
+                		* )
+                    			f_mount_swap
+                    			;;
+        		esac
+
+        		if [[ -d "/sys/firmware/efi/efivars" ]];
+          			then
+            				case $(</tmp/boot_mount)  in
+                    				ok )
+                        				;;
+                    				* )
+                        				f_mount_boot
+                        			;;
+            				esac
+          			else
+              				echo ""
+        			fi
+
+        		case $(</tmp/extrahome)  in
+                		ja )
+                			case $(</tmp/home_mount)  in
+                        			ok )
+                            				;;
+                        			* )
+                            				f_mount_home
+                            				;;
+                			esac
+                			;;
+                		nein )
+                    			echo ""
+                    			;;
+        		esac
+              		f_man_part
+          	 	;;
+        	3 )
+        		;;
+  	esac
+
+}
+
+
+
+function f_mount_boot() {
+	f_gen_part_menu BOOT
+  	sh /tmp/part_menu
+  	mkfs.fat -F32 /dev/$(</tmp/part_name)
+  	mkdir /mnt/boot
+  	mkdir /mnt/boot/efi
+  	mount /dev/$(</tmp/part_name) /mnt/boot/efi
+  	echo 'ok' >> /tmp/boot_mount
+}
+
+
+
+function f_mount_swap() {
+  	f_gen_part_menu SWAP
+  	sh /tmp/part_menu
+  	mkswap /dev/$(</tmp/part_name)
+  	swapon /dev/$(</tmp/part_name)
+  	echo 'ok' >> /tmp/swap_mount
+}
+
+
+
+function f_mount_root() {
+  	f_gen_part_menu ROOT
+  	sh /tmp/part_menu
+  	mkfs.ext4 /dev/$(</tmp/part_name)
+  	mount -o defaults,noatime,discard /dev/$(</tmp/part_name) /mnt
+  	echo 'ok' >> /tmp/root_mount
+}
+
+
+
+function f_mount_home() {
+  	f_gen_part_menu HOME
+  	sh /tmp/part_menu
+  	mkfs.ext4 /dev/$(</tmp/part_name)
+  	mkdir /mnt/home
+  	mount -o defaults,noatime,discard /dev/$(</tmp/part_name) /mnt/home
+  	echo 'ok' >> /tmp/home_mount
+}
+
+#--------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+# GENERATE HARDDRIVE SELECTION MENU
 #--------------------------------------------------------------------------------------------------------------------------------------
 
 function f_gen_hdd_menu() {
-  	#Prepare Disklist
+	#Prepare Disklist
   	lsblk -o NAME,SIZE,MODEL,TYPE | grep disk > /tmp/hdlist
 
   	#gen hdd menu
-	  echo "#!/bin/bash" > /tmp/hdd_menu
-    echo "" >> /tmp/hdd_menu
-    echo 'consol_X=$(tput cols)' >> /tmp/hdd_menu
-    echo 'consol_Y=$(tput lines)' >> /tmp/hdd_menu
-    echo 'BoxWhith=70' >> /tmp/hdd_menu
-    echo 'BoxStartX=$(( ($consol_X - $BoxWhith)/2  ))' >> /tmp/hdd_menu
-    echo 'BoxStartY=3' >> /tmp/hdd_menu
-    echo "" >> /tmp/hdd_menu
+	echo "#!/bin/bash" > /tmp/hdd_menu
+	echo "" >> /tmp/hdd_menu
+	echo 'consol_X=$(tput cols)' >> /tmp/hdd_menu
+    	echo 'consol_Y=$(tput lines)' >> /tmp/hdd_menu
+    	echo 'BoxWhith=70' >> /tmp/hdd_menu
+    	echo 'BoxStartX=$(( ($consol_X - $BoxWhith)/2  ))' >> /tmp/hdd_menu
+    	echo 'BoxStartY=3' >> /tmp/hdd_menu
+    	echo "" >> /tmp/hdd_menu
   	echo 'dialog \' >> /tmp/hdd_menu
   	echo '  --backtitle "PrimeArch" \' >> /tmp/hdd_menu
   	echo '  --begin $BoxStartY $BoxStartX \' >> /tmp/hdd_menu
   	echo '  --menu "Festplatte wählen" 15 $BoxWhith 7 \' >> /tmp/hdd_menu
   	awk ' { print $1"\t", "\047"$2 "\t" $3"\047", "\\" } ' < /tmp/hdlist >> /tmp/hdd_menu
   	echo '2>/tmp/hdd_name' >> /tmp/hdd_menu
+}
+#--------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+# GENERATE PARTITION SELECTION MENU
+#--------------------------------------------------------------------------------------------------------------------------------------
+
+function f_gen_part_menu() {
+  	#Prepare Disklist
+  	lsblk -l -o NAME,SIZE,MODEL,TYPE | grep part > /tmp/partlist
+
+  	#gen hdd menu
+	echo "#!/bin/bash" > /tmp/part_menu
+    	echo "" >> /tmp/part_menu
+    	echo 'consol_X=$(tput cols)' >> /tmp/part_menu
+    	echo 'consol_Y=$(tput lines)' >> /tmp/part_menu
+    	echo 'BoxWhith=70' >> /tmp/part_menu
+    	echo 'BoxStartX=$(( ($consol_X - $BoxWhith)/2  ))' >> /tmp/part_menu
+    	echo 'BoxStartY=3' >> /tmp/part_menu
+    	echo "" >> /tmp/part_menu
+  	echo 'dialog \' >> /tmp/part_menu
+  	echo '  --backtitle "PrimeArch" \' >> /tmp/part_menu
+  	echo '  --begin $BoxStartY $BoxStartX \' >> /tmp/part_menu
+  	echo '  --menu' $1'" Partition wählen" 15 $BoxWhith 7 \' >> /tmp/part_menu
+  	awk ' { print $1"\t", "\047"$2 "\t" $3"\047", "\\" } ' < /tmp/partlist >> /tmp/part_menu
+  	echo '2>/tmp/part_name' >> /tmp/part_menu
 }
 #--------------------------------------------------------------------------------------------------------------------------------------

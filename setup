@@ -43,16 +43,6 @@ dialog \
 
 
 
-#Generate HDD selektion menu
-#--------------------------------------------------------------------------------------------------------------------------------------
-f_gen_hdd_menu
-sh /tmp/hdd_menu
-#--------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
 # Extra Home partition Screan
 #--------------------------------------------------------------------------------------------------------------------------------------
 dialog \
@@ -89,8 +79,10 @@ dialog \
 
 if [[ $? -eq 0 ]];
 	then
-    		# Set swap_size
-    		dialog \
+        	f_gen_hdd_menu
+        	sh /tmp/hdd_menu
+
+        	dialog \
     		--backtitle 'PrimeArch Installer' \
     		--begin $BoxStartY $BoxStartX \
     		--inputbox '\n Bitte geben Sie die Gröse der SWAP Partition in GiB an. \n' 10 $BoxWhith \
@@ -98,72 +90,8 @@ if [[ $? -eq 0 ]];
 
     		f_autopartition
 	else
-    		# Show Partitioning info depending on boot mode
-    		if [[ -d "/sys/firmware/efi/efivars" ]];
-        		then
-          			dialog \
-          			--backtitle 'PrimeArch Installer' \
-          			--title 'Partitions Tabelle' \
-          			--begin $BoxStartY $BoxStartX \
-          			--msgbox '
-
-          			Im folgenden wird das Programm cgdisk gestartet
-          			Bitte erstellen Sie die Partitione in der folgenden Ordnung:
-
-          			1. EFI ca. 100-256 Mb ( code: ef00 )
-          			2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )
-
-          			     Wenn Sie keine extra HOME Partition wollen
-           			     Könne Sie den restlichen Speicher der ROOT Partition zweisen
-
-          			Ansonsten:
-          			3. ROOT ca. 20-40 Gb ( code: 8300 )
-          			4. HOME rest des Speichers ( code: 8300 ) ' 20 $BoxWhith
-
-        		else
-          			dialog \
-          			--backtitle 'PrimeArch Installer' \
-          			--title 'Partitions Tabelle' \
-          			--begin $BoxStartY $BoxStartX \
-          			--msgbox '
-
-          			Im folgenden wird das Programm cgdisk gestartet
-          			Bitte erstellen Sie die Partitione in der folgenden Ordnung:
-
-          			1. BOOT ca. 5 Mb ( code: ef02)
-          			2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )
-
-          			     Wenn Sie keine extra HOME Partition wollen
-          			     Könne Sie den restlichen Speicher der ROOT Partition zweisen
-
-          			Ansonsten:
-          			3. ROOT ca. 20-40 Gb ( code: 8300 )
-          			4. HOME rest des Speichers ( code: 8300 )' 20 $BoxWhith
-        	fi
-
-		# Start cgdisk
-    		cgdisk /dev/$(</tmp/hdd_name)
+        	f_man_part
 fi
-#--------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-# Start HDD preparation
-#--------------------------------------------------------------------------------------------------------------------------------------
-case $(</tmp/hdd_name) in
-	nvme*)
-        	f_def_hdd_patern_nvme ;;
-	sd*)
-        	f_def_hdd_patern_sata ;;
-esac
-
-# Format Partition
-f_format
-
-# Mount Partition
-f_mount
 #--------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -247,29 +175,7 @@ f_root_pw_dialog
 
 # CREATE NEW USER
 #--------------------------------------------------------------------------------------------------------------------------------------
-dialog \
---backtitle 'PrimeArch Installer' \
---title 'Neuen Benutzer erstellen?' \
---begin $BoxStartY $BoxStartX \
---yesno '\n Möchten sie einen neuen Benutzer erstellen? \n ' 7 $BoxWhith \
-
-if [[ $? -eq 0 ]]; # IF YES !!!
-    	then
-       		dialog \
-       		--backtitle 'PrimeArch Installer' \
-       		--begin $BoxStartY $BoxStartX \
-       		--inputbox 'Bitte Benutzernamen eingeben' 8 $BoxWhith \
-       		2>/tmp/user_name
-
-       		arch-chroot /mnt /bin/bash -c "useradd -m -g users -G wheel,storage,power,network,video,audio -s /usr/bin/fish '$(</tmp/user_name)'"
-
-       		#Set USER PW
-       		f_user_pw_dialog
-
-       		echo "%wheel ALL=(ALL) ALL" >> /mnt/etc/sudoers
-    	else
-      		break
-fi
+f_create_new_user
 #--------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -302,6 +208,8 @@ arch-chroot /mnt /bin/bash -c locale-gen
 # COPY CONFIG FILES
 #--------------------------------------------------------------------------------------------------------------------------------------
 
+# USER FILES
+
 # Clone i3-config
 git clone https://github.com/dikiy4eburator/i3-config.git /mnt/home/$(</tmp/user_name)/.config/i3
 
@@ -320,8 +228,12 @@ cp -r /root/lib/dunst /mnt/home/$(</tmp/user_name)/.config
 # Terminator config
 cp -r /root/lib/terminator /mnt/home/$(</tmp/user_name)/.config
 
-# Terminator config
+# Rofi config
 cp -r /root/lib/rofi /mnt/home/$(</tmp/user_name)/.config
+
+
+
+#SYSTEM FILES
 
 #keyboard Conf
 cp -r /root/lib/xorg.conf.d /mnt/etc/X11
@@ -413,8 +325,10 @@ dialog \
 
 case $(</tmp/exit) in
     	1 )
+		umount -a
         	reboot ;;
     	2 )
+		umount -a
         	poweroff ;;
     	3 )
         	arch-chroot /mnt ;;
