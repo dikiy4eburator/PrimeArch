@@ -3,35 +3,46 @@
 #AUTO PARTITION FUNKTION
 #--------------------------------------------------------------------------------------------------------------------------------------
 function f_autopartition() {
-  sgdisk -Z /dev/$(</tmp/hdd_name)
-	sgdisk -g /dev/$(</tmp/hdd_name)
-	sgdisk -o /dev/$(</tmp/hdd_name)
 
-  	if [[ -d "/sys/firmware/efi/efivars" ]];
-    		then
-      			sgdisk -n 1:0:+256M -c 1:"EFI" -t 1:ef00 /dev/$(</tmp/hdd_name)
-    		else
-      			sgdisk -n 1:0:+5M -c 1:"BIOS" -t 1:ef02 /dev/$(</tmp/hdd_name)
-  	fi
+	dialog \
+	--backtitle 'PrimeArch Installer' \
+	--begin $BoxStartY $BoxStartX \
+	--yesno '\n Mochten Sie eine extra HOME Partition haben? \n' 7 $BoxWhith \
 
-  	sgdisk -n 2:0:+$(</tmp/swap_size)G -c 2:"SWAP" -t 2:8200 /dev/$(</tmp/hdd_name)
+	if [[ $? -eq 0 ]];
+		then
+	        	echo "ja" > /tmp/extrahome
+			dialog \
+			--backtitle 'PrimeArch Installer' \
+			--begin $BoxStartY $BoxStartX \
+			--inputbox '\n Bitte geben Sie die Gröse der ROOT Partition in Gigabeit an. \n' 10 $BoxWhith \
+			2>/tmp/root_size ;;
 
-  	case $(</tmp/extrahome)  in
-    		ja )
-      			sgdisk -n 3:0:+$(</tmp/root_size)G -c 3:"ROOT" -t 3:8300 /dev/$(</tmp/hdd_name)
-      			sgdisk -n 4:0:0 -c 4:"HOME" -t 4:8300 /dev/$(</tmp/hdd_name)
-      			;;
-    		nein )
-      			sgdisk -n 3:0:0 -c 3:"ROOT" -t 3:8300 /dev/$(</tmp/hdd_name)
-      			;;
-    	esac
+	    	else
+	            	echo "nein" > /tmp/extrahome
+	fi
 
-      case $(</tmp/hdd_name) in
-      	nvme*)
-              	f_def_hdd_patern_nvme ;;
-      	sd*)
-              	f_def_hdd_patern_sata ;;
-      esac
+	# SWAP size dialog
+	dialog \
+	--backtitle 'PrimeArch Installer' \
+	--begin $BoxStartY $BoxStartX \
+	--inputbox '\n Bitte geben Sie die Gröse der SWAP Partition in Gigabeit an. \n' 10 $BoxWhith \
+	2>/tmp/swap_size
+
+	# Generate HDD selection menu
+	f_gen_hdd_menu
+	sh /tmp/hdd_menu
+
+	# Make Partitions
+	f_auto_part
+
+ 	# Generate HDD Patern
+ 	case $(</tmp/hdd_name) in
+      		nvme*)
+              		f_def_hdd_patern_nvme ;;
+      		sd*)
+              		f_def_hdd_patern_sata ;;
+ 	esac
 
 
       # Format Partition
@@ -41,6 +52,31 @@ function f_autopartition() {
       f_mount
 }
 
+function f_auto_part() {
+	sgdisk -Z /dev/$(</tmp/hdd_name)
+	sgdisk -g /dev/$(</tmp/hdd_name)
+	sgdisk -o /dev/$(</tmp/hdd_name)
+
+	if [[ -d "/sys/firmware/efi/efivars" ]];
+		then
+			sgdisk -n 1:0:+256M -c 1:"EFI" -t 1:ef00 /dev/$(</tmp/hdd_name)
+		else
+			sgdisk -n 1:0:+5M -c 1:"BIOS" -t 1:ef02 /dev/$(</tmp/hdd_name)
+	fi
+
+	sgdisk -n 2:0:+$(</tmp/swap_size)G -c 2:"SWAP" -t 2:8200 /dev/$(</tmp/hdd_name)
+
+	case $(</tmp/extrahome)  in
+		ja )
+			sgdisk -n 3:0:+$(</tmp/root_size)G -c 3:"ROOT" -t 3:8300 /dev/$(</tmp/hdd_name)
+			sgdisk -n 4:0:0 -c 4:"HOME" -t 4:8300 /dev/$(</tmp/hdd_name)
+			;;
+		nein )
+			sgdisk -n 3:0:0 -c 3:"ROOT" -t 3:8300 /dev/$(</tmp/hdd_name)
+			;;
+	esac
+
+}
 
 
 #HDD PATERN DEFENITION
@@ -176,7 +212,7 @@ function f_man_part() {
                     			--msgbox '
 
 					Im folgenden wird das Programm cgdisk gestartet
-					Bitte erstellen Sie die Partitione in der folgenden Ordnung:
+					Bitte erstellen Sie die folgenden Partitionen:
 
 					1. EFI ca. 100-256 Mb ( code: ef00 )
 					2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )
@@ -196,7 +232,7 @@ function f_man_part() {
                     			--msgbox '
 
 					Im folgenden wird das Programm cgdisk gestartet
-					Bitte erstellen Sie die Partitione in der folgenden Ordnung:
+					Bitte erstellen Sie die folgenden Partitionen:
 
 					1. BOOT ca. 5 Mb ( code: ef02)
 					2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )
@@ -241,24 +277,27 @@ function f_man_part() {
             				esac
           			else
               				echo ""
-        			fi
+        		fi
 
-        		case $(</tmp/extrahome)  in
-                		ja )
-                			case $(</tmp/home_mount)  in
-                        			ok )
-                            				;;
-                        			* )
-                            				f_mount_home
-                            				;;
-                			esac
-                			;;
-                		nein )
-                    			echo ""
-                    			;;
-        		esac
-              		f_man_part
-          	 	;;
+
+			case $(</tmp/home_mount)  in
+				ok )
+					;;
+				* )
+					dialog \
+					--backtitle 'PrimeArch Installer' \
+					--begin $BoxStartY $BoxStartX \
+					--yesno '\n Mochten Sie eine extra HOME Partition mounten? \n' 7 $BoxWhith \
+
+					if [[ $? -eq 0 ]];
+						then
+							f_mount_home
+							;;
+						else
+							break
+					fi
+			esac
+
         	3 )
         		;;
   	esac

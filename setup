@@ -43,26 +43,6 @@ dialog \
 
 
 
-# Extra Home partition Screan
-#--------------------------------------------------------------------------------------------------------------------------------------
-dialog \
---backtitle 'PrimeArch Installer' \
---title 'Extra HOME Partition' \
---begin $BoxStartY $BoxStartX \
---yesno '\n Mochten Sie eine extra HOME Partition haben? \n' 7 $BoxWhith \
-
-if [[ $? -eq 0 ]];
-	then
-        	echo "ja" > /tmp/extrahome
-    	else
-            	echo "nein" > /tmp/extrahome
-fi
-#--------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
 # Partitionierung AUTO MANUEL
 #--------------------------------------------------------------------------------------------------------------------------------------
 dialog \
@@ -73,28 +53,6 @@ dialog \
 
 if [[ $? -eq 0 ]];
 	then
-        	f_gen_hdd_menu
-        	sh /tmp/hdd_menu
-
-		case $(</tmp/extrahome)  in
-			ja )
-				dialog \
-				--backtitle 'PrimeArch Installer' \
-				--begin $BoxStartY $BoxStartX \
-				--inputbox '\n Bitte geben Sie die Gröse der ROOT Partition in GiB an. \n' 10 $BoxWhith \
-				2>/tmp/root_size ;;
-			nein )
-				echo "" ;;
-		esac
-
-
-
-        	dialog \
-    		--backtitle 'PrimeArch Installer' \
-    		--begin $BoxStartY $BoxStartX \
-    		--inputbox '\n Bitte geben Sie die Gröse der SWAP Partition in GiB an. \n' 10 $BoxWhith \
-    		2>/tmp/swap_size
-
     		f_autopartition
 	else
         	f_man_part
