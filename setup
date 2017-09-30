@@ -54,12 +54,6 @@ dialog \
 if [[ $? -eq 0 ]];
 	then
         	echo "ja" > /tmp/extrahome
-
-		dialog \
-            	--backtitle 'PrimeArch Installer' \
-             	--begin $BoxStartY $BoxStartX \
-             	--inputbox '\n Bitte geben Sie die Gröse der ROOT Partition in GiB an. \n' 10 $BoxWhith \
-             	2>/tmp/root_size
     	else
             	echo "nein" > /tmp/extrahome
 fi
@@ -81,6 +75,19 @@ if [[ $? -eq 0 ]];
 	then
         	f_gen_hdd_menu
         	sh /tmp/hdd_menu
+
+		case $(</tmp/extrahome)  in
+			ja )
+				dialog \
+				--backtitle 'PrimeArch Installer' \
+				--begin $BoxStartY $BoxStartX \
+				--inputbox '\n Bitte geben Sie die Gröse der ROOT Partition in GiB an. \n' 10 $BoxWhith \
+				2>/tmp/root_size ;;
+			nein )
+				echo "" ;;
+		esac
+
+
 
         	dialog \
     		--backtitle 'PrimeArch Installer' \
