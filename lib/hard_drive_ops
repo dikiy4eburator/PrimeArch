@@ -12,11 +12,13 @@ function f_autopartition() {
 	if [[ $? -eq 0 ]];
 		then
 	        	echo "ja" > /tmp/extrahome
+
+			# ROOT size dialog
 			dialog \
 			--backtitle 'PrimeArch Installer' \
 			--begin $BoxStartY $BoxStartX \
 			--inputbox '\n Bitte geben Sie die Gröse der ROOT Partition in Gigabeit an. \n' 10 $BoxWhith \
-			2>/tmp/root_size ;;
+			2>/tmp/root_size
 
 	    	else
 	            	echo "nein" > /tmp/extrahome
@@ -273,7 +275,7 @@ function f_man_part() {
                         				;;
                     				* )
                         				f_mount_boot
-                        			;;
+                        				;;
             				esac
           			else
               				echo ""
@@ -292,11 +294,11 @@ function f_man_part() {
 					if [[ $? -eq 0 ]];
 						then
 							f_mount_home
-							;;
 						else
 							break
 					fi
 			esac
+			;;
 
         	3 )
         		;;
