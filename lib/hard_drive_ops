@@ -248,7 +248,7 @@ function f_man_part() {
               		fi
 
             		cgdisk /dev/$(</tmp/hdd_name)
-            		f_man_part
+			f_man_part
             		;;
 
       		2 )
@@ -295,15 +295,16 @@ function f_man_part() {
 						then
 							f_mount_home
 						else
+							echo 'ok' >> /tmp/boot_mount
 							break
 					fi
 			esac
+			f_man_part
 			;;
 
         	3 )
         		;;
-  	esac
-
+	esac
 }
 
 
