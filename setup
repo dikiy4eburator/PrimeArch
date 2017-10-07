@@ -179,32 +179,32 @@ arch-chroot /mnt /bin/bash -c locale-gen
 git clone https://github.com/dikiy4eburator/i3-config.git /mnt/home/$(</tmp/user_name)/.config/i3
 
 # gtk-theme config
-cp -r lib/gtk-3.0 /mnt/home/$(</tmp/user_name)/.config
+cp -r /root/PrimeArch/lib/gtk-3.0 /mnt/home/$(</tmp/user_name)/.config
 
 # fish config
-cp -r lib/fish /mnt/home/$(</tmp/user_name)/.config
+cp -r /root/PrimeArch/lib/fish /mnt/home/$(</tmp/user_name)/.config
 
 # Nitrogen config
-cp -r lib/nitrogen /mnt/home/$(</tmp/user_name)/.config
+cp -r /root/PrimeArch/lib/nitrogen /mnt/home/$(</tmp/user_name)/.config
 
 # dunst config
-cp -r lib/dunst /mnt/home/$(</tmp/user_name)/.config
+cp -r /root/PrimeArch/lib/dunst /mnt/home/$(</tmp/user_name)/.config
 
 # Terminator config
-cp -r lib/terminator /mnt/home/$(</tmp/user_name)/.config
+cp -r /root/PrimeArch/lib/terminator /mnt/home/$(</tmp/user_name)/.config
 
 # Rofi config
-cp -r lib/rofi /mnt/home/$(</tmp/user_name)/.config
+cp -r /root/PrimeArch/lib/rofi /mnt/home/$(</tmp/user_name)/.config
 
 
 
 #SYSTEM FILES
 
 #keyboard Conf
-cp -r lib/xorg.conf.d /mnt/etc/X11
+cp -r /root/PrimeArch/lib/xorg.conf.d /mnt/etc/X11
 
 #keyboard Conf
-mv -f lib/lightdm-config/lightdm-gtk-greeter.conf /mnt/etc/lightdm/lightdm-gtk-greeter.conf
+mv -f /root/PrimeArch/lib/lightdm-config/lightdm-gtk-greeter.conf /mnt/etc/lightdm/lightdm-gtk-greeter.conf
 
 
 #--------------------------------------------------------------------------------------------------------------------------------------
@@ -215,7 +215,7 @@ mv -f lib/lightdm-config/lightdm-gtk-greeter.conf /mnt/etc/lightdm/lightdm-gtk-g
 
 # INSTALL COSMETIC ADONS
 #--------------------------------------------------------------------------------------------------------------------------------------
-mv lib/Addons /mnt/home/$(</tmp/user_name)/Addons
+mv /root/PrimeArch/lib/Addons /mnt/home/$(</tmp/user_name)/Addons
 arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_name)/Addons"
 rm /mnt/home/$(</tmp/user_name)/Addons
 #--------------------------------------------------------------------------------------------------------------------------------------
@@ -239,13 +239,13 @@ arch-chroot /mnt /bin/bash -c "chmod -R 0700 /home/$(</tmp/user_name)"
 if [[ -d "/sys/firmware/efi/efivars" ]];
     	then
        		# install grub efi
-       		f_arch_chroot "grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$(</mnt/etc/hostname)"
+       		arch-chroot /mnt /bin/bash -c "grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$(</mnt/etc/hostname)"
     	else
       		# install grub legacy
-      		f_arch_chroot "grub-install /dev/$(</tmp/hdd_name)"
+      		arch-chroot /mnt /bin/bash -c "grub-install /dev/$(</tmp/hdd_name)"
 fi
 
-f_arch_chroot "grub-mkconfig -o /boot/grub/grub.cfg"
+arch-chroot /mnt /bin/bash -c "grub-mkconfig -o /boot/grub/grub.cfg"
 #--------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -254,22 +254,22 @@ f_arch_chroot "grub-mkconfig -o /boot/grub/grub.cfg"
 # START DAEMONS
 #--------------------------------------------------------------------------------------------------------------------------------------
 #start system daemons
-f_arch_chroot "systemctl enable acpid"
-f_arch_chroot "systemctl enable ntpd"
+arch-chroot /mnt /bin/bash -c "systemctl enable acpid"
+arch-chroot /mnt /bin/bash -c "systemctl enable ntpd"
 
 # network managment
-f_arch_chroot "systemctl enable avahi-daemon"
-f_arch_chroot "systemctl enable wpa_supplicant"
-f_arch_chroot "systemctl enable NetworkManager"
+arch-chroot /mnt /bin/bash -c "systemctl enable avahi-daemon"
+arch-chroot /mnt /bin/bash -c "systemctl enable wpa_supplicant"
+arch-chroot /mnt /bin/bash -c "systemctl enable NetworkManager"
 
 # NFS utils
-f_arch_chroot "systemctl enable rpcbind"
+arch-chroot /mnt /bin/bash -c "systemctl enable rpcbind"
 
 # Cronie
-f_arch_chroot "systemctl enable cronie.service"
+arch-chroot /mnt /bin/bash -c "systemctl enable cronie.service"
 
 #lightdm
-f_arch_chroot "systemctl enable lightdm.service"
+arch-chroot /mnt /bin/bash -c "systemctl enable lightdm.service"
 #--------------------------------------------------------------------------------------------------------------------------------------
 
 
