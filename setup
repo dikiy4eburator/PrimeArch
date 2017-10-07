@@ -65,7 +65,7 @@ fi
 
 # Install base pacages
 #--------------------------------------------------------------------------------------------------------------------------------------
-pacstrap /mnt $(</root/lib/pacages)
+pacstrap /mnt $(</root/PrimeArch/lib/pacages)
 #--------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -204,7 +204,7 @@ cp -r /root/PrimeArch/lib/rofi /mnt/home/$(</tmp/user_name)/.config
 cp -r /root/PrimeArch/lib/xorg.conf.d /mnt/etc/X11
 
 #keyboard Conf
-mv -f /root/PrimeArch/lib/lightdm-config/lightdm-gtk-greeter.conf /mnt/etc/lightdm/lightdm-gtk-greeter.conf
+cp -r /root/PrimeArch/lib/lightdm-config/ /mnt/etc/lightdm/
 
 
 #--------------------------------------------------------------------------------------------------------------------------------------
