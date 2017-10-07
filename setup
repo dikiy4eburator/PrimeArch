@@ -1,7 +1,4 @@
 #!/bin/sh
-pwd
-exit
-
 
 # includes
 source /root/PrimeArch/lib/user_ops
