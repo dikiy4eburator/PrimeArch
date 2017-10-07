@@ -195,7 +195,7 @@ arch-chroot /mnt /bin/bash -c locale-gen
 git clone https://github.com/dikiy4eburator/i3-config.git /mnt/home/$(</tmp/user_name)/.config/i3
 
 # gtk-theme config
-cp -r $working_dir/lib/configs/ /mnt/home/$(</tmp/user_name)/.config/
+cp -r -v $working_dir/lib/configs/ /mnt/home/$(</tmp/user_name)/.config/
 #--------------------------------
 
 
