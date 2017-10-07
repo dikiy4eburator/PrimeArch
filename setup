@@ -179,32 +179,32 @@ arch-chroot /mnt /bin/bash -c locale-gen
 git clone https://github.com/dikiy4eburator/i3-config.git /mnt/home/$(</tmp/user_name)/.config/i3
 
 # gtk-theme config
-cp -r /root/PrimeArch/lib/gtk-3.0 /mnt/home/$(</tmp/user_name)/.config
+cp -r lib/gtk-3.0 /mnt/home/$(</tmp/user_name)/.config
 
 # fish config
-cp -r /root/PrimeArch/lib/fish /mnt/home/$(</tmp/user_name)/.config
+cp -r lib/fish /mnt/home/$(</tmp/user_name)/.config
 
 # Nitrogen config
-cp -r /root/PrimeArch/lib/nitrogen /mnt/home/$(</tmp/user_name)/.config
+cp -r lib/nitrogen /mnt/home/$(</tmp/user_name)/.config
 
 # dunst config
-cp -r /root/PrimeArch/lib/dunst /mnt/home/$(</tmp/user_name)/.config
+cp -r lib/dunst /mnt/home/$(</tmp/user_name)/.config
 
 # Terminator config
-cp -r /root/PrimeArch/lib/terminator /mnt/home/$(</tmp/user_name)/.config
+cp -r lib/terminator /mnt/home/$(</tmp/user_name)/.config
 
 # Rofi config
-cp -r /root/PrimeArch/lib/rofi /mnt/home/$(</tmp/user_name)/.config
+cp -r lib/rofi /mnt/home/$(</tmp/user_name)/.config
 
 
 
 #SYSTEM FILES
 
 #keyboard Conf
-cp -r /root/PrimeArch/lib/xorg.conf.d /mnt/etc/X11
+cp -r lib/xorg.conf.d /mnt/etc/X11
 
 #keyboard Conf
-mv -f /root/PrimeArch/lib/lightdm-config/lightdm-gtk-greeter.conf /mnt/etc/lightdm/lightdm-gtk-greeter.conf
+mv -f lib/lightdm-config/lightdm-gtk-greeter.conf /mnt/etc/lightdm/lightdm-gtk-greeter.conf
 
 
 #--------------------------------------------------------------------------------------------------------------------------------------
@@ -215,7 +215,7 @@ mv -f /root/PrimeArch/lib/lightdm-config/lightdm-gtk-greeter.conf /mnt/etc/light
 
 # INSTALL COSMETIC ADONS
 #--------------------------------------------------------------------------------------------------------------------------------------
-mv  /root/PrimeArch/lib/Addons /mnt/home/$(</tmp/user_name)/Addons
+mv lib/Addons /mnt/home/$(</tmp/user_name)/Addons
 arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_name)/Addons"
 rm /mnt/home/$(</tmp/user_name)/Addons
 #--------------------------------------------------------------------------------------------------------------------------------------
