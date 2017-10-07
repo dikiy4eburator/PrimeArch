@@ -1,11 +1,5 @@
 #!/bin/sh
 
-working_dir=$(pwd)
-
-# includes
-source $working_dir/lib/user_ops
-source $working_dir/lib/hard_drive_ops
-
 # //////////////////////////////////////////////////////////////////////////////
 # //////////////////    VARIABELS DEFINITION  //////////////
 # //////////////////////////////////////////////////////////////////////////////
@@ -19,6 +13,12 @@ consol_Y=$(tput lines)
 BoxStartX=$(( ($consol_X - $BoxWhith)/2  ))
 BoxStartY=3
 
+working_dir=$(pwd)
+
+
+# includes
+source $working_dir/lib/user_ops
+source $working_dir/lib/hard_drive_ops
 
 
 # //////////////////////////////////////////////////////////////////////////////
@@ -195,7 +195,7 @@ arch-chroot /mnt /bin/bash -c locale-gen
 git clone https://github.com/dikiy4eburator/i3-config.git /mnt/home/$(</tmp/user_name)/.config/i3
 
 # gtk-theme config
-cp -r -v $working_dir/lib/configs/ /mnt/home/$(</tmp/user_name)/.config/
+cp -r -v $working_dir/lib/configs/* /mnt/home/$(</tmp/user_name)/.config/
 #--------------------------------
 
 
