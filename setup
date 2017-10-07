@@ -1,8 +1,10 @@
 #!/bin/sh
 
+PWD=$(<pwd)
+
 # includes
-source /root/PrimeArch/lib/user_ops
-source /root/PrimeArch/lib/hard_drive_ops
+source $PWD/lib/user_ops
+source $PWD/lib/hard_drive_ops
 
 # //////////////////////////////////////////////////////////////////////////////
 # //////////////////    VARIABELS DEFINITION  //////////////
@@ -15,6 +17,9 @@ consol_Y=$(tput lines)
 BoxStartX=$(( ($consol_X - $BoxWhith)/2  ))
 BoxStartY=3
 
+echo "pwd: $PWD"
+exit
+
 # //////////////////////////////////////////////////////////////////////////////
 # //////////////////    FUNKTION DEFINITION  ///////////////
 # //////////////////////////////////////////////////////////////////////////////
@@ -24,6 +29,33 @@ BoxStartY=3
 function f_arch_chroot() {
     arch-chroot /mnt /bin/bash -c "${1}"
 }
+
+
+
+# //////////////////////////////////////////////////////////////////////////////
+# //////////////////    initial update   ///////////////////
+# //////////////////////////////////////////////////////////////////////////////
+
+dialog \
+--backtitle 'PrimeArch Installer' \
+--title 'Wilkommen beim PrimeArch Installer' \
+--begin $BoxStartY $BoxStartX \
+--msgbox 'Es wird zuerst ein vollständiges\nSystemupdate durchgeführt' 7 $BoxWhith
+
+echo Miror update:
+echo ------------------------------
+curl -o /etc/pacman.d/mirrorlist https://www.archlinux.org/mirrorlist/all/
+rankmirrors -n 0 -t -v /etc/pacman.d/mirrorlist
+
+echo key update:
+echo ------------------------------
+pacman-key --refresh-key
+
+echo System update:
+echo ------------------------------
+pacman -Syyu
+
+
 
 # //////////////////////////////////////////////////////////////////////////////
 # //////////////////    START INSTALATION   ///////////////////
@@ -36,7 +68,7 @@ dialog \
 --backtitle 'PrimeArch Installer' \
 --title 'Wilkommen beim PrimeArch Installer' \
 --begin $BoxStartY $BoxStartX \
---msgbox '\n Last den Spass beginnen' 7 $BoxWhith
+--msgbox '\n Ok, Last den Spass beginnen' 7 $BoxWhith
 #--------------------------------------------------------------------------------------------------------------------------------------
 
 
