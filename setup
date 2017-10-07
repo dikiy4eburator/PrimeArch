@@ -1,6 +1,6 @@
 #!/bin/sh
 
-PWD=$(<pwd)
+PWD=$(pwd)
 
 # includes
 source $PWD/lib/user_ops
