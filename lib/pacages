@@ -23,6 +23,7 @@ ntp
 wireless_tools
 wpa_supplicant
 gnome-keyring
+polkit-gnome
 nfs-utils
 openssh
 alsa-tools
@@ -51,7 +52,6 @@ chromium
 conky
 dunst
 hunspell-de
-mate-polkit
 pcmanfm-gtk3
 lxappearance-gtk3
 arc-gtk-theme
