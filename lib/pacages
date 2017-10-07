@@ -1,3 +1,5 @@
+# Basis System pakete
+# ----------------------------------
 base
 base-devel
 linux-headers
@@ -11,10 +13,29 @@ vim
 cronie
 gvfs
 xdg-user-dirs
+
+# Basis DE pakete
+# ----------------------------------
 udiskie
 rofi
 lightdm
 lightdm-gtk-greeter
+gnome-keyring
+polkit-gnome
+terminator
+rsync
+pcmanfm-gtk3
+lxappearance-gtk3
+ranger
+git
+atom
+htop
+nitrogen
+conky
+dunst
+
+# Basis Network pakete
+# ----------------------------------
 avahi
 networkmanager
 network-manager-applet
@@ -22,10 +43,11 @@ nm-connection-editor
 ntp
 wireless_tools
 wpa_supplicant
-gnome-keyring
-polkit-gnome
 nfs-utils
 openssh
+
+# Basis Audio pakete
+# ----------------------------------
 alsa-tools
 alsa-utils
 pulseaudio
@@ -34,26 +56,21 @@ pavucontrol
 flac
 volumeicon
 audacious
+
+# Basis Video pakete
+# ----------------------------------
 xorg-server
 xorg-xinit
 compton
 ffmpeg
 vlc
 mpv
-ranger
-git
-atom
-htop
-nitrogen
-terminator
-rsync
+
+# Basis Cosmetics pakete
+# ----------------------------------
 cool-retro-term
 chromium
-conky
-dunst
 hunspell-de
-pcmanfm-gtk3
-lxappearance-gtk3
 arc-gtk-theme
 arc-icon-theme
 archlinux-wallpaper

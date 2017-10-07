@@ -81,7 +81,7 @@ fi
 
 # Install base pacages
 #===============================================================================
-pacstrap /mnt $(<$working_dir/lib/pacages)
+pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dir/lib/pacages)  # $(<$working_dir/lib/pacages)
 #===============================================================================
 
 
@@ -116,7 +116,7 @@ case $(</tmp/grafik_treiber) in
 	1 )
         	pacstrap /mnt virtualbox-guest-dkms virtualbox-guest-utils ;;
     	2 )
-        	pacstrap /mnt nvidia ;;
+        	pacstrap /mnt nvidia-dkms ;;
     	3 )
         	pacstrap /mnt xf86-video-ati ;;
     	4 )
