@@ -104,8 +104,6 @@ function f_def_hdd_patern_sata() {
 	esac
 }
 
-
-
 function f_def_hdd_patern_nvme() {
 
   	ROOT_HD="$(</tmp/hdd_name)p3"
@@ -152,8 +150,6 @@ function f_format() {
     			;;
 	esac
 }
-
-
 
 # MOUNT HARDDRIVES
 function f_mount() {
@@ -319,8 +315,6 @@ function f_mount_boot() {
   	echo 'ok' >> /tmp/boot_mount
 }
 
-
-
 function f_mount_swap() {
   	f_gen_part_menu SWAP
   	sh /tmp/part_menu
@@ -329,8 +323,6 @@ function f_mount_swap() {
   	echo 'ok' >> /tmp/swap_mount
 }
 
-
-
 function f_mount_root() {
   	f_gen_part_menu ROOT
   	sh /tmp/part_menu
@@ -338,8 +330,6 @@ function f_mount_root() {
   	mount -o defaults,noatime,discard /dev/$(</tmp/part_name) /mnt
   	echo 'ok' >> /tmp/root_mount
 }
-
-
 
 function f_mount_home() {
   	f_gen_part_menu HOME
@@ -355,7 +345,7 @@ function f_mount_home() {
 
 
 
-# GENERATE HARDDRIVE SELECTION MENU
+# DYNAMIC MENU GENERATION
 #--------------------------------------------------------------------------------------------------------------------------------------
 
 function f_gen_hdd_menu() {
@@ -378,14 +368,6 @@ function f_gen_hdd_menu() {
   	awk ' { print $1"\t", "\047"$2 "\t" $3"\047", "\\" } ' < /tmp/hdlist >> /tmp/hdd_menu
   	echo '2>/tmp/hdd_name' >> /tmp/hdd_menu
 }
-#--------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-# GENERATE PARTITION SELECTION MENU
-#--------------------------------------------------------------------------------------------------------------------------------------
 
 function f_gen_part_menu() {
   	#Prepare Disklist

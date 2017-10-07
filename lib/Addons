@@ -21,4 +21,5 @@ yaourt -S --noconfirm polybar-git
 yaourt -S --noconfirm vertex-themes
 yaourt -S --noconfirm vertex-icons-git
 yaourt -S --noconfirm gitkraken
+yaourt -S --noconfirm etcher
 exit
