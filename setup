@@ -1,10 +1,10 @@
 #!/bin/sh
 
-PWD=$(pwd)
+working_dir=$($pwd)
 
 # includes
-source $PWD/lib/user_ops
-source $PWD/lib/hard_drive_ops
+source $working_dir/lib/user_ops
+source $working_dir/lib/hard_drive_ops
 
 # //////////////////////////////////////////////////////////////////////////////
 # //////////////////    VARIABELS DEFINITION  //////////////
