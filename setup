@@ -29,7 +29,7 @@ dialog \
 --backtitle 'PrimeArch Installer' \
 --title 'Wilkommen beim PrimeArch Installer' \
 --begin $BoxStartY $BoxStartX \
---msgbox 'Es wird zuerst ein vollständiges\nSystemupdate durchgeführt' 7 $BoxWhith
+--msgbox '\nEs wird zuerst ein vollständiges\nSystemupdate durchgeführt' 7 $BoxWhith
 
 echo Miror update:
 echo ------------------------------
@@ -98,7 +98,7 @@ pacstrap /mnt $(<$working_dir/lib/pacages)
 genfstab -U -p /mnt > /mnt/etc/fstab
 #===============================================================================
 
-
+exit
 
 
 
