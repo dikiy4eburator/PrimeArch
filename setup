@@ -31,11 +31,6 @@ dialog \
 --begin $BoxStartY $BoxStartX \
 --msgbox '\nEs wird zuerst ein vollständiges\nSystemupdate durchgeführt' 7 $BoxWhith
 
-echo Miror update:
-echo ------------------------------
-curl -o /etc/pacman.d/mirrorlist https://www.archlinux.org/mirrorlist/all/
-rankmirrors -n 0 -t -v /etc/pacman.d/mirrorlist
-
 echo key update:
 echo ------------------------------
 pacman-key --refresh-key
