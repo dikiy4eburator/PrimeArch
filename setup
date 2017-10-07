@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "pwd: $working_dir"
+working_dir=$(pwd)
 
 # includes
 source $working_dir/lib/user_ops
