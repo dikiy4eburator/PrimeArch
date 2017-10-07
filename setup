@@ -194,7 +194,7 @@ arch-chroot /mnt /bin/bash -c locale-gen
 # Clone i3-config
 git clone https://github.com/dikiy4eburator/i3-config.git /mnt/home/$(</tmp/user_name)/.config/i3
 
-# gtk-theme config
+# APP configs
 cp -r -v $working_dir/lib/configs/* /mnt/home/$(</tmp/user_name)/.config/
 #--------------------------------
 
@@ -305,22 +305,3 @@ esac
 
 
 exit
-
-
-
-
-
-# fish config
-cp -r $working_dir/lib/fish /mnt/home/$(</tmp/user_name)/.config
-
-# Nitrogen config
-cp -r $working_dir/lib/nitrogen /mnt/home/$(</tmp/user_name)/.config
-
-# dunst config
-cp -r $working_dir/lib/dunst /mnt/home/$(</tmp/user_name)/.config
-
-# Terminator config
-cp -r $working_dir/lib/terminator /mnt/home/$(</tmp/user_name)/.config
-
-# Rofi config
-cp -r $working_dir/lib/rofi /mnt/home/$(</tmp/user_name)/.config
