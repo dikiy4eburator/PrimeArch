@@ -1,6 +1,7 @@
 #!/bin/sh
 
-working_dir=$($pwd)
+pwd > /tmp/pwd
+working_dir=$(</tmp/pwd)
 
 # includes
 source $working_dir/lib/user_ops
@@ -17,7 +18,7 @@ consol_Y=$(tput lines)
 BoxStartX=$(( ($consol_X - $BoxWhith)/2  ))
 BoxStartY=3
 
-echo "pwd: $PWD"
+echo "pwd: $working_dir"
 exit
 
 # //////////////////////////////////////////////////////////////////////////////
