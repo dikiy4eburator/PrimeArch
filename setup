@@ -208,10 +208,10 @@ cp -r $working_dir/lib/configs/ /mnt/home/$(</tmp/user_name)/.config/
 #SYSTEM FILES -------------------
 
 #keyboard Conf
-cp -r $working_dir/lib/xorg.conf.d /mnt/etc/X11
+mv -f $working_dir/lib/xorg.conf.d /mnt/etc/X11/xorg.conf.d
 
 #keyboard Conf
-cp -r $working_dir/lib/lightdm-config/ /mnt/etc/lightdm/
+mv -f $working_dir/lib/lightdm-config/lightdm-gtk-greeter.conf /mnt/etc/lightdm/lightdm-gtk-greeter.conf
 #--------------------------------
 
 #===============================================================================
