@@ -5,17 +5,17 @@
 function f_set_root_pw() {
 
 	# remove root from shadow file
-  	awk '{ if($1 !~ /root/) print }' /mnt/etc/shadow > /mnt/etc/new_shadow
+	awk '{ if($1 !~ /root/) print }' /mnt/etc/shadow > /mnt/etc/new_shadow
 
 	# generate and add root pasword to the new shadow file
-  	openssl passwd -1 -salt xyz  $(</tmp/root_pw) > /tmp/root_pw
-  	echo "root:$(</tmp/root_pw):17393::::::" >> /mnt/etc/new_shadow
+	openssl passwd -1 -salt xyz  $(</tmp/root_pw) > /tmp/root_pw
+	echo "root:$(</tmp/root_pw):17393::::::" >> /mnt/etc/new_shadow
 
 	# replace shadow with new shadow file
-  	mv /mnt/etc/new_shadow /mnt/etc/shadow
+	mv /mnt/etc/new_shadow /mnt/etc/shadow
 
-  	rm /tmp/root_pw
-  	rm /tmp/root_pw_2
+	rm /tmp/root_pw
+	rm /tmp/root_pw_2
 }
 #===============================================================================
 
@@ -28,17 +28,17 @@ function f_set_root_pw() {
 function f_set_user_pw() {
 
 	# Clear User Password
-  	awk '{ if($1 !~ /'$(</tmp/user_name)'/) print }' /mnt/etc/shadow > /mnt/etc/new_shadow
+	awk '{ if($1 !~ /'$(</tmp/user_name)'/) print }' /mnt/etc/shadow > /mnt/etc/new_shadow
 
-  	# Set new User Password
-  	openssl passwd -1 -salt xyz  $(</tmp/user_pw) > /tmp/user_pw
-  	echo "$(</tmp/user_name):$(</tmp/user_pw):17393:0:99999:7:::" >> /mnt/etc/new_shadow
+	# Set new User Password
+	openssl passwd -1 -salt xyz  $(</tmp/user_pw) > /tmp/user_pw
+	echo "$(</tmp/user_name):$(</tmp/user_pw):17393:0:99999:7:::" >> /mnt/etc/new_shadow
 
 	# replace shadow with new shadow file
 	mv /mnt/etc/new_shadow /mnt/etc/shadow
 
-  	rm /tmp/user_pw
-  	rm /tmp/user_pw_2
+	rm /tmp/user_pw
+	rm /tmp/user_pw_2
 }
 #===============================================================================
 
@@ -64,10 +64,10 @@ function f_root_pw_dialog() {
   2>/tmp/root_pw_2
 
   if [[ $(</tmp/root_pw) == $(</tmp/root_pw_2) ]];
-  	then
-   		f_set_root_pw
-  	else
-   		f_root_pw_dialog
+	then
+		f_set_root_pw
+	else
+		f_root_pw_dialog
   fi
 }
 #===============================================================================
@@ -86,21 +86,21 @@ function f_create_new_user() {
 	--yesno '\n Möchten sie einen neuen Benutzer erstellen? \n ' 7 $BoxWhith \
 
 	if [[ $? -eq 0 ]]; # IF YES !!!
-	 	then
-	 		dialog \
-	 		--backtitle 'PrimeArch Installer' \
-	 		--begin $BoxStartY $BoxStartX \
-	 		--inputbox 'Bitte Benutzernamen eingeben' 8 $BoxWhith \
-	 		2>/tmp/user_name
+		then
+			dialog \
+			--backtitle 'PrimeArch Installer' \
+			--begin $BoxStartY $BoxStartX \
+			--inputbox 'Bitte Benutzernamen eingeben' 8 $BoxWhith \
+			2>/tmp/user_name
 
-	 		arch-chroot /mnt /bin/bash -c "useradd -m -g users -G wheel,storage,power,network,video,audio -s /usr/bin/fish '$(</tmp/user_name)'"
+			arch-chroot /mnt /bin/bash -c "useradd -m -g users -G wheel,storage,power,network,video,audio -s /usr/bin/fish '$(</tmp/user_name)'"
 
-	 		#Set USER PW
-	 		f_user_pw_dialog
+			#Set USER PW
+			f_user_pw_dialog
 
-	 		echo "%wheel ALL=(ALL) ALL" >> /mnt/etc/sudoers
+			echo "%wheel ALL=(ALL) ALL" >> /mnt/etc/sudoers
 		else
-	 		break
+			break
 	fi
 }
 #===============================================================================
@@ -113,24 +113,24 @@ function f_create_new_user() {
 #===============================================================================
 function f_user_pw_dialog() {
 	dialog \
- 	--backtitle 'PrimeArch Installer' \
- 	--begin $BoxStartY $BoxStartX \
- 	--insecure \
- 	--passwordbox "Bitte Password für $(</tmp/user_name) eingeben" 8 $BoxWhith \
- 	2>/tmp/user_pw
+	--backtitle 'PrimeArch Installer' \
+	--begin $BoxStartY $BoxStartX \
+	--insecure \
+	--passwordbox "Bitte Password für $(</tmp/user_name) eingeben" 8 $BoxWhith \
+	2>/tmp/user_pw
 
- 	dialog \
- 	--backtitle 'PrimeArch Installer' \
- 	--begin $BoxStartY $BoxStartX \
- 	--insecure \
- 	--passwordbox "Bitte Password für $(</tmp/user_name) wiederholen" 8 $BoxWhith \
- 	2>/tmp/user_pw_2
+	dialog \
+	--backtitle 'PrimeArch Installer' \
+	--begin $BoxStartY $BoxStartX \
+	--insecure \
+	--passwordbox "Bitte Password für $(</tmp/user_name) wiederholen" 8 $BoxWhith \
+	2>/tmp/user_pw_2
 
- 	if [[ $(</tmp/user_pw) == $(</tmp/user_pw_2) ]];
- 		then
- 			f_set_user_pw
- 		else
- 			f_user_pw_dialog
- 	fi
+	if [[ $(</tmp/user_pw) == $(</tmp/user_pw_2) ]];
+		then
+			f_set_user_pw
+		else
+			f_user_pw_dialog
+	fi
 }
 #===============================================================================

@@ -71,9 +71,9 @@ dialog \
 
 if [[ $? -eq 0 ]];
 	then
-    f_autopartition
+		f_autopartition
 	else
-    f_man_part
+		f_man_part
 fi
 #===============================================================================
 
@@ -110,17 +110,17 @@ dialog \
 case $(</tmp/grafik_treiber) in
 
 	1 )
-   	pacstrap /mnt virtualbox-guest-dkms virtualbox-guest-utils ;;
-  2 )
-   	pacstrap /mnt nvidia-dkms ;;
- 	3 )
-   	pacstrap /mnt xf86-video-ati ;;
- 	4 )
-   	pacstrap /mnt xf86-video-intel ;;
- 	5 )
-   	pacstrap /mnt xf86-video-nouveau ;;
- 	0 )
-   	break ;;
+		pacstrap /mnt virtualbox-guest-dkms virtualbox-guest-utils ;;
+	2 )
+		pacstrap /mnt nvidia-dkms ;;
+	3 )
+		pacstrap /mnt xf86-video-ati ;;
+	4 )
+		pacstrap /mnt xf86-video-intel ;;
+	5 )
+		pacstrap /mnt xf86-video-nouveau ;;
+	0 )
+		break ;;
 esac
 #===============================================================================
 
@@ -219,12 +219,12 @@ arch-chroot /mnt /bin/bash -c "chmod -R 0700 /home/$(</tmp/user_name)"
 #GRUB INSTALLATION
 #===============================================================================
 if [[ -d "/sys/firmware/efi/efivars" ]];
-   	then
-   		# install grub efi
-   		arch-chroot /mnt /bin/bash -c "grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$(</mnt/etc/hostname)"
-   	else
-   		# install grub legacy
-   		arch-chroot /mnt /bin/bash -c "grub-install /dev/$(</tmp/hdd_name)"
+	then
+		# install grub efi
+		arch-chroot /mnt /bin/bash -c "grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$(</mnt/etc/hostname)"
+	else
+		# install grub legacy
+		arch-chroot /mnt /bin/bash -c "grub-install /dev/$(</tmp/hdd_name)"
 fi
 
 arch-chroot /mnt /bin/bash -c "grub-mkconfig -o /boot/grub/grub.cfg"
@@ -268,14 +268,14 @@ dialog \
 2>/tmp/exit
 
 case $(</tmp/exit) in
-   	1 )
-        umount -a
-        reboot ;;
-   	2 )
-        umount -a
-        poweroff ;;
-    3 )
-       	arch-chroot /mnt ;;
+	1 )
+		umount -a
+		reboot ;;
+	2 )
+		umount -a
+		poweroff ;;
+	3 )
+		arch-chroot /mnt ;;
 esac
 #===============================================================================
 
