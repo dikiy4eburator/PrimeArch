@@ -2,7 +2,9 @@
   handle_size = 5
   inactive_color_offset = 0.606557377049
   window_state = hidden
+
 [keybindings]
+
 [layouts]
   [[default]]
     [[[child1]]]
@@ -11,7 +13,9 @@
     [[[window0]]]
       parent = ""
       type = Window
+
 [plugins]
+
 [profiles]
   [[default]]
     allow_bold = False

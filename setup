@@ -1,10 +1,8 @@
 #!/bin/sh
 
-# //////////////////////////////////////////////////////////////////////////////
-# //////////////////    VARIABELS DEFINITION  //////////////
-# //////////////////////////////////////////////////////////////////////////////
-
-
+# ////////////////////////////////////////////////////////////
+# //////////////////    VARIABELS DEFINITION    //////////////
+# ////////////////////////////////////////////////////////////
 
 # set Variabels
 BoxWhith=70
@@ -18,18 +16,23 @@ working_dir=$(pwd)
 
 # includes
 source $working_dir/lib/user_ops
-source $working_dir/lib/hard_drive_ops
+source $working_dir/lib/menu_generator
+source $working_dir/lib/auto_partition
+source $working_dir/lib/manual_partition
 
 
-# //////////////////////////////////////////////////////////////////////////////
-# //////////////////    initial update   ///////////////////
-# //////////////////////////////////////////////////////////////////////////////
+
+
+
+# /////////////////////////////////////////////////////////
+# //////////////////    initial update  ///////////////////
+# /////////////////////////////////////////////////////////
 
 dialog \
 --backtitle 'PrimeArch Installer' \
 --title 'Wilkommen beim PrimeArch Installer' \
 --begin $BoxStartY $BoxStartX \
---msgbox '\nEs wird zuerst ein vollständiges\nSystemupdate durchgeführt' 7 $BoxWhith
+--msgbox '\nEs wird zuerst ein vollständiges Systemupdate durchgeführt' 7 $BoxWhith
 
 echo key update:
 echo ------------------------------
@@ -41,10 +44,11 @@ pacman -Syyu
 
 
 
-# //////////////////////////////////////////////////////////////////////////////
-# //////////////////    START INSTALATION   ///////////////////
-# //////////////////////////////////////////////////////////////////////////////
 
+
+# /////////////////////////////////////////////////////////////
+# //////////////////    START INSTALATION   ///////////////////
+# /////////////////////////////////////////////////////////////
 
 # Welkom Screan
 #===============================================================================
@@ -54,8 +58,6 @@ dialog \
 --begin $BoxStartY $BoxStartX \
 --msgbox '\n Ok, Last den Spass beginnen' 7 $BoxWhith
 #===============================================================================
-
-
 
 
 
@@ -69,22 +71,18 @@ dialog \
 
 if [[ $? -eq 0 ]];
 	then
-    		f_autopartition
+    	f_autopartition
 	else
-        	f_man_part
+        f_man_part
 fi
 #===============================================================================
 
 
 
-
-
 # Install base pacages
 #===============================================================================
-pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dir/lib/pacages)  # $(<$working_dir/lib/pacages)
+pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dir/lib/pacages)
 #===============================================================================
-
-
 
 
 
@@ -92,8 +90,6 @@ pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dir/lib/pacages)  # $(<
 #===============================================================================
 genfstab -U -p /mnt > /mnt/etc/fstab
 #===============================================================================
-
-
 
 
 
@@ -114,21 +110,19 @@ dialog \
 case $(</tmp/grafik_treiber) in
 
 	1 )
-        	pacstrap /mnt virtualbox-guest-dkms virtualbox-guest-utils ;;
-    	2 )
-        	pacstrap /mnt nvidia-dkms ;;
-    	3 )
-        	pacstrap /mnt xf86-video-ati ;;
-    	4 )
-        	pacstrap /mnt xf86-video-intel ;;
-    	5 )
-        	pacstrap /mnt xf86-video-nouveau ;;
-    	0 )
-        	break ;;
+       	pacstrap /mnt virtualbox-guest-dkms virtualbox-guest-utils ;;
+   	2 )
+       	pacstrap /mnt nvidia-dkms ;;
+   	3 )
+       	pacstrap /mnt xf86-video-ati ;;
+   	4 )
+       	pacstrap /mnt xf86-video-intel ;;
+   	5 )
+       	pacstrap /mnt xf86-video-nouveau ;;
+   	0 )
+       	break ;;
 esac
 #===============================================================================
-
-
 
 
 
@@ -143,8 +137,6 @@ dialog \
 
 
 
-
-
 #Set ROOT PW
 #===============================================================================
 f_root_pw_dialog
@@ -152,14 +144,10 @@ f_root_pw_dialog
 
 
 
-
-
 # CREATE NEW USER
 #===============================================================================
 f_create_new_user
 #===============================================================================
-
-
 
 
 
@@ -181,8 +169,6 @@ echo de_DE.UTF-8 UTF-8 >> /mnt/etc/locale.gen
 
 arch-chroot /mnt /bin/bash -c locale-gen
 #===============================================================================
-
-
 
 
 
@@ -213,14 +199,12 @@ mv -f $working_dir/lib/lightdm-config/lightdm-gtk-greeter.conf /mnt/etc/lightdm/
 
 
 
-
 # INSTALL COSMETIC ADONS
 #===============================================================================
 mv $working_dir/lib/Addons /mnt/home/$(</tmp/user_name)/Addons
 arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_name)/Addons"
 rm /mnt/home/$(</tmp/user_name)/Addons
 #===============================================================================
-
 
 
 
@@ -232,22 +216,19 @@ arch-chroot /mnt /bin/bash -c "chmod -R 0700 /home/$(</tmp/user_name)"
 
 
 
-
-
 #GRUB INSTALLATION
 #===============================================================================
 if [[ -d "/sys/firmware/efi/efivars" ]];
-    	then
-       		# install grub efi
-       		arch-chroot /mnt /bin/bash -c "grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$(</mnt/etc/hostname)"
-    	else
-      		# install grub legacy
-      		arch-chroot /mnt /bin/bash -c "grub-install /dev/$(</tmp/hdd_name)"
+   	then
+   		# install grub efi
+   		arch-chroot /mnt /bin/bash -c "grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$(</mnt/etc/hostname)"
+   	else
+   		# install grub legacy
+   		arch-chroot /mnt /bin/bash -c "grub-install /dev/$(</tmp/hdd_name)"
 fi
 
 arch-chroot /mnt /bin/bash -c "grub-mkconfig -o /boot/grub/grub.cfg"
 #===============================================================================
-
 
 
 
@@ -274,8 +255,6 @@ arch-chroot /mnt /bin/bash -c "systemctl enable lightdm.service"
 
 
 
-
-
 ##Selekt HDD screan
 #===============================================================================
 dialog \
@@ -289,18 +268,16 @@ dialog \
 2>/tmp/exit
 
 case $(</tmp/exit) in
-    	1 )
-		umount -a
-        	reboot ;;
-    	2 )
-		umount -a
-        	poweroff ;;
-    	3 )
-        	arch-chroot /mnt ;;
+   	1 )
+        umount -a
+        reboot ;;
+   	2 )
+        umount -a
+        poweroff ;;
+    3 )
+       	arch-chroot /mnt ;;
 esac
 #===============================================================================
-
-
 
 
 

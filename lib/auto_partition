@@ -1,0 +1,175 @@
+#!/bin/bash
+
+#AUTO PARTITION FUNKTION
+#===============================================================================
+function f_autopartition() {
+
+	dialog \
+	--backtitle 'PrimeArch Installer' \
+	--begin $BoxStartY $BoxStartX \
+	--yesno '\n Mochten Sie eine extra HOME Partition haben? \n' 7 $BoxWhith \
+
+	if [[ $? -eq 0 ]];
+		then
+     	echo "ja" > /tmp/extrahome
+
+			# ROOT size dialog
+			dialog \
+			--backtitle 'PrimeArch Installer' \
+			--begin $BoxStartY $BoxStartX \
+			--inputbox '\n Bitte geben Sie die Gröse der ROOT Partition in Gigabeit an. \n' 10 $BoxWhith \
+			2>/tmp/root_size
+
+   	else
+     	echo "nein" > /tmp/extrahome
+	fi
+
+	# SWAP size dialog
+	dialog \
+	--backtitle 'PrimeArch Installer' \
+	--begin $BoxStartY $BoxStartX \
+	--inputbox '\n Bitte geben Sie die Gröse der SWAP Partition in Gigabeit an. \n' 10 $BoxWhith \
+	2>/tmp/swap_size
+
+	# Generate HDD selection menu
+	f_gen_hdd_menu
+	sh /tmp/hdd_menu
+
+	# Make Partitions
+	f_auto_part
+
+ 	# Generate HDD Patern
+ 	case $(</tmp/hdd_name) in
+    nvme*)
+   		f_def_hdd_patern_nvme ;;
+ 		sd*)
+   		f_def_hdd_patern_sata ;;
+ 	esac
+
+  # Format Partition
+  f_format
+
+  # Mount Partition
+  f_mount
+}
+
+
+
+function f_auto_part() {
+	sgdisk -Z /dev/$(</tmp/hdd_name)
+	sgdisk -g /dev/$(</tmp/hdd_name)
+	sgdisk -o /dev/$(</tmp/hdd_name)
+
+	if [[ -d "/sys/firmware/efi/efivars" ]];
+		then
+			sgdisk -n 1:0:+256M -c 1:"EFI" -t 1:ef00 /dev/$(</tmp/hdd_name)
+		else
+			sgdisk -n 1:0:+5M -c 1:"BIOS" -t 1:ef02 /dev/$(</tmp/hdd_name)
+	fi
+
+	sgdisk -n 2:0:+$(</tmp/swap_size)G -c 2:"SWAP" -t 2:8200 /dev/$(</tmp/hdd_name)
+
+	case $(</tmp/extrahome)  in
+		ja )
+			sgdisk -n 3:0:+$(</tmp/root_size)G -c 3:"ROOT" -t 3:8300 /dev/$(</tmp/hdd_name)
+			sgdisk -n 4:0:0 -c 4:"HOME" -t 4:8300 /dev/$(</tmp/hdd_name) ;;
+		nein )
+			sgdisk -n 3:0:0 -c 3:"ROOT" -t 3:8300 /dev/$(</tmp/hdd_name) ;;
+	esac
+
+}
+
+
+
+#HDD PATERN DEFENITION
+function f_def_hdd_patern_sata() {
+
+ 	ROOT_HD="$(</tmp/hdd_name)3"
+ 	SWAP_HD="$(</tmp/hdd_name)2"
+
+	if [[ -d "/sys/firmware/efi/efivars" ]];
+ 		then
+ 			BOOT_HD="$(</tmp/hdd_name)1"
+ 		else
+   		echo ""
+  fi
+
+  case $(</tmp/extrahome)  in
+ 		ja )
+ 			HOME_HD="$(</tmp/hdd_name)4" ;;
+ 		nein )
+ 			echo "" ;;
+	esac
+}
+
+
+
+function f_def_hdd_patern_nvme() {
+
+ 	ROOT_HD="$(</tmp/hdd_name)p3"
+ 	SWAP_HD="$(</tmp/hdd_name)p2"
+
+	if [[ -d "/sys/firmware/efi/efivars" ]];
+ 		then
+ 			BOOT_HD="$(</tmp/hdd_name)p1"
+ 		else
+ 			echo ""
+	fi
+
+	case $(</tmp/extrahome)  in
+ 		ja )
+ 			HOME_HD="$(</tmp/hdd_name)p4" ;;
+ 		nein )
+ 			echo "" ;;
+	esac
+}
+
+
+
+# FORMAT HARDDRIVES
+function f_format() {
+
+  mkfs.ext4 /dev/$ROOT_HD
+ 	mkswap /dev/$SWAP_HD
+
+	if [[ -d "/sys/firmware/efi/efivars" ]];
+ 		then
+ 			mkfs.fat -F32 /dev/$BOOT_HD
+ 		else
+ 			echo ""
+	fi
+
+	case $(</tmp/extrahome)  in
+ 		ja )
+ 			mkfs.ext4 /dev/$HOME_HD ;;
+ 		nein )
+    			echo "" ;;
+	esac
+}
+
+
+
+# MOUNT HARDDRIVES
+function f_mount() {
+
+ 	mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
+ 	swapon /dev/$SWAP_HD
+
+	if [[ -d "/sys/firmware/efi/efivars" ]];
+ 		then
+ 			mkdir /mnt/boot
+ 			mkdir /mnt/boot/efi
+ 			mount /dev/$BOOT_HD /mnt/boot/efi
+ 		else
+ 			echo ""
+	fi
+
+	case $(</tmp/extrahome)  in
+ 		ja )
+ 			mkdir /mnt/home
+ 			mount -o defaults,noatime,discard /dev/$HOME_HD /mnt/home ;;
+ 		nein )
+ 			echo "" ;;
+	esac
+}
+#===============================================================================

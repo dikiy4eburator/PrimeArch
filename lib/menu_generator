@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# DYNAMIC MENU GENERATION
+#===============================================================================
+
+function f_gen_hdd_menu() {
+
+	#Prepare Disklist
+  	lsblk -o NAME,SIZE,MODEL,TYPE | grep disk > /tmp/hdlist
+
+  	#gen hdd menu
+	echo "#!/bin/bash" > /tmp/hdd_menu
+	echo "" >> /tmp/hdd_menu
+	echo 'consol_X=$(tput cols)' >> /tmp/hdd_menu
+   	echo 'consol_Y=$(tput lines)' >> /tmp/hdd_menu
+   	echo 'BoxWhith=70' >> /tmp/hdd_menu
+   	echo 'BoxStartX=$(( ($consol_X - $BoxWhith)/2  ))' >> /tmp/hdd_menu
+   	echo 'BoxStartY=3' >> /tmp/hdd_menu
+   	echo "" >> /tmp/hdd_menu
+  	echo 'dialog \' >> /tmp/hdd_menu
+  	echo '--backtitle "PrimeArch" \' >> /tmp/hdd_menu
+  	echo '--begin $BoxStartY $BoxStartX \' >> /tmp/hdd_menu
+  	echo '--menu "Festplatte wählen" 15 $BoxWhith 7 \' >> /tmp/hdd_menu
+  	awk ' { print $1"\t", "\047"$2 "\t" $3"\047", "\\" } ' < /tmp/hdlist >> /tmp/hdd_menu
+  	echo '2>/tmp/hdd_name' >> /tmp/hdd_menu
+}
+
+
+
+function f_gen_part_menu() {
+
+  	#Prepare Partitionlist
+  	lsblk -l -o NAME,SIZE,MODEL,TYPE | grep part > /tmp/partlist
+
+  	#gen hdd menu
+	echo "#!/bin/bash" > /tmp/part_menu
+   	echo "" >> /tmp/part_menu
+   	echo 'consol_X=$(tput cols)' >> /tmp/part_menu
+   	echo 'consol_Y=$(tput lines)' >> /tmp/part_menu
+   	echo 'BoxWhith=70' >> /tmp/part_menu
+   	echo 'BoxStartX=$(( ($consol_X - $BoxWhith)/2  ))' >> /tmp/part_menu
+   	echo 'BoxStartY=3' >> /tmp/part_menu
+   	echo "" >> /tmp/part_menu
+  	echo 'dialog \' >> /tmp/part_menu
+  	echo '--backtitle "PrimeArch" \' >> /tmp/part_menu
+  	echo '--begin $BoxStartY $BoxStartX \' >> /tmp/part_menu
+  	echo '--menu' $1'" Partition wählen" 15 $BoxWhith 7 \' >> /tmp/part_menu
+  	awk ' { print $1"\t", "\047"$2 "\t" $3"\047", "\\" } ' < /tmp/partlist >> /tmp/part_menu
+  	echo '2>/tmp/part_name' >> /tmp/part_menu
+}
+#===============================================================================
