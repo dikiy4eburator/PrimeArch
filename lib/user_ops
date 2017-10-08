@@ -52,15 +52,17 @@ function f_root_pw_dialog() {
   dialog \
   --backtitle 'PrimeArch Installer' \
   --begin $BoxStartY $BoxStartX \
+  --title 'ROOT Password' \
   --insecure \
-  --passwordbox 'Bitte ROOT Password eingeben' 8 $BoxWhith \
+  --passwordbox 'Bitte ROOT Password eingeben' 9 $BoxWhith \
   2>/tmp/root_pw
 
   dialog \
   --backtitle 'PrimeArch Installer' \
   --begin $BoxStartY $BoxStartX \
+  --title 'ROOT Password' \
   --insecure \
-  --passwordbox 'Bitte ROOT Password wiederholen' 8 $BoxWhith \
+  --passwordbox 'Bitte ROOT Password wiederholen' 9 $BoxWhith \
   2>/tmp/root_pw_2
 
   if [[ $(</tmp/root_pw) == $(</tmp/root_pw_2) ]];
@@ -81,9 +83,9 @@ function f_root_pw_dialog() {
 function f_create_new_user() {
 	dialog \
 	--backtitle 'PrimeArch Installer' \
-	--title 'Neuen Benutzer erstellen?' \
+	--title 'Neuen Benutzer erstellen' \
 	--begin $BoxStartY $BoxStartX \
-	--yesno '\n Möchten sie einen neuen Benutzer erstellen? \n ' 7 $BoxWhith \
+	--yesno '\n Möchten sie einen neuen Benutzer erstellen? \n ' 8 $BoxWhith \
 
 	if [[ $? -eq 0 ]]; # IF YES !!!
 		then
@@ -115,15 +117,18 @@ function f_user_pw_dialog() {
 	dialog \
 	--backtitle 'PrimeArch Installer' \
 	--begin $BoxStartY $BoxStartX \
+	--title 'Benutzer Password' \
 	--insecure \
-	--passwordbox "Bitte Password für $(</tmp/user_name) eingeben" 8 $BoxWhith \
+	--passwordbox "\nBitte Password für $(</tmp/user_name) eingeben" 9 $BoxWhith \
 	2>/tmp/user_pw
+
 
 	dialog \
 	--backtitle 'PrimeArch Installer' \
 	--begin $BoxStartY $BoxStartX \
+	--title 'Benutzer Password' \
 	--insecure \
-	--passwordbox "Bitte Password für $(</tmp/user_name) wiederholen" 8 $BoxWhith \
+	--passwordbox "\nBitte Password für $(</tmp/user_name) wiederholen" 9 $BoxWhith \
 	2>/tmp/user_pw_2
 
 	if [[ $(</tmp/user_pw) == $(</tmp/user_pw_2) ]];

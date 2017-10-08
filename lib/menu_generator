@@ -20,6 +20,7 @@ function f_gen_hdd_menu() {
 	echo 'dialog \' >> /tmp/hdd_menu
 	echo '--backtitle "PrimeArch" \' >> /tmp/hdd_menu
 	echo '--begin $BoxStartY $BoxStartX \' >> /tmp/hdd_menu
+	echo '--title "HDD Auswahl" \' >> /tmp/hdd_menu
 	echo '--menu "Festplatte wählen" 15 $BoxWhith 7 \' >> /tmp/hdd_menu
 	awk ' { print $1"\t", "\047"$2 "\t" $3"\047", "\\" } ' < /tmp/hdlist >> /tmp/hdd_menu
 	echo '2>/tmp/hdd_name' >> /tmp/hdd_menu
@@ -44,6 +45,7 @@ function f_gen_part_menu() {
 	echo 'dialog \' >> /tmp/part_menu
 	echo '--backtitle "PrimeArch" \' >> /tmp/part_menu
 	echo '--begin $BoxStartY $BoxStartX \' >> /tmp/part_menu
+	echo '--title "Partition Auswahl" \' >> /tmp/hdd_menu
 	echo '--menu' $1'" Partition wählen" 15 $BoxWhith 7 \' >> /tmp/part_menu
 	awk ' { print $1"\t", "\047"$2 "\t" $3"\047", "\\" } ' < /tmp/partlist >> /tmp/part_menu
 	echo '2>/tmp/part_name' >> /tmp/part_menu

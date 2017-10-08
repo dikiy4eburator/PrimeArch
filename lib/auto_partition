@@ -7,6 +7,7 @@ function f_autopartition() {
 	dialog \
 	--backtitle 'PrimeArch Installer' \
 	--begin $BoxStartY $BoxStartX \
+	--title "HOME" \
 	--yesno '\n Mochten Sie eine extra HOME Partition haben? \n' 7 $BoxWhith \
 
 	if [[ $? -eq 0 ]];
@@ -17,7 +18,8 @@ function f_autopartition() {
 			dialog \
 			--backtitle 'PrimeArch Installer' \
 			--begin $BoxStartY $BoxStartX \
-			--inputbox '\n Bitte geben Sie die Gröse der ROOT Partition in Gigabeit an. \n' 10 $BoxWhith \
+			--title "ROOT" \
+			--inputbox '\n Bitte geben Sie die Gröse der ROOT Partition in Gigabeit an.' 9 $BoxWhith \
 			2>/tmp/root_size
 
    		else
@@ -28,7 +30,8 @@ function f_autopartition() {
 	dialog \
 	--backtitle 'PrimeArch Installer' \
 	--begin $BoxStartY $BoxStartX \
-	--inputbox '\n Bitte geben Sie die Gröse der SWAP Partition in Gigabeit an. \n' 10 $BoxWhith \
+	--title "SWAP" \
+	--inputbox '\n Bitte geben Sie die Gröse der SWAP Partition in Gigabeit an.' 9 $BoxWhith \
 	2>/tmp/swap_size
 
 	# Generate HDD selection menu

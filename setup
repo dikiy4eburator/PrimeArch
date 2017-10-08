@@ -56,7 +56,7 @@ dialog \
 --backtitle 'PrimeArch Installer' \
 --title 'Wilkommen beim PrimeArch Installer' \
 --begin $BoxStartY $BoxStartX \
---msgbox '\n Ok, Last den Spass beginnen' 7 $BoxWhith
+--msgbox '\nUpdate abgeschlossen.\nLast den Spass beginnen \n' 8 $BoxWhith
 #===============================================================================
 
 
@@ -67,7 +67,7 @@ dialog \
 --backtitle 'PrimeArch Installer' \
 --title 'Partitionierung' \
 --begin $BoxStartY $BoxStartX \
---yesno '\n Mochten Sie eine automatiche Partitionierung durchführen? \n' 7 $BoxWhith \
+--yesno '\nMochten Sie eine automatiche Partitionierung durchführen? \n' 7 $BoxWhith \
 
 if [[ $? -eq 0 ]];
 	then
@@ -98,14 +98,15 @@ genfstab -U -p /mnt > /mnt/etc/fstab
 dialog \
 --backtitle "PrimeArch" \
 --begin $BoxStartY $BoxStartX \
---menu "Grafiktreiber wehlen" 15 $BoxWhith 6 \
-1 virtualbox \
-2 Nvidia \
-3 ATI \
-4 Intel \
-5 Nouveau \
-0 'Keine Videotreiber' \
-2>/tmp/grafik_treiber
+--title 'Grafiktreiber wehlen' \
+--menu "" 12 $BoxWhith 6 \
+	1 virtualbox \
+	2 Nvidia \
+	3 ATI \
+	4 Intel \
+	5 Nouveau \
+	0 'Keine Videotreiber' \
+	2>/tmp/grafik_treiber
 
 case $(</tmp/grafik_treiber) in
 
@@ -131,6 +132,7 @@ esac
 dialog \
 --backtitle 'PrimeArch Installer' \
 --begin $BoxStartY $BoxStartX \
+--title 'Hostname' \
 --inputbox 'Bitte Hostnamen eingeben' 8 $BoxWhith \
 2>/mnt/etc/hostname
 #===============================================================================
@@ -259,13 +261,13 @@ arch-chroot /mnt /bin/bash -c "systemctl enable lightdm.service"
 #===============================================================================
 dialog \
 --backtitle 'PrimeArch Installer' \
---title 'Ende erreicht' \
+--title 'Installation abgeschlossen' \
 --begin $BoxStartY $BoxStartX \
 --menu "" 9 $BoxWhith 3 \
-1 Rebooten \
-2 Ausschalten \
-3 Chroot \
-2>/tmp/exit
+	1 Rebooten \
+	2 Ausschalten \
+	3 Chroot \
+	2>/tmp/exit
 
 case $(</tmp/exit) in
 	1 )

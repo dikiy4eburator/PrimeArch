@@ -7,11 +7,12 @@ function f_man_part() {
 	dialog \
 	--backtitle "PrimeArch" \
 	--begin $BoxStartY $BoxStartX \
-	--menu "Manuele Partitionierung" 15 $BoxWhith 4 \
-	1 "Festplatte partitionieren" \
-	2 "Partitionen mounten" \
-	3 "Fertig" \
-	2>/tmp/main_man_part
+	--title "Manuele Partitionierung" \
+	--menu "" 10 $BoxWhith 3 \
+		1 "Festplatte partitionieren" \
+		2 "Partitionen mounten" \
+		3 "Fertig" \
+		2>/tmp/main_man_part
 
 	case $(</tmp/main_man_part) in
 		1 )
@@ -104,6 +105,7 @@ function f_man_part() {
 					dialog \
 					--backtitle 'PrimeArch Installer' \
 					--begin $BoxStartY $BoxStartX \
+					--title "HOME" \
 					--yesno '\n Mochten Sie eine extra HOME Partition mounten? \n' 7 $BoxWhith \
 
 					if [[ $? -eq 0 ]];
