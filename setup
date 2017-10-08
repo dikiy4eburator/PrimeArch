@@ -71,9 +71,9 @@ dialog \
 
 if [[ $? -eq 0 ]];
 	then
-    	f_autopartition
+    f_autopartition
 	else
-        f_man_part
+    f_man_part
 fi
 #===============================================================================
 
@@ -110,17 +110,17 @@ dialog \
 case $(</tmp/grafik_treiber) in
 
 	1 )
-       	pacstrap /mnt virtualbox-guest-dkms virtualbox-guest-utils ;;
-   	2 )
-       	pacstrap /mnt nvidia-dkms ;;
-   	3 )
-       	pacstrap /mnt xf86-video-ati ;;
-   	4 )
-       	pacstrap /mnt xf86-video-intel ;;
-   	5 )
-       	pacstrap /mnt xf86-video-nouveau ;;
-   	0 )
-       	break ;;
+   	pacstrap /mnt virtualbox-guest-dkms virtualbox-guest-utils ;;
+  2 )
+   	pacstrap /mnt nvidia-dkms ;;
+ 	3 )
+   	pacstrap /mnt xf86-video-ati ;;
+ 	4 )
+   	pacstrap /mnt xf86-video-intel ;;
+ 	5 )
+   	pacstrap /mnt xf86-video-nouveau ;;
+ 	0 )
+   	break ;;
 esac
 #===============================================================================
 
