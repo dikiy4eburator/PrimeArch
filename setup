@@ -257,7 +257,7 @@ arch-chroot /mnt /bin/bash -c "systemctl enable lightdm.service"
 
 
 
-##Selekt HDD screan
+##EXIT SCREAN
 #===============================================================================
 dialog \
 --backtitle 'PrimeArch Installer' \
