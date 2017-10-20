@@ -117,7 +117,7 @@ function f_man_part() {
 					fi
 			esac
 
-			# Back to main menu			
+			# Back to main menu
 			f_man_part ;;
 
 		3 )
@@ -156,7 +156,20 @@ function f_mount_root() {
 function f_mount_home() {
 	f_gen_part_menu HOME
 	sh /tmp/part_menu
-	mkfs.ext4 /dev/$(</tmp/part_name)
+
+	dialog \
+	--backtitle 'PrimeArch Installer' \
+	--title 'Formatierung' \
+	--begin $BoxStartY $BoxStartX \
+	--yesno '\nMochten Sie die HOME Partition formatieren? \n' 7 $BoxWhith \
+
+	if [[ $? -eq 0 ]];
+		then
+			mkfs.ext4 /dev/$(</tmp/part_name)
+		else
+			break
+	fi
+
 	mkdir /mnt/home
 	mount -o defaults,noatime,discard /dev/$(</tmp/part_name) /mnt/home
 	echo 'ok' >> /tmp/home_mount
