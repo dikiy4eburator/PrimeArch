@@ -13,6 +13,8 @@ vim
 cronie
 gvfs
 xdg-user-dirs
+rsync
+ranger
 
 # Basis DE pakete
 # ----------------------------------
@@ -22,11 +24,10 @@ lightdm
 lightdm-gtk-greeter
 gnome-keyring
 polkit-gnome
+file-roller
+nautilus
+nautilus-terminal
 terminator
-rsync
-pcmanfm-gtk3
-lxappearance-gtk3
-ranger
 git
 atom
 htop
@@ -34,7 +35,6 @@ nitrogen
 conky
 dunst
 i3lock
-file-roller
 gparted
 
 # Basis Network pakete
@@ -71,6 +71,7 @@ mpv
 
 # Basis Cosmetics pakete
 # ----------------------------------
+lxappearance-gtk3
 cool-retro-term
 chromium
 hunspell-de
