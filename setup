@@ -148,7 +148,18 @@ dialog \
 
 #Set ROOT PW
 #===============================================================================
-f_root_pw_dialog
+dialog \
+--backtitle 'PrimeArch Installer' \
+--title 'Partitionierung' \
+--begin $BoxStartY $BoxStartX \
+--yesno '\nMochten das ROOT konto akivieren? \n' 7 $BoxWhith \
+
+if [[ $? -eq 0 ]];
+	then
+		f_root_pw_dialog
+	else
+		arch-chroot /mnt /bin/bash -c "passwd -l root"
+fi
 #===============================================================================
 
 
