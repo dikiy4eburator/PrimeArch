@@ -32,14 +32,13 @@ function f_man_part() {
 					Bitte erstellen Sie die folgenden Partitionen:
 
 					1. EFI ca. 100-256 Mb ( code: ef00 )
-					2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )
 
 					Wenn Sie keine extra HOME Partition wollen
 					Könne Sie den restlichen Speicher der ROOT Partition zweisen
 
 					Ansonsten:
-					3. ROOT ca. 20-40 Gb ( code: 8300 )
-					4. HOME rest des Speichers ( code: 8300 ) ' 20 $BoxWhith
+					2. ROOT ca. 20-40 Gb ( code: 8300 )
+					3. HOME rest des Speichers ( code: 8300 ) ' 20 $BoxWhith
 
 				else
 					dialog \
@@ -52,14 +51,13 @@ function f_man_part() {
 					Bitte erstellen Sie die folgenden Partitionen:
 
 					1. BOOT ca. 5 Mb ( code: ef02)
-					2. SWAP Gröse nach eigenem Ermessen ca. 4-8 Gb ( code: 8200 )
 
 					Wenn Sie keine extra HOME Partition wollen
 					Könne Sie den restlichen Speicher der ROOT Partition zweisen
 
 					Ansonsten:
-					3. ROOT ca. 20-40 Gb ( code: 8300 )
-					4. HOME rest des Speichers ( code: 8300 )' 20 $BoxWhith
+					2. ROOT ca. 20-40 Gb ( code: 8300 )
+					3. HOME rest des Speichers ( code: 8300 )' 20 $BoxWhith
 			fi
 
 			cgdisk /dev/$(</tmp/hdd_name)
@@ -74,14 +72,6 @@ function f_man_part() {
 					;;
 				* )
 					f_mount_root ;;
-			esac
-
-			# Mount SWAP
-			case $(</tmp/swap_mount)  in
-				ok )
-					;;
-				* )
-					f_mount_swap ;;
 			esac
 
 			# Mount BOOT
@@ -135,14 +125,6 @@ function f_mount_boot() {
 	mkdir /mnt/boot/efi
 	mount /dev/$(</tmp/part_name) /mnt/boot/efi
 	echo 'ok' >> /tmp/boot_mount
-}
-
-function f_mount_swap() {
-	f_gen_part_menu SWAP
-	sh /tmp/part_menu
-	mkswap /dev/$(</tmp/part_name)
-	swapon /dev/$(</tmp/part_name)
-	echo 'ok' >> /tmp/swap_mount
 }
 
 function f_mount_root() {
