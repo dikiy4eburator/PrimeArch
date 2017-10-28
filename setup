@@ -19,7 +19,7 @@ source $working_dir/lib/user_ops
 source $working_dir/lib/menu_generator
 source $working_dir/lib/auto_partition
 source $working_dir/lib/manual_partition
-
+source $working_dir/lib/MKSWAP
 
 
 
@@ -89,6 +89,13 @@ pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dir/lib/pacages)
 # Generate fstab
 #===============================================================================
 genfstab -U -p /mnt > /mnt/etc/fstab
+#===============================================================================
+
+
+
+# Generate SWAP
+#===============================================================================
+f_make_swap_file
 #===============================================================================
 
 

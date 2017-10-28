@@ -26,14 +26,6 @@ function f_autopartition() {
      		echo "nein" > /tmp/extrahome
 	fi
 
-	# SWAP size dialog
-	dialog \
-	--backtitle 'PrimeArch Installer' \
-	--begin $BoxStartY $BoxStartX \
-	--title "SWAP" \
-	--inputbox '\n Bitte geben Sie die Gröse der SWAP Partition in Gigabeit an.' 9 $BoxWhith \
-	2>/tmp/swap_size
-
 	# Generate HDD selection menu
 	f_gen_hdd_menu
 	sh /tmp/hdd_menu
@@ -70,14 +62,12 @@ function f_auto_part() {
 			sgdisk -n 1:0:+5M -c 1:"BIOS" -t 1:ef02 /dev/$(</tmp/hdd_name)
 	fi
 
-	sgdisk -n 2:0:+$(</tmp/swap_size)G -c 2:"SWAP" -t 2:8200 /dev/$(</tmp/hdd_name)
-
 	case $(</tmp/extrahome)  in
 		ja )
-			sgdisk -n 3:0:+$(</tmp/root_size)G -c 3:"ROOT" -t 3:8300 /dev/$(</tmp/hdd_name)
-			sgdisk -n 4:0:0 -c 4:"HOME" -t 4:8300 /dev/$(</tmp/hdd_name) ;;
+			sgdisk -n 2:0:+$(</tmp/root_size)G -c 2:"ROOT" -t 2:8300 /dev/$(</tmp/hdd_name)
+			sgdisk -n 3:0:0 -c 3:"HOME" -t 3:8300 /dev/$(</tmp/hdd_name) ;;
 		nein )
-			sgdisk -n 3:0:0 -c 3:"ROOT" -t 3:8300 /dev/$(</tmp/hdd_name) ;;
+			sgdisk -n 2:0:0 -c 2:"ROOT" -t 2:8300 /dev/$(</tmp/hdd_name) ;;
 	esac
 
 }
@@ -87,8 +77,7 @@ function f_auto_part() {
 #HDD PATERN DEFENITION
 function f_def_hdd_patern_sata() {
 
-	ROOT_HD="$(</tmp/hdd_name)3"
-	SWAP_HD="$(</tmp/hdd_name)2"
+	ROOT_HD="$(</tmp/hdd_name)2"
 
 	if [[ -d "/sys/firmware/efi/efivars" ]];
  		then
@@ -99,7 +88,7 @@ function f_def_hdd_patern_sata() {
 
 	case $(</tmp/extrahome)  in
 		ja )
-			HOME_HD="$(</tmp/hdd_name)4" ;;
+			HOME_HD="$(</tmp/hdd_name)3" ;;
 		nein )
 			echo "" ;;
 	esac
@@ -109,8 +98,7 @@ function f_def_hdd_patern_sata() {
 
 function f_def_hdd_patern_nvme() {
 
-	ROOT_HD="$(</tmp/hdd_name)p3"
-	SWAP_HD="$(</tmp/hdd_name)p2"
+	ROOT_HD="$(</tmp/hdd_name)p2"
 
 	if [[ -d "/sys/firmware/efi/efivars" ]];
 		then
@@ -121,7 +109,7 @@ function f_def_hdd_patern_nvme() {
 
 	case $(</tmp/extrahome)  in
 		ja )
-			HOME_HD="$(</tmp/hdd_name)p4" ;;
+			HOME_HD="$(</tmp/hdd_name)p3" ;;
 		nein )
 			echo "" ;;
 	esac
@@ -133,7 +121,6 @@ function f_def_hdd_patern_nvme() {
 function f_format() {
 
 	mkfs.ext4 /dev/$ROOT_HD
-	mkswap /dev/$SWAP_HD
 
 	if [[ -d "/sys/firmware/efi/efivars" ]];
 		then
@@ -156,7 +143,6 @@ function f_format() {
 function f_mount() {
 
 	mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
-	swapon /dev/$SWAP_HD
 
 	if [[ -d "/sys/firmware/efi/efivars" ]];
 		then
