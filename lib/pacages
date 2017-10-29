@@ -20,8 +20,9 @@ ranger
 # ----------------------------------
 udiskie
 rofi
-lightdm
-lightdm-gtk-greeter
+# lightdm
+# lightdm-gtk-greeter
+gdm
 gnome-keyring
 polkit-gnome
 file-roller
