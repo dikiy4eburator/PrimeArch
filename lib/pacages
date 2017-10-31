@@ -19,7 +19,6 @@ ranger
 # Basis DE pakete
 # ----------------------------------
 udiskie
-rofi
 lightdm
 lightdm-gtk-greeter
 terminator
@@ -27,7 +26,6 @@ git
 gitg
 atom
 htop
-nitrogen
 conky
 dunst
 gparted
