@@ -1,0 +1,17 @@
+#!/bin/sh
+
+function f_install_i3() {
+  pacstrap /mnt i3 lxappearance-gtk3 gnome-font-viewer file-roller nautilus gnome-keyring polkit-gnome
+}
+
+function f_install_xfce() {
+  pacstrap /mnt xfce4 xfce4-goodies
+}
+
+function f_install_plasma() {
+  pacstrap /mnt plasma
+}
+
+function f_install_gnome() {
+  pacstrap /mnt gnome gnome-extra
+}

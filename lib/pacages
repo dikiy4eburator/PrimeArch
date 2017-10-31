@@ -22,19 +22,14 @@ udiskie
 rofi
 lightdm
 lightdm-gtk-greeter
-gnome-keyring
-polkit-gnome
-file-roller
-nautilus
-nautilus-terminal
 terminator
 git
+gitg
 atom
 htop
 nitrogen
 conky
 dunst
-i3lock
 gparted
 
 # Basis Network pakete
@@ -71,14 +66,12 @@ mpv
 
 # Basis Cosmetics pakete
 # ----------------------------------
-lxappearance-gtk3
 cool-retro-term
 chromium
 hunspell-de
 arc-gtk-theme
 arc-icon-theme
 archlinux-wallpaper
-gnome-font-viewer
 noto-fonts
 awesome-terminal-fonts
 ttf-ubuntu-font-family

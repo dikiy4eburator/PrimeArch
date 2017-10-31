@@ -20,6 +20,7 @@ source $working_dir/lib/menu_generator
 source $working_dir/lib/auto_partition
 source $working_dir/lib/manual_partition
 source $working_dir/lib/MKSWAP
+source $working_dir/lib/install_desktop
 
 
 
@@ -86,20 +87,6 @@ pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dir/lib/pacages)
 
 
 
-# Generate fstab
-#===============================================================================
-genfstab -U -p /mnt > /mnt/etc/fstab
-#===============================================================================
-
-
-
-# Generate SWAP
-#===============================================================================
-f_make_swap_file
-#===============================================================================
-
-
-
 # Grafiktreiber installation
 #===============================================================================
 dialog \
@@ -134,6 +121,51 @@ esac
 
 
 
+# Desktop installation
+#===============================================================================
+dialog \
+--backtitle "PrimeArch" \
+--begin $BoxStartY $BoxStartX \
+--title 'Desktop wehlen' \
+--menu "" 12 $BoxWhith 6 \
+	1 i3 \
+	2 xfce \
+	3 plasma \
+	4 gnome \
+	o 'keinen Desktop' \
+	2>/tmp/desktop
+
+case $(</tmp/desktop) in
+
+	1 )
+		f_install_i3 ;;
+	2 )
+		f_install_xfce ;;
+	3 )
+		f_install_plasma ;;
+	4 )
+		f_install_gnome ;;
+	0 )
+		 ;;
+esac
+#===============================================================================
+
+
+
+# Generate fstab
+#===============================================================================
+genfstab -U -p /mnt > /mnt/etc/fstab
+#===============================================================================
+
+
+
+# Generate SWAP
+#===============================================================================
+f_make_swap_file
+#===============================================================================
+
+
+
 # Set hostname
 #===============================================================================
 dialog \
@@ -146,7 +178,7 @@ dialog \
 
 
 
-#Set ROOT PW
+#Set ROOT
 #===============================================================================
 dialog \
 --backtitle 'PrimeArch Installer' \
@@ -198,7 +230,13 @@ arch-chroot /mnt /bin/bash -c locale-gen
 # USER FILES --------------------
 
 # Clone i3-config
-git clone https://github.com/dikiy4eburator/i3-config.git /mnt/home/$(</tmp/user_name)/.config/i3
+if [[ -f "/mnt/bin/i3" ]];
+  then
+    git clone https://github.com/dikiy4eburator/i3-config.git /mnt/home/$(</tmp/user_name)/.config/i3
+
+  else
+    echo ""
+fi
 
 # APP configs
 cp -r -v $working_dir/lib/configs/* /mnt/home/$(</tmp/user_name)/.config/
