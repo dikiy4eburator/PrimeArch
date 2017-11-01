@@ -82,7 +82,42 @@ fi
 
 # Install base pacages
 #===============================================================================
-pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dir/lib/pacages)
+pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dirlib/pakages/pakages_base)
+#===============================================================================
+
+
+
+# Generate fstab
+#===============================================================================
+genfstab -U -p /mnt > /mnt/etc/fstab
+#===============================================================================
+
+
+
+# Generate SWAP
+#===============================================================================
+f_make_swap_file
+#===============================================================================
+
+
+
+#GENERATE SYSTEM LOCALE
+#===============================================================================
+# /etc/locale.conf
+echo LANG=de_DE.UTF-8 >> /mnt/etc/locale.conf
+echo LANGUAGE=de_DE >> /mnt/etc/locale.conf
+
+# /etc/vconsole.conf
+echo KEYMAP=de-latin1-nodeadkeys > /mnt/etc/vconsole.conf
+
+# Set Time
+rm /mnt/etc/localtime
+arch-chroot /mnt /bin/bash -c 'ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime'
+
+# /etc/locale.gen
+echo de_DE.UTF-8 UTF-8 >> /mnt/etc/locale.gen
+
+arch-chroot /mnt /bin/bash -c locale-gen
 #===============================================================================
 
 
@@ -152,20 +187,6 @@ esac
 
 
 
-# Generate fstab
-#===============================================================================
-genfstab -U -p /mnt > /mnt/etc/fstab
-#===============================================================================
-
-
-
-# Generate SWAP
-#===============================================================================
-f_make_swap_file
-#===============================================================================
-
-
-
 # Set hostname
 #===============================================================================
 dialog \
@@ -203,48 +224,8 @@ f_create_new_user
 
 
 
-#GENERATE SYSTEM LOCALE
-#===============================================================================
-# /etc/locale.conf
-echo LANG=de_DE.UTF-8 >> /mnt/etc/locale.conf
-echo LANGUAGE=de_DE >> /mnt/etc/locale.conf
-
-# /etc/vconsole.conf
-echo KEYMAP=de-latin1-nodeadkeys > /mnt/etc/vconsole.conf
-
-# Set Time
-rm /mnt/etc/localtime
-arch-chroot /mnt /bin/bash -c 'ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime'
-
-# /etc/locale.gen
-echo de_DE.UTF-8 UTF-8 >> /mnt/etc/locale.gen
-
-arch-chroot /mnt /bin/bash -c locale-gen
-#===============================================================================
-
-
-
 # COPY CONFIG FILES
 #===============================================================================
-
-# USER FILES --------------------
-
-# Clone i3-config
-if [[ -f "/mnt/bin/i3" ]];
-  then
-    git clone https://github.com/dikiy4eburator/i3-config.git /mnt/home/$(</tmp/user_name)/.config/i3
-
-  else
-    echo ""
-fi
-
-# APP configs
-cp -r -v $working_dir/lib/configs/* /mnt/home/$(</tmp/user_name)/.config/
-#--------------------------------
-
-
-
-#SYSTEM FILES -------------------
 
 #keyboard Conf
 mv -f $working_dir/lib/xorg.conf.d/00-keyboard.conf /mnt/etc/X11/xorg.conf.d/00-keyboard.conf

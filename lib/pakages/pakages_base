@@ -21,14 +21,15 @@ ranger
 udiskie
 lightdm
 lightdm-gtk-greeter
-terminator
 git
 gitg
 atom
 htop
 conky
-dunst
 gparted
+cool-retro-term
+chromium
+hunspell-de
 
 # Basis Network pakete
 # ----------------------------------
@@ -57,16 +58,12 @@ audacious
 # ----------------------------------
 xorg-server
 xorg-xinit
-compton
 ffmpeg
 vlc
 mpv
 
 # Basis Cosmetics pakete
 # ----------------------------------
-cool-retro-term
-chromium
-hunspell-de
 arc-gtk-theme
 arc-icon-theme
 archlinux-wallpaper

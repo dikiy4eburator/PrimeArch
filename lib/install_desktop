@@ -1,17 +1,24 @@
 #!/bin/sh
 
 function f_install_i3() {
-  pacstrap /mnt i3 nitrogen rofi lxappearance-gtk3 gnome-font-viewer file-roller nautilus gnome-keyring polkit-gnome
+  
+  pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dirlib/pakages/pakages_i3)
+
+  # clone i3 config
+  git clone https://github.com/dikiy4eburator/i3-config.git /mnt/home/$(</tmp/user_name)/.config/i3
+
+  # copy APP configs
+  cp -r -v $working_dir/lib/configs/* /mnt/home/$(</tmp/user_name)/.config/
 }
 
 function f_install_xfce() {
-  pacstrap /mnt xfce4 xfce4-goodies
+  pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dirlib/pakages/pakages_xfce4)
 }
 
 function f_install_plasma() {
-  pacstrap /mnt plasma
+  pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dirlib/pakages/pakages_plasma)
 }
 
 function f_install_gnome() {
-  pacstrap /mnt gnome gnome-extra
+  pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dirlib/pakages/pakages_gnome)
 }
