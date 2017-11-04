@@ -1,1 +1,1 @@
-#include "/usr/share/rofi/themes//DarkBlue.theme"
+rofi.theme: /usr/share/rofi/themes//DarkBlue.rasi
