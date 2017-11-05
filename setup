@@ -78,8 +78,6 @@ case $(</tmp/partitionierung) in
 		f_autopartition ;;
 	2 )
 		f_man_part ;;
-	* )
-		;;
 esac
 
 #===============================================================================
