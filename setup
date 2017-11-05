@@ -68,14 +68,20 @@ dialog \
 --backtitle 'PrimeArch Installer' \
 --title 'Partitionierung' \
 --begin $BoxStartY $BoxStartX \
---yesno '\nMochten Sie eine automatiche Partitionierung durchführen? \n' 7 $BoxWhith \
+--menu "Partitionierungs Metode wehlen" 12 $BoxWhith 6 \
+	1 Automatisch \
+	2 Manuel \
+	2>/tmp/partitionierung
 
-if [[ $? -eq 0 ]];
-	then
-		f_autopartition
-	else
-		f_man_part
-fi
+case $(</tmp/partitionierung) in
+	1 )
+		f_autopartition ;;
+	2 )
+		f_man_part ;;
+	* )
+		;;
+esac
+
 #===============================================================================
 
 
