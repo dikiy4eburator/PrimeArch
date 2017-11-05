@@ -167,7 +167,7 @@ dialog \
 	2 xfce \
 	3 plasma \
 	4 gnome \
-	o 'keinen Desktop' \
+	0 'keinen Desktop' \
 	2>/tmp/desktop
 
 case $(</tmp/desktop) in
