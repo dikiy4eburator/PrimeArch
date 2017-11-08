@@ -231,12 +231,11 @@ f_create_new_user
 # COPY CONFIG FILES
 #===============================================================================
 
-#keyboard Conf
+# keyboard Conf
 mv -f $working_dir/lib/xorg.conf.d/00-keyboard.conf /mnt/etc/X11/xorg.conf.d/00-keyboard.conf
 
-#keyboard Conf
-mv -f $working_dir/lib/lightdm-config/lightdm-gtk-greeter.conf /mnt/etc/lightdm/lightdm-gtk-greeter.conf
-#--------------------------------
+# LightDm Conf
+# mv -f $working_dir/lib/lightdm-config/lightdm-gtk-greeter.conf /mnt/etc/lightdm/lightdm-gtk-greeter.conf
 
 #===============================================================================
 

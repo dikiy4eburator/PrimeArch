@@ -70,3 +70,6 @@ archlinux-wallpaper
 noto-fonts
 awesome-terminal-fonts
 ttf-ubuntu-font-family
+virtualbox
+virtualbox-host-dkms
+virtualbox-guest-iso
