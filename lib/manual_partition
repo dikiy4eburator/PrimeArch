@@ -17,7 +17,6 @@ function f_man_part() {
 	case $(</tmp/main_man_part) in
 		1 )
 			f_gen_hdd_menu
-			sh /tmp/hdd_menu
 
 			# Show Partitioning info depending on boot mode
 			if [[ -d "/sys/firmware/efi/efivars" ]];
@@ -119,7 +118,6 @@ function f_man_part() {
 
 function f_mount_boot() {
 	f_gen_part_menu BOOT
-	sh /tmp/part_menu
 	mkfs.fat -F32 /dev/$(</tmp/part_name)
 	mkdir /mnt/boot
 	mkdir /mnt/boot/efi
@@ -129,7 +127,6 @@ function f_mount_boot() {
 
 function f_mount_root() {
 	f_gen_part_menu ROOT
-	sh /tmp/part_menu
 	mkfs.ext4 /dev/$(</tmp/part_name)
 	mount -o defaults,noatime,discard /dev/$(</tmp/part_name) /mnt
 	echo 'ok' >> /tmp/root_mount
@@ -137,8 +134,7 @@ function f_mount_root() {
 
 function f_mount_home() {
 	f_gen_part_menu HOME
-	sh /tmp/part_menu
-
+	
 	dialog \
 	--backtitle 'PrimeArch Installer' \
 	--title 'Formatierung' \
