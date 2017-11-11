@@ -34,5 +34,5 @@ function f_install_gnome() {
 
 
 function f_install_cosmetiks() {
-  arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) yaourt -S --noconfirm vertex-icons-git vertex-themes etcher neofetch pamac-aur"
+  arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) yaourt -S --noconfirm $(awk '{ if($1 !~ /#/) print }' < $working_dir/lib/pakages/pakages_yaourt)"
 }
