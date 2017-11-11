@@ -21,7 +21,6 @@ source $working_dir/lib/auto_partition
 source $working_dir/lib/manual_partition
 source $working_dir/lib/MKSWAP
 source $working_dir/lib/install_desktop
-source $working_dir/lib/time_setup
 
 
 
