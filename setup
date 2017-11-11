@@ -83,7 +83,6 @@ esac
 #===============================================================================
 
 
-exit
 
 # Install base pacages
 #===============================================================================
@@ -102,71 +101,6 @@ genfstab -U -p /mnt > /mnt/etc/fstab
 # Generate SWAP
 #===============================================================================
 f_make_swap_file
-#===============================================================================
-
-
-
-# Desktop installation
-#===============================================================================
-dialog \
---backtitle "PrimeArch" \
---begin $BoxStartY $BoxStartX \
---title 'Desktop wehlen' \
---menu "" 12 $BoxWhith 6 \
-	1 i3 \
-	2 xfce \
-	3 plasma \
-	4 gnome \
-	0 'keinen Desktop' \
-	2>/tmp/desktop
-
-case $(</tmp/desktop) in
-
-	1 )
-		f_install_i3 ;;
-	2 )
-		f_install_xfce ;;
-	3 )
-		f_install_plasma ;;
-	4 )
-		f_install_gnome ;;
-	0 )
-		 ;;
-esac
-#===============================================================================
-
-
-
-# Grafiktreiber installation
-#===============================================================================
-dialog \
---backtitle "PrimeArch" \
---begin $BoxStartY $BoxStartX \
---title 'Grafiktreiber wehlen' \
---menu "" 12 $BoxWhith 6 \
-	1 virtualbox \
-	2 Nvidia \
-	3 ATI \
-	4 Intel \
-	5 Nouveau \
-	0 'Keine Videotreiber' \
-	2>/tmp/grafik_treiber
-
-case $(</tmp/grafik_treiber) in
-
-	1 )
-		pacstrap /mnt virtualbox-guest-dkms virtualbox-guest-utils ;;
-	2 )
-		pacstrap /mnt nvidia-dkms ;;
-	3 )
-		pacstrap /mnt xf86-video-ati ;;
-	4 )
-		pacstrap /mnt xf86-video-intel ;;
-	5 )
-		pacstrap /mnt xf86-video-nouveau ;;
-	0 )
-		break ;;
-esac
 #===============================================================================
 
 
@@ -234,9 +168,74 @@ f_create_new_user
 # keyboard Conf
 mv -f $working_dir/lib/xorg.conf.d/00-keyboard.conf /mnt/etc/X11/xorg.conf.d/00-keyboard.conf
 
-# LightDm Conf
-# mv -f $working_dir/lib/lightdm-config/lightdm-gtk-greeter.conf /mnt/etc/lightdm/lightdm-gtk-greeter.conf
+LightDm Conf
+mv -f $working_dir/lib/lightdm-config/lightdm-gtk-greeter.conf /mnt/etc/lightdm/lightdm-gtk-greeter.conf
 
+#===============================================================================
+
+
+
+# Desktop installation
+#===============================================================================
+dialog \
+--backtitle "PrimeArch" \
+--begin $BoxStartY $BoxStartX \
+--title 'Desktop wehlen' \
+--menu "" 12 $BoxWhith 6 \
+	1 i3 \
+	2 xfce \
+	3 plasma \
+	4 gnome \
+	0 'keinen Desktop' \
+	2>/tmp/desktop
+
+case $(</tmp/desktop) in
+
+	1 )
+		f_install_i3 ;;
+	2 )
+		f_install_xfce ;;
+	3 )
+		f_install_plasma ;;
+	4 )
+		f_install_gnome ;;
+	0 )
+		 ;;
+esac
+#===============================================================================
+
+
+
+# Grafiktreiber installation
+#===============================================================================
+dialog \
+--backtitle "PrimeArch" \
+--begin $BoxStartY $BoxStartX \
+--title 'Grafiktreiber wehlen' \
+--menu "" 12 $BoxWhith 6 \
+	1 virtualbox \
+	2 Nvidia \
+	3 ATI \
+	4 Intel \
+	5 Nouveau \
+	0 'Keine Videotreiber' \
+	2>/tmp/grafik_treiber
+
+case $(</tmp/grafik_treiber) in
+
+	1 )
+		pacstrap /mnt virtualbox-guest-dkms virtualbox-guest-utils ;;
+	2 )
+		pacstrap /mnt nvidia-dkms ;;
+	3 )
+		pacstrap /mnt xf86-video-ati ;;
+	4 )
+		pacstrap /mnt xf86-video-intel ;;
+	5 )
+		pacstrap /mnt xf86-video-nouveau ;;
+	0 )
+		break ;;
+esac
 #===============================================================================
 
 
