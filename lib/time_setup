@@ -21,7 +21,7 @@ f_set_time_town
 
 function f_set_time_town() {
 
-ls -l /usr/share/zoneinfo/$(</tmp/timeregion_out) | awk 'NR>=2{ print $9 " " s++ }' > /tmp/timetown_in
+ls -l /usr/share/zoneinfo/$(</tmp/timeregion_out) | awk 'NR>=2{ print $9 " " ++s }' > /tmp/timetown_in
 
 dialog \
 --backtitle 'PrimeArch Installer' \

@@ -13,7 +13,7 @@ function f_gen_hdd_menu() {
 	--begin $BoxStartY $BoxStartX \
 	--title "HDD Auswahl" \
 	--menu "Festplatte wählen" 15 $BoxWhith 7 \
-		$(awk ' { print $1 "\t" $2 } ' < /tmp/hdlist) \
+		$(awk ' { print $1"\t"$2 } ' < /tmp/hdlist) \
 	2>/tmp/hdd_name
 }
 

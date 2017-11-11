@@ -15,7 +15,7 @@ cd yaourt
 makepkg -si
 
 # Install some cosmetiks
-if [[ -f "/tmp/i3" ]];
+if [[ -d "/home/.config/i3" ]];
   then
     yaourt -S --noconfirm i3-gaps
     yaourt -S --noconfirm polybar-git
