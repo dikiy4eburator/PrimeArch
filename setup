@@ -21,7 +21,7 @@ source $working_dir/lib/auto_partition
 source $working_dir/lib/manual_partition
 source $working_dir/lib/MKSWAP
 source $working_dir/lib/install_desktop
-
+source $working_dir/lib/time_setup
 
 
 
@@ -105,23 +105,33 @@ f_make_swap_file
 
 
 
-#GENERATE SYSTEM LOCALE
+# Desktop installation
 #===============================================================================
-# /etc/locale.conf
-echo LANG=de_DE.UTF-8 >> /mnt/etc/locale.conf
-echo LANGUAGE=de_DE >> /mnt/etc/locale.conf
+dialog \
+--backtitle "PrimeArch" \
+--begin $BoxStartY $BoxStartX \
+--title 'Desktop wehlen' \
+--menu "" 12 $BoxWhith 6 \
+	1 i3 \
+	2 xfce \
+	3 plasma \
+	4 gnome \
+	0 'keinen Desktop' \
+	2>/tmp/desktop
 
-# /etc/vconsole.conf
-echo KEYMAP=de-latin1-nodeadkeys > /mnt/etc/vconsole.conf
+case $(</tmp/desktop) in
 
-# Set Time
-rm /mnt/etc/localtime
-arch-chroot /mnt /bin/bash -c 'ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime'
-
-# /etc/locale.gen
-echo de_DE.UTF-8 UTF-8 >> /mnt/etc/locale.gen
-
-arch-chroot /mnt /bin/bash -c locale-gen
+	1 )
+		f_install_i3 ;;
+	2 )
+		f_install_xfce ;;
+	3 )
+		f_install_plasma ;;
+	4 )
+		f_install_gnome ;;
+	0 )
+		 ;;
+esac
 #===============================================================================
 
 
@@ -160,33 +170,22 @@ esac
 
 
 
-# Desktop installation
+#GENERATE SYSTEM LOCALE
 #===============================================================================
-dialog \
---backtitle "PrimeArch" \
---begin $BoxStartY $BoxStartX \
---title 'Desktop wehlen' \
---menu "" 12 $BoxWhith 6 \
-	1 i3 \
-	2 xfce \
-	3 plasma \
-	4 gnome \
-	0 'keinen Desktop' \
-	2>/tmp/desktop
+# Set Time
+f_set_time_region
 
-case $(</tmp/desktop) in
+# /etc/locale.conf
+echo LANG=de_DE.UTF-8 >> /mnt/etc/locale.conf
+echo LANGUAGE=de_DE >> /mnt/etc/locale.conf
 
-	1 )
-		f_install_i3 ;;
-	2 )
-		f_install_xfce ;;
-	3 )
-		f_install_plasma ;;
-	4 )
-		f_install_gnome ;;
-	0 )
-		 ;;
-esac
+# /etc/vconsole.conf
+echo KEYMAP=de-latin1-nodeadkeys > /mnt/etc/vconsole.conf
+
+# /etc/locale.gen
+echo de_DE.UTF-8 UTF-8 >> /mnt/etc/locale.gen
+
+arch-chroot /mnt /bin/bash -c locale-gen
 #===============================================================================
 
 

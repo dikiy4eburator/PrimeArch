@@ -1,0 +1,42 @@
+#!/bin/sh
+
+
+
+function f_set_time_region() {
+
+ls -l /usr/share/zoneinfo/ | awk '{ if($1 ~ /d/ && $9 !~ /posix/ && $9 !~ /right/ && $9 !~ /Etc/) print $9 " " ++s}' > /tmp/timeregion_in
+
+dialog \
+--backtitle 'PrimeArch Installer' \
+--title 'Zeiteinstellungen' \
+--begin $BoxStartY $BoxStartX \
+--menu "Zeit Zone wehlen" 20 $BoxWhith 20 \
+  $( awk '{ print }' < /tmp/timeregion_in ) \
+  2>/tmp/timeregion_out
+
+f_set_time_town
+}
+
+
+
+function f_set_time_town() {
+
+ls -l /usr/share/zoneinfo/$(</tmp/timeregion_out) | awk 'NR>=2{ print $9 " " s++ }' > /tmp/timetown_in
+
+dialog \
+--backtitle 'PrimeArch Installer' \
+--title 'Zeiteinstellungen' \
+--begin $BoxStartY $BoxStartX \
+--menu "Stadt wehlen" 20 $BoxWhith 20 \
+  $( awk '{ print }' < /tmp/timetown_in ) \
+  2>/tmp/timetown_out
+
+f_set_timezone
+}
+
+
+
+function f_set_timezone() {
+ rm /mnt/etc/localtime
+ arch-chroot /mnt /bin/bash -c 'ln -s /usr/share/zoneinfo/$(</tmp/timeregion)/$(</tmp/timetown) /etc/localtime'
+}
