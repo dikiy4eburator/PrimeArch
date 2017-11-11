@@ -18,7 +18,7 @@ makepkg -si
 if [[ -d "/home/$(</tmp/user_name)/.config/i3" ]];
   then
     yaourt -S --noconfirm i3-gaps
-    yaourt -S --noconfirm polybar-git
+    yaourt -S --noconfirm polybar
 
   else
     echo ""
