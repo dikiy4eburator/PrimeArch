@@ -108,7 +108,8 @@ f_make_swap_file
 #GENERATE SYSTEM LOCALE
 #===============================================================================
 # Set Time
-f_set_time_region
+arch-chroot /mnt /bin/bash -c tzselect
+arch-chroot /mnt /bin/bash -c 'hwclock --systohc'
 
 # /etc/locale.conf
 echo LANG=de_DE.UTF-8 >> /mnt/etc/locale.conf
