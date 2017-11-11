@@ -5,28 +5,13 @@ cd /tmp
 curl -O https://aur.archlinux.org/cgit/aur.git/snapshot/package-query.tar.gz
 tar -xvzf package-query.tar.gz
 cd package-query
-makepkg -si
+makepkg --noconfirm -si
 
 # Yaourt instalation
 cd /tmp
 curl -O https://aur.archlinux.org/cgit/aur.git/snapshot/yaourt.tar.gz
 tar -xvzf yaourt.tar.gz
 cd yaourt
-makepkg -si
-
-# Install some cosmetiks
-case $(</tmp/i3) in
-	i3 )
-    yaourt -S --noconfirm i3-gaps
-    yaourt -S --noconfirm polybar ;;
-	* )
-		;;
-esac
-
-yaourt -S --noconfirm neofetch-git
-yaourt -S --noconfirm pamac-aur
-yaourt -S --noconfirm vertex-themes
-yaourt -S --noconfirm vertex-icons-git
-yaourt -S --noconfirm etcher
+makepkg --noconfirm -si
 
 exit

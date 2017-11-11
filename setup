@@ -175,6 +175,15 @@ mv -f $working_dir/lib/lightdm-config/lightdm-gtk-greeter.conf /mnt/etc/lightdm/
 
 
 
+# INSTALL COSMETIC ADONS
+#===============================================================================
+mv $working_dir/lib/Addons /mnt/home/$(</tmp/user_name)/Addons
+arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_name)/Addons"
+rm /mnt/home/$(</tmp/user_name)/Addons
+#===============================================================================
+
+
+
 # Desktop installation
 #===============================================================================
 dialog \
@@ -206,6 +215,9 @@ esac
 
 
 
+f_install_cosmetiks
+
+
 # Grafiktreiber installation
 #===============================================================================
 dialog \
@@ -234,17 +246,8 @@ case $(</tmp/grafik_treiber) in
 	5 )
 		pacstrap /mnt xf86-video-nouveau ;;
 	0 )
-		break ;;
+		;;
 esac
-#===============================================================================
-
-
-
-# INSTALL COSMETIC ADONS
-#===============================================================================
-mv $working_dir/lib/Addons /mnt/home/$(</tmp/user_name)/Addons
-arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_name)/Addons"
-rm /mnt/home/$(</tmp/user_name)/Addons
 #===============================================================================
 
 
