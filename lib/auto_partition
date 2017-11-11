@@ -28,8 +28,7 @@ function f_autopartition() {
 
 	# Generate HDD selection menu
 	f_gen_hdd_menu
-	sh /tmp/hdd_menu
-
+	
 	# Make Partitions
 	f_auto_part
 
