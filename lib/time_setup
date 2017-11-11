@@ -14,12 +14,7 @@ dialog \
   $( awk '{ print }' < /tmp/timeregion_in ) \
   2>/tmp/timeregion_out
 
-f_set_time_town
-}
 
-
-
-function f_set_time_town() {
 
 ls -l /usr/share/zoneinfo/$(</tmp/timeregion_out) | awk 'NR>=2{ print $9 " " ++s }' > /tmp/timetown_in
 
@@ -37,6 +32,7 @@ f_set_timezone
 
 
 function f_set_timezone() {
- arch-chroot /mnt /bin/bash -c 'rm -R /etc/localtime'
- arch-chroot /mnt /bin/bash -c 'ln -s /usr/share/zoneinfo/$(</tmp/timeregion_out)/$(</tmp/timetown_out) /etc/localtime'
+ #arch-chroot /mnt /bin/bash -c 'rm -R /etc/localtime'
+ arch-chroot /mnt /bin/bash -c "timedatectl set-timezone $(</tmp/timeregion_out)/$(</tmp/timetown_out)"
+ arch-chroot /mnt /bin/bash -c 'hwclock --systohc'
 }
