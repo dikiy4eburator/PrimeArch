@@ -11,10 +11,10 @@ function f_make_swap_file() {
 
 	arch-chroot /mnt /bin/bash -c "sudo dd if=/dev/zero of=/SWAP bs=1M count=$(</tmp/swap_size) status=progress"
 	arch-chroot /mnt /bin/bash -c "sudo mkswap /SWAP"
-	arch-chroot /mnt /bin/bash -c "sudo chmod 600 /swapfile"
+	arch-chroot /mnt /bin/bash -c "sudo chmod 600 /SWAP"
 
 	echo '# SWAP FILE' >> /mnt/etc/fstab
-	echo '/SWAP	none      	swap      	defaults  	0 0' >> /mnt/etc/fstab
+	echo '/SWAP			none      	swap      	defaults  	0 0' >> /mnt/etc/fstab
 
 
 }
