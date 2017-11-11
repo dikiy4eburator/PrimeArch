@@ -9,7 +9,7 @@ function f_install_i3() {
 
   # copy APP configs
   cp -r -v $working_dir/lib/configs/* /mnt/home/$(</tmp/user_name)/.config/
-  touch /mnt/tmp/i3
+  echo "i3" >> /mnt/tmp/i3
 }
 
 function f_install_xfce() {

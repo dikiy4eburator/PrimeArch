@@ -15,14 +15,13 @@ cd yaourt
 makepkg -si
 
 # Install some cosmetiks
-if [[ -f "/tmp/i3" ]];
-  then
+case $(</tmp/i3) in
+	i3 )
     yaourt -S --noconfirm i3-gaps
-    yaourt -S --noconfirm polybar
-
-  else
-    echo ""
-fi
+    yaourt -S --noconfirm polybar ;;
+	* )
+		;;
+esac
 
 yaourt -S --noconfirm neofetch-git
 yaourt -S --noconfirm pamac-aur
