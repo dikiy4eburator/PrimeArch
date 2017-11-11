@@ -37,6 +37,6 @@ f_set_timezone
 
 
 function f_set_timezone() {
- rm /mnt/etc/localtime
+ rm -R /mnt/etc/localtime
  arch-chroot /mnt /bin/bash -c 'ln -s /usr/share/zoneinfo/$(</tmp/timeregion_out)/$(</tmp/timetown_out) /etc/localtime'
 }
