@@ -36,7 +36,6 @@ source $working_dir/lib/language_install
 
 dialog \
 --backtitle 'PrimeArch Installer' \
---title 'Wilkommen beim PrimeArch Installer' \
 --begin $BoxStartY $BoxStartX \
 --menu "Select your languge" 12 $BoxWhith 3 \
 	1 English \
@@ -63,7 +62,6 @@ esac
 
 dialog \
 --backtitle 'PrimeArch Installer' \
---title 'Wilkommen beim PrimeArch Installer' \
 --begin $BoxStartY $BoxStartX \
 --msgbox '\nInitial update\n' 7 $BoxWhith
 
@@ -82,7 +80,6 @@ pacman -Syyu
 #===============================================================================
 dialog \
 --backtitle 'PrimeArch Installer' \
---title 'Wilkommen beim PrimeArch Installer' \
 --begin $BoxStartY $BoxStartX \
 --msgbox '\nUpdate finished.\nLat the fun begin\n' 8 $BoxWhith
 #===============================================================================
