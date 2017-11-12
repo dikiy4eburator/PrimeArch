@@ -18,13 +18,14 @@ function f_german() {
 function f_russian() {
 
   # /etc/locale.conf
-  echo LANG=de_DE.UTF-8 >> /mnt/etc/locale.conf
-  echo LANGUAGE=de_DE >> /mnt/etc/locale.conf
+  echo LANG=ru_RU.UTF-8 >> /mnt/etc/locale.conf
+  echo LANGUAGE=ru_RU.UTF-8 >> /mnt/etc/locale.conf
 
   # /etc/vconsole.conf
-  echo KEYMAP=de-latin1-nodeadkeys > /mnt/etc/vconsole.conf
+  echo KEYMAP=ru > /mnt/etc/vconsole.conf
 
   # /etc/locale.gen
-  echo de_DE.UTF-8 UTF-8 >> /mnt/etc/locale.gen
+  echo en_US.UTF-8 UTF-8 >> /mnt/etc/locale.gen
+  echo ru_RU.UTF-8 UTF-8 >> /mnt/etc/locale.gen
 
 }
