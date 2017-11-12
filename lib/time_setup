@@ -46,6 +46,6 @@ dialog \
 function f_set_timezone() {
     #echo "ln -s /usr/share/zoneinfo/$(</tmp/time_region_out)/$(</tmp/time_subregion_out) /etc/localtime" > /tmp/xx
     #echo "hwclock --systohc --$(</tmp/time_format)" >> /tmp/xx
-    arch-chroot /mnt /bin/bash -c "ln -s /usr/share/zoneinfo/$(</tmp/time_region_out)/$(</tmp/time_subregion_out) /etc/localtime"
+    arch-chroot /mnt /bin/bash -c "ln -sf /usr/share/zoneinfo/$(</tmp/time_region_out)/$(</tmp/time_subregion_out) /etc/localtime"
     arch-chroot /mnt /bin/bash -c "hwclock --systohc --$(</tmp/time_format)"
 }
