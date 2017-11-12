@@ -1,0 +1,30 @@
+#!/bin/bash
+
+function f_german() {
+
+  # /etc/locale.conf
+  echo LANG=de_DE.UTF-8 >> /mnt/etc/locale.conf
+  echo LANGUAGE=de_DE >> /mnt/etc/locale.conf
+
+  # /etc/vconsole.conf
+  echo KEYMAP=de-latin1-nodeadkeys > /mnt/etc/vconsole.conf
+
+  # /etc/locale.gen
+  echo de_DE.UTF-8 UTF-8 >> /mnt/etc/locale.gen
+
+}
+
+
+function f_russian() {
+
+  # /etc/locale.conf
+  echo LANG=de_DE.UTF-8 >> /mnt/etc/locale.conf
+  echo LANGUAGE=de_DE >> /mnt/etc/locale.conf
+
+  # /etc/vconsole.conf
+  echo KEYMAP=de-latin1-nodeadkeys > /mnt/etc/vconsole.conf
+
+  # /etc/locale.gen
+  echo de_DE.UTF-8 UTF-8 >> /mnt/etc/locale.gen
+
+}

@@ -54,7 +54,7 @@ function f_root_pw_dialog() {
   --begin $BoxStartY $BoxStartX \
   --title 'ROOT Password' \
   --insecure \
-  --passwordbox 'Bitte ROOT Password eingeben' 9 $BoxWhith \
+  --passwordbox 'Enter the ROOT Password' 9 $BoxWhith \
   2>/tmp/root_pw
 
   dialog \
@@ -62,7 +62,7 @@ function f_root_pw_dialog() {
   --begin $BoxStartY $BoxStartX \
   --title 'ROOT Password' \
   --insecure \
-  --passwordbox 'Bitte ROOT Password wiederholen' 9 $BoxWhith \
+  --passwordbox 'Enter the ROOT Password again' 9 $BoxWhith \
   2>/tmp/root_pw_2
 
   if [[ $(</tmp/root_pw) == $(</tmp/root_pw_2) ]];
@@ -84,7 +84,7 @@ function f_create_new_user() {
 	dialog \
 	--backtitle 'PrimeArch Installer' \
 	--begin $BoxStartY $BoxStartX \
-	--inputbox 'Bitte Benutzernamen eingeben' 8 $BoxWhith \
+	--inputbox 'Enter the name for the new user' 8 $BoxWhith \
 	2>/tmp/user_name
 
 	arch-chroot /mnt /bin/bash -c "useradd -m -g users -G wheel,storage,power,network,video,audio -s /usr/bin/fish '$(</tmp/user_name)'"
@@ -106,18 +106,18 @@ function f_user_pw_dialog() {
 	dialog \
 	--backtitle 'PrimeArch Installer' \
 	--begin $BoxStartY $BoxStartX \
-	--title 'Benutzer Password' \
+	--title 'User Password' \
 	--insecure \
-	--passwordbox "\nBitte Password für $(</tmp/user_name) eingeben" 9 $BoxWhith \
+	--passwordbox "\nEnter the Password for $(</tmp/user_name)" 9 $BoxWhith \
 	2>/tmp/user_pw
 
 
 	dialog \
 	--backtitle 'PrimeArch Installer' \
 	--begin $BoxStartY $BoxStartX \
-	--title 'Benutzer Password' \
+	--title 'User Password' \
 	--insecure \
-	--passwordbox "\nBitte Password für $(</tmp/user_name) wiederholen" 9 $BoxWhith \
+	--passwordbox "\nEnter the Password for $(</tmp/user_name) again" 9 $BoxWhith \
 	2>/tmp/user_pw_2
 
 	if [[ $(</tmp/user_pw) == $(</tmp/user_pw_2) ]];

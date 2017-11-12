@@ -22,17 +22,50 @@ source $working_dir/lib/manual_partition
 source $working_dir/lib/MKSWAP
 source $working_dir/lib/install_desktop
 source $working_dir/lib/time_setup
+source $working_dir/lib/language_install
 
 
-# /////////////////////////////////////////////////////////
-# //////////////////    initial update  ///////////////////
-# /////////////////////////////////////////////////////////
+# /////////////////////////////////////////////////////////////
+# //////////////////    START INSTALATION   ///////////////////
+# /////////////////////////////////////////////////////////////
+
+
+
+# language select
+#===============================================================================
 
 dialog \
 --backtitle 'PrimeArch Installer' \
 --title 'Wilkommen beim PrimeArch Installer' \
 --begin $BoxStartY $BoxStartX \
---msgbox '\nEs wird zuerst ein vollständiges Systemupdate durchgeführt' 7 $BoxWhith
+--menu "Select your languge" 12 $BoxWhith 3 \
+	1 English \
+	2 German \
+	3 Russian \
+	2>/tmp/language
+
+case $(</tmp/language) in
+		1 )
+			;;
+		2 )
+			loadkeys de ;;
+		3 )
+			loadkeys ru ;;
+esac
+
+
+#===============================================================================
+
+
+
+# initial update
+#===============================================================================
+
+dialog \
+--backtitle 'PrimeArch Installer' \
+--title 'Wilkommen beim PrimeArch Installer' \
+--begin $BoxStartY $BoxStartX \
+--msgbox '\nInitial update\n' 7 $BoxWhith
 
 echo key update:
 echo ------------------------------
@@ -41,14 +74,9 @@ pacman-key --refresh-key
 echo System update:
 echo ------------------------------
 pacman -Syyu
+#===============================================================================
 
 
-
-
-
-# /////////////////////////////////////////////////////////////
-# //////////////////    START INSTALATION   ///////////////////
-# /////////////////////////////////////////////////////////////
 
 # Welkom Screan
 #===============================================================================
@@ -56,7 +84,7 @@ dialog \
 --backtitle 'PrimeArch Installer' \
 --title 'Wilkommen beim PrimeArch Installer' \
 --begin $BoxStartY $BoxStartX \
---msgbox '\nUpdate abgeschlossen.\nLast den Spass beginnen \n' 8 $BoxWhith
+--msgbox '\nUpdate finished.\nLat the fun begin\n' 8 $BoxWhith
 #===============================================================================
 
 
@@ -67,9 +95,9 @@ dialog \
 --backtitle 'PrimeArch Installer' \
 --title 'Partitionierung' \
 --begin $BoxStartY $BoxStartX \
---menu "Partitionierungs Metode wehlen" 12 $BoxWhith 3 \
-	1 Automatisch \
-	2 Manuel \
+--menu "How do you want to partition you harddrive" 12 $BoxWhith 3 \
+	1 Automatic \
+	2 Manual \
 	2>/tmp/partitionierung
 
 case $(</tmp/partitionierung) in
@@ -109,15 +137,14 @@ f_make_swap_file
 # Set Time
 f_set_time_region
 
-# /etc/locale.conf
-echo LANG=de_DE.UTF-8 >> /mnt/etc/locale.conf
-echo LANGUAGE=de_DE >> /mnt/etc/locale.conf
-
-# /etc/vconsole.conf
-echo KEYMAP=de-latin1-nodeadkeys > /mnt/etc/vconsole.conf
-
-# /etc/locale.gen
-echo de_DE.UTF-8 UTF-8 >> /mnt/etc/locale.gen
+case $(</tmp/language) in
+		1 )
+			;;
+		2 )
+			f_german ;;
+		3 )
+			f_russian ;;
+esac
 
 arch-chroot /mnt /bin/bash -c locale-gen
 #===============================================================================
@@ -130,7 +157,7 @@ dialog \
 --backtitle 'PrimeArch Installer' \
 --begin $BoxStartY $BoxStartX \
 --title 'Hostname' \
---inputbox 'Bitte Hostnamen eingeben' 8 $BoxWhith \
+--inputbox 'Enter the Hostnamen' 8 $BoxWhith \
 2>/mnt/etc/hostname
 #===============================================================================
 
@@ -142,7 +169,7 @@ dialog \
 --backtitle 'PrimeArch Installer' \
 --title 'Partitionierung' \
 --begin $BoxStartY $BoxStartX \
---yesno '\nMochten das ROOT konto akivieren? \n' 7 $BoxWhith \
+--yesno '\nDo you want to activate the ROOT accaunt? \n' 7 $BoxWhith \
 
 if [[ $? -eq 0 ]];
 	then
@@ -188,13 +215,13 @@ rm /mnt/home/$(</tmp/user_name)/Addons
 dialog \
 --backtitle "PrimeArch" \
 --begin $BoxStartY $BoxStartX \
---title 'Desktop wehlen' \
+--title 'Choose you Desktop' \
 --menu "" 12 $BoxWhith 6 \
 	1 i3 \
 	2 xfce \
 	3 plasma \
 	4 gnome \
-	0 'keinen Desktop' \
+	0 'No Desktop' \
 	2>/tmp/desktop
 
 case $(</tmp/desktop) in
@@ -222,14 +249,14 @@ f_install_cosmetiks
 dialog \
 --backtitle "PrimeArch" \
 --begin $BoxStartY $BoxStartX \
---title 'Grafiktreiber wehlen' \
+--title 'Video driver' \
 --menu "" 12 $BoxWhith 6 \
 	1 virtualbox \
 	2 Nvidia \
 	3 ATI \
 	4 Intel \
 	5 Nouveau \
-	0 'Keine Videotreiber' \
+	0 'No Video driver' \
 	2>/tmp/grafik_treiber
 
 case $(</tmp/grafik_treiber) in
@@ -302,23 +329,29 @@ arch-chroot /mnt /bin/bash -c "systemctl enable lightdm.service"
 #===============================================================================
 dialog \
 --backtitle 'PrimeArch Installer' \
---title 'Installation abgeschlossen' \
+--title 'Installation Finished' \
 --begin $BoxStartY $BoxStartX \
 --menu "" 9 $BoxWhith 3 \
 	1 Rebooten \
 	2 Ausschalten \
 	3 Chroot \
+	4 "Back to Shell"
 	2>/tmp/exit
 
 case $(</tmp/exit) in
 	1 )
 		umount -a
 		reboot ;;
+
 	2 )
 		umount -a
 		poweroff ;;
+
 	3 )
 		arch-chroot /mnt ;;
+
+	4 )
+		;;
 esac
 #===============================================================================
 

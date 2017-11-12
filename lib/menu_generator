@@ -12,7 +12,7 @@ function f_gen_hdd_menu() {
 	--backtitle "PrimeArch" \
 	--begin $BoxStartY $BoxStartX \
 	--title "HDD Auswahl" \
-	--menu "Festplatte wählen" 15 $BoxWhith 7 \
+	--menu "Shoose the harddrive for the installation" 15 $BoxWhith 7 \
 		$(awk ' { print $1"\t"$2 } ' < /tmp/hdlist) \
 	2>/tmp/hdd_name
 }
@@ -27,8 +27,8 @@ function f_gen_part_menu() {
 	dialog \
 	--backtitle "PrimeArch" \
 	--begin $BoxStartY $BoxStartX \
-	--title "Partition Auswahl" \
-	--menu $1" Partition wählen" 15 $BoxWhith 7 \
+	--title "Shoose the partition" \
+	--menu "Shoose the partition for "$1 15 $BoxWhith 7 \
 		$(awk ' { print $1"\t"$2 } ' < /tmp/partlist) \
 	2>/tmp/part_name
 }

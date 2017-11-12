@@ -8,9 +8,9 @@ ls -l /usr/share/zoneinfo/ | awk '{ if($1 ~ /d/ && $9 !~ /posix/ && $9 !~ /right
 
 dialog \
 --backtitle 'PrimeArch Installer' \
---title 'Zeiteinstellungen' \
+--title 'Time setup' \
 --begin $BoxStartY $BoxStartX \
---menu "Zeit Zone wehlen" 20 $BoxWhith 20 \
+--menu "Select your regeon" 20 $BoxWhith 20 \
   $( awk '{ print }' < /tmp/time_region_in ) \
   2>/tmp/time_region_out
 
@@ -20,18 +20,18 @@ ls -l /usr/share/zoneinfo/$(</tmp/time_region_out) | awk 'NR>=2{ print $9 " " ++
 
 dialog \
 --backtitle 'PrimeArch Installer' \
---title 'Zeiteinstellungen' \
+--title 'Time setup' \
 --begin $BoxStartY $BoxStartX \
---menu "Stadt wehlen" 20 $BoxWhith 20 \
+--menu "Select your sub regeon" 20 $BoxWhith 20 \
   $( awk '{ print }' < /tmp/time_subregion_in ) \
   2>/tmp/time_subregion_out
 
 
   dialog \
   --backtitle 'PrimeArch Installer' \
-  --title 'Zeiteinstellungen' \
+  --title 'Time setup' \
   --begin $BoxStartY $BoxStartX \
-  --menu "Zeitformat wehlen" 10 $BoxWhith 3 \
+  --menu "Select the time format" 10 $BoxWhith 3 \
     utc         1 \
     localtime   2 \
     2>/tmp/time_format

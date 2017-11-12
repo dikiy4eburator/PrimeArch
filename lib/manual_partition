@@ -7,11 +7,11 @@ function f_man_part() {
 	dialog \
 	--backtitle "PrimeArch" \
 	--begin $BoxStartY $BoxStartX \
-	--title "Manuele Partitionierung" \
+	--title "Manual Partitionig" \
 	--menu "" 10 $BoxWhith 3 \
-		1 "Festplatte partitionieren" \
-		2 "Partitionen mounten" \
-		3 "Fertig" \
+		1 "Partition a harddrive" \
+		2 "Mount Partitions" \
+		3 "Don!" \
 		2>/tmp/main_man_part
 
 	case $(</tmp/main_man_part) in
@@ -23,40 +23,40 @@ function f_man_part() {
 				then
 					dialog \
 					--backtitle 'PrimeArch Installer' \
-					--title 'Partitions Tabelle' \
+					--title 'Partition Table' \
 					--begin $BoxStartY $BoxStartX \
 					--msgbox '
-
-					Im folgenden wird das Programm cgdisk gestartet
-					Bitte erstellen Sie die folgenden Partitionen:
-
+					Please make shure you make folowing partitions:
 					1. EFI ca. 100-256 Mb ( code: ef00 )
 
-					Wenn Sie keine extra HOME Partition wollen
-					Könne Sie den restlichen Speicher der ROOT Partition zweisen
-
-					Ansonsten:
+					if you want an extra HOME partition
 					2. ROOT ca. 20-40 Gb ( code: 8300 )
-					3. HOME rest des Speichers ( code: 8300 ) ' 20 $BoxWhith
+					3. HOME rest of the harddrive ( code: 8300 )
+
+					otherwise you can give the rest of the memory
+					to the ROOT partition
+
+					a SWAP partition is not needet, the script will
+					setup a SWAP file.' 20 $BoxWhith
 
 				else
 					dialog \
 					--backtitle 'PrimeArch Installer' \
-					--title 'Partitions Tabelle' \
+					--title 'Partition Table' \
 					--begin $BoxStartY $BoxStartX \
 					--msgbox '
-
-					Im folgenden wird das Programm cgdisk gestartet
-					Bitte erstellen Sie die folgenden Partitionen:
-
+					Please make shure you make folowing partitions:
 					1. BOOT ca. 5 Mb ( code: ef02)
 
-					Wenn Sie keine extra HOME Partition wollen
-					Könne Sie den restlichen Speicher der ROOT Partition zweisen
-
-					Ansonsten:
+					if you want an extra HOME partition
 					2. ROOT ca. 20-40 Gb ( code: 8300 )
-					3. HOME rest des Speichers ( code: 8300 )' 20 $BoxWhith
+					3. HOME rest of the harddrive ( code: 8300 )
+
+					otherwise you can give the rest of the memory
+					to the ROOT partition
+
+					a SWAP partition is not needet, the script will
+					setup a SWAP file.' 20 $BoxWhith
 			fi
 
 			cgdisk /dev/$(</tmp/hdd_name)
@@ -95,7 +95,7 @@ function f_man_part() {
 					--backtitle 'PrimeArch Installer' \
 					--begin $BoxStartY $BoxStartX \
 					--title "HOME" \
-					--yesno '\n Mochten Sie eine extra HOME Partition mounten? \n' 7 $BoxWhith \
+					--yesno '\n Do you want to mount a HOME partition? \n' 7 $BoxWhith \
 
 					if [[ $? -eq 0 ]];
 						then
@@ -134,12 +134,12 @@ function f_mount_root() {
 
 function f_mount_home() {
 	f_gen_part_menu HOME
-	
+
 	dialog \
 	--backtitle 'PrimeArch Installer' \
-	--title 'Formatierung' \
+	--title 'Formating' \
 	--begin $BoxStartY $BoxStartX \
-	--yesno '\nMochten Sie die HOME Partition formatieren? \n' 7 $BoxWhith \
+	--yesno '\nDo you want to format the HOME partition? \n' 7 $BoxWhith \
 
 	if [[ $? -eq 0 ]];
 		then
