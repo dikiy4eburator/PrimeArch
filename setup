@@ -21,7 +21,7 @@ source $working_dir/lib/auto_partition
 source $working_dir/lib/manual_partition
 source $working_dir/lib/MKSWAP
 source $working_dir/lib/install_desktop
-
+source $working_dir/lib/time_setup
 
 
 # /////////////////////////////////////////////////////////
@@ -107,8 +107,7 @@ f_make_swap_file
 #GENERATE SYSTEM LOCALE
 #===============================================================================
 # Set Time
-arch-chroot /mnt /bin/bash -c tzselect
-arch-chroot /mnt /bin/bash -c 'hwclock --systohc'
+f_set_time_region
 
 # /etc/locale.conf
 echo LANG=de_DE.UTF-8 >> /mnt/etc/locale.conf
