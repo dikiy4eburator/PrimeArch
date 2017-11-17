@@ -12,6 +12,9 @@ function f_german() {
   # /etc/locale.gen
   echo de_DE.UTF-8 UTF-8 >> /mnt/etc/locale.gen
 
+  # Generate kexboard config
+  f_generate_x_keyboard_config de
+
 }
 
 
@@ -28,4 +31,15 @@ function f_russian() {
   echo en_US.UTF-8 UTF-8 >> /mnt/etc/locale.gen
   echo ru_RU.UTF-8 UTF-8 >> /mnt/etc/locale.gen
 
+  # Generate kexboard config
+  f_generate_x_keyboard_config ru
+
+}
+
+function f_generate_x_keyboard_config() {
+  echo "Section "InputClass""             > /mnt/etc/X11/xorg.conf.d/00-keyboard.conf
+  echo "  Identifier "system-keyboard""   >> /mnt/etc/X11/xorg.conf.d/00-keyboard.conf
+  echo "  MatchIsKeyboard "on""           >> /mnt/etc/X11/xorg.conf.d/00-keyboard.conf
+  echo "  Option "XkbLayout" "$1""        >> /mnt/etc/X11/xorg.conf.d/00-keyboard.conf
+  echo "EndSection"                       >> /mnt/etc/X11/xorg.conf.d/00-keyboard.conf
 }
