@@ -62,7 +62,7 @@ esac
 dialog \
 --backtitle 'PrimeArch Installer' \
 --begin $BoxStartY $BoxStartX \
---msgbox '\nUpdate finished.\nLat the fun begin\n' 8 $BoxWhith
+--msgbox '\nLat the fun begin\n' 8 $BoxWhith
 #===============================================================================
 
 
