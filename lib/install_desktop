@@ -40,6 +40,6 @@ function f_install_cosmetiks() {
 
 
 
-function f_install_plasma() {
+function f_install_mate() {
   pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dir/lib/pakages/pakages_mate)
 }

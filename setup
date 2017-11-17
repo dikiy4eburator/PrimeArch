@@ -205,7 +205,7 @@ case $(</tmp/desktop) in
 	2 )
 		f_install_xfce ;;
 	3 )
-
+		f_install_mate ;;
 	4 )
 		f_install_plasma ;;
 	5 )
