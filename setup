@@ -57,25 +57,6 @@ esac
 
 
 
-# initial update
-#===============================================================================
-
-dialog \
---backtitle 'PrimeArch Installer' \
---begin $BoxStartY $BoxStartX \
---msgbox '\nInitial update\n' 7 $BoxWhith
-
-echo key update:
-echo ------------------------------
-pacman-key --refresh-key
-
-echo System update:
-echo ------------------------------
-pacman -Syyu
-#===============================================================================
-
-
-
 # Welkom Screan
 #===============================================================================
 dialog \
