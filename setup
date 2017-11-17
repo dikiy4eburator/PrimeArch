@@ -192,8 +192,9 @@ dialog \
 --menu "" 12 $BoxWhith 6 \
 	1 i3 \
 	2 xfce \
-	3 plasma \
-	4 gnome \
+	3 mate \
+	4 plasma \
+	5 gnome \
 	0 'No Desktop' \
 	2>/tmp/desktop
 
@@ -204,8 +205,10 @@ case $(</tmp/desktop) in
 	2 )
 		f_install_xfce ;;
 	3 )
-		f_install_plasma ;;
+
 	4 )
+		f_install_plasma ;;
+	5 )
 		f_install_gnome ;;
 	0 )
 		 ;;
