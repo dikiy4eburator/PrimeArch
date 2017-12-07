@@ -36,6 +36,27 @@ function f_russian() {
 
 }
 
+
+
+function f_english() {
+
+  # /etc/locale.conf
+  echo LANG=en_US.UTF-8 >> /mnt/etc/locale.conf
+  echo LANGUAGE=en_US.UTF-8 >> /mnt/etc/locale.conf
+
+  # /etc/vconsole.conf
+  echo KEYMAP=en > /mnt/etc/vconsole.conf
+
+  # /etc/locale.gen
+  echo en_US.UTF-8 UTF-8 >> /mnt/etc/locale.gen
+  echo en_US.UTF-8 UTF-8 >> /mnt/etc/locale.gen
+
+  # Generate kexboard config
+  f_generate_x_keyboard_config ru
+
+}
+
+
 function f_generate_x_keyboard_config() {
   echo 'Section "InputClass"'             >  /mnt/etc/X11/xorg.conf.d/00-keyboard.conf
   echo '  Identifier "system-keyboard"'   >> /mnt/etc/X11/xorg.conf.d/00-keyboard.conf

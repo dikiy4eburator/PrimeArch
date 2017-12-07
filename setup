@@ -45,7 +45,7 @@ dialog \
 
 case $(</tmp/language) in
 		1 )
-			;;
+			loadkeys en ;;
 		2 )
 			loadkeys de ;;
 		3 )
@@ -117,7 +117,7 @@ f_set_time_region
 
 case $(</tmp/language) in
 		1 )
-			;;
+			f_english ;;
 		2 )
 			f_german ;;
 		3 )
