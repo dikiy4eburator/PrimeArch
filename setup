@@ -288,9 +288,10 @@ arch-chroot /mnt /bin/bash -c "systemctl enable ntpd"
 arch-chroot /mnt /bin/bash -c "systemctl enable avahi-daemon"
 arch-chroot /mnt /bin/bash -c "systemctl enable wpa_supplicant"
 arch-chroot /mnt /bin/bash -c "systemctl enable NetworkManager"
+arch-chroot /mnt /bin/bash -c "systemctl enable sshd.socket"
 
 # NFS utils
-arch-chroot /mnt /bin/bash -c "systemctl enable rpcbind"
+# arch-chroot /mnt /bin/bash -c "systemctl enable rpcbind"
 
 # Cronie
 arch-chroot /mnt /bin/bash -c "systemctl enable cronie.service"
