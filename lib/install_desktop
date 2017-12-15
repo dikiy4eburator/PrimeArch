@@ -47,5 +47,5 @@ function f_install_mate() {
 ################################################################################
 
 function f_install_cosmetiks() {
-  arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) yaourt -S --noconfirm pamac-aur vertex-icons-git vertex-themes etcher neofetch"
+  arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) yaourt -S --noconfirm pamac-aur vertex-icons-git vertex-themes etcher neofetch lightdm-webkit2-greeter"
 }
