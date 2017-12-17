@@ -4,6 +4,7 @@
   if [[ -d "/sys/firmware/efi/efivars" ]];
     then
       break
+      echo "UEFI OK"
     else
       echo "NO UEFI MOD !!!"
       exit
@@ -11,13 +12,14 @@
 
 
 #Prepare Disklist
+ls -l /dev/disk/by-id/ | awk '{ print $9 }' > /tmp/hdlist
 
 dialog \
 --backtitle "PrimeArch" \
 --begin $BoxStartY $BoxStartX \
 --title "HDD Auswahl" \
 --radiolist "Shoose the harddrives for the ZPool" 15 $BoxWhith 7 \
-  $(ls /dev/disk/by-id/ | awk 'NR>=2{ print $1 " " ++s }') \
+  $(awk 'NR>=2{ print $1 " " ++s }' < /tmp/hdlist) \
 2>/tmp/hdd_name
 
 
