@@ -317,10 +317,10 @@ arch-chroot /mnt /bin/bash -c "bootctl install"
 echo "timeout 3" > /mnt/boot/loader/loader.conf
 echo "default arch" >> /mnt/boot/loader/loader.conf
 
-echo "title          Arch Linux ZFS" > /mnt/boot/loader/arch.conf
-echo "linux          /vmlinuz-linux" >> /mnt/boot/loader/arch.conf
-echo "initrd         /initramfs-linux.img" >> /mnt/boot/loader/arch.conf
-echo "options        zfs=zroot/ARCH/root rw" >> /mnt/boot/loader/arch.conf
+echo "title          Arch Linux ZFS" > /mnt/boot/loader/entries/arch.conf
+echo "linux          /vmlinuz-linux" >> /mnt/boot/loader/entries/arch.conf
+echo "initrd         /initramfs-linux.img" >> /mnt/boot/loader/entries/arch.conf
+echo "options        zfs=zroot/ARCH/root rw" >> /mnt/boot/loader/entries/arch.conf
 
 #===============================================================================
 
