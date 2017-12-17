@@ -84,17 +84,13 @@ zfs create -o canmount=off -o mountpoint=none zroot/ARCH
 zfs create -o mountpoint=/ zroot/ARCH/root
 zfs create -o setuid=off -o mountpoint=/home zroot/home
 zfs create -o mountpoint=/tmp zroot/ARCH/tmp
-zfs create -o mountpoint=/var zroot/ARCH/var
+#zfs create -o mountpoint=/var zroot/ARCH/var
 
 zpool export zroot
 zpool import -R /mnt zroot
 
 mkdir /mnt/boot
-mkdir /mnt/boot/efi
-mount /dev/$BOOT_HD /mnt/boot/efi
-
-
-
+mount /dev/$BOOT_HD /mnt/boot
 
 
 
@@ -102,10 +98,10 @@ mount /dev/$BOOT_HD /mnt/boot/efi
 
 # Install base pacages
 #===============================================================================
-pacstrap /mnt base base-devel linux-headers grub os-prober efibootmgr acpid dbus fish vim cronie xdg-user-dirs ranger dkms
+pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dir/lib/pakages/pakages_base)
 #===============================================================================
 
-read -p "Press enter to continue"
+
 
 
 # Generate fstab
@@ -115,7 +111,7 @@ genfstab -U -p /mnt > /mnt/etc/fstab
 
 
 
-read -p "Press enter to continue"
+
 
 #GENERATE SYSTEM LOCALE
 #===============================================================================
@@ -135,7 +131,7 @@ arch-chroot /mnt /bin/bash -c locale-gen
 #===============================================================================
 
 
-read -p "Press enter to continue"
+
 
 
 # Set hostname
@@ -150,7 +146,7 @@ dialog \
 
 
 
-read -p "Press enter to continue"
+
 
 #Set ROOT
 #===============================================================================
@@ -169,7 +165,7 @@ fi
 #===============================================================================
 
 
-read -p "Press enter to continue"
+
 
 
 # CREATE NEW USER
@@ -178,7 +174,7 @@ f_create_new_user
 #===============================================================================
 
 
-read -p "Press enter to continue"
+
 
 
 # COPY lightDm FILES
@@ -188,7 +184,7 @@ mv -f $working_dir/lib/lightdm-config/lightdm.conf /mnt/etc/lightdm/lightdm.conf
 #===============================================================================
 
 
-read -p "Press enter to continue"
+
 
 
 # INSTALL COSMETIC ADONS
@@ -198,7 +194,7 @@ arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_
 rm /mnt/home/$(</tmp/user_name)/Addons
 #===============================================================================
 
-read -p "Press enter to continue"
+
 
 
 
@@ -234,13 +230,13 @@ case $(</tmp/desktop) in
 esac
 #===============================================================================
 
-read -p "Press enter to continue"
 
-f_install_cosmetiks
+
+# f_install_cosmetiks
 
 arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) yaourt -S --noconfirm spl-dkms zfs-dkms"
 
-read -p "Press enter to continue"
+
 
 # Grafiktreiber installation
 #===============================================================================
@@ -274,7 +270,7 @@ case $(</tmp/grafik_treiber) in
 esac
 #===============================================================================
 
-read -p "Press enter to continue"
+
 
 # FIX USER HOME OWNERSHIP
 #===============================================================================
@@ -282,8 +278,10 @@ arch-chroot /mnt /bin/bash -c "chown -R $(</tmp/user_name):users /home/$(</tmp/u
 arch-chroot /mnt /bin/bash -c "chmod -R 0700 /home/$(</tmp/user_name)"
 #===============================================================================
 
-read -p "Press enter to continue"
 
+
+zpool set cachefile=/etc/zfs/zpool.cache zroot
+cp /etc/zfs/zpool.cahe /mnt/etc/zfs/
 
 # START DAEMONS
 #===============================================================================
@@ -310,22 +308,28 @@ arch-chroot /mnt /bin/bash -c "systemctl enable zfs-mount.service"
 #===============================================================================
 
 
-read -p "Press enter to continue"
+
 
 
 #GRUB INSTALLATION
 #===============================================================================
-if [[ -d "/sys/firmware/efi/efivars" ]];
-	then
-		# install grub efi
-		arch-chroot /mnt /bin/bash -c "grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$(</mnt/etc/hostname)"
-	else
-		# install grub legacy
-		arch-chroot /mnt /bin/bash -c "grub-install /dev/$(</tmp/hdd_name)"
-fi
+arch-chroot /mnt /bin/bash -c "bootctl install"
+echo "timeout 3" > /mnt/boot/loader/loader.conf
+echo "default arch" >> /mnt/boot/loader/loader.conf
 
-arch-chroot /mnt /bin/bash -c "grub-mkconfig -o /boot/grub/grub.cfg"
+echo "title          Arch Linux ZFS" > /mnt/boot/loader/arch.conf
+echo "linux          /vmlinuz-linux" >> /mnt/boot/loader/arch.conf
+echo "initrd         /initramfs-linux.img" >> /mnt/boot/loader/arch.conf
+echo "options        zfs=zroot/ARCH/root rw" >> /mnt/boot/loader/arch.conf
+
 #===============================================================================
+
+umount -R /mnt
+# zfs set canmount=noauto zroot/ARCH/root
+zfs umount -a
+zpool export zroot
+
+
 read -p "Press enter to continue"
 
 exit
