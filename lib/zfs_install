@@ -19,7 +19,7 @@ dialog \
 --begin $BoxStartY $BoxStartX \
 --title "HDD Auswahl" \
 --checklist "Shoose the harddrives for the ZPool" 15 100 7 \
-  $( awk '{ print $1 "\t" ++s }' < /tmp/hdlist) \
+  $( awk '{ print $1 "\t" ++s "off" }' < /tmp/hdlist) \
 2>/tmp/hdd_name
 
 
