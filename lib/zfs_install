@@ -18,6 +18,7 @@ dialog \
 --backtitle "PrimeArch" \
 --begin $BoxStartY $BoxStartX \
 --title "HDD Auswahl" \
+--separate-output \
 --checklist "Shoose the harddrives for the ZPool" 15 100 7 \
   $( awk '{ print $1 "\t" ++s "off" }' < /tmp/hdlist) \
 2>/tmp/hdd_name
