@@ -35,7 +35,9 @@ done < /tmp/hdd_by_id
 # reset parttable
 while read line
  do
-   sgdisk -Z -g -o /dev/$line
+   sgdisk -Z /dev/$line
+   sgdisk -g /dev/$line
+   sgdisk -o /dev/$line
 done < /tmp/hdd_name
 
 # Create new parttable
@@ -46,7 +48,7 @@ while read line
 done < /tmp/hdd_name
 
 # create zpool
-zpool create -o ashift=12 -O atime=off -O canmount=off -O compression=lz4 -O normalization=formD zpool $(</tmp/hdd_name)
+zpool create -f -o ashift=12 -O atime=off -O canmount=off -O compression=lz4 -O normalization=formD zpool $(</tmp/hdd_name)
 
 exit
 
