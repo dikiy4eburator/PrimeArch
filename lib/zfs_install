@@ -12,14 +12,14 @@ function f_zfs() {
 
 
 #Prepare Disklist
-ls /dev/disk/by-id/ | awk '{ print $1 }' > /tmp/hdlist
+ls /dev/disk/by-id/ | awk '{ print $1 "\t" ++s }' > /tmp/hdlist
 
 dialog \
 --backtitle "PrimeArch" \
 --begin $BoxStartY $BoxStartX \
 --title "HDD Auswahl" \
 --radiolist "Shoose the harddrives for the ZPool" 15 $BoxWhith 7 \
-  $(awk '{ print $1 }' < /tmp/hdlist) \
+  $(< /tmp/hdlist) \
 2>/tmp/hdd_name
 
 
@@ -33,5 +33,5 @@ dialog \
 #zpool create -O atime=off -O canmount=off -O compression=lz4 -O normalization=formD zpool $(</tmp/hdd_name)
 
 exit
-"\t" ++s
+
 }
