@@ -12,7 +12,7 @@ function f_zfs() {
 
 
 #Prepare Disklist
-ls /dev/disk/by-id/ | awk '{ print $1 " " ++s}'
+ls /dev/disk/by-id/ | awk '{ print $1 " " ++s}' > /tmp/hdlist)
 
 dialog \
 --backtitle "PrimeArch" \
