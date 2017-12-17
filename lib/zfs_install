@@ -23,7 +23,9 @@ dialog \
   $(awk 'NR>=2{ print $9" "$11" " "off"}' < /tmp/hdlist) \
 2>/tmp/hdd_by_id
 
-ls -l /dev/disk/by-id/$(</tmp/hdd_by_id) | awk -F"-> ../../" '{print $2}' > /tmp/hdd_name
+awk -F"-> ../../" '{ if ~~ /$(</tmp/hdd_by_id)/ print $2}' < /tmp/hdd_by_id > /tmp/hdd_name
+
+cat /tmp/hdd_name
 
 exit
 
