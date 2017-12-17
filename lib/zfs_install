@@ -73,15 +73,15 @@ while read line
 done < /tmp/hdd_name
 
 
-
+awk ’{print $1"-part2"}’ < /tmp/hdd_by_id > /tmp/part_by_id
 
 
 
 # create zpool
-zpool create -f -o ashift=12 -O atime=off -O canmount=off -O compression=lz4 -O normalization=formD zroot raidz $(</tmp/hdd_by_id)"-part2"
+zpool create -f -o ashift=12 -O atime=off -O canmount=off -O compression=lz4 -O normalization=formD zroot raidz $(</tmp/part_by_id)
 
 
 
-
+exit
 
 }
