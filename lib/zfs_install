@@ -12,7 +12,7 @@ function f_zfs() {
 
 
 #Prepare Disklist
-ls /dev/disk/by-id/  > /tmp/hdlist
+ls -l /dev/disk/by-id/  > /tmp/hdlist
 
 dialog \
 --backtitle "PrimeArch" \
@@ -20,7 +20,7 @@ dialog \
 --title "HDD Auswahl" \
 --separate-output \
 --checklist "Shoose the harddrives for the ZPool" 15 100 7 \
-  $( awk '{ print $1 " " ++s " ""off" }' < /tmp/hdlist) \
+  $( awk '{ print $9 $11 " ""off" }' < /tmp/hdlist) \
 2>/tmp/hdd_name
 
 
