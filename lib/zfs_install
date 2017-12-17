@@ -1,5 +1,5 @@
 #!/bin/sh
-function f_zfs() {
+#function f_zfs() {
 
   if [[ -d "/sys/firmware/efi/efivars" ]];
     then
@@ -21,14 +21,14 @@ dialog \
 2>/tmp/hdd_name
 
 
-sgdisk -Z /dev/$(</tmp/hdd_name)
-sgdisk -g /dev/$(</tmp/hdd_name)
-sgdisk -o /dev/$(</tmp/hdd_name)
+#sgdisk -Z /dev/$(</tmp/hdd_name)
+#sgdisk -g /dev/$(</tmp/hdd_name)
+#sgdisk -o /dev/$(</tmp/hdd_name)
 
-sgdisk -n 1:0:+256M -c 1:"EFI" -t 1:ef00 /dev/$(</tmp/hdd_name)
-sgdisk -n 2:0:0 -c 2:"ROOT" -t 2:eb00 /dev/$(</tmp/hdd_name)
+#sgdisk -n 1:0:+256M -c 1:"EFI" -t 1:ef00 /dev/$(</tmp/hdd_name)
+#sgdisk -n 2:0:0 -c 2:"ROOT" -t 2:eb00 /dev/$(</tmp/hdd_name)
 
-zpool create -O atime=off -O canmount=off -O compression=lz4 -O normalization=formD zpool $(</tmp/hdd_name)
+#zpool create -O atime=off -O canmount=off -O compression=lz4 -O normalization=formD zpool $(</tmp/hdd_name)
 
 exit
-}
+#}
