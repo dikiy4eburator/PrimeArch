@@ -1,5 +1,5 @@
 #!/bin/sh
-#function f_zfs() {
+function f_zfs() {
 
   if [[ -d "/sys/firmware/efi/efivars" ]];
     then
@@ -19,7 +19,7 @@ dialog \
 --begin $BoxStartY $BoxStartX \
 --title "HDD Auswahl" \
 --radiolist "Shoose the harddrives for the ZPool" 15 $BoxWhith 7 \
-  $(awk 'NR>=2{ print $1 " " ++s }' < /tmp/hdlist) \
+  $(awk '{ print $1 " " ++s }' < /tmp/hdlist) \
 2>/tmp/hdd_name
 
 
@@ -33,4 +33,4 @@ dialog \
 #zpool create -O atime=off -O canmount=off -O compression=lz4 -O normalization=formD zpool $(</tmp/hdd_name)
 
 exit
-#}
+}
