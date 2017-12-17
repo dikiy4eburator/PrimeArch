@@ -23,6 +23,7 @@ source $working_dir/lib/MKSWAP
 source $working_dir/lib/install_desktop
 source $working_dir/lib/time_setup
 source $working_dir/lib/language_install
+source $working_dir/lib/zfs_install
 
 
 # /////////////////////////////////////////////////////////////
@@ -76,6 +77,7 @@ dialog \
 --menu "How do you want to partition you harddrive" 12 $BoxWhith 3 \
 	1 Automatic \
 	2 Manual \
+	3 "ZFS (UEFI only !!!)" \
 	2>/tmp/partitionierung
 
 case $(</tmp/partitionierung) in
@@ -83,6 +85,8 @@ case $(</tmp/partitionierung) in
 		f_autopartition ;;
 	2 )
 		f_man_part ;;
+	3 )
+		f_zfs ;;
 esac
 
 #===============================================================================
