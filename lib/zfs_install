@@ -33,5 +33,5 @@ dialog \
 #zpool create -O atime=off -O canmount=off -O compression=lz4 -O normalization=formD zpool $(</tmp/hdd_name)
 
 exit
-| awk '{ print $1 }'
+# | awk '{ print $1 }'
 }
