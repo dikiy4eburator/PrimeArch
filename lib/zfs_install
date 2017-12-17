@@ -12,7 +12,7 @@ function f_zfs() {
 
 
 #Prepare Disklist
-ls /dev/disk/by-id/ | awk '{ print $1 }' > /tmp/hdlist
+ls /dev/disk/by-id/ | awk '{ print $1 "\t" ++s }' > /tmp/hdlist
 
 dialog \
 --backtitle "PrimeArch" \
@@ -33,5 +33,5 @@ dialog \
 #zpool create -O atime=off -O canmount=off -O compression=lz4 -O normalization=formD zpool $(</tmp/hdd_name)
 
 exit
- "\t" ++s
+
 }
