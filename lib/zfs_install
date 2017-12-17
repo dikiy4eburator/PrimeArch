@@ -23,7 +23,7 @@ dialog \
   $(awk 'NR>=2{ print $9" "$11" " "off"}' < /tmp/hdlist) \
 2>/tmp/hdd_by_id
 
-awk -F"-> ../../" '{ if($9 ~ /$(</tmp/hdd_by_id)/) print $11}' < /tmp/hdlist > /tmp/hdd_name
+awk -F"-> ../../" '{ if($9 ~ $(</tmp/hdd_by_id)) print $11}' < /tmp/hdlist > /tmp/hdd_name
 
 cat /tmp/hdlist
 cat /tmp/hdd_by_id
