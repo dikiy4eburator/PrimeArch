@@ -25,6 +25,8 @@ dialog \
 
 ls -l /dev/disk/by-id/$(</tmp/hdd_by_id) | awk -F"-> ../../" '{print $2}' > /tmp/hdd_name
 
+exit
+
 sgdisk -Z /dev/$(</tmp/hdd_name)
 sgdisk -g /dev/$(</tmp/hdd_name)
 sgdisk -o /dev/$(</tmp/hdd_name)
