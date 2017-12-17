@@ -1,9 +1,10 @@
 #!/bin/sh
+
 function f_zfs() {
 
   if [[ -d "/sys/firmware/efi/efivars" ]];
     then
-      break
+      #break
       echo "UEFI OK"
     else
       echo "NO UEFI MOD !!!"
@@ -20,28 +21,32 @@ dialog \
 --title "HDD Auswahl" \
 --separate-output \
 --checklist "Shoose the harddrives for the ZPool" 15 $BoxWhith 7 \
-  $(awk 'NR>=2{ print $9" "$11" " "off"}' < /tmp/hdlist) \
+  $(awk 'NR>=2{ if($9 !~ /part/ ) print $9" "$11" " "off"}' < /tmp/hdlist) \
 2>/tmp/hdd_by_id
 
-readlink /dev/disk/by-id/$( < /tmp/hdd_by_id) | awk -F"../../" '{print $2}' > /tmp/hdd_name
 
+rm /tmp/hdd_name
 
-clear
+while read line
+ do
+   readlink /dev/disk/by-id/$line | awk -F"../../" '{print $2}' >> /tmp/hdd_name
+done < /tmp/hdd_by_id
 
-cat /tmp/hdlist
-cat /tmp/hdd_by_id
-cat /tmp/hdd_name
+# reset parttable
+while read line
+ do
+   sgdisk -Z -g -o /dev/$line
+done < /tmp/hdd_name
 
-exit
+# Create new parttable
+while read line
+ do
+   sgdisk -n 1:0:+256M -c 1:"EFI" -t 1:ef00 /dev/$line
+   sgdisk -n 2:0:0 -c 2:"ROOT" -t 2:eb00 /dev/$line
+done < /tmp/hdd_name
 
-#sgdisk -Z /dev/$(</tmp/hdd_name)
-#sgdisk -g /dev/$(</tmp/hdd_name)
-#sgdisk -o /dev/$(</tmp/hdd_name)
-
-#sgdisk -n 1:0:+256M -c 1:"EFI" -t 1:ef00 /dev/$(</tmp/hdd_name)
-#sgdisk -n 2:0:0 -c 2:"ROOT" -t 2:eb00 /dev/$(</tmp/hdd_name)
-
-#zpool create -O atime=off -O canmount=off -O compression=lz4 -O normalization=formD zpool $(</tmp/hdd_name)
+# create zpool
+zpool create -o ashift=12 -O atime=off -O canmount=off -O compression=lz4 -O normalization=formD zpool $(</tmp/hdd_name)
 
 exit
 
