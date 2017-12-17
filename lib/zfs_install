@@ -1,4 +1,5 @@
 #!/bin/sh
+function f_zfs() {
 
   if [[ -d "/sys/firmware/efi/efivars" ]];
     then
@@ -30,3 +31,4 @@ sgdisk -n 2:0:0 -c 2:"ROOT" -t 2:eb00 /dev/$(</tmp/hdd_name)
 zpool create -O atime=off -O canmount=off -O compression=lz4 -O normalization=formD zpool $(</tmp/hdd_name)
 
 exit
+}
