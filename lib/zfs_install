@@ -18,9 +18,9 @@ dialog \
 --backtitle "PrimeArch" \
 --begin $BoxStartY $BoxStartX \
 --title "HDD Auswahl" \
---separate-output \
+#--separate-output \
 --checklist "Shoose the harddrives for the ZPool" 15 $BoxWhith 7 \
-  $( awk '{ print $9 " " $11 " " "off"}' < /tmp/hdlist) \
+  $(awk '{ print $9 " " $11 " " "off"}' < /tmp/hdlist) \
 2>/tmp/hdd_by_id
 
 #ls -l /dev/disk/by-id/$(</tmp/hdd_by_id) | awk -F"-> ../../" '{print $2}' > /tmp/hdd_name
