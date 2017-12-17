@@ -74,11 +74,11 @@ done < /tmp/hdd_name
 
 
 
-exit
+
 
 
 # create zpool
-zpool create -f -o ashift=12 -O atime=off -O canmount=off -O compression=lz4 -O normalization=formD zroot raidz $(</tmp/hdd_by_id)
+zpool create -f -o ashift=12 -O atime=off -O canmount=off -O compression=lz4 -O normalization=formD zroot raidz $(</tmp/hdd_by_id)"-part2"
 
 
 
