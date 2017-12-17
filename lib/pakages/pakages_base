@@ -15,6 +15,7 @@ gvfs
 xdg-user-dirs
 rsync
 ranger
+dkms
 
 # Basis DE pakete
 # ----------------------------------

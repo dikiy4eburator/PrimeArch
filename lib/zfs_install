@@ -73,13 +73,254 @@ while read line
 done < /tmp/hdd_name
 
 
-awk ’{print $1"-part2"}’ < /tmp/hdd_by_id > /tmp/part_by_id
+awk '{print $1"-part2"}' < /tmp/hdd_by_id > /tmp/part_by_id
 
 
 
 # create zpool
 zpool create -f -o ashift=12 -O atime=off -O canmount=off -O compression=lz4 -O normalization=formD zroot raidz $(</tmp/part_by_id)
 
+zfs create -o canmount=off -o mountpoint=none zroot/ARCH
+zfs create -o mountpoint=/ zroot/ARCH/root
+zfs create -o setuid=off -o mountpoint=/home zroot/home
+zfs create -o mountpoint=/tmp zroot/ARCH/tmp
+zfs create -o mountpoint=/var zroot/ARCH/var
+
+zpool export zroot
+zpool import -R /mnt zroot
+
+mkdir /mnt/boot
+mount /dev/$BOOT_HD /mnt/boot/
+
+
+
+
+# Install base pacages
+#===============================================================================
+pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dir/lib/pakages/pakages_base)
+#===============================================================================
+
+
+
+
+# Generate fstab
+#===============================================================================
+genfstab -U -p /mnt > /mnt/etc/fstab
+#===============================================================================
+
+
+
+
+
+#GENERATE SYSTEM LOCALE
+#===============================================================================
+# Set Time
+f_set_time_region
+
+case $(</tmp/language) in
+		1 )
+			f_english ;;
+		2 )
+			f_german ;;
+		3 )
+			f_russian ;;
+esac
+
+arch-chroot /mnt /bin/bash -c locale-gen
+#===============================================================================
+
+
+
+
+
+# Set hostname
+#===============================================================================
+dialog \
+--backtitle 'PrimeArch Installer' \
+--begin $BoxStartY $BoxStartX \
+--title 'Hostname' \
+--inputbox 'Enter the Hostnamen' 8 $BoxWhith \
+2>/mnt/etc/hostname
+#===============================================================================
+
+
+
+
+
+#Set ROOT
+#===============================================================================
+dialog \
+--backtitle 'PrimeArch Installer' \
+--title 'Partitionierung' \
+--begin $BoxStartY $BoxStartX \
+--yesno '\nDo you want to activate the ROOT accaunt? \n' 7 $BoxWhith \
+
+if [[ $? -eq 0 ]];
+	then
+		f_root_pw_dialog
+	else
+		arch-chroot /mnt /bin/bash -c "passwd -l root"
+fi
+#===============================================================================
+
+
+
+
+
+# CREATE NEW USER
+#===============================================================================
+f_create_new_user
+#===============================================================================
+
+
+
+
+
+# COPY lightDm FILES
+#===============================================================================
+# LightDm Conf
+mv -f $working_dir/lib/lightdm-config/lightdm.conf /mnt/etc/lightdm/lightdm.conf
+#===============================================================================
+
+
+
+
+
+# INSTALL COSMETIC ADONS
+#===============================================================================
+mv $working_dir/lib/Addons /mnt/home/$(</tmp/user_name)/Addons
+arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_name)/Addons"
+rm /mnt/home/$(</tmp/user_name)/Addons
+#===============================================================================
+
+
+
+
+
+# Desktop installation
+#===============================================================================
+dialog \
+--backtitle "PrimeArch" \
+--begin $BoxStartY $BoxStartX \
+--title 'Choose you Desktop' \
+--menu "" 12 $BoxWhith 6 \
+	1 i3 \
+	2 xfce \
+	3 mate \
+	4 plasma \
+	5 gnome \
+	0 'No Desktop' \
+	2>/tmp/desktop
+
+case $(</tmp/desktop) in
+
+	1 )
+		f_install_i3 ;;
+	2 )
+		f_install_xfce ;;
+	3 )
+		f_install_mate ;;
+	4 )
+		f_install_plasma ;;
+	5 )
+		f_install_gnome ;;
+	0 )
+		 ;;
+esac
+#===============================================================================
+
+
+
+f_install_cosmetiks
+
+arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) yaourt -S --noconfirm spl-dkms zfs-dkms"
+
+
+
+# Grafiktreiber installation
+#===============================================================================
+dialog \
+--backtitle "PrimeArch" \
+--begin $BoxStartY $BoxStartX \
+--title 'Video driver' \
+--menu "" 12 $BoxWhith 6 \
+	1 virtualbox \
+	2 Nvidia \
+	3 ATI \
+	4 Intel \
+	5 Nouveau \
+	0 'No Video driver' \
+	2>/tmp/grafik_treiber
+
+case $(</tmp/grafik_treiber) in
+
+	1 )
+		pacstrap /mnt virtualbox-guest-dkms virtualbox-guest-utils ;;
+	2 )
+		pacstrap /mnt nvidia-dkms ;;
+	3 )
+		pacstrap /mnt xf86-video-ati ;;
+	4 )
+		pacstrap /mnt xf86-video-intel ;;
+	5 )
+		pacstrap /mnt xf86-video-nouveau ;;
+	0 )
+		;;
+esac
+#===============================================================================
+
+
+
+# FIX USER HOME OWNERSHIP
+#===============================================================================
+arch-chroot /mnt /bin/bash -c "chown -R $(</tmp/user_name):users /home/$(</tmp/user_name)"
+arch-chroot /mnt /bin/bash -c "chmod -R 0700 /home/$(</tmp/user_name)"
+#===============================================================================
+
+
+
+
+# START DAEMONS
+#===============================================================================
+#start system daemons
+arch-chroot /mnt /bin/bash -c "systemctl enable acpid"
+arch-chroot /mnt /bin/bash -c "systemctl enable ntpd"
+
+# network managment
+arch-chroot /mnt /bin/bash -c "systemctl enable avahi-daemon"
+arch-chroot /mnt /bin/bash -c "systemctl enable wpa_supplicant"
+arch-chroot /mnt /bin/bash -c "systemctl enable NetworkManager"
+arch-chroot /mnt /bin/bash -c "systemctl enable sshd.socket"
+
+# NFS utils
+ arch-chroot /mnt /bin/bash -c "systemctl enable rpcbind"
+
+# Cronie
+arch-chroot /mnt /bin/bash -c "systemctl enable cronie.service"
+
+#lightdm
+arch-chroot /mnt /bin/bash -c "systemctl enable lightdm.service"
+arch-chroot /mnt /bin/bash -c "systemctl enable zfs.target"
+arch-chroot /mnt /bin/bash -c "systemctl enable zfs-mount.service"
+#===============================================================================
+
+
+
+
+
+#GRUB INSTALLATION
+#===============================================================================
+if [[ -d "/sys/firmware/efi/efivars" ]];
+	then
+		# install grub efi
+		arch-chroot /mnt /bin/bash -c "grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$(</mnt/etc/hostname)"
+	else
+		# install grub legacy
+		arch-chroot /mnt /bin/bash -c "grub-install /dev/$(</tmp/hdd_name)"
+fi
+
+arch-chroot /mnt /bin/bash -c "grub-mkconfig -o /boot/grub/grub.cfg"
+#===============================================================================
 
 
 exit
