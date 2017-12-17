@@ -25,6 +25,8 @@ dialog \
 
 awk -F"-> ../../" '{ if ~~ /$(</tmp/hdd_by_id)/ print $2}' < /tmp/hdd_by_id > /tmp/hdd_name
 
+cat /tmp/hdlist
+cat /tmp/hdd_by_id
 cat /tmp/hdd_name
 
 exit
