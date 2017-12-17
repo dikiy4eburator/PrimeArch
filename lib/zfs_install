@@ -89,7 +89,8 @@ zfs create -o mountpoint=/var zroot/ARCH/var
 zpool export zroot
 
 mkdir /mnt/boot
-mount /dev/$BOOT_HD /mnt/boot/
+mkdir /mnt/boot/efi
+mount /dev/$BOOT_HD /mnt/boot/efi
 
 
 zpool import -R /mnt zroot
