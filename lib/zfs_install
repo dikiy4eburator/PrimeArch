@@ -20,7 +20,7 @@ dialog \
   $(ls /dev/disk/by-id/ | awk 'NR>=2{ print $1 " " ++s }') \
 2>/tmp/hdd_name
 
-exit
+
 sgdisk -Z /dev/$(</tmp/hdd_name)
 sgdisk -g /dev/$(</tmp/hdd_name)
 sgdisk -o /dev/$(</tmp/hdd_name)
