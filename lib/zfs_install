@@ -23,7 +23,7 @@ dialog \
   $(awk 'NR>=2{ print $9" "$11" " "off"}' < /tmp/hdlist) \
 2>/tmp/hdd_by_id
 
-readlink /dev/disk/by-id/$(awk ’{print $1}’ < /tmp/hdd_by_id) | awk -F"../../" '{print $2}' > /tmp/hdd_name
+readlink /dev/disk/by-id/$( < /tmp/hdd_by_id) | awk -F"../../" '{print $2}' > /tmp/hdd_name
 
 
 clear
