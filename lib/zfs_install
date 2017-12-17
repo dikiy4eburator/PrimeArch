@@ -102,7 +102,7 @@ mount /dev/$BOOT_HD /mnt/boot/efi
 
 # Install base pacages
 #===============================================================================
-pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dir/lib/pakages/pakages_base)
+pacstrap /mnt base base-devel linux-headers grub os-prober efibootmgr acpid dbus fish vim cronie xdg-user-dirs ranger dkms
 #===============================================================================
 
 read -p "Press enter to continue"
