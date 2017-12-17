@@ -23,7 +23,13 @@ dialog \
   $(awk 'NR>=2{ print $9" "$11" " "off"}' < /tmp/hdlist) \
 2>/tmp/hdd_by_id
 
-awk -v xx=$(</tmp/hdd_by_id) '{ if($9 ~ xx) print $11 }' < /tmp/hdlist > /tmp/hdd_name
+while read -r line
+do
+    readlink /dev/disk/by-id/$(</tmp/hdd_by_id) | awk -F"../../" '{print $2}' >> /tmp/hdd_name
+done < /tmp/hdd_by_id
+
+
+clear
 
 cat /tmp/hdlist
 cat /tmp/hdd_by_id
