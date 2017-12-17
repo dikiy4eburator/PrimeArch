@@ -4,7 +4,7 @@ function f_zfs() {
 
   if [[ -d "/sys/firmware/efi/efivars" ]];
     then
-      #break
+      break
       echo "UEFI OK"
     else
       echo "NO UEFI MOD !!!"
@@ -26,7 +26,7 @@ dialog \
 
 
 rm /tmp/hdd_name
-
+# generate harddrive name from id
 while read line
  do
    readlink /dev/disk/by-id/$line | awk -F"../../" '{print $2}' >> /tmp/hdd_name
@@ -44,12 +44,44 @@ done < /tmp/hdd_name
 while read line
  do
    sgdisk -n 1:0:+256M -c 1:"EFI" -t 1:ef00 /dev/$line
-   sgdisk -n 2:0:0 -c 2:"ROOT" -t 2:eb00 /dev/$line
+   sgdisk -n 2:0:0 -c 2:"ROOT" -t 2:bf00 /dev/$line
 done < /tmp/hdd_name
 
-# create zpool
-zpool create -f -o ashift=12 -O atime=off -O canmount=off -O compression=lz4 -O normalization=formD zpool $(</tmp/hdd_name)
+
+
+# Generate HDD Patern and format boot partition
+function f_sata() {
+	BOOT_HD=$1"1"
+  mkfs.fat -F32 /dev/$BOOT_HD
+}
+
+
+function f_nvme() {
+	BOOT_HD=$1"p1"
+  mkfs.fat -F32 /dev/$BOOT_HD
+}
+
+
+while read line
+ do
+  case $line in
+    nvme*)
+      f_nvme $line ;;
+    sd*)
+      f_sata $line ;;
+  esac
+done < /tmp/hdd_name
+
+
 
 exit
+
+
+# create zpool
+zpool create -f -o ashift=12 -O atime=off -O canmount=off -O compression=lz4 -O normalization=formD zroot raidz $(</tmp/hdd_by_id)
+
+
+
+
 
 }
