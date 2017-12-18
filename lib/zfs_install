@@ -236,7 +236,7 @@ esac
 
 # f_install_cosmetiks
 
-arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) yaourt -S --noconfirm spl-dkms zfs-dkms"
+arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) yaourt -S --noconfirm zfs-dkms-git"
 
 
 
