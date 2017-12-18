@@ -3,7 +3,7 @@
 base
 base-devel
 linux-headers
-#grub
+grub
 os-prober
 efibootmgr
 acpid
@@ -19,16 +19,15 @@ dkms
 
 # Basis DE pakete
 # ----------------------------------
-#udiskie
-#lightdm
-#lightdm-gtk-greeter
+udiskie
+lightdm
 git
-#atom
+atom
 htop
 conky
 gparted
 cool-retro-term
-#chromium
+chromium
 hunspell-de
 
 # Basis Network pakete
@@ -64,12 +63,12 @@ mpv
 
 # Basis Cosmetics pakete
 # ----------------------------------
-#arc-gtk-theme
-#arc-icon-theme
-#archlinux-wallpaper
-#noto-fonts
-#awesome-terminal-fonts
-#ttf-ubuntu-font-family
-#virtualbox
-#virtualbox-host-dkms
-#virtualbox-guest-iso
+arc-gtk-theme
+arc-icon-theme
+archlinux-wallpaper
+noto-fonts
+awesome-terminal-fonts
+ttf-ubuntu-font-family
+virtualbox
+virtualbox-host-dkms
+virtualbox-guest-iso
