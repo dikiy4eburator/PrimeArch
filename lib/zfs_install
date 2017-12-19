@@ -28,6 +28,7 @@ dialog \
 
 rm /tmp/hdd_name
 # generate harddrive name from id
+# ------------------------------------------------------------------------------
 while read line
  do
    readlink /dev/disk/by-id/$line | awk -F"../../" '{print $2}' >> /tmp/hdd_name
@@ -47,10 +48,12 @@ while read line
    sgdisk -n 1:0:+256M -c 1:"EFI" -t 1:ef00 /dev/$line
    sgdisk -n 2:0:0 -c 2:"ROOT" -t 2:bf00 /dev/$line
 done < /tmp/hdd_name
+# ------------------------------------------------------------------------------
 
 
 
 # Generate HDD Patern and format boot partition
+# ------------------------------------------------------------------------------
 function f_sata() {
 	BOOT_HD=$1"1"
   mkfs.fat -F32 /dev/$BOOT_HD
@@ -72,16 +75,14 @@ while read line
       f_sata $line ;;
   esac
 done < /tmp/hdd_name
-
+# ------------------------------------------------------------------------------
 
 awk '{print $1"-part2"}' < /tmp/hdd_by_id > /tmp/part_by_id
 #===============================================================================
 
 
 
-
-
-# create zpool
+# Setup zpool and datasets
 #===============================================================================
 zpool create -f -O canmount=off zroot raidz $(</tmp/part_by_id)
 
@@ -89,16 +90,20 @@ zfs create -o canmount=off -o mountpoint=none zroot/ARCH
 zfs create -o mountpoint=/ zroot/ARCH/root
 zfs create -o setuid=off -o mountpoint=/home zroot/home
 zfs create -o mountpoint=/tmp zroot/ARCH/tmp
-#zfs create -o mountpoint=/var zroot/ARCH/var
-zpool set bootfs=zroot/ARCH/root zroot
+zfs create -o mountpoint=/var zroot/ARCH/var
 
+zpool set bootfs=zroot/ARCH/root zroot
 zpool export zroot
+
+# MOUNT POOL and BOOT
+# ------------------------------------------------------------------------------
 zpool import -R /mnt zroot
 
 mkdir /mnt/boot
 mount /dev/$BOOT_HD /mnt/boot
-#===============================================================================
+# ------------------------------------------------------------------------------
 
+#===============================================================================
 
 
 
@@ -109,13 +114,10 @@ pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dir/lib/pakages/pakages
 
 
 
-
 # Generate fstab
 #===============================================================================
 genfstab -U -p /mnt > /mnt/etc/fstab
 #===============================================================================
-
-
 
 
 
@@ -138,8 +140,6 @@ arch-chroot /mnt /bin/bash -c locale-gen
 
 
 
-
-
 # Set hostname
 #===============================================================================
 dialog \
@@ -149,8 +149,6 @@ dialog \
 --inputbox 'Enter the Hostnamen' 8 $BoxWhith \
 2>/mnt/etc/hostname
 #===============================================================================
-
-
 
 
 
@@ -172,14 +170,10 @@ fi
 
 
 
-
-
 # CREATE NEW USER
 #===============================================================================
 f_create_new_user
 #===============================================================================
-
-
 
 
 
@@ -191,16 +185,12 @@ mv -f $working_dir/lib/lightdm-config/lightdm.conf /mnt/etc/lightdm/lightdm.conf
 
 
 
-
-
 # INSTALL yaourt
 #===============================================================================
 mv $working_dir/lib/Addons /mnt/home/$(</tmp/user_name)/Addons
 arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_name)/Addons"
 rm /mnt/home/$(</tmp/user_name)/Addons
 #===============================================================================
-
-
 
 
 
@@ -234,13 +224,6 @@ case $(</tmp/desktop) in
 	0 )
 		 ;;
 esac
-#===============================================================================
-
-
-
-# INSTALL YAOURT COAMETICS
-#===============================================================================
-f_install_cosmetiks
 #===============================================================================
 
 
@@ -279,6 +262,13 @@ esac
 
 
 
+# INSTALL YAOURT COAMETICS
+#===============================================================================
+f_install_cosmetiks
+#===============================================================================
+
+
+
 # FIX USER HOME OWNERSHIP
 #===============================================================================
 arch-chroot /mnt /bin/bash -c "chown -R $(</tmp/user_name):users /home/$(</tmp/user_name)"
@@ -286,10 +276,17 @@ arch-chroot /mnt /bin/bash -c "chmod -R 0700 /home/$(</tmp/user_name)"
 #===============================================================================
 
 
+# mkinitcpio
+#===============================================================================
+mv -f $working_dir/lib/zfs/mkinitcpio.conf /mnt/etc/mkinitcpio.conf
+arch-chroot /mnt /bin/bash -c "mkinitcpio -p linux"
+#===============================================================================
+
+
 
 # install_zfs
 #===============================================================================
-arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) yaourt -S --noconfirm zfs-dkms"
+arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) yaourt -S --noconfirm zfs-linux"
 #===============================================================================
 
 
@@ -298,13 +295,6 @@ arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) yaourt -S --noconfirm 
 #===============================================================================
 zpool set cachefile=/etc/zfs/zpool.cache zroot
 cp /etc/zfs/zpool.cahe /mnt/etc/zfs/
-#===============================================================================
-
-
-# mkinitcpio
-#===============================================================================
-mv -f $working_dir/lib/zfs/mkinitcpio.conf /mnt/etc/mkinitcpio.conf
-arch-chroot /mnt /bin/bash -c "mkinitcpio -p linux"
 #===============================================================================
 
 
@@ -354,7 +344,7 @@ echo "options        zfs=zroot/ARCH/root rw" >> /mnt/boot/loader/entries/arch.co
 
 #===============================================================================
 
-
+exit
 
 ##EXIT SCREAN
 #===============================================================================
