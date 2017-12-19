@@ -87,7 +87,7 @@ zfs create -o mountpoint=/ zroot/ARCH/root
 zfs create -o setuid=off -o mountpoint=/home zroot/home
 zfs create -o mountpoint=/tmp zroot/ARCH/tmp
 #zfs create -o mountpoint=/var zroot/ARCH/var
-zpool set bootfs=zroot/ARCH/root
+zpool set bootfs=zroot/ARCH/root zroot
 
 zpool export zroot
 zpool import -R /mnt zroot
