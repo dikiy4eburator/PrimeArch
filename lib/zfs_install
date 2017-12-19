@@ -290,6 +290,7 @@ arch-chroot /mnt /bin/bash -c "chmod -R 0700 /home/$(</tmp/user_name)"
 
 zpool set cachefile=/etc/zfs/zpool.cache zroot
 cp /etc/zfs/zpool.cahe /mnt/etc/zfs/
+arch-chroot /mnt /bin/bash -c "mkinitcpio -p linux"
 
 # START DAEMONS
 #===============================================================================
@@ -335,13 +336,14 @@ echo "options        zfs=zroot/ARCH/root rw" >> /mnt/boot/loader/entries/arch.co
 
 arch-chroot /mnt
 
-#umount -R /mnt
+umount -R /mnt
 # zfs set canmount=noauto zroot/ARCH/root
-#zfs umount -a
-#zpool export zroot
+zfs umount -a
+zpool export zroot
 
-
-#read -p "Press enter to continue"
+clear
+echo "alles vertig"
+read -p "Press enter to continue"
 
 exit
 
