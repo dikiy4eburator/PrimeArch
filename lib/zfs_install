@@ -276,13 +276,6 @@ arch-chroot /mnt /bin/bash -c "chmod -R 0700 /home/$(</tmp/user_name)"
 #===============================================================================
 
 
-# mkinitcpio
-#===============================================================================
-mv -f $working_dir/lib/zfs/mkinitcpio.conf /mnt/etc/mkinitcpio.conf
-arch-chroot /mnt /bin/bash -c "mkinitcpio -p linux"
-#===============================================================================
-
-
 
 # install_zfs
 #===============================================================================
@@ -295,6 +288,13 @@ arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) yaourt -S --noconfirm 
 #===============================================================================
 zpool set cachefile=/etc/zfs/zpool.cache zroot
 cp /etc/zfs/zpool.cahe /mnt/etc/zfs/
+#===============================================================================
+
+
+# mkinitcpio
+#===============================================================================
+mv -f $working_dir/lib/zfs/mkinitcpio.conf /mnt/etc/mkinitcpio.conf
+arch-chroot /mnt /bin/bash -c "mkinitcpio -p linux"
 #===============================================================================
 
 
@@ -365,21 +365,23 @@ case $(</tmp/exit) in
     # zfs set canmount=noauto zroot/ARCH/root
     zfs umount -a
     zpool export zroot
-    reboot ;;
+    reboot
+    exit ;;
 
 	2 )
     umount -R /mnt
     # zfs set canmount=noauto zroot/ARCH/root
     zfs umount -a
     zpool export zroot
-		poweroff ;;
+		poweroff
+    exit ;;
 
 	3 )
-		arch-chroot /mnt ;;
+		arch-chroot /mnt
+    exit ;;
 
 	4 )
 		exit ;;
 esac
 #===============================================================================
-
 }
