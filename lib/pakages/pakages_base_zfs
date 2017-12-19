@@ -3,8 +3,6 @@
 base
 base-devel
 linux-headers
-grub
-os-prober
 efibootmgr
 acpid
 dbus
@@ -22,7 +20,6 @@ dkms
 udiskie
 lightdm
 git
-atom
 htop
 conky
 gparted
@@ -54,21 +51,22 @@ audacious
 # ----------------------------------
 xorg-server
 xorg-xinit
-# ffmpeg
-# vlc
-# mpv
+ffmpeg
+vlc
+mpv
 
 # Basis Cosmetics pakete
 # ----------------------------------
+archlinux-wallpaper
+noto-fonts
+awesome-terminal-fonts
+ttf-ubuntu-font-family
 # arc-gtk-theme
 # arc-icon-theme
-# archlinux-wallpaper
-# noto-fonts
-# awesome-terminal-fonts
-# ttf-ubuntu-font-family
 # virtualbox
 # virtualbox-host-dkms
 # virtualbox-guest-iso
 # cool-retro-term
 # chromium
 # hunspell-de
+# atom
