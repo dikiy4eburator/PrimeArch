@@ -87,6 +87,7 @@ zfs create -o mountpoint=/ zroot/ARCH/root
 zfs create -o setuid=off -o mountpoint=/home zroot/home
 zfs create -o mountpoint=/tmp zroot/ARCH/tmp
 #zfs create -o mountpoint=/var zroot/ARCH/var
+zpool set bootfs=zroot/ARCH/root
 
 zpool export zroot
 zpool import -R /mnt zroot
@@ -100,7 +101,7 @@ mount /dev/$BOOT_HD /mnt/boot
 
 # Install base pacages
 #===============================================================================
-pacstrap /mnt base base-devel linux-headers fish dkms
+pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dir/lib/pakages/pakages_base)
 #===============================================================================
 
 
@@ -326,13 +327,16 @@ echo "options        zfs=zroot/ARCH/root rw" >> /mnt/boot/loader/entries/arch.co
 
 #===============================================================================
 
-umount -R /mnt
+
+arch-chroot /mnt
+
+#umount -R /mnt
 # zfs set canmount=noauto zroot/ARCH/root
-zfs umount -a
-zpool export zroot
+#zfs umount -a
+#zpool export zroot
 
 
-read -p "Press enter to continue"
+#read -p "Press enter to continue"
 
 exit
 
