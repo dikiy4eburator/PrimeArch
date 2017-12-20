@@ -125,7 +125,7 @@ mount /dev/$BOOT_HD /mnt/boot
 
 #===============================================================================
 
-read "press enter"
+
 
 # Install base pacages
 #===============================================================================
@@ -214,7 +214,7 @@ arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_
 rm /mnt/home/$(</tmp/user_name)/Addons
 #===============================================================================
 
-
+read -p "Press enter to continue"
 
 # Desktop installation
 #===============================================================================
