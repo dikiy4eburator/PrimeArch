@@ -346,42 +346,11 @@ echo "options        zfs=zroot/ARCH/root rw" >> /mnt/boot/loader/entries/arch.co
 
 
 
-##EXIT SCREAN
-#===============================================================================
-dialog \
---backtitle 'PrimeArch Installer' \
---title 'Installation Finished' \
---begin $BoxStartY $BoxStartX \
---menu "" 9 $BoxWhith 3 \
-	1 Rebooten \
-	2 Ausschalten \
-	3 Chroot \
-	4 "Back to Shell"
-	2>/tmp/exit
+umount -R /mnt
+# zfs set canmount=noauto zroot/ARCH/root
+zfs umount -a
+zpool export zroot
 
-case $(</tmp/exit) in
-	1 )
-    umount -R /mnt
-    # zfs set canmount=noauto zroot/ARCH/root
-    zfs umount -a
-    zpool export zroot
-    reboot
-    exit ;;
+exit
 
-	2 )
-    umount -R /mnt
-    # zfs set canmount=noauto zroot/ARCH/root
-    zfs umount -a
-    zpool export zroot
-		poweroff
-    exit ;;
-
-	3 )
-		arch-chroot /mnt
-    exit ;;
-
-	4 )
-		exit ;;
-esac
-#===============================================================================
 }

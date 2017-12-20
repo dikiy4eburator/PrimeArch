@@ -77,7 +77,7 @@ dialog \
 --menu "How do you want to partition you harddrive" 12 $BoxWhith 3 \
 	1 Automatic \
 	2 Manual \
-	3 "ZFS (UEFI only !!! | do not use !!!)" \
+	3 "ZFS (UEFI only !!! | in beta !!!)" \
 	2>/tmp/partitionierung
 
 case $(</tmp/partitionierung) in
@@ -86,7 +86,8 @@ case $(</tmp/partitionierung) in
 	2 )
 		f_man_part ;;
 	3 )
-		f_zfs ;;
+		f_zfs
+		exit ;;
 esac
 
 #===============================================================================
