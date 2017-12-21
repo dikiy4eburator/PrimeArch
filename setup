@@ -181,9 +181,9 @@ mv -f $working_dir/lib/lightdm-config/lightdm.conf /mnt/etc/lightdm/lightdm.conf
 
 # INSTALL COSMETIC ADONS
 #===============================================================================
-mv $working_dir/lib/Addons /mnt/home/$(</tmp/user_name)/Addons
-arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_name)/Addons"
-rm /mnt/home/$(</tmp/user_name)/Addons
+mv $working_dir/lib/yaourt.sh /mnt/home/$(</tmp/user_name)/yaourt.sh
+arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_name)/yaourt.sh"
+rm /mnt/home/$(</tmp/user_name)/yaourt.sh
 #===============================================================================
 
 

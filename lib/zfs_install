@@ -158,16 +158,18 @@ esac
 arch-chroot /mnt /bin/bash -c locale-gen
 #===============================================================================
 
-
+read -p "Press enter to continue"
 
 # Set hostname
 #===============================================================================
-dialog \
---backtitle 'PrimeArch Installer' \
---begin $BoxStartY $BoxStartX \
---title 'Hostname' \
---inputbox 'Enter the Hostnamen' 8 $BoxWhith \
-2>/mnt/etc/hostname
+# dialog \
+# --backtitle 'PrimeArch Installer' \
+# --begin $BoxStartY $BoxStartX \
+# --title 'Hostname' \
+# --inputbox 'Enter the Hostnamen' 8 $BoxWhith \
+# 2>/mnt/etc/hostname
+
+echo zfs_arch > /mnt/etc/hostname
 #===============================================================================
 
 
@@ -214,7 +216,7 @@ mv -f $working_dir/lib/zfs/mkinitcpio.conf /mnt/etc/mkinitcpio.conf
 mv -f $working_dir/lib/zfs/journald.conf /mnt/etc/systemd/journald.conf
 #===============================================================================
 
-read -p "Press enter to continue"
+
 
 # Desktop installation
 #===============================================================================
