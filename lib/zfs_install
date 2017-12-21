@@ -365,8 +365,8 @@ echo "options        zfs=zroot/root rw" >> /mnt/boot/loader/entries/arch.conf
 
 # SET CACHE FILE
 #===============================================================================
-zpool snap zroot/root@root_virgina
-zpool snap zroot/home@home_virgina
+zfs snap zroot/root@root_virgina
+zfs snap zroot/home@home_virgina
 
 zpool set cachefile=/etc/zfs/zpool.cache zroot
 mv -f -v /etc/zfs/zpool.cahe /mnt/etc/zfs/zpool.cahe
