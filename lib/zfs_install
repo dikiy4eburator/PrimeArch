@@ -197,8 +197,6 @@ f_create_new_user
 
 
 
-git clone https://aur.archlinux.org/package-query.git /mnt/tmp/package-query
-git clone https://aur.archlinux.org/yaourt.git /mnt/tmp/yaourt
 
 
 #arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) /tmp/package-query/makepkg --noconfirm -si"
