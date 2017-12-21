@@ -5,7 +5,6 @@
 ###############################################################################
 
 function f_install_i3() {
-
   pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dir/lib/pakages/pakages_i3)
 
   # clone i3 config
@@ -28,6 +27,15 @@ function f_install_xfce() {
 
 
 
+function f_install_mate() {
+  pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dir/lib/pakages/pakages_mate)
+
+  # copy APP configs
+  cp -r -v $working_dir/lib/configs/mate/* /mnt/home/$(</tmp/user_name)/.config/
+}
+
+
+
 function f_install_plasma() {
   pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dir/lib/pakages/pakages_plasma)
 }
@@ -36,16 +44,6 @@ function f_install_plasma() {
 
 function f_install_gnome() {
   pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dir/lib/pakages/pakages_gnome)
-}
-
-
-
-
-function f_install_mate() {
-  pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dir/lib/pakages/pakages_mate)
-
-  # copy APP configs
-  cp -r -v $working_dir/lib/configs/mate/* /mnt/home/$(</tmp/user_name)/.config/
 }
 
 

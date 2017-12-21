@@ -82,22 +82,14 @@ awk '{print $1"-part2"}' < /tmp/hdd_by_id > /tmp/part_by_id
 
 
 
-# zroot struckture
+# zpool struckture
 #===============================================================================
-#   ZPool
+#   ZPool = zroot
 #     |-root
 #     |-home
 #     |-var
 #     |-tmp
 
-#===============================================================================
-#   mount order
-
-#     zroot/root
-#       |-boot
-#       |-zroot/home
-#       |-zroot/var
-#       |-zroot/tmp
 #===============================================================================
 
 
@@ -121,8 +113,6 @@ zpool import -R /mnt zroot
 
 mkdir /mnt/boot
 mount /dev/$BOOT_HD /mnt/boot
-# ------------------------------------------------------------------------------
-
 #===============================================================================
 
 
@@ -144,10 +134,10 @@ genfstab -U -p /mnt > /mnt/etc/fstab
 # COPY system config FILES
 #===============================================================================
 # LightDm Conf
-mv -f -v $working_dir/lib/lightdm-config/lightdm.conf /mnt/etc/lightdm/lightdm.conf
-mv -f -v $working_dir/lib/zfs/mkinitcpio.conf /mnt/etc/mkinitcpio.conf
-mv -f -v $working_dir/lib/zfs/pacman.conf /mnt/etc/pacman.conf
-mv -f -v $working_dir/lib/zfs/journald.conf /mnt/etc/systemd/journald.conf
+mv -f -v $working_dir/lib/configs/lightdm-config/lightdm.conf /mnt/etc/lightdm/lightdm.conf
+mv -f -v $working_dir/lib/configs/zfs/mkinitcpio.conf /mnt/etc/mkinitcpio.conf
+mv -f -v $working_dir/lib/configs/zfs/pacman.conf /mnt/etc/pacman.conf
+mv -f -v $working_dir/lib/configs/zfs/journald.conf /mnt/etc/systemd/journald.conf
 #===============================================================================
 
 
@@ -186,14 +176,12 @@ arch-chroot /mnt /bin/bash -c locale-gen
 
 # Set hostname
 #===============================================================================
-# dialog \
-# --backtitle 'PrimeArch Installer' \
-# --begin $BoxStartY $BoxStartX \
-# --title 'Hostname' \
-# --inputbox 'Enter the Hostnamen' 8 $BoxWhith \
-# 2>/mnt/etc/hostname
-
-echo zfs_arch > /mnt/etc/hostname
+dialog \
+--backtitle 'PrimeArch Installer' \
+--begin $BoxStartY $BoxStartX \
+--title 'Hostname' \
+--inputbox 'Enter the Hostnamen' 8 $BoxWhith \
+2>/mnt/etc/hostname
 #===============================================================================
 
 
