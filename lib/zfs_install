@@ -106,7 +106,7 @@ awk '{print $1"-part2"}' < /tmp/hdd_by_id > /tmp/part_by_id
 #===============================================================================
 zpool create -f -o ashift=12 -O atime=off -O compression=lz4 -O normalization=formD -O canmount=off zroot raidz $(</tmp/part_by_id)
 
-zfs create -o canmount=off -o mountpoint=none zroot
+# zfs create -o canmount=off -o mountpoint=none zroot
 zfs create -o mountpoint=/ zroot/root
 zfs create -o setuid=off -o mountpoint=/home zroot/home
 zfs create -o mountpoint=/tmp zroot/tmp
@@ -211,9 +211,9 @@ arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_
 # COPY system config FILES
 #===============================================================================
 # LightDm Conf
-mv -f $working_dir/lib/lightdm-config/lightdm.conf /mnt/etc/lightdm/lightdm.conf
-mv -f $working_dir/lib/zfs/mkinitcpio.conf /mnt/etc/mkinitcpio.conf
-mv -f $working_dir/lib/zfs/journald.conf /mnt/etc/systemd/journald.conf
+mv -f -v $working_dir/lib/lightdm-config/lightdm.conf /mnt/etc/lightdm/lightdm.conf
+mv -f -v $working_dir/lib/zfs/mkinitcpio.conf /mnt/etc/mkinitcpio.conf
+mv -f -v $working_dir/lib/zfs/journald.conf /mnt/etc/systemd/journald.conf
 #===============================================================================
 
 
@@ -308,13 +308,6 @@ arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) yaourt -S --noconfirm 
 
 
 
-# SET CACHE FILE
-#===============================================================================
-zpool set cachefile=/etc/zfs/zpool.cache zroot
-cp /etc/zfs/zpool.cahe /mnt/etc/zfs/
-#===============================================================================
-
-
 # mkinitcpio
 #===============================================================================
 
@@ -370,10 +363,16 @@ echo "options        zfs=zroot/root rw" >> /mnt/boot/loader/entries/arch.conf
 
 
 
+# SET CACHE FILE
+#===============================================================================
+zpool set cachefile=/etc/zfs/zpool.cache zroot
+mv -f -v /etc/zfs/zpool.cahe /mnt/etc/zfs/zpool.cahe
+
 umount -R /mnt
 # zfs set canmount=noauto zroot/ARCH/root
 zfs umount -a
 zpool export zroot
+#===============================================================================
 
 exit
 
