@@ -213,7 +213,18 @@ rm /mnt/home/$(</tmp/user_name)/yaourt.sh
 # LightDm Conf
 mv -f -v $working_dir/lib/lightdm-config/lightdm.conf /mnt/etc/lightdm/lightdm.conf
 mv -f -v $working_dir/lib/zfs/mkinitcpio.conf /mnt/etc/mkinitcpio.conf
+mv -f -v $working_dir/lib/zfs/pacman.conf /mnt/etc/pacman.conf
 mv -f -v $working_dir/lib/zfs/journald.conf /mnt/etc/systemd/journald.conf
+#===============================================================================
+
+
+
+# install_zfs
+#===============================================================================
+arch-chroot /mnt /bin/bash -c "pacman-key -r 5E1ABF240EE7A126"
+arch-chroot /mnt /bin/bash -c "pacman-key --lsign-key 5E1ABF240EE7A126"
+arch-chroot /mnt /bin/bash -c "pacman -Syy"
+arch-chroot /mnt /bin/bash -c "pacman -S zfs-dkms-git"
 #===============================================================================
 
 
@@ -303,7 +314,7 @@ arch-chroot /mnt /bin/bash -c "chmod -R 0700 /home/$(</tmp/user_name)"
 
 # install_zfs
 #===============================================================================
-arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) yaourt -S --noconfirm zfs-dkms-git"
+# arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) yaourt -S --noconfirm zfs-dkms-git"
 #===============================================================================
 
 
