@@ -157,7 +157,7 @@ mv -f -v $working_dir/lib/zfs/journald.conf /mnt/etc/systemd/journald.conf
 arch-chroot /mnt /bin/bash -c "pacman-key -r 5E1ABF240EE7A126"
 arch-chroot /mnt /bin/bash -c "pacman-key --lsign-key 5E1ABF240EE7A126"
 arch-chroot /mnt /bin/bash -c "pacman -Syy"
-arch-chroot /mnt /bin/bash -c "pacman -S zfs-dkms"
+arch-chroot /mnt /bin/bash -c "pacman -S zfs-dkms-git"
 arch-chroot /mnt /bin/bash -c "mkinitcpio -p linux"
 #===============================================================================
 
@@ -223,9 +223,9 @@ f_create_new_user
 
 # INSTALL yaourt
 #===============================================================================
-mv $working_dir/lib/yaourt.sh /mnt/home/$(</tmp/user_name)/yaourt.sh
-arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_name)/yaourt.sh"
-rm /mnt/home/$(</tmp/user_name)/yaourt.sh
+# mv $working_dir/lib/yaourt.sh /mnt/home/$(</tmp/user_name)/yaourt.sh
+# arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_name)/yaourt.sh"
+# rm /mnt/home/$(</tmp/user_name)/yaourt.sh
 #===============================================================================
 
 
@@ -300,7 +300,7 @@ esac
 
 # INSTALL YAOURT COAMETICS
 #===============================================================================
-f_install_cosmetiks
+# f_install_cosmetiks
 #===============================================================================
 
 
