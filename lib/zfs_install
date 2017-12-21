@@ -383,7 +383,7 @@ zpool set cachefile=/etc/zfs/zpool.cache zroot
 mv -f -v /etc/zfs/zpool.cahe /mnt/etc/zfs/zpool.cahe
 
 umount -R /mnt
-# zfs set canmount=noauto zroot/ARCH/root
+# zfs set canmount=noauto zroot/root
 zfs umount -a
 zpool export zroot
 #===============================================================================
