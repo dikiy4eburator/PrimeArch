@@ -21,6 +21,9 @@ function f_install_i3() {
 
 function f_install_xfce() {
   pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dir/lib/pakages/pakages_xfce4)
+
+  # copy APP configs
+  cp -r -v $working_dir/lib/configs/xfce/* /mnt/home/$(</tmp/user_name)/.config/
 }
 
 
