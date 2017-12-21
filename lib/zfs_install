@@ -203,7 +203,7 @@ f_create_new_user
 #===============================================================================
 mv $working_dir/lib/yaourt.sh /mnt/home/$(</tmp/user_name)/yaourt.sh
 arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_name)/yaourt.sh"
-# rm /mnt/home/$(</tmp/user_name)/yaourt.sh
+rm /mnt/home/$(</tmp/user_name)/yaourt.sh
 #===============================================================================
 
 
