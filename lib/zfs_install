@@ -157,8 +157,10 @@ mv -f -v $working_dir/lib/zfs/journald.conf /mnt/etc/systemd/journald.conf
 arch-chroot /mnt /bin/bash -c "pacman-key -r 5E1ABF240EE7A126"
 arch-chroot /mnt /bin/bash -c "pacman-key --lsign-key 5E1ABF240EE7A126"
 arch-chroot /mnt /bin/bash -c "pacman -Syy"
-arch-chroot /mnt /bin/bash -c "pacman -S spl-dkms-git"
-arch-chroot /mnt /bin/bash -c "pacman -S zfs-dkms-git"
+arch-chroot /mnt /bin/bash -c "pacman -S linux-lts linux-lts-headers"
+arch-chroot /mnt /bin/bash -c "pacman -R linux linux-headers"
+arch-chroot /mnt /bin/bash -c "pacman -S spl-linux-lts"
+arch-chroot /mnt /bin/bash -c "pacman -S zfs-linux-lts"
 arch-chroot /mnt /bin/bash -c "mkinitcpio -p linux"
 #===============================================================================
 
