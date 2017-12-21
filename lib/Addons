@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Pakage-query instalation
-cd /tmp
-curl -O https://aur.archlinux.org/cgit/aur.git/snapshot/package-query.tar.gz
-tar -xvzf package-query.tar.gz
+#cd /tmp
+#curl -O https://aur.archlinux.org/cgit/aur.git/snapshot/package-query.tar.gz
+#tar -xvzf package-query.tar.gz
 
-curl -O https://aur.archlinux.org/cgit/aur.git/snapshot/yaourt.tar.gz
-tar -xvzf yaourt.tar.gz
+#curl -O https://aur.archlinux.org/cgit/aur.git/snapshot/yaourt.tar.gz
+#tar -xvzf yaourt.tar.gz
 
 cd /tmp/package-query
 makepkg --noconfirm -si
