@@ -93,11 +93,11 @@ awk '{print $1"-part2"}' < /tmp/hdd_by_id > /tmp/part_by_id
 #===============================================================================
 #   mount order
 
-#     root
+#     zroot/root
 #       |-boot
-#       |-home
-#       |-var
-#       |-tmp
+#       |-zroot/home
+#       |-zroot/var
+#       |-zroot/tmp
 #===============================================================================
 
 
@@ -365,6 +365,9 @@ echo "options        zfs=zroot/root rw" >> /mnt/boot/loader/entries/arch.conf
 
 # SET CACHE FILE
 #===============================================================================
+zpool snap zroot/root@root_virgina
+zpool snap zroot/home@home_virgina
+
 zpool set cachefile=/etc/zfs/zpool.cache zroot
 mv -f -v /etc/zfs/zpool.cahe /mnt/etc/zfs/zpool.cahe
 
