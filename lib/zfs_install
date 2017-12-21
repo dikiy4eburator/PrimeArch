@@ -197,18 +197,11 @@ f_create_new_user
 
 
 
-
-
-#arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) /tmp/package-query/makepkg --noconfirm -si"
-#arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) /tmp/yaourt/makepkg --noconfirm -si"
-
-
-
 # INSTALL yaourt
 #===============================================================================
-mv $working_dir/lib/Addons /mnt/home/$(</tmp/user_name)/Addons
-arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_name)/Addons"
-rm /mnt/home/$(</tmp/user_name)/Addons
+mv $working_dir/lib/Addons.sh /mnt/tmp/$(</tmp/user_name)/Addons.sh
+arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /tmp/$(</tmp/user_name)/Addons.sh"
+# rm /mnt/home/$(</tmp/user_name)/Addons
 #===============================================================================
 
 
