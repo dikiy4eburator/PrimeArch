@@ -222,15 +222,6 @@ f_create_new_user
 
 
 
-# INSTALL yaourt
-#===============================================================================
-# mv $working_dir/lib/yaourt.sh /mnt/home/$(</tmp/user_name)/yaourt.sh
-# arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_name)/yaourt.sh"
-# rm /mnt/home/$(</tmp/user_name)/yaourt.sh
-#===============================================================================
-
-
-
 # Desktop installation
 #===============================================================================
 dialog \
@@ -299,6 +290,15 @@ esac
 
 
 
+# INSTALL yaourt
+#===============================================================================
+# mv $working_dir/lib/yaourt.sh /mnt/home/$(</tmp/user_name)/yaourt.sh
+# arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_name)/yaourt.sh"
+# rm /mnt/home/$(</tmp/user_name)/yaourt.sh
+#===============================================================================
+
+
+
 # INSTALL YAOURT COAMETICS
 #===============================================================================
 # f_install_cosmetiks
@@ -310,13 +310,6 @@ esac
 #===============================================================================
 arch-chroot /mnt /bin/bash -c "chown -R $(</tmp/user_name):users /home/$(</tmp/user_name)"
 arch-chroot /mnt /bin/bash -c "chmod -R 0700 /home/$(</tmp/user_name)"
-#===============================================================================
-
-
-
-# install_zfs
-#===============================================================================
-# arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) yaourt -S --noconfirm zfs-dkms-git"
 #===============================================================================
 
 
@@ -374,7 +367,7 @@ zfs snap zroot/root@root_virgina
 zfs snap zroot/home@home_virgina
 
 zpool set cachefile=/etc/zfs/zpool.cache zroot
-mv -f -v /etc/zfs/zpool.cahe /mnt/etc/zfs/zpool.cahe
+cp /etc/zfs/zpool.cahe /mnt/etc/zfs
 
 umount -R /mnt
 # zfs set canmount=noauto zroot/root
