@@ -199,7 +199,7 @@ f_create_new_user
 
 # INSTALL yaourt
 #===============================================================================
-mv $working_dir/lib/Addons.sh /mnt/tmp/$(</tmp/user_name)/Addons.sh
+mv $working_dir/lib/Addons.sh /mnt/tmp/Addons.sh
 arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /tmp/Addons.sh"
 # rm /mnt/home/$(</tmp/user_name)/Addons
 #===============================================================================

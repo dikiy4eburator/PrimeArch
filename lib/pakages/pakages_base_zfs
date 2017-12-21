@@ -29,22 +29,22 @@ openssh
 
 # Basis Audio pakete
 # ----------------------------------
-alsa-tools
-alsa-utils
-pulseaudio
-pulseaudio-alsa
-pavucontrol
-flac
-volumeicon
-audacious
+# alsa-tools
+# alsa-utils
+# pulseaudio
+# pulseaudio-alsa
+# pavucontrol
+# flac
+# volumeicon
+# audacious
 
 # Basis Video pakete
 # ----------------------------------
-xorg-server
-xorg-xinit
-ffmpeg
-vlc
-mpv
+# xorg-server
+# xorg-xinit
+# ffmpeg
+# vlc
+# mpv
 
 # Basis DE pakete
 # ----------------------------------
