@@ -197,21 +197,21 @@ f_create_new_user
 
 
 
+# INSTALL yaourt
+#===============================================================================
+mv $working_dir/lib/Addons /mnt/home/$(</tmp/user_name)/Addons
+arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_name)/Addons"
+rm /mnt/home/$(</tmp/user_name)/Addons
+#===============================================================================
+
+
+
 # COPY system config FILES
 #===============================================================================
 # LightDm Conf
 mv -f $working_dir/lib/lightdm-config/lightdm.conf /mnt/etc/lightdm/lightdm.conf
 mv -f $working_dir/lib/zfs/mkinitcpio.conf /mnt/etc/mkinitcpio.conf
 mv -f $working_dir/lib/zfs/journald.conf /mnt/etc/systemd/journald.conf
-#===============================================================================
-
-
-
-# INSTALL yaourt
-#===============================================================================
-mv $working_dir/lib/Addons /mnt/home/$(</tmp/user_name)/Addons
-arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_name)/Addons"
-rm /mnt/home/$(</tmp/user_name)/Addons
 #===============================================================================
 
 read -p "Press enter to continue"
