@@ -52,18 +52,6 @@ case $(</tmp/language) in
 		3 )
 			loadkeys ru ;;
 esac
-
-
-#===============================================================================
-
-
-
-# Welkom Screan
-#===============================================================================
-dialog \
---backtitle 'PrimeArch Installer' \
---begin $BoxStartY $BoxStartX \
---msgbox '\nLat the fun begin\n' 8 $BoxWhith
 #===============================================================================
 
 
@@ -89,7 +77,6 @@ case $(</tmp/partitionierung) in
 		f_zfs
 		exit ;;
 esac
-
 #===============================================================================
 
 
@@ -322,18 +309,18 @@ dialog \
 
 case $(</tmp/exit) in
 	1 )
-		umount -a
+		umount -R /mnt
 		reboot ;;
 
 	2 )
-		umount -a
+		umount -R /mnt
 		poweroff ;;
 
 	3 )
 		arch-chroot /mnt ;;
 
 	4 )
-		;;
+		exit ;;
 esac
 #===============================================================================
 
