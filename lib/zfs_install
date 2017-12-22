@@ -148,10 +148,10 @@ mv -f -v $working_dir/lib/configs/zfs/journald.conf /mnt/etc/systemd/journald.co
 arch-chroot /mnt /bin/bash -c "pacman-key -r 5E1ABF240EE7A126"
 arch-chroot /mnt /bin/bash -c "pacman-key --lsign-key 5E1ABF240EE7A126"
 arch-chroot /mnt /bin/bash -c "pacman -Syy"
-cp -fvr /root/zfs /mnt/tmp
+cp -fvr /root/zfs /mnt/
 arch-chroot /mnt /bin/bash -c "pacman --noconfirm -R linux linux-headers"
-arch-chroot /mnt /bin/bash -c "pacman --noconfirm -U /var/tmp/zfs/*.tar.gz"
-
+arch-chroot /mnt /bin/bash -c "pacman --noconfirm -U /zfs/*.tar.xz"
+rm -R /mnt/zfs
 
 # arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S linux-lts linux-lts-headers"
 # arch-chroot /mnt /bin/bash -c "pacman --noconfirm -R linux linux-headers"
