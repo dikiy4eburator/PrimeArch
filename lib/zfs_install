@@ -147,10 +147,14 @@ mv -f -v $working_dir/lib/configs/zfs/journald.conf /mnt/etc/systemd/journald.co
 arch-chroot /mnt /bin/bash -c "pacman-key -r 5E1ABF240EE7A126"
 arch-chroot /mnt /bin/bash -c "pacman-key --lsign-key 5E1ABF240EE7A126"
 arch-chroot /mnt /bin/bash -c "pacman -Syy"
-arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S linux-lts linux-lts-headers"
-arch-chroot /mnt /bin/bash -c "pacman --noconfirm -R linux linux-headers"
-arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S spl-linux-lts"
-arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S zfs-linux-lts"
+cp -f /root/zfs/* /mnt/var/cache/pacman/pkg/zfs/
+arch-chroot /mnt /bin/bash -c "pacman --noconfirm -U /var/cache/pacman/pkg/zfs/*.tar.gz"
+
+
+# arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S linux-lts linux-lts-headers"
+# arch-chroot /mnt /bin/bash -c "pacman --noconfirm -R linux linux-headers"
+# arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S spl-linux-lts"
+# arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S zfs-linux-lts"
 #===============================================================================
 
 
@@ -342,8 +346,8 @@ echo "timeout 3" > /mnt/boot/loader/loader.conf
 echo "default arch" >> /mnt/boot/loader/loader.conf
 
 echo "title          PrimeArch ZFS" > /mnt/boot/loader/entries/arch.conf
-echo "linux          /vmlinuz-linux-lts" >> /mnt/boot/loader/entries/arch.conf
-echo "initrd         /initramfs-linux-lts.img" >> /mnt/boot/loader/entries/arch.conf
+echo "linux          /vmlinuz-linux" >> /mnt/boot/loader/entries/arch.conf
+echo "initrd         /initramfs-linux.img" >> /mnt/boot/loader/entries/arch.conf
 echo "options        zfs=zroot/root rw" >> /mnt/boot/loader/entries/arch.conf
 
 #===============================================================================
