@@ -119,7 +119,8 @@ mount /dev/$BOOT_HD /mnt/boot
 
 # Install base pacages
 #===============================================================================
-pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dir/lib/pakages/pakages_base_zfs)
+pacstrap /mnt base base-devel linux-headers
+# pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dir/lib/pakages/pakages_base_zfs)
 #===============================================================================
 
 
@@ -157,7 +158,7 @@ arch-chroot /mnt /bin/bash -c "pacman --noconfirm -U /var/cache/pacman/pkg/zfs/*
 # arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S zfs-linux-lts"
 #===============================================================================
 
-
+read -p "Press enter to continue"
 
 #GENERATE SYSTEM LOCALE
 #===============================================================================
