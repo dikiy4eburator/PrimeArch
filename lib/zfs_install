@@ -26,9 +26,11 @@ dialog \
 2>/tmp/hdd_by_id
 
 
-rm /tmp/hdd_name
+
 # generate harddrive name from id
 # ------------------------------------------------------------------------------
+rm /tmp/hdd_name
+
 while read line
  do
    readlink /dev/disk/by-id/$line | awk -F"../../" '{print $2}' >> /tmp/hdd_name
@@ -89,7 +91,6 @@ awk '{print $1"-part2"}' < /tmp/hdd_by_id > /tmp/part_by_id
 #     |-home
 #     |-var
 #     |-tmp
-
 #===============================================================================
 
 
@@ -99,10 +100,10 @@ awk '{print $1"-part2"}' < /tmp/hdd_by_id > /tmp/part_by_id
 zpool create -f -o ashift=12 -O atime=off -O compression=lz4 -O normalization=formD -O canmount=off zroot raidz $(</tmp/part_by_id)
 
 # zfs create -o canmount=off -o mountpoint=none zroot
-zfs create -o mountpoint=/ zroot/root
-zfs create -o setuid=off -o mountpoint=/home zroot/home
-zfs create -o mountpoint=/tmp zroot/tmp
-zfs create -o mountpoint=/var zroot/var
+zfs create -o mountpoint=/                      zroot/root
+zfs create -o mountpoint=/home -o setuid=off    zroot/home
+zfs create -o mountpoint=/tmp                   zroot/tmp
+zfs create -o mountpoint=/var                   zroot/var
 
 zpool set bootfs=zroot/root zroot
 zpool export zroot
@@ -135,10 +136,10 @@ genfstab -U -p /mnt > /mnt/etc/fstab
 # COPY system config FILES
 #===============================================================================
 # LightDm Conf
-mv -f -v $working_dir/lib/configs/lightdm-config/lightdm.conf /mnt/etc/lightdm/lightdm.conf
-mv -f -v $working_dir/lib/configs/zfs/mkinitcpio.conf /mnt/etc/mkinitcpio.conf
-mv -f -v $working_dir/lib/configs/zfs/pacman.conf /mnt/etc/pacman.conf
-mv -f -v $working_dir/lib/configs/zfs/journald.conf /mnt/etc/systemd/journald.conf
+mv -f -v $working_dir/lib/configs/lightdm-config/lightdm.conf   /mnt/etc/lightdm/lightdm.conf
+mv -f -v $working_dir/lib/configs/zfs/mkinitcpio.conf           /mnt/etc/mkinitcpio.conf
+mv -f -v $working_dir/lib/configs/zfs/pacman.conf               /mnt/etc/pacman.conf
+mv -f -v $working_dir/lib/configs/zfs/journald.conf             /mnt/etc/systemd/journald.conf
 #===============================================================================
 
 
@@ -148,18 +149,14 @@ mv -f -v $working_dir/lib/configs/zfs/journald.conf /mnt/etc/systemd/journald.co
 arch-chroot /mnt /bin/bash -c "pacman-key -r 5E1ABF240EE7A126"
 arch-chroot /mnt /bin/bash -c "pacman-key --lsign-key 5E1ABF240EE7A126"
 arch-chroot /mnt /bin/bash -c "pacman -Syy"
+
 cp -fvr /root/zfs /mnt/
 arch-chroot /mnt /bin/bash -c "pacman --noconfirm -R linux linux-headers"
 arch-chroot /mnt /bin/bash -c "pacman --noconfirm -U /zfs/*.tar.xz"
 rm -R /mnt/zfs
-
-# arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S linux-lts linux-lts-headers"
-# arch-chroot /mnt /bin/bash -c "pacman --noconfirm -R linux linux-headers"
-# arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S spl-linux-lts"
-# arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S zfs-linux-lts"
 #===============================================================================
 
-read -p "Press enter to continue"
+# read -p "Press enter to continue"
 
 #GENERATE SYSTEM LOCALE
 #===============================================================================
@@ -332,12 +329,8 @@ arch-chroot /mnt /bin/bash -c "systemctl enable lightdm.service"
 
 # ZFS
 arch-chroot /mnt /bin/bash -c "systemctl enable zfs.target"
-arch-chroot /mnt /bin/bash -c "systemctl enable zfs-mount.target"
-
 arch-chroot /mnt /bin/bash -c "systemctl enable zfs-mount.service"
 #===============================================================================
-
-
 
 
 
