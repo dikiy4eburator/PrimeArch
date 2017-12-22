@@ -358,7 +358,7 @@ echo "options        zfs=zroot/root rw" >> /mnt/boot/loader/entries/arch.conf
 
 # SET CACHE FILE
 #===============================================================================
-arch-chroot /mnt /bin/bash -c "mkinitcpio -p linux-lts"
+arch-chroot /mnt /bin/bash -c "mkinitcpio -p linux"
 
 zfs snap zroot/root@root_virgina
 zfs snap zroot/home@home_virgina
