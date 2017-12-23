@@ -113,7 +113,10 @@ zpool export zroot
 zpool import -R /mnt zroot
 
 mkdir /mnt/boot
+mkdir /mnt/boot2
+
 mount /dev/$BOOT_HD /mnt/boot
+
 #===============================================================================
 
 
@@ -330,6 +333,8 @@ arch-chroot /mnt /bin/bash -c "systemctl enable lightdm.service"
 # ZFS
 arch-chroot /mnt /bin/bash -c "systemctl enable zfs.target"
 arch-chroot /mnt /bin/bash -c "systemctl enable zfs-mount.service"
+
+arch-chroot /mnt /bin/bash -c "mkinitcpio -p linux"
 #===============================================================================
 
 
@@ -337,6 +342,7 @@ arch-chroot /mnt /bin/bash -c "systemctl enable zfs-mount.service"
 # BOOTCTL INSTALLATION
 #===============================================================================
 arch-chroot /mnt /bin/bash -c "bootctl install"
+
 echo "timeout 3" > /mnt/boot/loader/loader.conf
 echo "default arch" >> /mnt/boot/loader/loader.conf
 
@@ -347,11 +353,17 @@ echo "options        zfs=zroot/root rw" >> /mnt/boot/loader/entries/arch.conf
 
 #===============================================================================
 
-# read -p "Press enter to continue"
+
+
+# CLONE BOOTSECTOR
+#===============================================================================
+# ???
+#===============================================================================
+
+
 
 # SET CACHE FILE
 #===============================================================================
-arch-chroot /mnt /bin/bash -c "mkinitcpio -p linux"
 
 zfs snap zroot/root@root_virgina
 zfs snap zroot/home@home_virgina
@@ -365,5 +377,4 @@ zpool export zroot
 #===============================================================================
 
 exit
-# zfs set canmount=noauto zroot/root
 }
