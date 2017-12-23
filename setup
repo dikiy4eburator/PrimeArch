@@ -65,7 +65,7 @@ dialog \
 --menu "How do you want to partition you harddrive" 12 $BoxWhith 3 \
 	1 Automatic \
 	2 Manual \
-	3 "ZFS ( EFI only !!! )" \
+	3 "ZFS ( EFI only | 2 HDD at least needet)" \
 	2>/tmp/partitionierung
 
 case $(</tmp/partitionierung) in
