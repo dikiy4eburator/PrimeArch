@@ -120,7 +120,7 @@ zpool export zroot
 zpool import -R /mnt zroot
 
 mkdir /mnt/boot
-mkdir /mnt/boot2
+# mkdir /mnt/boot2
 
 mount /dev/$BOOT_HD /mnt/boot
 
