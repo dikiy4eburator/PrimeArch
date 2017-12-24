@@ -74,8 +74,7 @@ case $(</tmp/installation) in
 		f_normal ;;
 
 	2 )
-		f_zfs > /mnt/install_log
-		;;
+		f_zfs ;;
 esac
 #===============================================================================
 
