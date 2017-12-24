@@ -49,29 +49,29 @@ function f_set_user_pw() {
 # ROOT PW DIALOG
 #===============================================================================
 function f_root_pw_dialog() {
-  dialog \
-  --backtitle 'PrimeArch Installer' \
-  --begin $BoxStartY $BoxStartX \
-  --title 'ROOT Password' \
-  --insecure \
-  --passwordbox 'Enter the ROOT Password' 9 $BoxWhith \
-  2>/tmp/root_pw
+	dialog \
+	--backtitle 'PrimeArch Installer' \
+	--begin $BoxStartY $BoxStartX \
+	--title 'ROOT Password' \
+	--insecure \
+	--passwordbox 'Enter the ROOT Password' 9 $BoxWhith \
+	2>/tmp/root_pw
 
-  dialog \
-  --backtitle 'PrimeArch Installer' \
-  --begin $BoxStartY $BoxStartX \
-  --title 'ROOT Password' \
-  --insecure \
-  --passwordbox 'Enter the ROOT Password again' 9 $BoxWhith \
-  2>/tmp/root_pw_2
+	dialog \
+	--backtitle 'PrimeArch Installer' \
+	-begin $BoxStartY $BoxStartX \
+	--title 'ROOT Password' \
+	--insecure \
+	--passwordbox 'Enter the ROOT Password again' 9 $BoxWhith \
+	2>/tmp/root_pw_2
+}
 
-  if [[ $(</tmp/root_pw) == $(</tmp/root_pw_2) ]];
+if [[ $(</tmp/root_pw) == $(</tmp/root_pw_2) ]];
 	then
 		f_set_root_pw
 	else
 		f_root_pw_dialog
-  fi
-}
+fi
 #===============================================================================
 
 
@@ -119,12 +119,12 @@ function f_user_pw_dialog() {
 	--insecure \
 	--passwordbox "\nEnter the Password for $(</tmp/user_name) again" 9 $BoxWhith \
 	2>/tmp/user_pw_2
-
-	if [[ $(</tmp/user_pw) == $(</tmp/user_pw_2) ]];
-		then
-			f_set_user_pw
-		else
-			f_user_pw_dialog
-	fi
 }
+
+if [[ $(</tmp/user_pw) == $(</tmp/user_pw_2) ]];
+	then
+		f_set_user_pw
+	else
+		f_user_pw_dialog
+fi
 #===============================================================================
