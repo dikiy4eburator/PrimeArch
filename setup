@@ -84,6 +84,6 @@ esac
 dialog \
 --backtitle 'PrimeArch Installer' \
 --begin $BoxStartY $BoxStartX \
---info "Setup is DON" 12 $BoxWhith 3 \
+--msgbox "Setup is DON" 12 $BoxWhith 3 \
 
 exit
