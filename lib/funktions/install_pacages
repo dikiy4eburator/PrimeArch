@@ -28,7 +28,8 @@ function f_install_i3() {
 	# copy APP configs
 	cp -r -v $working_dir/lib/configs/i3/* /mnt/home/$(</tmp/user_name)/.config/
 
-	
+	# copy APP configs
+	cp -r -v $working_dir/lib/configs/app_configs/* /mnt/home/$(</tmp/user_name)/.config/
 }
 
 
