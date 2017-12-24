@@ -58,7 +58,7 @@ esac
 #===============================================================================
 
 
-# Partitionierung AUTO MANUEL
+# SELECT INSTALL MODE
 #===============================================================================
 dialog \
 --backtitle 'PrimeArch Installer' \
@@ -74,8 +74,8 @@ case $(</tmp/installation) in
 		f_normal ;;
 
 	2 )
-		f_zfs ;;
-
+		f_zfs > /mnt/install_log
+		;;
 esac
 #===============================================================================
 

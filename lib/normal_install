@@ -239,6 +239,4 @@ function f_normal() {
   arch-chroot /mnt /bin/bash -c "systemctl enable lightdm.service"
   #===============================================================================
 
-
-exit
 }
