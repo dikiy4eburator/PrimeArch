@@ -59,7 +59,7 @@ function f_root_pw_dialog() {
 
 	dialog \
 	--backtitle 'PrimeArch Installer' \
-	-begin $BoxStartY $BoxStartX \
+	--begin $BoxStartY $BoxStartX \
 	--title 'ROOT Password' \
 	--insecure \
 	--passwordbox 'Enter the ROOT Password again' 9 $BoxWhith \
