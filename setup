@@ -77,5 +77,13 @@ case $(</tmp/installation) in
 		f_zfs
 		exit ;;
 esac
+#===============================================================================
+
+
+
+dialog \
+--backtitle 'PrimeArch Installer' \
+--begin $BoxStartY $BoxStartX \
+--info "Setup is DON" 12 $BoxWhith 3 \
 
 exit
