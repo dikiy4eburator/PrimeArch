@@ -230,7 +230,7 @@ function f_normal() {
   arch-chroot /mnt /bin/bash -c "systemctl enable sshd.socket"
 
   # NFS utils
-  # arch-chroot /mnt /bin/bash -c "systemctl enable rpcbind"
+  arch-chroot /mnt /bin/bash -c "systemctl enable rpcbind"
 
   # Cronie
   arch-chroot /mnt /bin/bash -c "systemctl enable cronie.service"
