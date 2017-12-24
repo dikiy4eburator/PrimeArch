@@ -15,14 +15,14 @@ working_dir=$(pwd)
 
 
 # includes
-source $working_dir/lib/user_ops
-source $working_dir/lib/menu_generator
-source $working_dir/lib/auto_partition
-source $working_dir/lib/manual_partition
-source $working_dir/lib/MKSWAP
-source $working_dir/lib/install_pacages
-source $working_dir/lib/time_setup
-source $working_dir/lib/language_install
+source $working_dir/lib/funktions/user_ops
+source $working_dir/lib/funktions/menu_generator
+source $working_dir/lib/funktions/auto_partition
+source $working_dir/lib/funktions/manual_partition
+source $working_dir/lib/funktions/MKSWAP
+source $working_dir/lib/funktions/install_pacages
+source $working_dir/lib/funktions/time_setup
+source $working_dir/lib/funktions/language_install
 
 
 source $working_dir/lib/zfs_install
