@@ -123,8 +123,12 @@ mount /dev/$BOOT_HD /mnt/boot
 
 # Install base pacages
 #===============================================================================
-# pacstrap /mnt base base-devel linux-headers
-pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dir/lib/pakages/pakages_base_zfs)
+f_pacage_install pakages_base_zfs
+f_pacage_install pakages_base_network
+f_pacage_install pakages_base_video
+f_pacage_install pakages_base_audio
+f_pacage_install pakages_base_desktop
+f_pacage_install pakages_base_cosmetik
 #===============================================================================
 
 

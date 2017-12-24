@@ -1,0 +1,7 @@
+# Basis Video pakete
+# ----------------------------------
+xorg-server
+xorg-xinit
+ffmpeg
+vlc
+mpv

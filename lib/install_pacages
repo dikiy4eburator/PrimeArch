@@ -1,11 +1,19 @@
 #!/bin/sh
 
+function f_pacage_install() {
+  # Install base pacages
+  #===============================================================================
+  pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dir/lib/pakages/$1)
+  #===============================================================================
+}
+
+
 ###############################################################################
 ###   Desktops
 ###############################################################################
 
 function f_install_i3() {
-  pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dir/lib/pakages/pakages_i3)
+  f_pacage_install pakages_i3
 
   # clone i3 config
   git clone https://github.com/dikiy4eburator/i3-config.git /mnt/home/$(</tmp/user_name)/.config/i3
@@ -19,7 +27,7 @@ function f_install_i3() {
 
 
 function f_install_xfce() {
-  pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dir/lib/pakages/pakages_xfce4)
+  f_pacage_install pakages_xfce4
 
   # copy APP configs
   cp -r -v $working_dir/lib/configs/xfce/* /mnt/home/$(</tmp/user_name)/.config/
@@ -28,7 +36,7 @@ function f_install_xfce() {
 
 
 function f_install_mate() {
-  pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dir/lib/pakages/pakages_mate)
+  f_pacage_install pakages_mate
 
   # copy APP configs
   cp -r -v $working_dir/lib/configs/mate/* /mnt/home/$(</tmp/user_name)/.config/
@@ -37,13 +45,13 @@ function f_install_mate() {
 
 
 function f_install_plasma() {
-  pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dir/lib/pakages/pakages_plasma)
+  f_pacage_install pakages_plasma
 }
 
 
 
 function f_install_gnome() {
-  pacstrap /mnt $(awk '{ if($1 !~ /#/) print }' < $working_dir/lib/pakages/pakages_gnome)
+  f_pacage_install pakages_gnome
 }
 
 

@@ -1,0 +1,10 @@
+# Basis Audio pakete
+# ----------------------------------
+alsa-tools
+alsa-utils
+pulseaudio
+pulseaudio-alsa
+pavucontrol
+flac
+volumeicon
+audacious
