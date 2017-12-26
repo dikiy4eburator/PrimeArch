@@ -31,19 +31,26 @@ dialog \
 # reset parttable
 while read line
  do
-   sgdisk -Z /dev/disk/by-id/$line
-   sgdisk -g /dev/disk/by-id/$line
-   sgdisk -o /dev/disk/by-id/$line
+	 echo ======================================================
+	 sgdisk -Z /dev/disk/by-id/$line
+	 sgdisk -g /dev/disk/by-id/$line
+	 sgdisk -o /dev/disk/by-id/$line
+
+	 sgdisk -n 1:0:+256M 	-c 1:"EFI" 	-t 1:ef00 /dev/disk/by-id/$line
+	 sgdisk -n 2:0:0 		-c 2:"ROOT" -t 2:bf00 /dev/disk/by-id/$line
+
+	 mkfs.fat -F32 /dev/disk/by-id/$line"-part1"
+
 done < /tmp/hdd_by_id
 
 # Create new parttable
-while read line
- do
-   sgdisk -n 1:0:+256M 	-c 1:"EFI" 	-t 1:ef00 /dev/disk/by-id/$line
-   sgdisk -n 2:0:0 		-c 2:"ROOT" -t 2:bf00 /dev/disk/by-id/$line
+# while read line
+#  do
+#    sgdisk -n 1:0:+256M 	-c 1:"EFI" 	-t 1:ef00 /dev/disk/by-id/$line
+#    sgdisk -n 2:0:0 		-c 2:"ROOT" -t 2:bf00 /dev/disk/by-id/$line
 
-   mkfs.fat -F32 /dev/disk/by-id/$line"-part1"
-done < /tmp/hdd_by_id
+#    mkfs.fat -F32 /dev/disk/by-id/$line"-part1"
+# done < /tmp/hdd_by_id
 # ------------------------------------------------------------------------------
 
 
