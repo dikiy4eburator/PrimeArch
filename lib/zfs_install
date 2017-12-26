@@ -39,9 +39,9 @@ dialog \
 # reset parttable
 while read line
  do
-   sgdisk -Z /dev/$line
-   sgdisk -g /dev/$line
-   sgdisk -o /dev/$line
+   sgdisk -Z /dev/disk/by-id/$line
+   sgdisk -g /dev/disk/by-id/$line
+   sgdisk -o /dev/disk/by-id/$line
 done < /tmp/hdd_by_id
 
 # Create new parttable
