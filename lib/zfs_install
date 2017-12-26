@@ -56,16 +56,16 @@ done < /tmp/hdd_by_id
 
 # Generate HDD Patern and format boot partition
 # ------------------------------------------------------------------------------
-function f_sata() {
-	BOOT_HD=$1"1"
-  mkfs.fat -F32 /dev/$BOOT_HD
-}
+# function f_sata() {
+# 	BOOT_HD=$1"1"
+#   mkfs.fat -F32 /dev/$BOOT_HD
+# }
 
 
-function f_nvme() {
-	BOOT_HD=$1"p1"
-  mkfs.fat -F32 /dev/$BOOT_HD
-}
+# function f_nvme() {
+# 	BOOT_HD=$1"p1"
+#   mkfs.fat -F32 /dev/$BOOT_HD
+# }
 
 
 # while read line
@@ -93,7 +93,8 @@ function f_nvme() {
 #     |-tmp
 #===============================================================================
 
-
+df -Th
+exit
 
 # Setup zpool and datasets
 #===============================================================================
@@ -129,7 +130,7 @@ while read line
 	do
 		if [[ s==0 ]]; then
 			mount /dev/disk/by-id/$line"-part1" /mnt/boot
-			s++
+			((s++))
 		else
 			mount /dev/disk/by-id/$line"-part1" /mnt/boot2
 		fi
