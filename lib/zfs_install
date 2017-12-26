@@ -93,8 +93,7 @@ done < /tmp/hdd_by_id
 #     |-tmp
 #===============================================================================
 
-df -Th
-exit
+
 
 # Setup zpool and datasets
 #===============================================================================
@@ -106,7 +105,7 @@ zpool create -f \
 -O compression=lz4 \
 -O normalization=formD \
 -O canmount=off \
-zroot raidz $(</tmp/part_by_id)
+zroot raidz $(</tmp/hdd_by_id)"-part2"
 
 
 # zfs create -o canmount=off -o mountpoint=none zroot
@@ -137,7 +136,11 @@ while read line
 done < /tmp/hdd_by_id
 #===============================================================================
 
+echo ======================================================
 df -Th
+echo ======================================================
+lsblk
+echo ======================================================
 exit
 
 # Install base pacages
