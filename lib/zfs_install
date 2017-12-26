@@ -27,14 +27,6 @@ dialog \
 
 
 
-# generate harddrive name from id
-# ------------------------------------------------------------------------------
-# rm /tmp/hdd_name
-
-# while read line
-# do
-#    readlink /dev/disk/by-id/$line | awk -F"../../" '{print $2}' >> /tmp/hdd_name
-# done < /tmp/hdd_by_id
 
 # reset parttable
 while read line
@@ -54,36 +46,6 @@ done < /tmp/hdd_by_id
 
 
 
-# Generate HDD Patern and format boot partition
-# ------------------------------------------------------------------------------
-# function f_sata() {
-# 	BOOT_HD=$1"1"
-#   mkfs.fat -F32 /dev/$BOOT_HD
-# }
-
-
-# function f_nvme() {
-# 	BOOT_HD=$1"p1"
-#   mkfs.fat -F32 /dev/$BOOT_HD
-# }
-
-
-# while read line
-#  do
-#   case $line in
-#     nvme*)
-#       f_nvme $line ;;
-#     sd*)
-#       f_sata $line ;;
-#   esac
-# done < /tmp/hdd_name
-# ------------------------------------------------------------------------------
-
-
-#===============================================================================
-
-
-
 # zpool struckture
 #===============================================================================
 #   ZPool = zroot
@@ -97,7 +59,6 @@ done < /tmp/hdd_by_id
 
 # Setup zpool and datasets
 #===============================================================================
-awk '{print $1"-part2"}' < /tmp/hdd_by_id > /tmp/part_by_id
 
 zpool create -f \
 -o ashift=12 \
@@ -127,7 +88,7 @@ mkdir /mnt/boot2
 s=0
 while read line
 	do
-		if [[ s==0 ]]; then
+		if [[ $s==0 ]]; then
 			mount /dev/disk/by-id/$line"-part1" /mnt/boot
 			((s++))
 		else
