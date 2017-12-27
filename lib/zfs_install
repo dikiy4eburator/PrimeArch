@@ -107,7 +107,7 @@ zpool create -f \
 -O canmount=off \
 zroot $raidmod $(</tmp/part_by_id)
 echo "===== ZPOOL DON ================================================="
-
+exit
 echo "===== DATASETS ================================================="
 zfs create -o mountpoint=/						zroot/root
 zfs create -o mountpoint=/home -o setuid=off    zroot/home
