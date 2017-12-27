@@ -63,6 +63,20 @@ done < /tmp/hdd_by_id
 
 
 
+# select raidmod
+#===============================================================================
+dialog \
+--backtitle "PrimeArch" \
+--begin $BoxStartY $BoxStartX \
+--title 'Choose you Desktop' \
+--menu "" 12 $BoxWhith 6 \
+	stripe "1+ harddrives"\
+	raidz  "2+ harddrives"\
+	2>/tmp/raidmod
+#===============================================================================
+
+
+
 # Setup zpool and datasets
 #===============================================================================
 awk '{print $1"-part2"}' < /tmp/hdd_by_id > /tmp/part_by_id
@@ -74,7 +88,7 @@ zpool create -f \
 -O compression=lz4 \
 -O normalization=formD \
 -O canmount=off \
-zroot raidz $(</tmp/part_by_id)
+zroot $(</tmp/raidmod) $(</tmp/part_by_id)
 
 
 # zfs create -o canmount=off -o mountpoint=none zroot
@@ -107,11 +121,14 @@ while read line
 done < /tmp/hdd_by_id
 #===============================================================================
 
+
+
 # echo ======================================================
 # df -Th
 # echo ======================================================
 # lsblk
 # echo ======================================================
+
 
 
 # Install base pacages
@@ -150,10 +167,16 @@ arch-chroot /mnt /bin/bash -c "pacman-key -r 5E1ABF240EE7A126"
 arch-chroot /mnt /bin/bash -c "pacman-key --lsign-key 5E1ABF240EE7A126"
 arch-chroot /mnt /bin/bash -c "pacman -Syy"
 
-cp -fvr /root/zfs /mnt/
-arch-chroot /mnt /bin/bash -c "pacman --noconfirm -R linux linux-headers"
-arch-chroot /mnt /bin/bash -c "pacman --noconfirm -U /zfs/*.tar.xz"
-rm -R /mnt/zfs
+packstrap /mnt spl-dkms
+packstrap /mnt zfs-dkms
+
+# BackUp if else fales
+#------------------------------------------------------------------------------
+#cp -fvr /root/zfs /mnt/
+#arch-chroot /mnt /bin/bash -c "pacman --noconfirm -R linux linux-headers"
+#arch-chroot /mnt /bin/bash -c "pacman --noconfirm -U /zfs/*.tar.xz"
+#rm -R /mnt/zfs
+#-------------------------------------------------------------------------------
 #===============================================================================
 
 # read -p "Press enter to continue"
@@ -340,13 +363,13 @@ arch-chroot /mnt /bin/bash -c "mkinitcpio -p linux"
 #===============================================================================
 arch-chroot /mnt /bin/bash -c "bootctl install"
 
-echo "timeout 3" > /mnt/boot/loader/loader.conf
+echo "timeout 3" 	> /mnt/boot/loader/loader.conf
 echo "default arch" >> /mnt/boot/loader/loader.conf
 
-echo "title          PrimeArch ZFS" > /mnt/boot/loader/entries/arch.conf
-echo "linux          /vmlinuz-linux" >> /mnt/boot/loader/entries/arch.conf
-echo "initrd         /initramfs-linux.img" >> /mnt/boot/loader/entries/arch.conf
-echo "options        zfs=zroot/root rw" >> /mnt/boot/loader/entries/arch.conf
+echo "title          PrimeArch ZFS" 		> /mnt/boot/loader/entries/arch.conf
+echo "linux          /vmlinuz-linux" 		>> /mnt/boot/loader/entries/arch.conf
+echo "initrd         /initramfs-linux.img" 	>> /mnt/boot/loader/entries/arch.conf
+echo "options        zfs=zroot/root rw" 	>> /mnt/boot/loader/entries/arch.conf
 
 #===============================================================================
 
@@ -354,7 +377,7 @@ echo "options        zfs=zroot/root rw" >> /mnt/boot/loader/entries/arch.conf
 
 # CLONE BOOTSECTOR
 #===============================================================================
-# ???
+rsync -ar /boot/ /boot2/
 #===============================================================================
 
 
