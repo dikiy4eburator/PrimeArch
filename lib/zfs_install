@@ -39,7 +39,7 @@ while read line
 	 sgdisk -n 1:0:+256M 	-c 1:"EFI" 	-t 1:ef00 /dev/disk/by-id/$line
 	 sgdisk -n 2:0:0 		-c 2:"ROOT" -t 2:bf00 /dev/disk/by-id/$line
 
-	 mkfs.fat -F32 /dev/disk/by-id/"$line-part1"
+	 mkfs.fat -F32 /dev/disk/by-id/$line'-part1'
 
 done < /tmp/hdd_by_id
 
@@ -70,6 +70,7 @@ done < /tmp/hdd_by_id
 #===============================================================================
 awk '{print $1"-part2"}' < /tmp/hdd_by_id > /tmp/part_by_id
 
+echo "===== ZPOOL ================================================="
 zpool create -f \
 -o ashift=12 \
 -O atime=off \
