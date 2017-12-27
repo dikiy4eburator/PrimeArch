@@ -79,15 +79,15 @@ dialog \
 
 case $(</tmp/raid) in
 	stripe )
-			raidmod="" ;;		# echo "" 	> /tmp/raidmod ;;
+			raidmod="" ;;
 	raidz )
-			raidmod=raidz ;; 	# echo raidz 	> /tmp/raidmod ;;
+			raidmod=raidz ;;
 	raidz1 )
-			raidmod=raidz1 ;; 	# echo raidz1 > /tmp/raidmod ;;
+			raidmod=raidz1 ;;
 	raidz2 )
-			raidmod=raidz2 ;; 	# echo raidz2 > /tmp/raidmod ;;
+			raidmod=raidz2 ;;
 	raidz3 )
-			raidmod=raidz3 ;; 	# echo raidz3 > /tmp/raidmod ;;
+			raidmod=raidz3 ;;
 esac
 
 #===============================================================================
@@ -107,7 +107,7 @@ zpool create -f \
 -O canmount=off \
 zroot $raidmod $(</tmp/part_by_id)
 echo "===== ZPOOL DON ================================================="
-exit
+
 echo "===== DATASETS ================================================="
 zfs create -o mountpoint=/						zroot/root
 zfs create -o mountpoint=/home -o setuid=off    zroot/home
