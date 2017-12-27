@@ -100,12 +100,12 @@ zpool import -R /mnt zroot
 mkdir /mnt/boot
 mkdir /mnt/boot2
 
-# s=0
-while read line s++
+s=0
+while read line
 	do
 		if [[ $s==0 ]]; then
 			mount /dev/disk/by-id/$line"-part1" /mnt/boot
-			# ((s++))
+			((s++))
 		else
 			mount /dev/disk/by-id/$line"-part1" /mnt/boot2
 		fi
