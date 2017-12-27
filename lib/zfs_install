@@ -79,15 +79,15 @@ dialog \
 
 case $(</tmp/raid) in
 	stripe )
-			raidmod="" 		# echo "" 	> /tmp/raidmod ;;
+			raidmod="" ;;		# echo "" 	> /tmp/raidmod ;;
 	raidz )
-			raidmod=raidz 	# echo raidz 	> /tmp/raidmod ;;
+			raidmod=raidz ;; 	# echo raidz 	> /tmp/raidmod ;;
 	raidz1 )
-			raidmod=raidz1 	# echo raidz1 > /tmp/raidmod ;;
+			raidmod=raidz1 ;; 	# echo raidz1 > /tmp/raidmod ;;
 	raidz2 )
-			raidmod=raidz2 	# echo raidz2 > /tmp/raidmod ;;
+			raidmod=raidz2 ;; 	# echo raidz2 > /tmp/raidmod ;;
 	raidz3 )
-			raidmod=raidz3 	# echo raidz3 > /tmp/raidmod ;;
+			raidmod=raidz3 ;; 	# echo raidz3 > /tmp/raidmod ;;
 esac
 
 #===============================================================================
