@@ -401,8 +401,8 @@ rsync -ar /mnt/boot/ /mnt/boot2/
 # SET CACHE FILE
 #===============================================================================
 
-zfs snap zroot/root@root_virgina
-zfs snap zroot/home@home_virgina
+zfs snap zroot/root@virgina
+zfs snap zroot/home@virgina
 
 zpool set cachefile=/etc/zfs/zpool.cache zroot
 cp -f /etc/zfs/zpool.cache /mnt/etc/zfs
