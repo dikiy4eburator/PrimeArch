@@ -112,7 +112,6 @@ while read line
 	do
 		if [[ $s == 0 ]];
 			then
-				echo "s = $s"
 				mount /dev/disk/by-id/$line"-part1" /mnt/boot
 				((s++))
 			else
@@ -167,15 +166,12 @@ arch-chroot /mnt /bin/bash -c "pacman-key -r 5E1ABF240EE7A126"
 arch-chroot /mnt /bin/bash -c "pacman-key --lsign-key 5E1ABF240EE7A126"
 arch-chroot /mnt /bin/bash -c "pacman -Syy"
 
-packstrap /mnt spl-dkms
-packstrap /mnt zfs-dkms
-
 # BackUp if else fales
 #------------------------------------------------------------------------------
-#cp -fvr /root/zfs /mnt/
-#arch-chroot /mnt /bin/bash -c "pacman --noconfirm -R linux linux-headers"
-#arch-chroot /mnt /bin/bash -c "pacman --noconfirm -U /zfs/*.tar.xz"
-#rm -R /mnt/zfs
+cp -fvr /root/zfs /mnt/
+arch-chroot /mnt /bin/bash -c "pacman --noconfirm -R linux linux-headers"
+arch-chroot /mnt /bin/bash -c "pacman --noconfirm -U /zfs/*.tar.xz"
+rm -R /mnt/zfs
 #-------------------------------------------------------------------------------
 #===============================================================================
 
