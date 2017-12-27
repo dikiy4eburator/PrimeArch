@@ -115,7 +115,6 @@ exit
 # Install base pacages
 #===============================================================================
 f_pacage_install pakages_base_zfs
-exit
 f_pacage_install pakages_base_network
 f_pacage_install pakages_base_video
 f_pacage_install pakages_base_audio
