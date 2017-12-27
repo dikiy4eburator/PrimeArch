@@ -65,14 +65,15 @@ done < /tmp/hdd_by_id
 
 # select raidmod
 #===============================================================================
-#dialog \
-#--backtitle "PrimeArch" \
-#--begin $BoxStartY $BoxStartX \
-#--title 'Choose you raidmod' \
-#--menu "" 12 $BoxWhith 6 \
-#	stripe "1+ harddrives"\
-#	raidz  "2+ harddrives"\
-#	2>/tmp/raidmod
+dialog \
+--backtitle "PrimeArch" \
+--begin $BoxStartY $BoxStartX \
+--title 'Choose you raidmod' \
+--menu "" 12 $BoxWhith 6 \
+	raid0 	"1+ harddrives"\
+	mirror 	"2+ harddrives"\
+	raidz  	"2+ harddrives"\
+	2>/tmp/raidmod
 #===============================================================================
 
 
@@ -88,13 +89,15 @@ zpool create -f \
 -O compression=lz4 \
 -O normalization=formD \
 -O canmount=off \
-zroot mirror $(</tmp/part_by_id)
-
+zroot $(</tmp/raidmod) $(</tmp/part_by_id)
+echo "===== ZPOOL DON ================================================="
+exit
 echo "===== DATASETS ================================================="
 zfs create -o mountpoint=/						zroot/root
 zfs create -o mountpoint=/home -o setuid=off    zroot/home
 zfs create -o mountpoint=/tmp                   zroot/tmp
 zfs create -o mountpoint=/var                   zroot/var
+echo "===== DATASETS DON ================================================="
 
 zpool set bootfs=zroot/root zroot
 zpool export zroot
@@ -211,7 +214,7 @@ dialog \
 --backtitle 'PrimeArch Installer' \
 --title 'Partitionierung' \
 --begin $BoxStartY $BoxStartX \
---yesno '\nDo you want to activate the ROOT accaunt? \n' 7 $BoxWhith \
+--yesno '\nActivate ROOT accaunt? \n' 7 $BoxWhith \
 
 if [[ $? -eq 0 ]];
 	then
