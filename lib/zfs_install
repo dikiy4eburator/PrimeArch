@@ -393,7 +393,7 @@ arch-chroot /mnt /bin/bash -c "mkinitcpio -p linux"
 
 # CLONE BOOTSECTOR
 #===============================================================================
-rsync -ar /boot/ /boot2/
+rsync -ar /mnt/boot/ /mnt/boot2/
 #===============================================================================
 
 
