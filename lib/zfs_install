@@ -72,7 +72,6 @@ dialog \
 --menu "" 12 $BoxWhith 6 \
 	raid0 	"1+ harddrives"\
 	mirror 	"2+ harddrives"\
-	raidz  	"2+ harddrives"\
 	raidz1 	"4+ harddrives"\
 	raidz2  "6+ harddrives"\
 	raidz3  "8+ harddrives"\
