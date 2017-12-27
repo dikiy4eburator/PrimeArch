@@ -30,7 +30,7 @@ dialog \
 
 # reset parttable
 while read line
- do
+do
 	 echo ======================================================
 	 sgdisk -Z /dev/disk/by-id/$line
 	 sgdisk -g /dev/disk/by-id/$line
@@ -43,15 +43,12 @@ while read line
 
 done < /tmp/hdd_by_id
 
-# Create new parttable
-# while read line
-#  do
-#    sgdisk -n 1:0:+256M 	-c 1:"EFI" 	-t 1:ef00 /dev/disk/by-id/$line
-#    sgdisk -n 2:0:0 		-c 2:"ROOT" -t 2:bf00 /dev/disk/by-id/$line
 
-#    mkfs.fat -F32 /dev/disk/by-id/$line"-part1"
+
+# while read line
+# do
+#    readlink /dev/disk/by-id/$line | awk -F"../../" '{print $2}' >> /tmp/hdd_name
 # done < /tmp/hdd_by_id
-# ------------------------------------------------------------------------------
 
 
 
@@ -94,29 +91,26 @@ zpool export zroot
 zpool import -R /mnt zroot
 
 mkdir /mnt/boot
-mount /dev/disk/by-id/$line"-part1" /mnt/boot
-
-
-# mkdir /mnt/boot2
+mkdir /mnt/boot2
 
 # s=0
-# while read line
-# 	do
-# 		if [[ $s==0 ]]; then
-# 			mount /dev/disk/by-id/$line"-part1" /mnt/boot
-# 			((s++))
-# 		else
-# 			mount /dev/disk/by-id/$line"-part1" /mnt/boot2
-# 		fi
-# done < /tmp/hdd_by_id
+while read line s++
+	do
+		if [[ $s==0 ]]; then
+			mount /dev/disk/by-id/$line"-part1" /mnt/boot
+			((s++))
+		else
+			mount /dev/disk/by-id/$line"-part1" /mnt/boot2
+		fi
+done < /tmp/hdd_by_id
 #===============================================================================
 
-# echo ======================================================
-# df -Th
-# echo ======================================================
-# lsblk
-# echo ======================================================
-# exit
+echo ======================================================
+df -Th
+echo ======================================================
+lsblk
+echo ======================================================
+exit
 
 # Install base pacages
 #===============================================================================
