@@ -105,6 +105,7 @@ while read line
 	do
 		if [[ $s==0 ]];
 			then
+				echo "s = $s"
 				mount /dev/disk/by-id/$line"-part1" /mnt/boot
 				((s++))
 			else
