@@ -75,7 +75,21 @@ dialog \
 	raidz1 	"4+ harddrives"\
 	raidz2  "6+ harddrives"\
 	raidz3  "8+ harddrives"\
-	2>/tmp/raidmod
+	2>/tmp/raid
+
+case $(</tmp/raid) in
+		)
+			echo "" > /tmp/raidmod ;;
+		)
+			echo mirror > /tmp/raidmod ;;
+		)
+			echo raidz1 > /tmp/raidmod ;;
+		)
+			echo raidz2 > /tmp/raidmod ;;
+		)
+			echo raidz3 > /tmp/raidmod ;;
+esac
+
 #===============================================================================
 
 
