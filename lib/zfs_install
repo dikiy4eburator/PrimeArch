@@ -98,7 +98,7 @@ while read line s++
 	do
 		if [[ $s==0 ]]; then
 			mount /dev/disk/by-id/$line"-part1" /mnt/boot
-			((s++))
+			# ((s++))
 		else
 			mount /dev/disk/by-id/$line"-part1" /mnt/boot2
 		fi
