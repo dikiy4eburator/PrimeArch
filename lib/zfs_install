@@ -94,30 +94,34 @@ zpool export zroot
 zpool import -R /mnt zroot
 
 mkdir /mnt/boot
-mkdir /mnt/boot2
+mount /dev/disk/by-id/$line"-part1" /mnt/boot
 
-s=0
-while read line
-	do
-		if [[ $s==0 ]]; then
-			mount /dev/disk/by-id/$line"-part1" /mnt/boot
-			((s++))
-		else
-			mount /dev/disk/by-id/$line"-part1" /mnt/boot2
-		fi
-done < /tmp/hdd_by_id
+
+# mkdir /mnt/boot2
+
+# s=0
+# while read line
+# 	do
+# 		if [[ $s==0 ]]; then
+# 			mount /dev/disk/by-id/$line"-part1" /mnt/boot
+# 			((s++))
+# 		else
+# 			mount /dev/disk/by-id/$line"-part1" /mnt/boot2
+# 		fi
+# done < /tmp/hdd_by_id
 #===============================================================================
 
-echo ======================================================
-df -Th
-echo ======================================================
-lsblk
-echo ======================================================
-exit
+# echo ======================================================
+# df -Th
+# echo ======================================================
+# lsblk
+# echo ======================================================
+# exit
 
 # Install base pacages
 #===============================================================================
 f_pacage_install pakages_base_zfs
+exit
 f_pacage_install pakages_base_network
 f_pacage_install pakages_base_video
 f_pacage_install pakages_base_audio
