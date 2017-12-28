@@ -123,7 +123,7 @@ function f_normal() {
 
 	# INSTALL YAOURT
 	#===============================================================================
-	mv $working_dir/lib/funktions/yaourt.sh /mnt/home/$(</tmp/user_name)/yaourt.sh
+	mv -f -v $working_dir/lib/funktions/yaourt.sh /mnt/home/$(</tmp/user_name)/yaourt.sh
 	arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_name)/yaourt.sh"
 	rm /mnt/home/$(</tmp/user_name)/yaourt.sh
 	#===============================================================================
@@ -136,7 +136,7 @@ function f_normal() {
   --backtitle "PrimeArch" \
   --begin $BoxStartY $BoxStartX \
   --title 'Choose you Desktop' \
-  --menu "" 12 $BoxWhith 6 \
+  --menu "" 12 $BoxWhith 7 \
   	1 i3 \
   	2 xfce \
   	3 mate \
