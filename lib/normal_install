@@ -143,7 +143,11 @@ function f_normal() {
 
 
 
+	# INSTALL YAOURT COAMETICS
+	#===============================================================================
 	f_install_cosmetiks
+	#===============================================================================
+
 
 
 
@@ -159,22 +163,6 @@ function f_normal() {
 	arch-chroot /mnt /bin/bash -c "chown -R $(</tmp/user_name):users /home/$(</tmp/user_name)"
 	arch-chroot /mnt /bin/bash -c "chmod -R 0700 /home/$(</tmp/user_name)"
 	#===============================================================================
-
-
-
-	#GRUB INSTALLATION
-	#===============================================================================
-	if [[ -d "/sys/firmware/efi/efivars" ]];
- 		then
-  			# install grub efi
-  			arch-chroot /mnt /bin/bash -c "grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$(</mnt/etc/hostname)"
- 		else
-  			# install grub legacy
-  			arch-chroot /mnt /bin/bash -c "grub-install /dev/$(</tmp/hdd_name)"
-	fi
-
-	arch-chroot /mnt /bin/bash -c "grub-mkconfig -o /boot/grub/grub.cfg"
-  #===============================================================================
 
 
 
@@ -198,6 +186,22 @@ function f_normal() {
 
 	#lightdm
 	arch-chroot /mnt /bin/bash -c "systemctl enable lightdm.service"
+	#===============================================================================
+
+
+
+	#GRUB INSTALLATION
+	#===============================================================================
+	if [[ -d "/sys/firmware/efi/efivars" ]];
+		then
+			# install grub efi
+			arch-chroot /mnt /bin/bash -c "grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$(</mnt/etc/hostname)"
+		else
+			# install grub legacy
+			arch-chroot /mnt /bin/bash -c "grub-install /dev/$(</tmp/hdd_name)"
+	fi
+
+	arch-chroot /mnt /bin/bash -c "grub-mkconfig -o /boot/grub/grub.cfg"
 	#===============================================================================
 
 }
