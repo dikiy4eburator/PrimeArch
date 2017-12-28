@@ -159,7 +159,7 @@ rm -R /mnt/zfs
 #GENERATE SYSTEM LOCALE
 #===============================================================================
 # Set Time
-f_set_time_region
+f_set_time
 
 case $(</tmp/language) in
 		1 )
