@@ -9,7 +9,7 @@ efibootmgr
 acpid
 dbus
 fish
-vim
+gvim
 cronie
 gvfs
 xdg-user-dirs

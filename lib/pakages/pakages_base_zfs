@@ -7,7 +7,7 @@ efibootmgr
 acpid
 dbus
 fish
-vim
+gvim
 cronie
 xdg-user-dirs
 rsync
