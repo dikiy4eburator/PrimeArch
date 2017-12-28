@@ -23,6 +23,14 @@ function f_normal() {
 
 
 
+  # GO TO NO PASSWORD MODE
+  #===============================================================================
+  cp -f -v /mnt/etc/sudoers /mnt/etc/sudoers.back
+  echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /mnt/etc/sudoers
+  #===============================================================================
+
+
+
   # Install base pacages
   #===============================================================================
   f_pacage_install pakages_base
@@ -156,9 +164,6 @@ function f_normal() {
 
 
 
-  f_install_cosmetiks
-
-
   # Grafiktreiber installation
   #===============================================================================
   dialog \
@@ -189,6 +194,17 @@ function f_normal() {
   	0 )
   		;;
   esac
+  #===============================================================================
+
+
+
+	f_install_cosmetiks
+
+
+
+  # GO BACK TO  PASSWORD MODE
+  #===============================================================================
+  mv -f -v /mnt/etc/sudoers.back /mnt/etc/sudoers
   #===============================================================================
 
 
