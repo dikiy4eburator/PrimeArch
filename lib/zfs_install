@@ -162,7 +162,7 @@ f_pacage_install pakages_base_cosmetik
 
 # GO TO NO PASSWORD MODE
 #===============================================================================
-mv -f -v /mnt/etc/sudoers /mnt/etc/sudoers.back
+cp -f -v /mnt/etc/sudoers /mnt/etc/sudoers.back
 echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /mnt/etc/sudoers
 #===============================================================================
 
