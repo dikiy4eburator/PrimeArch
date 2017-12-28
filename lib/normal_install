@@ -23,14 +23,6 @@ function f_normal() {
 
 
 
-  # GO TO NO PASSWORD MODE
-  #===============================================================================
-  cp -f -v /mnt/etc/sudoers /mnt/etc/sudoers.back
-  echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /mnt/etc/sudoers
-  #===============================================================================
-
-
-
   # Install base pacages
   #===============================================================================
   f_pacage_install pakages_base
@@ -40,6 +32,14 @@ function f_normal() {
   f_pacage_install pakages_base_desktop
   f_pacage_install pakages_base_cosmetik
   #===============================================================================
+
+
+
+    # GO TO NO PASSWORD MODE
+    #===============================================================================
+    cp -f -v /mnt/etc/sudoers /mnt/etc/sudoers.back
+    echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /mnt/etc/sudoers
+    #===============================================================================
 
 
 
