@@ -4,31 +4,6 @@
 #===============================================================================
 function f_autopartition() {
 
-	dialog \
-	--backtitle 'PrimeArch Installer' \
-	--begin $BoxStartY $BoxStartX \
-	--title "HOME" \
-	--yesno '\nDo you want an extra Home partition? \n' 7 $BoxWhith \
-
-	if [[ $? -eq 0 ]];
-		then
-     		echo "ja" > /tmp/extrahome
-
-			# ROOT size dialog
-			dialog \
-			--backtitle 'PrimeArch Installer' \
-			--begin $BoxStartY $BoxStartX \
-			--title "ROOT" \
-			--inputbox '\nHow big you want the ROOT partition? (in Gb)' 9 $BoxWhith \
-			2>/tmp/root_size
-
-   		else
-     		echo "nein" > /tmp/extrahome
-	fi
-
-	# Generate HDD selection menu
-	f_gen_hdd_menu
-
 	# Make Partitions
 	f_auto_part
 

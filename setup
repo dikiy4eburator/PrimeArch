@@ -58,6 +58,7 @@ esac
 #===============================================================================
 
 
+
 # SELECT INSTALL MODE
 #===============================================================================
 dialog \
@@ -67,8 +68,207 @@ dialog \
 --menu "\nWhat kind of installation you want?\n" 12 $BoxWhith 3 \
 	1 "Normal installation" \
 	2 "ROOT ON ZFS" \
-	2>/tmp/installation
+	2>/tmp/installation_mod
+#===============================================================================
 
+
+case $(</tmp/installation_mod) in
+	1 )
+		# Partitionierung AUTO MANUEL
+		#===============================================================================
+		dialog \
+		--backtitle 'PrimeArch Installer' \
+		--title 'Partitionierung' \
+		--begin $BoxStartY $BoxStartX \
+		--menu "How do you want to partition you harddrive" 12 $BoxWhith 3 \
+			1 Automatic \
+			2 Manual \
+			2>/tmp/partitionierung
+		#===============================================================================
+
+		case $(</tmp/partitionierung) in
+			1 )
+				# Generate HDD selection menu
+				#===============================================================================
+				f_gen_hdd_menu
+				#===============================================================================
+
+				# EXTRA HOME PARTITION DIALOG
+				#===============================================================================
+				dialog \
+				--backtitle 'PrimeArch Installer' \
+				--begin $BoxStartY $BoxStartX \
+				--title "HOME" \
+				--yesno '\nDo you want an extra Home partition? \n' 7 $BoxWhith \
+
+				if [[ $? -eq 0 ]];
+					then
+						echo "ja" > /tmp/extrahome
+
+						# ROOT size dialog
+						dialog \
+						--backtitle 'PrimeArch Installer' \
+						--begin $BoxStartY $BoxStartX \
+						--title "ROOT" \
+						--inputbox '\nHow big you want the ROOT partition? (in Gb)' 9 $BoxWhith \
+						2>/tmp/root_size
+
+					else
+						echo "nein" > /tmp/extrahome
+					fi
+				#===============================================================================
+
+				# SWAP size dialog
+				#===============================================================================
+				dialog \
+				--backtitle 'PrimeArch Installer' \
+				--begin $BoxStartY $BoxStartX \
+				--title "SWAP" \
+				--inputbox '\n Bitte geben Sie die Gröse der SWAP Datei in Megabite an.' 9 $BoxWhith \
+				2>/tmp/swap_size
+				#===============================================================================
+				;;
+
+			2 )
+				f_man_part
+				;;
+		esac
+		;;      #NORMAL INSTALL
+
+
+	2 )
+		#Prepare Disklist
+		#===============================================================================
+		ls -l /dev/disk/by-id/  > /tmp/hdlist
+
+		dialog \
+		--backtitle "PrimeArch" \
+		--begin $BoxStartY $BoxStartX \
+		--title "HDD Auswahl" \
+		--separate-output \
+		--checklist "Shoose the harddrives for the ZPool" 15 $BoxWhith 7 \
+			$(awk 'NR>=2{ if($9 !~ /part/ ) print $9" "$11" " "off"}' < /tmp/hdlist) \
+		2>/tmp/hdd_by_id
+		#===============================================================================
+
+
+		# select raidmod
+		#===============================================================================
+		dialog \
+		--backtitle "PrimeArch" \
+		--begin $BoxStartY $BoxStartX \
+		--title 'Choose you raidmod' \
+		--menu "" 12 $BoxWhith 7 \
+			stripe 	"1+ harddrives" \
+			raidz 	"2+ harddrives" \
+			raidz1 	"4+ harddrives" \
+			raidz2  "6+ harddrives" \
+			raidz3  "8+ harddrives" \
+		2>/tmp/raid
+		#===============================================================================
+		;;
+esac
+
+
+
+# Set hostname
+#===============================================================================
+dialog \
+--backtitle 'PrimeArch Installer' \
+--begin $BoxStartY $BoxStartX \
+--title 'Hostname' \
+--inputbox 'Enter the Hostnamen' 8 $BoxWhith \
+2>/tmp/hostname
+#===============================================================================
+
+
+
+# Desktop installation
+#===============================================================================
+dialog \
+--backtitle "PrimeArch" \
+--begin $BoxStartY $BoxStartX \
+--title 'Choose you Desktop' \
+--menu "" 12 $BoxWhith 7 \
+	1 i3 \
+	2 xfce \
+	3 mate \
+	4 plasma \
+	5 gnome \
+	0 'No Desktop' \
+	2>/tmp/desktop
+#===============================================================================
+
+
+
+# Grafiktreiber installation
+#===============================================================================
+dialog \
+--backtitle "PrimeArch" \
+--begin $BoxStartY $BoxStartX \
+--title 'Video driver' \
+--menu "" 12 $BoxWhith 6 \
+	1 virtualbox \
+	2 Nvidia \
+	3 ATI \
+	4 Intel \
+	5 Nouveau \
+	0 'No Video driver' \
+	2>/tmp/grafik_treiber
+#===============================================================================
+
+
+
+#Set ROOT
+#===============================================================================
+dialog \
+--backtitle 'PrimeArch Installer' \
+--title 'Partitionierung' \
+--begin $BoxStartY $BoxStartX \
+--menu '\nActivate ROOT accaunt? \n' 12 $BoxWhith 6 \
+	1 yes \
+	2 no \
+	2>/tmp/root_status
+
+case $(</tmp/root_status) in
+		1 )
+			dialog \
+			--backtitle 'PrimeArch Installer' \
+			--begin $BoxStartY $BoxStartX \
+			--title 'ROOT Password' \
+			--insecure \
+			--passwordbox 'Enter the ROOT Password' 9 $BoxWhith \
+			2>/tmp/root_pw
+			;;
+
+		2 )
+			;;
+esac
+#===============================================================================
+
+
+
+#Set user
+#===============================================================================
+dialog \
+--backtitle 'PrimeArch Installer' \
+--begin $BoxStartY $BoxStartX \
+--inputbox 'Enter the name for the new user' 8 $BoxWhith \
+2>/tmp/user_name
+
+dialog \
+--backtitle 'PrimeArch Installer' \
+--begin $BoxStartY $BoxStartX \
+--title 'User Password' \
+--insecure \
+--passwordbox "\nEnter the Password for $(</tmp/user_name)" 9 $BoxWhith \
+2>/tmp/user_pw
+#===============================================================================
+
+
+
+
+#===============================================================================
 case $(</tmp/installation) in
 	1 )
 		f_normal ;;

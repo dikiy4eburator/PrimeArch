@@ -15,7 +15,6 @@ function f_set_root_pw() {
 	mv /mnt/etc/new_shadow /mnt/etc/shadow
 
 	rm /tmp/root_pw
-	rm /tmp/root_pw_2
 }
 #===============================================================================
 
@@ -38,95 +37,19 @@ function f_set_user_pw() {
 	mv /mnt/etc/new_shadow /mnt/etc/shadow
 
 	rm /tmp/user_pw
-	rm /tmp/user_pw_2
 }
 #===============================================================================
-
-
-
-
-
-# ROOT PW DIALOG
-#===============================================================================
-function f_root_pw_dialog() {
-	dialog \
-	--backtitle 'PrimeArch Installer' \
-	--begin $BoxStartY $BoxStartX \
-	--title 'ROOT Password' \
-	--insecure \
-	--passwordbox 'Enter the ROOT Password' 9 $BoxWhith \
-	2>/tmp/root_pw
-
-	dialog \
-	--backtitle 'PrimeArch Installer' \
-	--begin $BoxStartY $BoxStartX \
-	--title 'ROOT Password' \
-	--insecure \
-	--passwordbox 'Enter the ROOT Password again' 9 $BoxWhith \
-	2>/tmp/root_pw_2
-
-	if [[ $(</tmp/root_pw) == $(</tmp/root_pw_2) ]];
-		then
-			f_set_root_pw
-		else
-			f_root_pw_dialog
-	fi
-}
-
-
-#===============================================================================
-
-
 
 
 
 # CREATE NEW USER
 #===============================================================================
 function f_create_new_user() {
-	dialog \
-	--backtitle 'PrimeArch Installer' \
-	--begin $BoxStartY $BoxStartX \
-	--inputbox 'Enter the name for the new user' 8 $BoxWhith \
-	2>/tmp/user_name
 
 	arch-chroot /mnt /bin/bash -c "useradd -m -g users -G wheel,storage,power,network,video,audio -s /usr/bin/fish '$(</tmp/user_name)'"
 
-	#Set USER PW
-	f_user_pw_dialog
+	f_set_user_pw
 
 	echo "%wheel ALL=(ALL) ALL" >> /mnt/etc/sudoers.back
-}
-#===============================================================================
-
-
-
-
-
-# USWR PW DIALOG
-#===============================================================================
-function f_user_pw_dialog() {
-	dialog \
-	--backtitle 'PrimeArch Installer' \
-	--begin $BoxStartY $BoxStartX \
-	--title 'User Password' \
-	--insecure \
-	--passwordbox "\nEnter the Password for $(</tmp/user_name)" 9 $BoxWhith \
-	2>/tmp/user_pw
-
-
-	dialog \
-	--backtitle 'PrimeArch Installer' \
-	--begin $BoxStartY $BoxStartX \
-	--title 'User Password' \
-	--insecure \
-	--passwordbox "\nEnter the Password for $(</tmp/user_name) again" 9 $BoxWhith \
-	2>/tmp/user_pw_2
-
-	if [[ $(</tmp/user_pw) == $(</tmp/user_pw_2) ]];
-		then
-			f_set_user_pw
-		else
-			f_user_pw_dialog
-	fi
 }
 #===============================================================================

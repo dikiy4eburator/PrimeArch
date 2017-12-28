@@ -2,6 +2,7 @@
 # ----------------------------------
 udiskie
 lightdm
+lightdm-gtk-greeter
 atom
 htop
 conky

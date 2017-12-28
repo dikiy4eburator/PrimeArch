@@ -1,14 +1,7 @@
 #!/bin/bash
 
 function f_make_swap_file() {
-	# SWAP size dialog
-	dialog \
-	--backtitle 'PrimeArch Installer' \
-	--begin $BoxStartY $BoxStartX \
-	--title "SWAP" \
-	--inputbox '\n Bitte geben Sie die Gröse der SWAP Datei in Megabite an.' 9 $BoxWhith \
-	2>/tmp/swap_size
-
+	
 	arch-chroot /mnt /bin/bash -c "sudo dd if=/dev/zero of=/SWAP bs=1M count=$(</tmp/swap_size) status=progress"
 	arch-chroot /mnt /bin/bash -c "sudo mkswap /SWAP"
 	arch-chroot /mnt /bin/bash -c "sudo chmod 600 /SWAP"

@@ -12,23 +12,9 @@ function f_zfs() {
   fi
 
 
-#Prepare Disklist
-#===============================================================================
-ls -l /dev/disk/by-id/  > /tmp/hdlist
-
-dialog \
---backtitle "PrimeArch" \
---begin $BoxStartY $BoxStartX \
---title "HDD Auswahl" \
---separate-output \
---checklist "Shoose the harddrives for the ZPool" 15 $BoxWhith 7 \
-  $(awk 'NR>=2{ if($9 !~ /part/ ) print $9" "$11" " "off"}' < /tmp/hdlist) \
-2>/tmp/hdd_by_id
-
-
-
 
 # reset/generate parttable
+#===============================================================================
 while read line
 do
 	 echo ======================================================
@@ -49,34 +35,12 @@ do
 	 mkfs.fat -F 32 /dev/disk/by-id/"$line-part1"
 
 done < /tmp/hdd_by_id
-
-
-
-# zpool struckture
-#===============================================================================
-#   ZPool = zroot
-#     |-root
-#     |-home
-#     |-var
-#     |-tmp
 #===============================================================================
 
 
 
 # select raidmod
 #===============================================================================
-dialog \
---backtitle "PrimeArch" \
---begin $BoxStartY $BoxStartX \
---title 'Choose you raidmod' \
---menu "" 12 $BoxWhith 7 \
-	stripe 	"1+ harddrives" \
-	raidz 	"2+ harddrives" \
-	raidz1 	"4+ harddrives" \
-	raidz2  "6+ harddrives" \
-	raidz3  "8+ harddrives" \
-	2>/tmp/raid
-
 case $(</tmp/raid) in
 	stripe )
 			raidmod="" ;;
@@ -89,7 +53,6 @@ case $(</tmp/raid) in
 	raidz3 )
 			raidmod=raidz3 ;;
 esac
-
 #===============================================================================
 
 
@@ -140,14 +103,6 @@ done < /tmp/hdd_by_id
 
 
 
-# echo ======================================================
-# df -Th
-# echo ======================================================
-# lsblk
-# echo ======================================================
-
-
-
 # Install base pacages
 #===============================================================================
 f_pacage_install pakages_base_zfs
@@ -179,7 +134,6 @@ genfstab -U -p /mnt > /mnt/etc/fstab
 # COPY system config FILES
 #===============================================================================
 # LightDm Conf
-mv -f -v $working_dir/lib/configs/lightdm-config/lightdm.conf   /mnt/etc/lightdm/lightdm.conf
 mv -f -v $working_dir/lib/configs/zfs/mkinitcpio.conf           /mnt/etc/mkinitcpio.conf
 mv -f -v $working_dir/lib/configs/zfs/pacman.conf               /mnt/etc/pacman.conf
 mv -f -v $working_dir/lib/configs/zfs/journald.conf             /mnt/etc/systemd/journald.conf
@@ -223,30 +177,19 @@ arch-chroot /mnt /bin/bash -c locale-gen
 
 # Set hostname
 #===============================================================================
-dialog \
---backtitle 'PrimeArch Installer' \
---begin $BoxStartY $BoxStartX \
---title 'Hostname' \
---inputbox 'Enter the Hostnamen' 8 $BoxWhith \
-2>/mnt/etc/hostname
+mv -f -v /tmp/hostname /mnt/etc/hostname
 #===============================================================================
 
 
 
 #Set ROOT
 #===============================================================================
-dialog \
---backtitle 'PrimeArch Installer' \
---title 'Partitionierung' \
---begin $BoxStartY $BoxStartX \
---yesno '\nActivate ROOT accaunt? \n' 7 $BoxWhith \
-
-if [[ $? -eq 0 ]];
-	then
-		f_root_pw_dialog
-	else
-		arch-chroot /mnt /bin/bash -c "passwd -l root"
-fi
+case $(</tmp/root_status) in
+		1 )
+			f_set_root_pw ;;
+		2 )
+			arch-chroot /mnt /bin/bash -c "passwd -l root" ;;
+esac
 #===============================================================================
 
 
@@ -269,19 +212,6 @@ rm /mnt/home/$(</tmp/user_name)/yaourt.sh
 
 # Desktop installation
 #===============================================================================
-dialog \
---backtitle "PrimeArch" \
---begin $BoxStartY $BoxStartX \
---title 'Choose you Desktop' \
---menu "" 12 $BoxWhith 6 \
-	1 i3 \
-	2 xfce \
-	3 mate \
-	4 plasma \
-	5 gnome \
-	0 'No Desktop' \
-	2>/tmp/desktop
-
 case $(</tmp/desktop) in
 
 	1 )
@@ -303,19 +233,6 @@ esac
 
 # Grafikdriver installation
 #===============================================================================
-dialog \
---backtitle "PrimeArch" \
---begin $BoxStartY $BoxStartX \
---title 'Video driver' \
---menu "" 12 $BoxWhith 6 \
-	1 virtualbox \
-	2 Nvidia \
-	3 ATI \
-	4 Intel \
-	5 Nouveau \
-	0 'No Video driver' \
-	2>/tmp/grafik_treiber
-
 case $(</tmp/grafik_treiber) in
 
 	1 )
