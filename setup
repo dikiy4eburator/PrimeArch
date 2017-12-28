@@ -133,8 +133,7 @@ case $(</tmp/installation_mod) in
 				f_man_part
 				;;
 		esac
-		;;      #NORMAL INSTALL
-
+		;;
 
 	2 )
 		#Prepare Disklist
@@ -269,7 +268,7 @@ dialog \
 
 
 #===============================================================================
-case $(</tmp/installation) in
+case $(</tmp/installation_mod) in
 	1 )
 		f_normal ;;
 
