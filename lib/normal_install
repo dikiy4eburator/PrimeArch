@@ -2,36 +2,36 @@
 
 function f_normal() {
 
-  # Partitionierung AUTO MANUEL
-  #===============================================================================
-  dialog \
-  --backtitle 'PrimeArch Installer' \
-  --title 'Partitionierung' \
-  --begin $BoxStartY $BoxStartX \
-  --menu "How do you want to partition you harddrive" 12 $BoxWhith 3 \
-  	1 Automatic \
-  	2 Manual \
-  	2>/tmp/partitionierung
+	# Partitionierung AUTO MANUEL
+	#===============================================================================
+	dialog \
+	--backtitle 'PrimeArch Installer' \
+	--title 'Partitionierung' \
+	--begin $BoxStartY $BoxStartX \
+	--menu "How do you want to partition you harddrive" 12 $BoxWhith 3 \
+		1 Automatic \
+		2 Manual \
+		2>/tmp/partitionierung
 
-  case $(</tmp/partitionierung) in
-  	1 )
-  		f_autopartition ;;
-  	2 )
-  		f_man_part ;;
-  esac
-  #===============================================================================
+	case $(</tmp/partitionierung) in
+		1 )
+			f_autopartition ;;
+		2 )
+			f_man_part ;;
+	esac
+	#===============================================================================
 
 
 
-  # Install base pacages
-  #===============================================================================
-  f_pacage_install pakages_base
-  f_pacage_install pakages_base_network
-  f_pacage_install pakages_base_video
-  f_pacage_install pakages_base_audio
-  f_pacage_install pakages_base_desktop
-  f_pacage_install pakages_base_cosmetik
-  #===============================================================================
+	# Install base pacages
+	#===============================================================================
+	f_pacage_install pakages_base
+	f_pacage_install pakages_base_network
+	f_pacage_install pakages_base_video
+	f_pacage_install pakages_base_audio
+	f_pacage_install pakages_base_desktop
+	f_pacage_install pakages_base_cosmetik
+	#===============================================================================
 
 
 
@@ -43,90 +43,90 @@ function f_normal() {
 
 
 
-  # Generate fstab
-  #===============================================================================
-  genfstab -U -p /mnt > /mnt/etc/fstab
-  #===============================================================================
+	# Generate fstab
+	#===============================================================================
+	genfstab -U -p /mnt > /mnt/etc/fstab
+	#===============================================================================
 
 
 
-  # Generate SWAP
-  #===============================================================================
-  f_make_swap_file
-  #===============================================================================
+	# Generate SWAP
+	#===============================================================================
+	f_make_swap_file
+	#===============================================================================
 
 
 
-  #GENERATE SYSTEM LOCALE
-  #===============================================================================
-  # Set Time
-  f_set_time_region
+    # COPY lightDm FILES
+    #===============================================================================
+    # LightDm Conf
+    mv -f -v $working_dir/lib/configs/lightdm-config/lightdm.conf /mnt/etc/lightdm/lightdm.conf
+    #===============================================================================
 
-  case $(</tmp/language) in
+
+
+	#GENERATE SYSTEM LOCALE
+	#===============================================================================
+	# Set Time
+	f_set_time_region
+
+	case $(</tmp/language) in
   		1 )
   			f_english ;;
   		2 )
   			f_german ;;
   		3 )
   			f_russian ;;
-  esac
+	esac
 
-  arch-chroot /mnt /bin/bash -c locale-gen
-  #===============================================================================
-
-
-
-  # Set hostname
-  #===============================================================================
-  dialog \
-  --backtitle 'PrimeArch Installer' \
-  --begin $BoxStartY $BoxStartX \
-  --title 'Hostname' \
-  --inputbox 'Enter the Hostnamen' 8 $BoxWhith \
-  2>/mnt/etc/hostname
-  #===============================================================================
+	arch-chroot /mnt /bin/bash -c locale-gen
+	#===============================================================================
 
 
 
-  #Set ROOT
-  #===============================================================================
-  dialog \
-  --backtitle 'PrimeArch Installer' \
-  --title 'Partitionierung' \
-  --begin $BoxStartY $BoxStartX \
-  --yesno '\nDo you want to activate the ROOT accaunt? \n' 7 $BoxWhith \
-
-  if [[ $? -eq 0 ]];
-  	then
-  		f_root_pw_dialog
-  	else
-  		arch-chroot /mnt /bin/bash -c "passwd -l root"
-  fi
-  #===============================================================================
+	# Set hostname
+	#===============================================================================
+	dialog \
+	--backtitle 'PrimeArch Installer' \
+	--begin $BoxStartY $BoxStartX \
+	--title 'Hostname' \
+	--inputbox 'Enter the Hostnamen' 8 $BoxWhith \
+	2>/mnt/etc/hostname
+	#===============================================================================
 
 
 
-  # CREATE NEW USER
-  #===============================================================================
-  f_create_new_user
-  #===============================================================================
+	#Set ROOT
+	#===============================================================================
+	dialog \
+	--backtitle 'PrimeArch Installer' \
+	--title 'Partitionierung' \
+	--begin $BoxStartY $BoxStartX \
+	--yesno '\nActivate ROOT accaunt? \n' 7 $BoxWhith \
+
+	if [[ $? -eq 0 ]];
+  		then
+  			f_root_pw_dialog
+  		else
+  			arch-chroot /mnt /bin/bash -c "passwd -l root"
+	fi
+	#===============================================================================
 
 
 
-  # COPY lightDm FILES
-  #===============================================================================
-  # LightDm Conf
-  mv -f $working_dir/lib/configs/lightdm-config/lightdm.conf /mnt/etc/lightdm/lightdm.conf
-  #===============================================================================
+	# CREATE NEW USER
+	#===============================================================================
+	f_create_new_user
+	#===============================================================================
 
 
 
-  # INSTALL COSMETIC ADONS
-  #===============================================================================
-  mv $working_dir/lib/funktions/yaourt.sh /mnt/home/$(</tmp/user_name)/yaourt.sh
-  arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_name)/yaourt.sh"
-  rm /mnt/home/$(</tmp/user_name)/yaourt.sh
-  #===============================================================================
+	# INSTALL YAOURT
+	#===============================================================================
+	mv $working_dir/lib/funktions/yaourt.sh /mnt/home/$(</tmp/user_name)/yaourt.sh
+	arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_name)/yaourt.sh"
+	rm /mnt/home/$(</tmp/user_name)/yaourt.sh
+	#===============================================================================
 
 
 
@@ -202,57 +202,57 @@ function f_normal() {
 
 
 
-  # GO BACK TO  PASSWORD MODE
+	# GO BACK TO  PASSWORD MODE
+	#===============================================================================
+	mv -f -v /mnt/etc/sudoers.back /mnt/etc/sudoers
+	#===============================================================================
+
+
+
+	# FIX USER HOME OWNERSHIP
+	#===============================================================================
+	arch-chroot /mnt /bin/bash -c "chown -R $(</tmp/user_name):users /home/$(</tmp/user_name)"
+	arch-chroot /mnt /bin/bash -c "chmod -R 0700 /home/$(</tmp/user_name)"
+	#===============================================================================
+
+
+
+	#GRUB INSTALLATION
+	#===============================================================================
+	if [[ -d "/sys/firmware/efi/efivars" ]];
+ 		then
+  			# install grub efi
+  			arch-chroot /mnt /bin/bash -c "grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$(</mnt/etc/hostname)"
+ 		else
+  			# install grub legacy
+  			arch-chroot /mnt /bin/bash -c "grub-install /dev/$(</tmp/hdd_name)"
+	fi
+
+	arch-chroot /mnt /bin/bash -c "grub-mkconfig -o /boot/grub/grub.cfg"
   #===============================================================================
-  mv -f -v /mnt/etc/sudoers.back /mnt/etc/sudoers
-  #===============================================================================
 
 
 
-  # FIX USER HOME OWNERSHIP
-  #===============================================================================
-  arch-chroot /mnt /bin/bash -c "chown -R $(</tmp/user_name):users /home/$(</tmp/user_name)"
-  arch-chroot /mnt /bin/bash -c "chmod -R 0700 /home/$(</tmp/user_name)"
-  #===============================================================================
+	# START DAEMONS
+	#===============================================================================
+	#start system daemons
+	arch-chroot /mnt /bin/bash -c "systemctl enable acpid"
+	arch-chroot /mnt /bin/bash -c "systemctl enable ntpd"
 
+	# network managment
+	arch-chroot /mnt /bin/bash -c "systemctl enable avahi-daemon"
+	arch-chroot /mnt /bin/bash -c "systemctl enable wpa_supplicant"
+	arch-chroot /mnt /bin/bash -c "systemctl enable NetworkManager"
+	arch-chroot /mnt /bin/bash -c "systemctl enable sshd.socket"
 
+	# NFS utils
+	arch-chroot /mnt /bin/bash -c "systemctl enable rpcbind"
 
-  #GRUB INSTALLATION
-  #===============================================================================
-  if [[ -d "/sys/firmware/efi/efivars" ]];
-  	then
-  		# install grub efi
-  		arch-chroot /mnt /bin/bash -c "grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$(</mnt/etc/hostname)"
-  	else
-  		# install grub legacy
-  		arch-chroot /mnt /bin/bash -c "grub-install /dev/$(</tmp/hdd_name)"
-  fi
+	# Cronie
+	arch-chroot /mnt /bin/bash -c "systemctl enable cronie.service"
 
-  arch-chroot /mnt /bin/bash -c "grub-mkconfig -o /boot/grub/grub.cfg"
-  #===============================================================================
-
-
-
-  # START DAEMONS
-  #===============================================================================
-  #start system daemons
-  arch-chroot /mnt /bin/bash -c "systemctl enable acpid"
-  arch-chroot /mnt /bin/bash -c "systemctl enable ntpd"
-
-  # network managment
-  arch-chroot /mnt /bin/bash -c "systemctl enable avahi-daemon"
-  arch-chroot /mnt /bin/bash -c "systemctl enable wpa_supplicant"
-  arch-chroot /mnt /bin/bash -c "systemctl enable NetworkManager"
-  arch-chroot /mnt /bin/bash -c "systemctl enable sshd.socket"
-
-  # NFS utils
-  arch-chroot /mnt /bin/bash -c "systemctl enable rpcbind"
-
-  # Cronie
-  arch-chroot /mnt /bin/bash -c "systemctl enable cronie.service"
-
-  #lightdm
-  arch-chroot /mnt /bin/bash -c "systemctl enable lightdm.service"
-  #===============================================================================
+	#lightdm
+	arch-chroot /mnt /bin/bash -c "systemctl enable lightdm.service"
+	#===============================================================================
 
 }
