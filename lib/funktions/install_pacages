@@ -20,7 +20,7 @@ function f_install_cosmetiks() {
 				arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) yaourt -S --noconfirm $line"
 			fi
 
-	done $working_dir/lib/pakages/pakages_yaourt
+	done < $working_dir/lib/pakages/pakages_yaourt
 
 }
 
