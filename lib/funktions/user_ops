@@ -94,7 +94,7 @@ function f_create_new_user() {
 	#Set USER PW
 	f_user_pw_dialog
 
-	echo "%wheel ALL=(ALL) ALL" >> /mnt/etc/sudoers
+	echo "%wheel ALL=(ALL) ALL" >> /mnt/etc/sudoers.back
 }
 #===============================================================================
 
