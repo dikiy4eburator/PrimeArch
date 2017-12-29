@@ -69,8 +69,6 @@ dialog \
 	1 "Normal installation" \
 	2 "ROOT ON ZFS" \
 	2>/tmp/installation_mod
-#===============================================================================
-
 
 case $(</tmp/installation_mod) in
 	1 )
@@ -167,6 +165,7 @@ case $(</tmp/installation_mod) in
 		#===============================================================================
 		;;
 esac
+#===============================================================================
 
 
 
@@ -217,6 +216,7 @@ dialog \
   localtime   2 \
   2>/tmp/time_format
 #====================================================================================
+
 
 
 # Desktop installation
@@ -303,7 +303,7 @@ dialog \
 
 
 
-
+# START INSTALLATION
 #===============================================================================
 case $(</tmp/installation_mod) in
 	1 )
@@ -316,9 +316,11 @@ esac
 
 
 
+# END INSTALLATION
+#===============================================================================
 dialog \
 --backtitle 'PrimeArch Installer' \
 --begin $BoxStartY $BoxStartX \
---msgbox "Setup is DON" 12 $BoxWhith \
-
+--msgbox "Setup is DON" 5 $BoxWhith \
+#===============================================================================
 exit
