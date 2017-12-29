@@ -51,7 +51,6 @@ function f_normal() {
 
 	#GENERATE SYSTEM LOCALE
 	#===============================================================================
-	# Set Time
 	f_set_time
 
 	case $(</tmp/language) in
@@ -204,5 +203,4 @@ function f_normal() {
 
 	arch-chroot /mnt /bin/bash -c "grub-mkconfig -o /boot/grub/grub.cfg"
 	#===============================================================================
-
 }

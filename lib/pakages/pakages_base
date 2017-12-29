@@ -11,7 +11,6 @@ dbus
 fish
 gvim
 cronie
-gvfs
 xdg-user-dirs
 rsync
 ranger

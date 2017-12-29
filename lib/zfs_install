@@ -2,348 +2,341 @@
 
 function f_zfs() {
 
-  if [[ -d "/sys/firmware/efi/efivars" ]];
-    then
-      echo "UEFI OK"
-      break
-    else
-      echo "NOT UEFI MOD !!!"
-      exit
-  fi
+	if [[ -d "/sys/firmware/efi/efivars" ]];
+		then
+			echo "UEFI OK"
+			break
+		else
+			echo "NOT UEFI MOD !!!"
+			exit
+	fi
+
+	# reset/generate parttable
+	#===============================================================================
+	while read line
+		do
+	 		echo ======================================================
+	 		sgdisk -Z /dev/disk/by-id/$line
+	 		sgdisk -g /dev/disk/by-id/$line
+	 		sgdisk -o /dev/disk/by-id/$line
+
+	 		sgdisk -n 1:0:+256M 	-c 1:"EFI" 	-t 1:ef00 /dev/disk/by-id/$line
+	 		sgdisk -n 2:0:0 		-c 2:"ROOT" -t 2:bf00 /dev/disk/by-id/$line
+
+		done < /tmp/hdd_by_id
+
+
+	# format efi part
+	echo ======================================================
+	while read line
+		do
+	 		mkfs.fat -F 32 /dev/disk/by-id/"$line-part1"
+	done < /tmp/hdd_by_id
+	echo ======================================================
+	#===============================================================================
 
 
 
-# reset/generate parttable
-#===============================================================================
-while read line
-do
-	 echo ======================================================
-	 sgdisk -Z /dev/disk/by-id/$line
-	 sgdisk -g /dev/disk/by-id/$line
-	 sgdisk -o /dev/disk/by-id/$line
-
-	 sgdisk -n 1:0:+256M 	-c 1:"EFI" 	-t 1:ef00 /dev/disk/by-id/$line
-	 sgdisk -n 2:0:0 		-c 2:"ROOT" -t 2:bf00 /dev/disk/by-id/$line
-
-done < /tmp/hdd_by_id
-
-
-# format efi part
-while read line
-do
-	 echo ======================================================
-	 mkfs.fat -F 32 /dev/disk/by-id/"$line-part1"
-
-done < /tmp/hdd_by_id
-#===============================================================================
+	# select raidmod
+	#===============================================================================
+	case $(</tmp/raid) in
+		stripe )
+				raidmod="" ;;
+		raidz )
+				raidmod=raidz ;;
+		raidz1 )
+				raidmod=raidz1 ;;
+		raidz2 )
+				raidmod=raidz2 ;;
+		raidz3 )
+				raidmod=raidz3 ;;
+	esac
+	#===============================================================================
 
 
 
-# select raidmod
-#===============================================================================
-case $(</tmp/raid) in
-	stripe )
-			raidmod="" ;;
-	raidz )
-			raidmod=raidz ;;
-	raidz1 )
-			raidmod=raidz1 ;;
-	raidz2 )
-			raidmod=raidz2 ;;
-	raidz3 )
-			raidmod=raidz3 ;;
-esac
-#===============================================================================
+	# Setup zpool and datasets
+	#===============================================================================
+	awk '{print $1"-part2"}' < /tmp/hdd_by_id > /tmp/part_by_id
+
+	echo "===== ZPOOL ================================================="
+	zpool create -f \
+		-o ashift=12 \
+		-O atime=off \
+		-O compression=lz4 \
+		-O normalization=formD \
+		-O canmount=off \
+	zroot $raidmod $(</tmp/part_by_id)
+	echo "===== ZPOOL DON ================================================="
+
+	echo "===== DATASETS ================================================="
+	zfs create -o mountpoint=/						zroot/root
+	zfs create -o mountpoint=/home -o setuid=off    zroot/home
+	zfs create -o mountpoint=/tmp                   zroot/tmp
+	zfs create -o mountpoint=/var                   zroot/var
+	echo "===== DATASETS DON ================================================="
+
+	zpool set bootfs=zroot/root zroot
+	zpool export zroot
+
+	# MOUNT POOL and BOOT
+	# ------------------------------------------------------------------------------
+	zpool import -R /mnt zroot
+
+	mkdir /mnt/boot
+	mkdir /mnt/boot2
+
+	s=0
+	while read line
+		do
+			if [[ $s == 0 ]];
+				then
+					mount /dev/disk/by-id/$line"-part1" /mnt/boot
+					((s++))
+				else
+					mount /dev/disk/by-id/$line"-part1" /mnt/boot2
+			fi
+	done < /tmp/hdd_by_id
+	#===============================================================================
 
 
 
-# Setup zpool and datasets
-#===============================================================================
-awk '{print $1"-part2"}' < /tmp/hdd_by_id > /tmp/part_by_id
-
-echo "===== ZPOOL ================================================="
-zpool create -f \
--o ashift=12 \
--O atime=off \
--O compression=lz4 \
--O normalization=formD \
--O canmount=off \
-zroot $raidmod $(</tmp/part_by_id)
-echo "===== ZPOOL DON ================================================="
-
-echo "===== DATASETS ================================================="
-zfs create -o mountpoint=/						zroot/root
-zfs create -o mountpoint=/home -o setuid=off    zroot/home
-zfs create -o mountpoint=/tmp                   zroot/tmp
-zfs create -o mountpoint=/var                   zroot/var
-echo "===== DATASETS DON ================================================="
-
-zpool set bootfs=zroot/root zroot
-zpool export zroot
-
-# MOUNT POOL and BOOT
-# ------------------------------------------------------------------------------
-zpool import -R /mnt zroot
-
-mkdir /mnt/boot
-mkdir /mnt/boot2
-
-s=0
-while read line
-	do
-		if [[ $s == 0 ]];
-			then
-				mount /dev/disk/by-id/$line"-part1" /mnt/boot
-				((s++))
-			else
-				mount /dev/disk/by-id/$line"-part1" /mnt/boot2
-		fi
-done < /tmp/hdd_by_id
-#===============================================================================
+	# Install base pacages
+	#===============================================================================
+	f_pacage_install pakages_base_zfs
+	f_pacage_install pakages_base_network
+	f_pacage_install pakages_base_video
+	f_pacage_install pakages_base_audio
+	f_pacage_install pakages_base_desktop
+	f_pacage_install pakages_base_cosmetik
+	#===============================================================================
 
 
 
-# Install base pacages
-#===============================================================================
-f_pacage_install pakages_base_zfs
-f_pacage_install pakages_base_network
-f_pacage_install pakages_base_video
-f_pacage_install pakages_base_audio
-f_pacage_install pakages_base_desktop
-f_pacage_install pakages_base_cosmetik
-#===============================================================================
-
-
-
-# GO TO NO PASSWORD MODE
-#===============================================================================
-cp -f -v /mnt/etc/sudoers /mnt/etc/sudoers.back
-echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /mnt/etc/sudoers
-#===============================================================================
+	# GO TO NO PASSWORD MODE
+	#===============================================================================
+	cp -f -v /mnt/etc/sudoers /mnt/etc/sudoers.back
+	echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /mnt/etc/sudoers
+	#===============================================================================
 
 
 
 
-# Generate fstab
-#===============================================================================
-genfstab -U -p /mnt > /mnt/etc/fstab
-#===============================================================================
+	# Generate fstab
+	#===============================================================================
+	genfstab -U -p /mnt > /mnt/etc/fstab
+	#===============================================================================
 
 
 
-# COPY system config FILES
-#===============================================================================
-# LightDm Conf
-mv -f -v $working_dir/lib/configs/zfs/mkinitcpio.conf           /mnt/etc/mkinitcpio.conf
-mv -f -v $working_dir/lib/configs/zfs/pacman.conf               /mnt/etc/pacman.conf
-mv -f -v $working_dir/lib/configs/zfs/journald.conf             /mnt/etc/systemd/journald.conf
-#===============================================================================
+	# COPY system config FILES
+	#===============================================================================
+	# LightDm Conf
+	mv -f -v $working_dir/lib/configs/zfs/mkinitcpio.conf	/mnt/etc/mkinitcpio.conf
+	mv -f -v $working_dir/lib/configs/zfs/pacman.conf		/mnt/etc/pacman.conf
+	mv -f -v $working_dir/lib/configs/zfs/journald.conf		/mnt/etc/systemd/journald.conf
+	#===============================================================================
 
 
 
-# install_zfs
-#===============================================================================
-arch-chroot /mnt /bin/bash -c "pacman-key -r 5E1ABF240EE7A126"
-arch-chroot /mnt /bin/bash -c "pacman-key --lsign-key 5E1ABF240EE7A126"
-arch-chroot /mnt /bin/bash -c "pacman -Syy"
+	# install_zfs
+	#===============================================================================
+	arch-chroot /mnt /bin/bash -c "pacman-key -r 5E1ABF240EE7A126"
+	arch-chroot /mnt /bin/bash -c "pacman-key --lsign-key 5E1ABF240EE7A126"
+	arch-chroot /mnt /bin/bash -c "pacman -Syy"
 
-#------------------------------------------------------------------------------
-cp -fvr /root/zfs /mnt/
-arch-chroot /mnt /bin/bash -c "pacman --noconfirm -R linux linux-headers"
-arch-chroot /mnt /bin/bash -c "pacman --noconfirm -U /zfs/*.tar.xz"
-rm -R /mnt/zfs
-#===============================================================================
+	#------------------------------------------------------------------------------
+	cp -fvr /root/zfs /mnt/
+	arch-chroot /mnt /bin/bash -c "pacman --noconfirm -R linux linux-headers"
+	arch-chroot /mnt /bin/bash -c "pacman --noconfirm -U /zfs/*.tar.xz"
+	rm -R /mnt/zfs
+	#===============================================================================
 
 
 
-#GENERATE SYSTEM LOCALE
-#===============================================================================
-# Set Time
-f_set_time
+	#GENERATE SYSTEM LOCALE
+	#===============================================================================
+	f_set_time
 
-case $(</tmp/language) in
+	case $(</tmp/language) in
 		1 )
 			f_english ;;
 		2 )
 			f_german ;;
 		3 )
 			f_russian ;;
-esac
+	esac
 
-arch-chroot /mnt /bin/bash -c locale-gen
-#===============================================================================
-
-
-
-# Set hostname
-#===============================================================================
-mv -f -v /tmp/hostname /mnt/etc/hostname
-#===============================================================================
+	arch-chroot /mnt /bin/bash -c locale-gen
+	#===============================================================================
 
 
 
-#Set ROOT
-#===============================================================================
-case $(</tmp/root_status) in
+	# Set hostname
+	#===============================================================================
+	mv -f -v /tmp/hostname /mnt/etc/hostname
+	#===============================================================================
+
+
+
+	#Set ROOT
+	#===============================================================================
+	case $(</tmp/root_status) in
 		1 )
 			f_set_root_pw ;;
 		2 )
 			arch-chroot /mnt /bin/bash -c "passwd -l root" ;;
-esac
-#===============================================================================
+	esac
+	#===============================================================================
 
 
 
-# CREATE NEW USER
-#===============================================================================
-f_create_new_user
-#===============================================================================
+	# CREATE NEW USER
+	#===============================================================================
+	f_create_new_user
+	#===============================================================================
 
 
 
-# INSTALL yaourt
-#===============================================================================
-mv $working_dir/lib/funktions/yaourt.sh /mnt/home/$(</tmp/user_name)/yaourt.sh
-arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_name)/yaourt.sh"
-rm /mnt/home/$(</tmp/user_name)/yaourt.sh
-#===============================================================================
+	# INSTALL yaourt
+	#===============================================================================
+	mv $working_dir/lib/funktions/yaourt.sh /mnt/home/$(</tmp/user_name)/yaourt.sh
+	arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_name)/yaourt.sh"
+	rm /mnt/home/$(</tmp/user_name)/yaourt.sh
+	#===============================================================================
 
 
 
-# Desktop installation
-#===============================================================================
-case $(</tmp/desktop) in
+	# Desktop installation
+	#===============================================================================
+	case $(</tmp/desktop) in
 
-	1 )
-		f_install_i3 ;;
-	2 )
-		f_install_xfce ;;
-	3 )
-		f_install_mate ;;
-	4 )
-		f_install_plasma ;;
-	5 )
-		f_install_gnome ;;
-	0 )
-		;;
-esac
-#===============================================================================
-
-
-
-# Grafikdriver installation
-#===============================================================================
-case $(</tmp/grafik_treiber) in
-
-	1 )
-		pacstrap /mnt virtualbox-guest-dkms virtualbox-guest-utils ;;
-	2 )
-		pacstrap /mnt nvidia-dkms ;;
-	3 )
-		pacstrap /mnt xf86-video-ati ;;
-	4 )
-		pacstrap /mnt xf86-video-intel ;;
-	5 )
-		pacstrap /mnt xf86-video-nouveau ;;
-	0 )
-		;;
-esac
-#===============================================================================
+		1 )
+			f_install_i3 ;;
+		2 )
+			f_install_xfce ;;
+		3 )
+			f_install_mate ;;
+		4 )
+			f_install_plasma ;;
+		5 )
+			f_install_gnome ;;
+		0 )
+			;;
+	esac
+	#===============================================================================
 
 
 
-# INSTALL YAOURT COAMETICS
-#===============================================================================
-f_install_cosmetiks
-mv -f -v $working_dir/lib/configs/lightdm-config/lightdm.conf /mnt/etc/lightdm/lightdm.conf
-#===============================================================================
+	# Grafikdriver installation
+	#===============================================================================
+	case $(</tmp/grafik_treiber) in
+
+		1 )
+			pacstrap /mnt virtualbox-guest-dkms virtualbox-guest-utils ;;
+		2 )
+			pacstrap /mnt nvidia-dkms ;;
+		3 )
+			pacstrap /mnt xf86-video-ati ;;
+		4 )
+			pacstrap /mnt xf86-video-intel ;;
+		5 )
+			pacstrap /mnt xf86-video-nouveau ;;
+		0 )
+			;;
+	esac
+	#===============================================================================
 
 
 
-# GO BACK TO  PASSWORD MODE
-#===============================================================================
-mv -f -v /mnt/etc/sudoers.back /mnt/etc/sudoers
-#===============================================================================
+	# INSTALL YAOURT COAMETICS
+	#===============================================================================
+	f_install_cosmetiks
+	mv -f -v $working_dir/lib/configs/lightdm-config/lightdm.conf /mnt/etc/lightdm/lightdm.conf
+	#===============================================================================
 
 
 
-# FIX USER HOME OWNERSHIP
-#===============================================================================
-arch-chroot /mnt /bin/bash -c "chown -R $(</tmp/user_name):users /home/$(</tmp/user_name)"
-arch-chroot /mnt /bin/bash -c "chmod -R 0700 /home/$(</tmp/user_name)"
-#===============================================================================
+	# GO BACK TO  PASSWORD MODE
+	#===============================================================================
+	mv -f -v /mnt/etc/sudoers.back /mnt/etc/sudoers
+	#===============================================================================
 
 
 
-# START DAEMONS
-#===============================================================================
-#start system daemons
-arch-chroot /mnt /bin/bash -c "systemctl enable acpid"
-arch-chroot /mnt /bin/bash -c "systemctl enable ntpd"
-
-# network managment
-arch-chroot /mnt /bin/bash -c "systemctl enable avahi-daemon"
-arch-chroot /mnt /bin/bash -c "systemctl enable wpa_supplicant"
-arch-chroot /mnt /bin/bash -c "systemctl enable NetworkManager"
-arch-chroot /mnt /bin/bash -c "systemctl enable sshd.socket"
-
-# NFS utils
- arch-chroot /mnt /bin/bash -c "systemctl enable rpcbind"
-
-# Cronie
-arch-chroot /mnt /bin/bash -c "systemctl enable cronie.service"
-
-# lightdm
-arch-chroot /mnt /bin/bash -c "systemctl enable lightdm.service"
-
-# ZFS
-arch-chroot /mnt /bin/bash -c "systemctl enable zfs.target"
-arch-chroot /mnt /bin/bash -c "systemctl enable zfs-mount.service"
-
-#===============================================================================
+	# FIX USER HOME OWNERSHIP
+	#===============================================================================
+	arch-chroot /mnt /bin/bash -c "chown -R $(</tmp/user_name):users /home/$(</tmp/user_name)"
+	arch-chroot /mnt /bin/bash -c "chmod -R 0700 /home/$(</tmp/user_name)"
+	#===============================================================================
 
 
 
-# BOOTCTL INSTALLATION
-#===============================================================================
-arch-chroot /mnt /bin/bash -c "bootctl install"
+	# START DAEMONS
+	#===============================================================================
+	#start system daemons
+	arch-chroot /mnt /bin/bash -c "systemctl enable acpid"
+	arch-chroot /mnt /bin/bash -c "systemctl enable ntpd"
 
-echo "timeout 3" 	> /mnt/boot/loader/loader.conf
-echo "default arch" >> /mnt/boot/loader/loader.conf
+	# network managment
+	arch-chroot /mnt /bin/bash -c "systemctl enable avahi-daemon"
+	arch-chroot /mnt /bin/bash -c "systemctl enable wpa_supplicant"
+	arch-chroot /mnt /bin/bash -c "systemctl enable NetworkManager"
+	arch-chroot /mnt /bin/bash -c "systemctl enable sshd.socket"
 
-echo "title          PrimeArch" 			> /mnt/boot/loader/entries/arch.conf
-echo "linux          /vmlinuz-linux" 		>> /mnt/boot/loader/entries/arch.conf
-echo "initrd         /initramfs-linux.img" 	>> /mnt/boot/loader/entries/arch.conf
-echo "options        zfs=zroot/root rw" 	>> /mnt/boot/loader/entries/arch.conf
+	# NFS utils
+ 	arch-chroot /mnt /bin/bash -c "systemctl enable rpcbind"
 
-echo "title          PrimeArch fallback" 				> /mnt/boot/loader/entries/fallback.conf
-echo "linux          /vmlinuz-linux" 					>> /mnt/boot/loader/entries/fallback.conf
-echo "initrd         /initramfs-linux-fallback.img" 	>> /mnt/boot/loader/entries/fallback.conf
-echo "options        zfs=zroot/root rw" 				>> /mnt/boot/loader/entries/fallback.conf
+	# Cronie
+	arch-chroot /mnt /bin/bash -c "systemctl enable cronie.service"
 
-#===============================================================================
+	# lightdm
+	arch-chroot /mnt /bin/bash -c "systemctl enable lightdm.service"
 
-arch-chroot /mnt /bin/bash -c "mkinitcpio -p linux"
-
-# CLONE BOOTSECTOR
-#===============================================================================
-rsync -ar /mnt/boot/ /mnt/boot2/
-#===============================================================================
+	# ZFS
+	arch-chroot /mnt /bin/bash -c "systemctl enable zfs.target"
+	arch-chroot /mnt /bin/bash -c "systemctl enable zfs-mount.service"
+	#===============================================================================
 
 
 
-# SET CACHE FILE
-#===============================================================================
+	# BOOTCTL INSTALLATION
+	#===============================================================================
+	arch-chroot /mnt /bin/bash -c "bootctl install"
 
-zfs snap zroot/root@virgina
-zfs snap zroot/home@virgina
+	echo "timeout 3" 	> /mnt/boot/loader/loader.conf
+	echo "default arch" >> /mnt/boot/loader/loader.conf
 
-zpool set cachefile=/etc/zfs/zpool.cache zroot
-cp -f /etc/zfs/zpool.cache /mnt/etc/zfs
+	echo "title          PrimeArch" 			> /mnt/boot/loader/entries/arch.conf
+	echo "linux          /vmlinuz-linux" 		>> /mnt/boot/loader/entries/arch.conf
+	echo "initrd         /initramfs-linux.img" 	>> /mnt/boot/loader/entries/arch.conf
+	echo "options        zfs=zroot/root rw" 	>> /mnt/boot/loader/entries/arch.conf
 
-umount -R /mnt
-zfs umount -a
-zpool export zroot
-#===============================================================================
+	echo "title          PrimeArch fallback" 				> /mnt/boot/loader/entries/fallback.conf
+	echo "linux          /vmlinuz-linux" 					>> /mnt/boot/loader/entries/fallback.conf
+	echo "initrd         /initramfs-linux-fallback.img" 	>> /mnt/boot/loader/entries/fallback.conf
+	echo "options        zfs=zroot/root rw" 				>> /mnt/boot/loader/entries/fallback.conf
+	#===============================================================================
 
+	arch-chroot /mnt /bin/bash -c "mkinitcpio -p linux"
+
+	# CLONE BOOTSECTOR
+	#===============================================================================
+	rsync -ar /mnt/boot/ /mnt/boot2/
+	#===============================================================================
+
+
+
+	# SET CACHE FILE
+	#===============================================================================
+	zfs snap zroot/root@virgina
+	zfs snap zroot/home@virgina
+
+	zpool set cachefile=/etc/zfs/zpool.cache zroot
+	cp -f /etc/zfs/zpool.cache /mnt/etc/zfs
+
+	umount -R /mnt
+	zfs umount -a
+	zpool export zroot
+	#===============================================================================
 }
