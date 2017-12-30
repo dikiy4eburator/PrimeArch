@@ -43,7 +43,7 @@ function f_install_i3() {
 
 	f_pacage_install pakages_i3
 
-	arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) yaourt -S --noconfirm i3-gaps polybar"
+	# arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) yaourt -S --noconfirm polybar"
 
 
 }
