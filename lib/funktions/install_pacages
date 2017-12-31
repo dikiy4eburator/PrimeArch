@@ -31,6 +31,9 @@ function f_install_cosmetiks() {
 ###############################################################################
 
 function f_install_i3() {
+	# clone i3 config
+	git clone https://github.com/dikiy4eburator/i3-config.git /mnt/home/$(</tmp/user_name)/.config/i3
+	
 	f_pacage_install pakages_i3
 
 	# copy APP configs
