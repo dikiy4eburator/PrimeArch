@@ -70,7 +70,7 @@ function f_zfs() {
 	echo "===== ZPOOL DON ================================================="
 
 	echo "===== DATASETS ================================================="
-	zfs create -o mountpoint=/						zroot/root
+	zfs create -o mountpoint=/ -o canmount=noauto	zroot/root
 	zfs create -o mountpoint=/home -o setuid=off    zroot/home
 	zfs create -o mountpoint=/tmp                   zroot/tmp
 	zfs create -o mountpoint=/var                   zroot/var
@@ -304,7 +304,7 @@ function f_zfs() {
 
 	# BOOTCTL INSTALLATION
 	#===============================================================================
-	arch-chroot /mnt /bin/bash -c "bootctl install --path=/boot"
+	arch-chroot /mnt /bin/bash -c "bootctl install --path=/boot --no-variables"
 
 	echo "timeout 3" 	> /mnt/boot/loader/loader.conf
 	echo "default arch" >> /mnt/boot/loader/loader.conf
@@ -320,10 +320,10 @@ function f_zfs() {
 	echo "options        zfs=zroot/root rw" 				>> /mnt/boot/loader/entries/fallback.conf
 
 	#------------------------------------------------------------------------------
-	arch-chroot /mnt /bin/bash -c "bootctl install --path=/boot2"
+	arch-chroot /mnt /bin/bash -c "bootctl install --path=/boot2 --no-variables"
 
-	echo "timeout 3" 	> /mnt/boot2/loader/loader.conf
-	echo "default arch" >> /mnt/boot2/loader/loader.conf
+	echo "timeout 3" 		> /mnt/boot2/loader/loader.conf
+	echo "default arch" 	>> /mnt/boot2/loader/loader.conf
 
 	echo "title          PrimeArch boot B" 			> /mnt/boot2/loader/entries/arch.conf
 	echo "linux          /vmlinuz-linux" 			>> /mnt/boot2/loader/entries/arch.conf
@@ -334,13 +334,26 @@ function f_zfs() {
 	echo "linux          /vmlinuz-linux" 					>> /mnt/boot2/loader/entries/fallback.conf
 	echo "initrd         /initramfs-linux-fallback.img" 	>> /mnt/boot2/loader/entries/fallback.conf
 	echo "options        zfs=zroot/root rw" 				>> /mnt/boot2/loader/entries/fallback.conf
+
+	x=1
+	while read line
+		do
+			if [[ $x == 1 ]];
+				then
+					efibootmgr -c -d /dev/disk/by-id/$line -p 1 -l /EFI/systemd/systemd-bootx64.efi -L "Boot $x"
+					((x++))
+				else
+					efibootmgr -c -d /dev/disk/by-id/$line -p 1 -l /EFI/systemd/systemd-bootx64.efi -L "Boot $x"
+			fi
+	done < /tmp/hdd_by_id
 	#===============================================================================
 
 	arch-chroot /mnt /bin/bash -c "mkinitcpio -p linux"
 
 	# CLONE BOOTSECTOR
 	#===============================================================================
-	rsync -arv /mnt/boot/ /mnt/boot2/
+	cp -fv /boot/vmlinuz-linux /boot2/vmlinuz-linux
+	cp -fv /boot/initramfs-linux.img /boot2/initramfs-linux.img
 	#===============================================================================
 
 
