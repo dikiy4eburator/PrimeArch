@@ -302,6 +302,16 @@ function f_zfs() {
 
 
 
+
+	# CLONE BOOTSECTOR
+	#===============================================================================
+	arch-chroot /mnt /bin/bash -c "mkinitcpio -p linux"
+	rsync -arvz /boot/ /boot2/
+	#===============================================================================
+
+
+
+
 	# BOOTCTL INSTALLATION
 	#===============================================================================
 	arch-chroot /mnt /bin/bash -c "bootctl install --path=/boot --no-variables"
@@ -314,11 +324,6 @@ function f_zfs() {
 	echo "initrd         /initramfs-linux.img" 		>> /mnt/boot/loader/entries/arch.conf
 	echo "options        zfs=zroot/root rw" 		>> /mnt/boot/loader/entries/arch.conf
 
-	echo "title          PrimeArch fallback" 				> /mnt/boot/loader/entries/fallback.conf
-	echo "linux          /vmlinuz-linux" 					>> /mnt/boot/loader/entries/fallback.conf
-	echo "initrd         /initramfs-linux-fallback.img" 	>> /mnt/boot/loader/entries/fallback.conf
-	echo "options        zfs=zroot/root rw" 				>> /mnt/boot/loader/entries/fallback.conf
-
 	#------------------------------------------------------------------------------
 	arch-chroot /mnt /bin/bash -c "bootctl install --path=/boot2 --no-variables"
 
@@ -329,11 +334,6 @@ function f_zfs() {
 	echo "linux          /vmlinuz-linux" 			>> /mnt/boot2/loader/entries/arch.conf
 	echo "initrd         /initramfs-linux.img" 		>> /mnt/boot2/loader/entries/arch.conf
 	echo "options        zfs=zroot/root rw" 		>> /mnt/boot2/loader/entries/arch.conf
-
-	echo "title          PrimeArch fallback" 				> /mnt/boot2/loader/entries/fallback.conf
-	echo "linux          /vmlinuz-linux" 					>> /mnt/boot2/loader/entries/fallback.conf
-	echo "initrd         /initramfs-linux-fallback.img" 	>> /mnt/boot2/loader/entries/fallback.conf
-	echo "options        zfs=zroot/root rw" 				>> /mnt/boot2/loader/entries/fallback.conf
 
 	x=1
 	while read line
@@ -346,14 +346,6 @@ function f_zfs() {
 					efibootmgr -c -d /dev/disk/by-id/$line -p 1 -l /EFI/systemd/systemd-bootx64.efi -L "Boot $x"
 			fi
 	done < /tmp/hdd_by_id
-	#===============================================================================
-
-	arch-chroot /mnt /bin/bash -c "mkinitcpio -p linux"
-
-	# CLONE BOOTSECTOR
-	#===============================================================================
-	cp -fv /boot/vmlinuz-linux /boot2/vmlinuz-linux
-	cp -fv /boot/initramfs-linux.img /boot2/initramfs-linux.img
 	#===============================================================================
 
 
@@ -371,4 +363,5 @@ function f_zfs() {
 	zfs umount -a
 	zpool export zroot
 	#===============================================================================
+	exit
 }
