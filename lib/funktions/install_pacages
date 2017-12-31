@@ -46,6 +46,7 @@ function f_install_xfce() {
 	f_pacage_install pakages_xfce4
 
 	# copy APP configs
+	mkdir /mnt/home/$(</tmp/user_name)/.config
 	cp -r -v $working_dir/lib/configs/app_configs/* /mnt/home/$(</tmp/user_name)/.config
 }
 
@@ -66,6 +67,7 @@ function f_install_plasma() {
 	f_pacage_install pakages_plasma
 
 	# copy APP configs
+	mkdir /mnt/home/$(</tmp/user_name)/.config
 	cp -r -v $working_dir/lib/configs/app_configs/* /mnt/home/$(</tmp/user_name)/.config
 }
 
@@ -75,6 +77,7 @@ function f_install_gnome() {
 	f_pacage_install pakages_gnome
 
 	# copy APP configs
+	mkdir /mnt/home/$(</tmp/user_name)/.config
 	cp -r -v $working_dir/lib/configs/app_configs/* /mnt/home/$(</tmp/user_name)/.config
 }
 
