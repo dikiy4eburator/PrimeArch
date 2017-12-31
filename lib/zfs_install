@@ -145,11 +145,13 @@ function f_zfs() {
 	arch-chroot /mnt /bin/bash -c "pacman-key --lsign-key 5E1ABF240EE7A126"
 	arch-chroot /mnt /bin/bash -c "pacman -Syy"
 
+	arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S spl-linux"
+	arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S zfs-linux"
 	#------------------------------------------------------------------------------
-	cp -fvr /root/zfs /mnt/
-	arch-chroot /mnt /bin/bash -c "pacman --noconfirm -R linux linux-headers"
-	arch-chroot /mnt /bin/bash -c "pacman --noconfirm -U /zfs/*.tar.xz"
-	rm -R /mnt/zfs
+	# cp -fvr /root/zfs /mnt/
+	# arch-chroot /mnt /bin/bash -c "pacman --noconfirm -R linux linux-headers"
+	# arch-chroot /mnt /bin/bash -c "pacman --noconfirm -U /zfs/*.tar.xz"
+	# rm -R /mnt/zfs
 	#===============================================================================
 
 
@@ -302,20 +304,36 @@ function f_zfs() {
 
 	# BOOTCTL INSTALLATION
 	#===============================================================================
-	arch-chroot /mnt /bin/bash -c "bootctl install"
+	arch-chroot /mnt /bin/bash -c "bootctl install --path=/boot"
 
 	echo "timeout 3" 	> /mnt/boot/loader/loader.conf
 	echo "default arch" >> /mnt/boot/loader/loader.conf
 
-	echo "title          PrimeArch" 			> /mnt/boot/loader/entries/arch.conf
-	echo "linux          /vmlinuz-linux" 		>> /mnt/boot/loader/entries/arch.conf
-	echo "initrd         /initramfs-linux.img" 	>> /mnt/boot/loader/entries/arch.conf
-	echo "options        zfs=zroot/root rw" 	>> /mnt/boot/loader/entries/arch.conf
+	echo "title          PrimeArch boot A" 			> /mnt/boot/loader/entries/arch.conf
+	echo "linux          /vmlinuz-linux" 			>> /mnt/boot/loader/entries/arch.conf
+	echo "initrd         /initramfs-linux.img" 		>> /mnt/boot/loader/entries/arch.conf
+	echo "options        zfs=zroot/root rw" 		>> /mnt/boot/loader/entries/arch.conf
 
 	echo "title          PrimeArch fallback" 				> /mnt/boot/loader/entries/fallback.conf
 	echo "linux          /vmlinuz-linux" 					>> /mnt/boot/loader/entries/fallback.conf
 	echo "initrd         /initramfs-linux-fallback.img" 	>> /mnt/boot/loader/entries/fallback.conf
 	echo "options        zfs=zroot/root rw" 				>> /mnt/boot/loader/entries/fallback.conf
+
+	#------------------------------------------------------------------------------
+	arch-chroot /mnt /bin/bash -c "bootctl install --path=/boot2"
+
+	echo "timeout 3" 	> /mnt/boot2/loader/loader.conf
+	echo "default arch" >> /mnt/boot2/loader/loader.conf
+
+	echo "title          PrimeArch boot B" 			> /mnt/boot2/loader/entries/arch.conf
+	echo "linux          /vmlinuz-linux" 			>> /mnt/boot2/loader/entries/arch.conf
+	echo "initrd         /initramfs-linux.img" 		>> /mnt/boot2/loader/entries/arch.conf
+	echo "options        zfs=zroot/root rw" 		>> /mnt/boot2/loader/entries/arch.conf
+
+	echo "title          PrimeArch fallback" 				> /mnt/boot2/loader/entries/fallback.conf
+	echo "linux          /vmlinuz-linux" 					>> /mnt/boot2/loader/entries/fallback.conf
+	echo "initrd         /initramfs-linux-fallback.img" 	>> /mnt/boot2/loader/entries/fallback.conf
+	echo "options        zfs=zroot/root rw" 				>> /mnt/boot2/loader/entries/fallback.conf
 	#===============================================================================
 
 	arch-chroot /mnt /bin/bash -c "mkinitcpio -p linux"
