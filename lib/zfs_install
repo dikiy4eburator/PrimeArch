@@ -306,7 +306,7 @@ function f_zfs() {
 	# CLONE BOOTSECTOR
 	#===============================================================================
 	arch-chroot /mnt /bin/bash -c "mkinitcpio -p linux"
-	rsync -arvz /boot/ /boot2/
+	rsync -arvz /mnt/boot/ /mnt/boot2/
 	#===============================================================================
 
 
@@ -356,7 +356,7 @@ function f_zfs() {
 	zfs snap zroot/home@virgina
 
 	zpool set cachefile=/etc/zfs/zpool.cache 	zroot
-	zpool set canmount=noauto					zroot/root
+	zfs set canmount=noauto zroot/root
 	cp -f /etc/zfs/zpool.cache /mnt/etc/zfs
 
 	umount -R /mnt
