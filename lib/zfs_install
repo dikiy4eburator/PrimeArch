@@ -50,7 +50,7 @@ function f_zfs() {
 				-O compression=lz4 \
 				-O normalization=formD \
 				-O canmount=off \
-			zroot $(</tmp/part_by_id)
+			zroot /dev/disk/by-id/$(</tmp/part_by_id)
 			echo "===== ZPOOL DON ================================================="
 			;;
 		raidz )
