@@ -301,8 +301,8 @@ dialog \
 2>/tmp/user_pw
 #===============================================================================
 
-rankmirrors -v -n 5 /etc/pacman.d/mirrorlist
-mv -f -v /etc/pacman.d/mirrorlist.pacnew /etc/pacman.d/mirrorlist
+#rankmirrors -v -n 5 /etc/pacman.d/mirrorlist
+#mv -f -v /etc/pacman.d/mirrorlist.pacnew /etc/pacman.d/mirrorlist
 
 # START INSTALLATION
 #===============================================================================
