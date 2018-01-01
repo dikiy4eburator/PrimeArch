@@ -105,11 +105,11 @@ function f_zfs() {
 	# Install base pacages
 	#===============================================================================
 	f_pacage_install pakages_base_zfs
-	#f_pacage_install pakages_base_network
-	#f_pacage_install pakages_base_video
-	#f_pacage_install pakages_base_audio
-	#f_pacage_install pakages_base_desktop
-	#f_pacage_install pakages_base_cosmetik
+	f_pacage_install pakages_base_network
+	f_pacage_install pakages_base_video
+	f_pacage_install pakages_base_audio
+	f_pacage_install pakages_base_desktop
+	f_pacage_install pakages_base_cosmetik
 	#===============================================================================
 
 
@@ -130,8 +130,7 @@ function f_zfs() {
 	mv -fv /tmp/fstab.new /mnt/etc/fstab
 	#===============================================================================
 
-cat /mnt/etc/fstab
-exit
+
 
 	# COPY system config FILES
 	#===============================================================================
