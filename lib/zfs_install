@@ -48,12 +48,6 @@ function f_zfs() {
 			raidmod=mirror ;;
 		raidz )
 			raidmod=raidz ;;
-		raidz1 )
-			raidmod=raidz1 ;;
-		raidz2 )
-			raidmod=raidz2 ;;
-		raidz3 )
-			raidmod=raidz3 ;;
 	esac
 	#===========================================================================
 
