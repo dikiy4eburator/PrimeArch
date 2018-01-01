@@ -145,8 +145,9 @@ function f_zfs() {
 	# install_zfs
 	#===============================================================================
 	arch-chroot /mnt /bin/bash -c "pacman-key -r 5E1ABF240EE7A126"
+	sleep 3
 	arch-chroot /mnt /bin/bash -c "pacman-key --lsign-key 5E1ABF240EE7A126"
-	arch-chroot /mnt /bin/bash -c "pacman-key --lsign-key 5E1ABF240EE7A126"
+	sleep 3
 	arch-chroot /mnt /bin/bash -c "pacman-key --lsign-key 5E1ABF240EE7A126"
 	arch-chroot /mnt /bin/bash -c "pacman -Syy"
 
