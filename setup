@@ -156,7 +156,7 @@ case $(</tmp/installation_mod) in
 		--begin $BoxStartY $BoxStartX \
 		--title 'Choose you raidmod' \
 		--menu "" 12 $BoxWhith 7 \
-			#stripe 	"1+ harddrives" \
+			stripe 	"1+ harddrives !!! Broken !!!" \
 			raidz 	"2+ harddrives" \
 			raidz1 	"4+ harddrives" \
 			raidz2  "6+ harddrives" \
