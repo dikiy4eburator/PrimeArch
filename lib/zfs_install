@@ -60,7 +60,7 @@ function f_zfs() {
 	# Setup zpool and datasets
 	#===============================================================================
 
-	echo "===== ZPOOL ================================================="
+	echo "===== ZPOOL ========================================================="
 	zpool create -f \
 		-o ashift=12 \
 		-O atime=off \
@@ -68,15 +68,15 @@ function f_zfs() {
 		-O normalization=formD \
 		-O canmount=off \
 	zroot $raidmod $(</tmp/part_by_id)
-	echo "===== ZPOOL DON ================================================="
+	echo "===== ZPOOL DON ====================================================="
 
-	echo "===== DATASETS ================================================="
+	echo "===== DATASETS ======================================================"
 	zfs create -o mountpoint=/ 						zroot/root
 	zfs create -o mountpoint=/home -o setuid=off    zroot/home
 	zfs create -o mountpoint=/tmp                   zroot/tmp
 	zfs create -o mountpoint=/var/cache/pacman/pkg  zroot/pkg
 	zfs create -o mountpoint=/var/log				zroot/log
-	echo "===== DATASETS DON ================================================="
+	echo "===== DATASETS DON =================================================="
 
 	zpool set bootfs=zroot/root zroot
 	zpool export zroot
