@@ -41,7 +41,7 @@ function f_zfs() {
 	#===============================================================================
 	case $(</tmp/raid) in
 		stripe )
-				raidmod="" ;;
+				;;
 		raidz )
 				raidmod=raidz ;;
 		raidz1 )
