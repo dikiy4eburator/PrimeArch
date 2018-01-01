@@ -23,7 +23,7 @@ function f_zfs() {
 	 		sgdisk -n 1:0:+256M 	-c 1:"EFI" 	-t 1:ef00 /dev/disk/by-id/$line
 	 		sgdisk -n 2:0:0 		-c 2:"ROOT" -t 2:bf00 /dev/disk/by-id/$line
 
-		done < /tmp/hdd_by_id
+	done < /tmp/hdd_by_id
 
 
 	# format efi part
@@ -43,16 +43,7 @@ function f_zfs() {
 	#===============================================================================
 	case $(</tmp/raid) in
 		stripe )
-			echo "===== ZPOOL ================================================="
-			zpool create -f \
-				-o ashift=12 \
-				-O atime=off \
-				-O compression=lz4 \
-				-O normalization=formD \
-				-O canmount=off \
-			zroot /dev/disk/by-id/$(</tmp/part_by_id)
-			echo "===== ZPOOL DON ================================================="
-			;;
+			raidmod=" " ;;
 		raidz )
 			raidmod=raidz ;;
 		raidz1 )
