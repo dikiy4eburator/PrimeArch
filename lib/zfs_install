@@ -322,7 +322,7 @@ function f_zfs() {
 	#===============================================================================
 	arch-chroot /mnt /bin/bash -c "bootctl install --path=/boot --no-variables"
 
-	echo "timeout 3" 	> /mnt/boot/loader/loader.conf
+	echo "timeout 5" 	> /mnt/boot/loader/loader.conf
 	echo "default arch" >> /mnt/boot/loader/loader.conf
 
 	echo "title          PrimeArch boot A" 			> /mnt/boot/loader/entries/arch.conf
@@ -338,7 +338,7 @@ function f_zfs() {
 	#------------------------------------------------------------------------------
 	arch-chroot /mnt /bin/bash -c "bootctl install --path=/boot2 --no-variables"
 
-	echo "timeout 3" 		> /mnt/boot2/loader/loader.conf
+	echo "timeout 5" 		> /mnt/boot2/loader/loader.conf
 	echo "default arch" 	>> /mnt/boot2/loader/loader.conf
 
 	echo "title          PrimeArch boot B" 			> /mnt/boot2/loader/entries/arch.conf
