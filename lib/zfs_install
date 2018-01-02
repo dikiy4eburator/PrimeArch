@@ -107,9 +107,6 @@ function f_zfs() {
 	f_pacage_install pakages_base_audio
 	f_pacage_install pakages_base_desktop
 	f_pacage_install pakages_base_cosmetik
-
-	pacstrap /mnt spl-dkms
-	pacstrap /mnt zfs-dkms
 	#===============================================================================
 
 
@@ -150,6 +147,10 @@ function f_zfs() {
 	sleep 3
 	arch-chroot /mnt /bin/bash -c "pacman-key --lsign-key 5E1ABF240EE7A126"
 	arch-chroot /mnt /bin/bash -c "pacman -Syy"
+
+
+	pacstrap /mnt spl-dkms
+	pacstrap /mnt zfs-dkms
 
 
 	#------------------------------------------------------------------------------
