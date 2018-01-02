@@ -6,9 +6,9 @@ function f_normal() {
 	# Partitionierung AUTO MANUEL
 	#===============================================================================
 	case $(</tmp/partitionierung) in
-		1 )
+		Automatic)
 			f_autopartition ;;
-		2 )
+		Manual)
 			;;
 	esac
 	#===============================================================================
