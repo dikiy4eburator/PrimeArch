@@ -111,12 +111,8 @@ function f_normal() {
 			f_install_xfce ;;
 		mate )
 			f_install_mate ;;
-		plasma )
-			f_install_plasma ;;
 		gnome )
 			f_install_gnome ;;
-		deepin )
-			f_install_deepin ;;
 		"No Desktop" )
 			;;
 	esac
