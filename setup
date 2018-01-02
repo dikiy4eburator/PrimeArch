@@ -124,7 +124,7 @@ case $(</tmp/installation_mod) in
 				--begin $BoxStartY $BoxStartX \
 				--title "SWAP" \
 				--inputbox '\nSWAP partition size (in Mb)\n' 9 $BoxWhith \
-					2>/tmp/swap_size
+					2>/mnt/tmp/swap_size
 				#===============================================================================
 				;;
 
