@@ -203,4 +203,5 @@ function f_normal() {
 
 	arch-chroot /mnt /bin/bash -c "grub-mkconfig -o /boot/grub/grub.cfg"
 	#===============================================================================
+	exit
 }

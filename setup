@@ -40,8 +40,9 @@ source $working_dir/lib/normal_install
 
 dialog \
 --backtitle 'PrimeArch Installer' \
+--title 'Languge' \
 --begin $BoxStartY $BoxStartX \
---menu "Select your languge" 12 $BoxWhith 3 \
+--menu "\nSelect your languge\n" 12 $BoxWhith 3 \
 	1 English \
 	2 German \
 	3 Russian \
@@ -63,7 +64,7 @@ esac
 #===============================================================================
 dialog \
 --backtitle 'PrimeArch Installer' \
---title 'Partitionierung' \
+--title 'Installation Mode' \
 --begin $BoxStartY $BoxStartX \
 --menu "\nWhat kind of installation you want?\n" 12 $BoxWhith 3 \
 	1 "Normal installation" \
@@ -78,7 +79,7 @@ case $(</tmp/installation_mod) in
 		--backtitle 'PrimeArch Installer' \
 		--title 'Partitionierung' \
 		--begin $BoxStartY $BoxStartX \
-		--menu "How do you want to partition you harddrive" 12 $BoxWhith 3 \
+		--menu "\nHow do you want to partition you hard drive\n" 12 $BoxWhith 3 \
 			1 Automatic \
 			2 Manual \
 			2>/tmp/partitionierung
@@ -108,7 +109,7 @@ case $(</tmp/installation_mod) in
 						--backtitle 'PrimeArch Installer' \
 						--begin $BoxStartY $BoxStartX \
 						--title "ROOT" \
-						--inputbox '\nHow big you want the ROOT partition? (in Gb)' 9 $BoxWhith \
+						--inputbox '\nROOT partition size (in Gb)\n' 9 $BoxWhith \
 						2>/tmp/root_size
 
 					else
@@ -122,7 +123,7 @@ case $(</tmp/installation_mod) in
 				--backtitle 'PrimeArch Installer' \
 				--begin $BoxStartY $BoxStartX \
 				--title "SWAP" \
-				--inputbox '\n Bitte geben Sie die Gröse der SWAP Datei in Megabite an.' 9 $BoxWhith \
+				--inputbox '\nSWAP partition size (in Mb)\n' 9 $BoxWhith \
 				2>/tmp/swap_size
 				#===============================================================================
 				;;
@@ -141,9 +142,9 @@ case $(</tmp/installation_mod) in
 		dialog \
 		--backtitle "PrimeArch" \
 		--begin $BoxStartY $BoxStartX \
-		--title "HDD Auswahl" \
+		--title "HDD Selektion" \
 		--separate-output \
-		--checklist "Shoose the harddrives for the ZPool" 15 $BoxWhith 7 \
+		--checklist "\nShoose the harddrives for the ZPool\n" 15 $BoxWhith 7 \
 			$(awk 'NR>=2{ if($9 !~ /part/ ) print $9" "$11" " "off"}' < /tmp/hdlist) \
 		2>/tmp/hdd_by_id
 		#===============================================================================
@@ -154,8 +155,8 @@ case $(</tmp/installation_mod) in
 		dialog \
 		--backtitle "PrimeArch" \
 		--begin $BoxStartY $BoxStartX \
-		--title 'Choose you raidmod' \
-		--menu "" 12 $BoxWhith 7 \
+		--title 'RAID mode' \
+		--menu "\nShoose the RAID mode for the ZPool\n" 12 $BoxWhith 7 \
 			stripe 	"2+ harddrives" \
 			mirror	"2+ harddrives" \
 			raidz 	"2+ harddrives" \
@@ -173,7 +174,7 @@ dialog \
 --backtitle 'PrimeArch Installer' \
 --begin $BoxStartY $BoxStartX \
 --title 'Hostname' \
---inputbox 'Enter the Hostnamen' 8 $BoxWhith \
+--inputbox '\nEnter the Hostnamen\n' 8 $BoxWhith \
 2>/tmp/hostname
 #===============================================================================
 
@@ -187,7 +188,7 @@ dialog \
 --backtitle 'PrimeArch Installer' \
 --title 'Time setup' \
 --begin $BoxStartY $BoxStartX \
---menu "Select your regeon" 20 $BoxWhith 20 \
+--menu "\nSelect your regeon\n" 20 $BoxWhith 20 \
   $( awk '{ print }' < /tmp/time_region_in ) \
   2>/tmp/time_region_out
 
@@ -199,7 +200,7 @@ dialog \
 --backtitle 'PrimeArch Installer' \
 --title 'Time setup' \
 --begin $BoxStartY $BoxStartX \
---menu "Select your sub regeon" 20 $BoxWhith 20 \
+--menu "\nSelect your sub regeon\n" 20 $BoxWhith 20 \
   $( awk '{ print }' < /tmp/time_subregion_in ) \
   2>/tmp/time_subregion_out
 
@@ -209,7 +210,7 @@ dialog \
 --backtitle 'PrimeArch Installer' \
 --title 'Time setup' \
 --begin $BoxStartY $BoxStartX \
---menu "Select the time format" 10 $BoxWhith 3 \
+--menu "\nSelect the time format\n" 10 $BoxWhith 3 \
   utc         1 \
   localtime   2 \
   2>/tmp/time_format
@@ -222,8 +223,8 @@ dialog \
 dialog \
 --backtitle "PrimeArch" \
 --begin $BoxStartY $BoxStartX \
---title 'Choose you Desktop' \
---menu "" 12 $BoxWhith 7 \
+--title 'Desktop' \
+--menu "\nChoose you Desktop\n" 12 $BoxWhith 7 \
 	1 i3 \
 	2 xfce \
 	3 mate \
@@ -241,7 +242,7 @@ dialog \
 --backtitle "PrimeArch" \
 --begin $BoxStartY $BoxStartX \
 --title 'Video driver' \
---menu "" 12 $BoxWhith 6 \
+--menu "\nChoose you Video driver\n" 12 $BoxWhith 6 \
 	1 virtualbox \
 	2 Nvidia \
 	3 ATI \
@@ -271,7 +272,7 @@ case $(</tmp/root_status) in
 			--begin $BoxStartY $BoxStartX \
 			--title 'ROOT Password' \
 			--insecure \
-			--passwordbox 'Enter the ROOT Password' 9 $BoxWhith \
+			--passwordbox '\nEnter the ROOT Password\n' 9 $BoxWhith \
 			2>/tmp/root_pw
 			;;
 
@@ -287,7 +288,7 @@ esac
 dialog \
 --backtitle 'PrimeArch Installer' \
 --begin $BoxStartY $BoxStartX \
---inputbox 'Enter the name for the new user' 8 $BoxWhith \
+--inputbox '\nEnter the name for the new user\n' 8 $BoxWhith \
 2>/tmp/user_name
 
 dialog \
@@ -295,7 +296,7 @@ dialog \
 --begin $BoxStartY $BoxStartX \
 --title 'User Password' \
 --insecure \
---passwordbox "\nEnter the Password for $(</tmp/user_name)" 9 $BoxWhith \
+--passwordbox "\nEnter the Password for $(</tmp/user_name)\n" 9 $BoxWhith \
 2>/tmp/user_pw
 #===============================================================================
 
