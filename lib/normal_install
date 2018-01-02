@@ -104,20 +104,21 @@ function f_normal() {
 
 	# INSTALL DESKTOP
 	#===============================================================================
-  	case $(</tmp/desktop) in
-  		1 )
-  			f_install_i3 ;;
-  		2 )
-  			f_install_xfce ;;
-  		3 )
-  			f_install_mate ;;
-  		4 )
-  			f_install_plasma ;;
-  		5 )
-  			f_install_gnome ;;
-  		0 )
-  		 	;;
-  	esac
+	case $(</tmp/desktop) in
+
+		i3 )
+			f_install_i3 ;;
+		xfce )
+			f_install_xfce ;;
+		mate )
+			f_install_mate ;;
+		plasma )
+			f_install_plasma ;;
+		gnome )
+			f_install_gnome ;;
+		No Desktop )
+			;;
+	esac
   	#===============================================================================
 
 

@@ -228,7 +228,7 @@ function f_zfs() {
 			f_install_plasma ;;
 		gnome )
 			f_install_gnome ;;
-		0 )
+		No Desktop )
 			;;
 	esac
 	#===============================================================================

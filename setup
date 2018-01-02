@@ -229,13 +229,14 @@ dialog \
 --begin $BoxStartY $BoxStartX \
 --title 'Desktop' \
 --menu "\nChoose you Desktop\n" 15 $BoxWhith 6 \
-	i3 				- \
-	xfce 			- \
-	mate 			- \
-	plasma 			- \
-	gnome 			- \
-	0 'No Desktop' \
+	i3 				" " \
+	xfce 			" " \
+	mate 			" " \
+	plasma 			" " \
+	gnome 			" " \
+	'No Desktop' 	" " \
 	2>/tmp/desktop
+
 
 #===============================================================================
 
@@ -263,9 +264,9 @@ dialog \
 #===============================================================================
 dialog \
 --backtitle 'PrimeArch Installer' \
---title 'Partitionierung' \
+--title "Partitionierung" \
 --begin $BoxStartY $BoxStartX \
---menu '\nActivate ROOT accaunt? \n' 9 $BoxWhith 2 \
+--menu "Activate ROOT accaunt?" 9 $BoxWhith 2 \
 	1 yes \
 	2 no \
 	2>/tmp/root_status
