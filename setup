@@ -42,7 +42,7 @@ dialog \
 --backtitle 'PrimeArch Installer' \
 --title 'Languge' \
 --begin $BoxStartY $BoxStartX \
---menu "\nSelect your languge\n" 12 $BoxWhith 3 \
+--menu "\nSelect your languge" 12 $BoxWhith 3 \
 	1 English \
 	2 German \
 	3 Russian \
@@ -110,7 +110,7 @@ case $(</tmp/installation_mod) in
 						--begin $BoxStartY $BoxStartX \
 						--title "ROOT" \
 						--inputbox '\nROOT partition size (in Gb)\n' 9 $BoxWhith \
-						2>/tmp/root_size
+							2>/tmp/root_size
 
 					else
 						echo "nein" > /tmp/extrahome
@@ -124,7 +124,7 @@ case $(</tmp/installation_mod) in
 				--begin $BoxStartY $BoxStartX \
 				--title "SWAP" \
 				--inputbox '\nSWAP partition size (in Mb)\n' 9 $BoxWhith \
-				2>/tmp/swap_size
+					2>/tmp/swap_size
 				#===============================================================================
 				;;
 
@@ -147,9 +147,9 @@ case $(</tmp/installation_mod) in
 		--begin $(($BoxStartY+7)) $BoxStartX \
 		--title "HDD Selektion" \
 		--separate-output \
-		--checklist "\nShoose the hard drives for the ZPool\n" 16 $BoxWhith 7 \
+		--checklist "\nShoose the hard drives for the ZPool" 16 $BoxWhith 7 \
 			$(awk 'NR>=2{ if($9 !~ /part/ ) print $9" "$11" " "off"}' < /tmp/hdlist) \
-		2>/tmp/hdd_by_id
+			2>/tmp/hdd_by_id
 		#===============================================================================
 
 
@@ -159,7 +159,7 @@ case $(</tmp/installation_mod) in
 		--backtitle "PrimeArch" \
 		--begin $BoxStartY $BoxStartX \
 		--title 'RAID mode' \
-		--menu "\nShoose the RAID mode for the ZPool\n" 12 $BoxWhith 3 \
+		--menu "\nShoose the RAID mode for the ZPool" 12 $BoxWhith 3 \
 			stripe 	"2+ harddrives" \
 			mirror	"2+ harddrives" \
 			raidz 	"2+ harddrives" \
@@ -178,7 +178,7 @@ dialog \
 --begin $BoxStartY $BoxStartX \
 --title 'Hostname' \
 --inputbox '\nEnter the Hostnamen\n' 9 $BoxWhith \
-2>/tmp/hostname
+	2>/tmp/hostname
 #===============================================================================
 
 
@@ -191,9 +191,9 @@ dialog \
 --backtitle 'PrimeArch Installer' \
 --title 'Time setup' \
 --begin $BoxStartY $BoxStartX \
---menu "\nSelect your regeon\n" 20 $BoxWhith 20 \
-  $( awk '{ print }' < /tmp/time_region_in ) \
-  2>/tmp/time_region_out
+--menu "\nSelect your regeon" 20 $BoxWhith 20 \
+	$( awk '{ print }' < /tmp/time_region_in ) \
+	2>/tmp/time_region_out
 
 
 # GEN TIMEREGION
@@ -203,9 +203,9 @@ dialog \
 --backtitle 'PrimeArch Installer' \
 --title 'Time setup' \
 --begin $BoxStartY $BoxStartX \
---menu "\nSelect your sub regeon\n" 20 $BoxWhith 20 \
-  $( awk '{ print }' < /tmp/time_subregion_in ) \
-  2>/tmp/time_subregion_out
+--menu "\nSelect your sub regeon" 20 $BoxWhith 20 \
+	$( awk '{ print }' < /tmp/time_subregion_in ) \
+	2>/tmp/time_subregion_out
 
 
 # GEN TIMEFORMAT
@@ -214,9 +214,9 @@ dialog \
 --title 'Time setup' \
 --begin $BoxStartY $BoxStartX \
 --menu "\nSelect the time format" 11 $BoxWhith 2 \
-  utc         1 \
-  localtime   2 \
-  2>/tmp/time_format
+	utc         1 \
+	localtime   2 \
+	2>/tmp/time_format
 #====================================================================================
 
 
@@ -246,7 +246,7 @@ dialog \
 --backtitle "PrimeArch" \
 --begin $BoxStartY $BoxStartX \
 --title 'Video driver' \
---menu "\nChoose you Video driver\n" 15 $BoxWhith 6 \
+--menu "\nChoose you Video driver" 15 $BoxWhith 6 \
 	1 virtualbox \
 	2 Nvidia \
 	3 ATI \
@@ -276,7 +276,7 @@ case $(</tmp/root_status) in
 			--begin $BoxStartY $BoxStartX \
 			--title 'ROOT Password' \
 			--insecure \
-			--passwordbox '\nEnter the ROOT Password\n' 9 $BoxWhith \
+			--passwordbox '\nEnter the ROOT Password' 9 $BoxWhith \
 			2>/tmp/root_pw
 			;;
 
