@@ -216,15 +216,13 @@ function f_zfs() {
 	# Desktop installation
 	#===============================================================================
 	case $(</tmp/desktop) in
-		i3 )
+		i3)
 			f_install_i3 ;;
-		xfce )
+		xfce)
 			f_install_xfce ;;
-		mate )
+		mate)
 			f_install_mate ;;
-		plasma )
-			f_install_plasma ;;
-		gnome )
+		gnome)
 			f_install_gnome ;;
 		"No Desktop" )
 			;;

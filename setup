@@ -227,7 +227,7 @@ dialog \
 --backtitle "PrimeArch" \
 --begin $BoxStartY $BoxStartX \
 --title 'Desktop' \
---menu "\nChoose you Desktop\n" 15 $BoxWhith 6 \
+--menu "\nChoose you Desktop" 15 $BoxWhith 6 \
 	i3 				" " \
 	mate 			" " \
 	xfce 			" " \
