@@ -148,7 +148,6 @@ function f_zfs() {
 	arch-chroot /mnt /bin/bash -c "pacman-key --lsign-key 5E1ABF240EE7A126"
 	arch-chroot /mnt /bin/bash -c "pacman -Syy"
 
-
 	arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S spl-dkms"
  	arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S zfs-dkms"
 
