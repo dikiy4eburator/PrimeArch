@@ -25,6 +25,7 @@ function f_autopartition() {
 
 
 function f_auto_part() {
+	wipefs -af /dev/$(</tmp/hdd_name)
 	sgdisk -Z /dev/$(</tmp/hdd_name)
 	sgdisk -g /dev/$(</tmp/hdd_name)
 	sgdisk -o /dev/$(</tmp/hdd_name)
