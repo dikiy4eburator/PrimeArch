@@ -142,8 +142,7 @@ case $(</tmp/installation_mod) in
 		dialog \
 		--backtitle "PrimeArch" \
 		--begin $BoxStartY $BoxStartX \
-		--infobox "You have to select atleast 2 hard drives.\n
-		Use the SPACE-buton to select them." 5 $BoxWhith \
+		--infobox "You have to select atleast 2 hard drives.\nUse the SPACE-buton to select them." 5 $BoxWhith \
 		--and-widget \
 		--begin $(($BoxStartY+7)) $BoxStartX \
 		--title "HDD Selektion" \
@@ -164,7 +163,7 @@ case $(</tmp/installation_mod) in
 			stripe 	"2+ harddrives" \
 			mirror	"2+ harddrives" \
 			raidz 	"2+ harddrives" \
-		2>/tmp/raid
+			2>/tmp/raid
 		#===============================================================================
 		;;
 esac
@@ -214,7 +213,7 @@ dialog \
 --backtitle 'PrimeArch Installer' \
 --title 'Time setup' \
 --begin $BoxStartY $BoxStartX \
---menu "\nSelect the time format\n" 10 $BoxWhith 3 \
+--menu "\nSelect the time format" 11 $BoxWhith 2 \
   utc         1 \
   localtime   2 \
   2>/tmp/time_format
@@ -266,7 +265,7 @@ dialog \
 --backtitle 'PrimeArch Installer' \
 --title "Partitionierung" \
 --begin $BoxStartY $BoxStartX \
---menu "Activate ROOT accaunt?" 9 $BoxWhith 2 \
+--menu "\nActivate ROOT accaunt?" 11 $BoxWhith 2 \
 	1 yes \
 	2 no \
 	2>/tmp/root_status
