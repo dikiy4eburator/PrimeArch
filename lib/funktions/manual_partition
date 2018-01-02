@@ -83,7 +83,7 @@ function f_man_part() {
 							f_mount_boot ;;
 					esac
 				else
-					echo ""
+					:
 			fi
 
 			# Mount HOME
@@ -95,7 +95,7 @@ function f_man_part() {
 					--backtitle 'PrimeArch Installer' \
 					--begin $BoxStartY $BoxStartX \
 					--title "HOME" \
-					--yesno '\n Do you want to mount a HOME partition? \n' 7 $BoxWhith \
+					--yesno '\n Do you want to mount a HOME partition?' 7 $BoxWhith \
 
 					if [[ $? -eq 0 ]];
 						then
@@ -110,7 +110,7 @@ function f_man_part() {
 			f_man_part ;;
 
 		3 )
-			;;
+			exit ;;
 	esac
 }
 

@@ -14,7 +14,7 @@ function f_gen_hdd_menu() {
 	--title "HDD Auswahl" \
 	--menu "Shoose the harddrive for the installation" 15 $BoxWhith 7 \
 		$(awk ' { print $1"\t"$2 } ' < /tmp/hdlist) \
-	2>/tmp/hdd_name
+		2>/tmp/hdd_name
 }
 
 
@@ -30,6 +30,6 @@ function f_gen_part_menu() {
 	--title "Shoose the partition" \
 	--menu "Shoose the partition for "$1 15 $BoxWhith 7 \
 		$(awk ' { print $1"\t"$2 } ' < /tmp/partlist) \
-	2>/tmp/part_name
+		2>/tmp/part_name
 }
 #===============================================================================
