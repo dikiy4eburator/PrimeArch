@@ -57,14 +57,14 @@ function f_def_hdd_patern_sata() {
  		then
 			BOOT_HD="$(</tmp/hdd_name)1"
  		else
-			echo ""
+			:
 	fi
 
 	case $(</tmp/extrahome)  in
 		ja )
 			HOME_HD="$(</tmp/hdd_name)3" ;;
 		nein )
-			echo "" ;;
+			: ;;
 	esac
 }
 
@@ -78,14 +78,14 @@ function f_def_hdd_patern_nvme() {
 		then
 			BOOT_HD="$(</tmp/hdd_name)p1"
 		else
-			echo ""
+			:
 	fi
 
 	case $(</tmp/extrahome)  in
 		ja )
 			HOME_HD="$(</tmp/hdd_name)p3" ;;
 		nein )
-			echo "" ;;
+			: ;;
 	esac
 }
 
@@ -100,14 +100,14 @@ function f_format() {
 		then
 			mkfs.fat -F32 /dev/$BOOT_HD
 		else
-			echo ""
+			:
 	fi
 
 	case $(</tmp/extrahome) in
 		ja )
 			mkfs.ext4 /dev/$HOME_HD ;;
 		nein )
-			echo "" ;;
+			: ;;
 	esac
 }
 
@@ -132,7 +132,7 @@ function f_mount() {
 			mkdir /mnt/home
 			mount -o defaults,noatime,discard /dev/$HOME_HD /mnt/home ;;
 		nein )
-			echo "" ;;
+			: ;;
 	esac
 }
 #===============================================================================
