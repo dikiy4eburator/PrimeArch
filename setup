@@ -233,7 +233,6 @@ dialog \
 	xfce 			3 \
 	gnome 			4 \
 	"No Desktop" 	0 \
-
 	2>/tmp/desktop
 
 
