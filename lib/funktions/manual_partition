@@ -110,7 +110,7 @@ function f_man_part() {
 			f_man_part ;;
 
 		3 )
-			exit ;;
+			;;
 	esac
 }
 
