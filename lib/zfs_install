@@ -102,13 +102,14 @@ function f_zfs() {
 	# Install base pacages
 	#===============================================================================
 	f_pacage_install pakages_base_zfs
-	pacstrap /mnt spl-dkms
-	pacstrap /mnt zfs-dkms
 	f_pacage_install pakages_base_network
 	f_pacage_install pakages_base_video
 	f_pacage_install pakages_base_audio
 	f_pacage_install pakages_base_desktop
 	f_pacage_install pakages_base_cosmetik
+
+	pacstrap /mnt spl-dkms
+	pacstrap /mnt zfs-dkms
 	#===============================================================================
 
 
@@ -143,12 +144,12 @@ function f_zfs() {
 
 	# install_zfs
 	#===============================================================================
-	# arch-chroot /mnt /bin/bash -c "pacman-key -r 5E1ABF240EE7A126"
-	# sleep 3
-	# arch-chroot /mnt /bin/bash -c "pacman-key --lsign-key 5E1ABF240EE7A126"
-	# sleep 3
-	# arch-chroot /mnt /bin/bash -c "pacman-key --lsign-key 5E1ABF240EE7A126"
-	# arch-chroot /mnt /bin/bash -c "pacman -Syy"
+	arch-chroot /mnt /bin/bash -c "pacman-key -r 5E1ABF240EE7A126"
+	sleep 3
+	arch-chroot /mnt /bin/bash -c "pacman-key --lsign-key 5E1ABF240EE7A126"
+	sleep 3
+	arch-chroot /mnt /bin/bash -c "pacman-key --lsign-key 5E1ABF240EE7A126"
+	arch-chroot /mnt /bin/bash -c "pacman -Syy"
 
 
 	#------------------------------------------------------------------------------

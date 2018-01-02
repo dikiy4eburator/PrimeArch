@@ -142,9 +142,13 @@ case $(</tmp/installation_mod) in
 		dialog \
 		--backtitle "PrimeArch" \
 		--begin $BoxStartY $BoxStartX \
+		--infobox "You have to select atleast 2 hard drives.\n
+		Use the SPACE-buton to select them." 5 $BoxWhith \
+		--and-widget \
+		--begin $(($BoxStartY+7)) $BoxStartX \
 		--title "HDD Selektion" \
 		--separate-output \
-		--checklist "\nShoose the hard drives for the ZPool\n" 15 $BoxWhith 7 \
+		--checklist "\nShoose the hard drives for the ZPool\n" 16 $BoxWhith 7 \
 			$(awk 'NR>=2{ if($9 !~ /part/ ) print $9" "$11" " "off"}' < /tmp/hdlist) \
 		2>/tmp/hdd_by_id
 		#===============================================================================
@@ -156,7 +160,7 @@ case $(</tmp/installation_mod) in
 		--backtitle "PrimeArch" \
 		--begin $BoxStartY $BoxStartX \
 		--title 'RAID mode' \
-		--menu "\nShoose the RAID mode for the ZPool\n" 12 $BoxWhith 7 \
+		--menu "\nShoose the RAID mode for the ZPool\n" 12 $BoxWhith 3 \
 			stripe 	"2+ harddrives" \
 			mirror	"2+ harddrives" \
 			raidz 	"2+ harddrives" \
@@ -260,7 +264,7 @@ dialog \
 --backtitle 'PrimeArch Installer' \
 --title 'Partitionierung' \
 --begin $BoxStartY $BoxStartX \
---menu '\nActivate ROOT accaunt? \n' 12 $BoxWhith 6 \
+--menu '\nActivate ROOT accaunt? \n' 9 $BoxWhith 2 \
 	1 yes \
 	2 no \
 	2>/tmp/root_status
@@ -288,7 +292,7 @@ esac
 dialog \
 --backtitle 'PrimeArch Installer' \
 --begin $BoxStartY $BoxStartX \
---inputbox '\nEnter the name for the new user\n' 8 $BoxWhith \
+--inputbox '\nEnter the name for the new user\n' 9 $BoxWhith \
 2>/tmp/user_name
 
 dialog \
