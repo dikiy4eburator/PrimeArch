@@ -4,6 +4,6 @@ pamac-aur
 vertex-icons-git
 vertex-themes
 neofetch
-lightdm-webkit2-greeter
-# tilix
+# lightdm-webkit2-greeter
+lightdm-slick-greeter
 etcher

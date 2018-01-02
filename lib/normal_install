@@ -144,6 +144,7 @@ function f_normal() {
 	#===============================================================================
 	f_install_cosmetiks
 	mv -f -v $working_dir/lib/configs/lightdm-config/lightdm.conf /mnt/etc/lightdm/lightdm.conf
+	mv -f -v $working_dir/lib/configs/lightdm-config/slick-greeter.conf /mnt/etc/lightdm/slick-greeter.conf
 	#===============================================================================
 
 
