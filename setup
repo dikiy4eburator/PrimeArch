@@ -80,13 +80,13 @@ case $(</tmp/installation_mod) in
 		--title 'Partitionierung' \
 		--begin $BoxStartY $BoxStartX \
 		--menu "\nHow do you want to partition you hard drive" 11 $BoxWhith 2 \
-			1 Automatic \
-			2 Manual \
+			Automatic	1 \
+			Manual		2 \
 			2>/tmp/partitionierung
 		#===============================================================================
 
 		case $(</tmp/partitionierung) in
-			1 )
+			Automatic)
 				# Generate HDD selection menu
 				#===============================================================================
 				f_gen_hdd_menu
@@ -128,7 +128,7 @@ case $(</tmp/installation_mod) in
 				#===============================================================================
 				;;
 
-			2 )
+			Manual)
 				f_man_part
 				;;
 		esac
