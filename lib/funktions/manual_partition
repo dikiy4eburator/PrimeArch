@@ -128,7 +128,7 @@ function f_mount_boot() {
 function f_mount_root() {
 	f_gen_part_menu ROOT
 	mkfs.ext4 /dev/$(</tmp/part_name)
-	mount -o defaults,noatime,discard /dev/$(</tmp/part_name) /mnt
+	mount -t ext4 -o defaults,noatime,discard /dev/$(</tmp/part_name) /mnt
 	echo 'ok' >> /tmp/root_mount
 }
 
@@ -149,7 +149,7 @@ function f_mount_home() {
 	fi
 
 	mkdir /mnt/home
-	mount -o defaults,noatime,discard /dev/$(</tmp/part_name) /mnt/home
+	mount -t ext4 -o defaults,noatime,discard /dev/$(</tmp/part_name) /mnt/home
 	echo 'ok' >> /tmp/home_mount
 }
 #===============================================================================

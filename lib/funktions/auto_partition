@@ -117,7 +117,7 @@ function f_format() {
 # MOUNT HARDDRIVES
 function f_mount() {
 
-	mount -o defaults,noatime,discard /dev/$ROOT_HD /mnt
+	mount -t ext4 -o defaults,noatime,discard /dev/$ROOT_HD /mnt
 
 	if [[ -d "/sys/firmware/efi/efivars" ]];
 		then
@@ -131,7 +131,7 @@ function f_mount() {
 	case $(</tmp/extrahome)  in
 		ja )
 			mkdir /mnt/home
-			mount -o defaults,noatime,discard /dev/$HOME_HD /mnt/home ;;
+			mount -t ext4 -o defaults,noatime,discard /dev/$HOME_HD /mnt/home ;;
 		nein )
 			: ;;
 	esac
