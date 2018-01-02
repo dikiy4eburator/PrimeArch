@@ -149,9 +149,8 @@ function f_zfs() {
 	arch-chroot /mnt /bin/bash -c "pacman -Syy"
 
 
-	pacstrap /mnt spl-dkms
-	pacstrap /mnt zfs-dkms
-
+	arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S spl-dkms"
+ 	arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S zfs-dkms"
 
 	#------------------------------------------------------------------------------
 	# cp -fvr /root/zfs /mnt/
