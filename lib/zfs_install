@@ -218,15 +218,15 @@ function f_zfs() {
 	#===============================================================================
 	case $(</tmp/desktop) in
 
-		1 )
+		i3 )
 			f_install_i3 ;;
-		2 )
+		xfce )
 			f_install_xfce ;;
-		3 )
+		mate )
 			f_install_mate ;;
-		4 )
+		plasma )
 			f_install_plasma ;;
-		5 )
+		gnome )
 			f_install_gnome ;;
 		0 )
 			;;

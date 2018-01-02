@@ -228,14 +228,15 @@ dialog \
 --backtitle "PrimeArch" \
 --begin $BoxStartY $BoxStartX \
 --title 'Desktop' \
---menu "\nChoose you Desktop\n" 12 $BoxWhith 7 \
-	1 i3 \
-	2 xfce \
-	3 mate \
-	4 plasma \
-	5 gnome \
+--menu "\nChoose you Desktop\n" 15 $BoxWhith 6 \
+	i3 				- \
+	xfce 			- \
+	mate 			- \
+	plasma 			- \
+	gnome 			- \
 	0 'No Desktop' \
 	2>/tmp/desktop
+
 #===============================================================================
 
 
@@ -246,7 +247,7 @@ dialog \
 --backtitle "PrimeArch" \
 --begin $BoxStartY $BoxStartX \
 --title 'Video driver' \
---menu "\nChoose you Video driver\n" 12 $BoxWhith 6 \
+--menu "\nChoose you Video driver\n" 15 $BoxWhith 6 \
 	1 virtualbox \
 	2 Nvidia \
 	3 ATI \
