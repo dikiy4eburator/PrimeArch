@@ -228,11 +228,11 @@ dialog \
 --begin $BoxStartY $BoxStartX \
 --title 'Desktop' \
 --menu "\nChoose you Desktop" 15 $BoxWhith 6 \
-	i3 				" " \
-	mate 			" " \
-	xfce 			" " \
-	gnome 			" " \
-	"No Desktop" 	" " \
+	i3 				1 \
+	mate 			2 \
+	xfce 			3 \
+	gnome 			4 \
+	"No Desktop" 	0 \
 
 	2>/tmp/desktop
 
@@ -305,8 +305,7 @@ dialog \
 2>/tmp/user_pw
 #===============================================================================
 
-#rankmirrors -v -n 5 /etc/pacman.d/mirrorlist
-#mv -f -v /etc/pacman.d/mirrorlist.pacnew /etc/pacman.d/mirrorlist
+exit
 
 # START INSTALLATION
 #===============================================================================
