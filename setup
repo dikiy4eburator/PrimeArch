@@ -232,9 +232,7 @@ dialog \
 	mate 			" " \
 	xfce 			" " \
 	gnome 			" " \
-	deepin 			" " \
-	plasma 			" " \
-	'No Desktop' 	" " \
+	"No Desktop" 	" " \
 
 	2>/tmp/desktop
 
