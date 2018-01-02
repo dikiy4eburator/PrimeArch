@@ -216,7 +216,6 @@ function f_zfs() {
 	# Desktop installation
 	#===============================================================================
 	case $(</tmp/desktop) in
-
 		i3 )
 			f_install_i3 ;;
 		xfce )
@@ -227,6 +226,8 @@ function f_zfs() {
 			f_install_plasma ;;
 		gnome )
 			f_install_gnome ;;
+		deepin )
+			f_install_deepin ;;
 		"No Desktop" )
 			;;
 	esac
@@ -366,7 +367,7 @@ function f_zfs() {
 
 
 
-	# SET CACHE FILE
+	# LAST STEPS
 	#===============================================================================
 	zfs snap zroot/root@virgina
 	zfs snap zroot/home@virgina

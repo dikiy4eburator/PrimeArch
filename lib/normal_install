@@ -102,10 +102,9 @@ function f_normal() {
 
 
 
-	# INSTALL DESKTOP
+	# Desktop installation
 	#===============================================================================
 	case $(</tmp/desktop) in
-
 		i3 )
 			f_install_i3 ;;
 		xfce )
@@ -116,10 +115,12 @@ function f_normal() {
 			f_install_plasma ;;
 		gnome )
 			f_install_gnome ;;
+		deepin )
+			f_install_deepin ;;
 		"No Desktop" )
 			;;
 	esac
-  	#===============================================================================
+	#===============================================================================
 
 
 

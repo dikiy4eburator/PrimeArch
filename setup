@@ -229,11 +229,13 @@ dialog \
 --title 'Desktop' \
 --menu "\nChoose you Desktop\n" 15 $BoxWhith 6 \
 	i3 				" " \
-	xfce 			" " \
 	mate 			" " \
-	plasma 			" " \
+	xfce 			" " \
 	gnome 			" " \
+	deepin 			" " \
+	plasma 			" " \
 	'No Desktop' 	" " \
+
 	2>/tmp/desktop
 
 
