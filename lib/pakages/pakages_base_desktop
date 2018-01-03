@@ -3,12 +3,11 @@
 udiskie
 lightdm
 lightdm-gtk-greeter
-atom
 htop
 conky
 gparted
-cool-retro-term
 chromium
 hunspell-de
-terminator
 gvfs
+gvfs-nfs
+gvfs-smb

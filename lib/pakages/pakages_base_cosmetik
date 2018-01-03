@@ -1,11 +1,10 @@
 # Basis Cosmetics pakete
 # ----------------------------------
-# arc-gtk-theme
-# arc-icon-theme
 archlinux-wallpaper
 noto-fonts
 awesome-terminal-fonts
 ttf-ubuntu-font-family
-# virtualbox
-# virtualbox-host-dkms
-# virtualbox-guest-iso
+cool-retro-term
+virtualbox
+virtualbox-host-dkms
+

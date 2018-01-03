@@ -39,8 +39,8 @@ source $working_dir/lib/normal_install
 #===============================================================================
 
 dialog \
---backtitle 'PrimeArch Installer' \
---title 'Languge' \
+--backtitle "PrimeArch Installer" \
+--title "Languge" \
 --begin $BoxStartY $BoxStartX \
 --menu "\nSelect your languge" 12 $BoxWhith 3 \
 	1 English \
@@ -63,8 +63,8 @@ esac
 # SELECT INSTALL MODE
 #===============================================================================
 dialog \
---backtitle 'PrimeArch Installer' \
---title 'Installation Mode' \
+--backtitle "PrimeArch Installer" \
+--title "Installation Mode" \
 --begin $BoxStartY $BoxStartX \
 --menu "\nWhat kind of installation you want?" 11 $BoxWhith 2 \
 	1 "Normal installation" \
@@ -76,8 +76,8 @@ case $(</tmp/installation_mod) in
 		# Partitionierung AUTO MANUEL
 		#===============================================================================
 		dialog \
-		--backtitle 'PrimeArch Installer' \
-		--title 'Partitionierung' \
+		--backtitle "PrimeArch Installer" \
+		--title "Partitionierung" \
 		--begin $BoxStartY $BoxStartX \
 		--menu "\nHow do you want to partition you hard drive" 11 $BoxWhith 2 \
 			Automatic	1 \
@@ -95,7 +95,7 @@ case $(</tmp/installation_mod) in
 				# EXTRA HOME PARTITION DIALOG
 				#===============================================================================
 				dialog \
-				--backtitle 'PrimeArch Installer' \
+				--backtitle "PrimeArch Installer" \
 				--begin $BoxStartY $BoxStartX \
 				--title "HOME" \
 				--yesno '\nDo you want an extra Home partition? \n' 7 $BoxWhith \
@@ -106,10 +106,10 @@ case $(</tmp/installation_mod) in
 
 						# ROOT size dialog
 						dialog \
-						--backtitle 'PrimeArch Installer' \
+						--backtitle "PrimeArch Installer" \
 						--begin $BoxStartY $BoxStartX \
 						--title "ROOT" \
-						--inputbox '\nROOT partition size (in Gb)\n' 9 $BoxWhith \
+						--inputbox '\nROOT partition size (in Gb)' 9 $BoxWhith \
 							2>/tmp/root_size
 
 					else
@@ -120,10 +120,10 @@ case $(</tmp/installation_mod) in
 				# SWAP size dialog
 				#===============================================================================
 				dialog \
-				--backtitle 'PrimeArch Installer' \
+				--backtitle "PrimeArch Installer" \
 				--begin $BoxStartY $BoxStartX \
 				--title "SWAP" \
-				--inputbox '\nSWAP partition size (in Mb)\n' 9 $BoxWhith \
+				--inputbox '\nSWAP partition size (in Mb)' 9 $BoxWhith \
 					2>/tmp/swap_size
 				#===============================================================================
 				;;
@@ -158,7 +158,7 @@ case $(</tmp/installation_mod) in
 		dialog \
 		--backtitle "PrimeArch" \
 		--begin $BoxStartY $BoxStartX \
-		--title 'RAID mode' \
+		--title "RAID mode" \
 		--menu "\nShoose the RAID mode for the ZPool" 12 $BoxWhith 3 \
 			stripe 	"2+ harddrives" \
 			mirror	"2+ harddrives" \
@@ -174,10 +174,10 @@ esac
 # Set hostname
 #===============================================================================
 dialog \
---backtitle 'PrimeArch Installer' \
+--backtitle "PrimeArch Installer" \
 --begin $BoxStartY $BoxStartX \
---title 'Hostname' \
---inputbox '\nEnter the Hostnamen\n' 9 $BoxWhith \
+--title "Hostname" \
+--inputbox '\nEnter the Hostnamen' 9 $BoxWhith \
 	2>/tmp/hostname
 #===============================================================================
 
@@ -188,8 +188,8 @@ dialog \
 ls -l /usr/share/zoneinfo/ | awk '{ if($1 ~ /d/ && $9 !~ /posix/ && $9 !~ /right/ && $9 !~ /Etc/) print $9 " " ++s}' > /tmp/time_region_in
 
 dialog \
---backtitle 'PrimeArch Installer' \
---title 'Time setup' \
+--backtitle "PrimeArch Installer" \
+--title "Time setup" \
 --begin $BoxStartY $BoxStartX \
 --menu "\nSelect your regeon" 20 $BoxWhith 20 \
 	$( awk '{ print }' < /tmp/time_region_in ) \
@@ -200,8 +200,8 @@ dialog \
 ls -l /usr/share/zoneinfo/$(</tmp/time_region_out) | awk 'NR>=2{ print $9 " " ++s }' > /tmp/time_subregion_in
 
 dialog \
---backtitle 'PrimeArch Installer' \
---title 'Time setup' \
+--backtitle "PrimeArch Installer" \
+--title "Time setup" \
 --begin $BoxStartY $BoxStartX \
 --menu "\nSelect your sub regeon" 20 $BoxWhith 20 \
 	$( awk '{ print }' < /tmp/time_subregion_in ) \
@@ -210,8 +210,8 @@ dialog \
 
 # GEN TIMEFORMAT
 dialog \
---backtitle 'PrimeArch Installer' \
---title 'Time setup' \
+--backtitle "PrimeArch Installer" \
+--title "Time setup" \
 --begin $BoxStartY $BoxStartX \
 --menu "\nSelect the time format" 11 $BoxWhith 2 \
 	utc         1 \
@@ -226,7 +226,7 @@ dialog \
 dialog \
 --backtitle "PrimeArch" \
 --begin $BoxStartY $BoxStartX \
---title 'Desktop' \
+--title "Desktop" \
 --menu "\nChoose you Desktop" 15 $BoxWhith 6 \
 	i3 				1 \
 	mate 			2 \
@@ -245,7 +245,7 @@ dialog \
 dialog \
 --backtitle "PrimeArch" \
 --begin $BoxStartY $BoxStartX \
---title 'Video driver' \
+--title "Video driver" \
 --menu "\nChoose you Video driver" 15 $BoxWhith 6 \
 	1 virtualbox \
 	2 Nvidia \
@@ -261,7 +261,7 @@ dialog \
 #Set ROOT
 #===============================================================================
 dialog \
---backtitle 'PrimeArch Installer' \
+--backtitle "PrimeArch Installer" \
 --title "Partitionierung" \
 --begin $BoxStartY $BoxStartX \
 --menu "\nActivate ROOT accaunt?" 11 $BoxWhith 2 \
@@ -290,17 +290,17 @@ esac
 #Set user
 #===============================================================================
 dialog \
---backtitle 'PrimeArch Installer' \
+--backtitle "PrimeArch Installer" \
 --begin $BoxStartY $BoxStartX \
---inputbox '\nEnter the name for the new user\n' 9 $BoxWhith \
+--inputbox '\nEnter the name for the new user' 9 $BoxWhith \
 2>/tmp/user_name
 
 dialog \
---backtitle 'PrimeArch Installer' \
+--backtitle "PrimeArch Installer" \
 --begin $BoxStartY $BoxStartX \
---title 'User Password' \
+--title "User Password" \
 --insecure \
---passwordbox "\nEnter the Password for $(</tmp/user_name)\n" 9 $BoxWhith \
+--passwordbox "\nEnter the Password for $(</tmp/user_name)" 9 $BoxWhith \
 2>/tmp/user_pw
 #===============================================================================
 
@@ -322,7 +322,7 @@ esac
 # END INSTALLATION
 #===============================================================================
 dialog \
---backtitle 'PrimeArch Installer' \
+--backtitle "PrimeArch Installer" \
 --begin $BoxStartY $BoxStartX \
 --msgbox "Setup is DON" 5 $BoxWhith \
 #===============================================================================

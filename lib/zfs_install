@@ -153,6 +153,7 @@ function f_zfs() {
  	arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S zfs-dkms"
 
 	#------------------------------------------------------------------------------
+	#---	BACKUP	-------
 	# cp -fvr /root/zfs /mnt/
 	# arch-chroot /mnt /bin/bash -c "pacman --noconfirm -R linux linux-headers"
 	# arch-chroot /mnt /bin/bash -c "pacman --noconfirm -U /zfs/*.tar.xz"

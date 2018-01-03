@@ -3,8 +3,6 @@
 base
 base-devel
 linux-headers
-grub
-os-prober
 efibootmgr
 acpid
 dbus
@@ -16,3 +14,5 @@ rsync
 ranger
 dkms
 git
+grub
+os-prober
