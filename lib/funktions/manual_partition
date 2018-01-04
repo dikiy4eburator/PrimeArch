@@ -118,6 +118,7 @@ function f_man_part() {
 
 function f_mount_boot() {
 	f_gen_part_menu BOOT
+	
 	mkfs.fat -F32 /dev/$(</tmp/part_name)
 	mkdir /mnt/boot
 	mkdir /mnt/boot/efi
@@ -127,6 +128,7 @@ function f_mount_boot() {
 
 function f_mount_root() {
 	f_gen_part_menu ROOT
+	
 	mkfs.ext4 /dev/$(</tmp/part_name)
 	mount -t ext4 -o defaults,noatime,discard /dev/$(</tmp/part_name) /mnt
 	echo 'ok' >> /tmp/root_mount

@@ -5,7 +5,6 @@ clear
 
 function f_normal() {
 
-
 	# Partitionierung AUTO MANUEL
 	#===============================================================================
 	case $(</tmp/partitionierung) in
@@ -80,10 +79,10 @@ function f_normal() {
 	#Set ROOT
 	#===============================================================================
 	case $(</tmp/root_status) in
-			1 )
-				f_set_root_pw ;;
-			2 )
-				arch-chroot /mnt /bin/bash -c "passwd -l root" ;;
+		1 )
+			f_set_root_pw ;;
+		2 )
+			arch-chroot /mnt /bin/bash -c "passwd -l root" ;;
 	esac
 	#===============================================================================
 

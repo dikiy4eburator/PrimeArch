@@ -32,14 +32,14 @@ function f_auto_part() {
 
 	if [[ -d "/sys/firmware/efi/efivars" ]];
 		then
-			sgdisk -n 1:0:+256M -c 1:"EFI" -t 1:ef00 /dev/$(</tmp/hdd_name)
+			sgdisk -n 1:0:+256M -c 1:"EFI" 	-t 1:ef00 /dev/$(</tmp/hdd_name)
 		else
-			sgdisk -n 1:0:+5M -c 1:"BIOS" -t 1:ef02 /dev/$(</tmp/hdd_name)
+			sgdisk -n 1:0:+5M 	-c 1:"BIOS" -t 1:ef02 /dev/$(</tmp/hdd_name)
 	fi
 
 	case $(</tmp/extrahome)  in
 		ja )
-			sgdisk -n 2:0:+$(</tmp/root_size)G -c 2:"ROOT" -t 2:8300 /dev/$(</tmp/hdd_name)
+			sgdisk -n 2:0:+$(</tmp/root_size)G 	-c 2:"ROOT" -t 2:8300 /dev/$(</tmp/hdd_name)
 			sgdisk -n 3:0:0 -c 3:"HOME" -t 3:8300 /dev/$(</tmp/hdd_name) ;;
 		nein )
 			sgdisk -n 2:0:0 -c 2:"ROOT" -t 2:8300 /dev/$(</tmp/hdd_name) ;;
@@ -125,7 +125,7 @@ function f_mount() {
 			mkdir /mnt/boot/efi
 			mount /dev/$BOOT_HD /mnt/boot/efi
 		else
-			echo ""
+			:
 	fi
 
 	case $(</tmp/extrahome)  in

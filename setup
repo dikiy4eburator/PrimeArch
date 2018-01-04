@@ -80,7 +80,7 @@ case $(</tmp/installation_mod) in
 		#===============================================================================
 		dialog \
 		--backtitle "PrimeArch Installer" \
-		--title "Partitionierung" \
+		--title "Partitioning" \
 		--begin $BoxStartY $BoxStartX \
 		--menu "\nHow do you want to partition you hard drive" 11 $BoxWhith 2 \
 			Automatic	1 \
@@ -117,7 +117,7 @@ case $(</tmp/installation_mod) in
 
 					else
 						echo "nein" > /tmp/extrahome
-					fi
+				fi
 				#===============================================================================
 
 				# SWAP size dialog
@@ -126,7 +126,7 @@ case $(</tmp/installation_mod) in
 				--backtitle "PrimeArch Installer" \
 				--begin $BoxStartY $BoxStartX \
 				--title "SWAP" \
-				--inputbox '\nSWAP partition size (in Mb)' 9 $BoxWhith \
+				--inputbox '\nSWAP partition size (in MB)' 9 $BoxWhith \
 					2>/tmp/swap_size
 				#===============================================================================
 				;;
@@ -154,7 +154,6 @@ case $(</tmp/installation_mod) in
 			$(awk 'NR>=2{ if($9 !~ /part/ ) print $9" "$11" " "off"}' < /tmp/hdlist) \
 			2>/tmp/hdd_by_id
 		#===============================================================================
-
 
 		# select raidmod
 		#===============================================================================
@@ -237,8 +236,6 @@ dialog \
 	gnome 			4 \
 	"No Desktop" 	0 \
 	2>/tmp/desktop
-
-
 #===============================================================================
 
 
@@ -280,7 +277,7 @@ case $(</tmp/root_status) in
 			--title 'ROOT Password' \
 			--insecure \
 			--passwordbox '\nEnter the ROOT Password' 9 $BoxWhith \
-			2>/tmp/root_pw
+				2>/tmp/root_pw
 			;;
 
 		2 )
@@ -296,7 +293,7 @@ dialog \
 --backtitle "PrimeArch Installer" \
 --begin $BoxStartY $BoxStartX \
 --inputbox '\nEnter the name for the new user' 9 $BoxWhith \
-2>/tmp/user_name
+	2>/tmp/user_name
 
 dialog \
 --backtitle "PrimeArch Installer" \
@@ -304,7 +301,7 @@ dialog \
 --title "User Password" \
 --insecure \
 --passwordbox "\nEnter the Password for $(</tmp/user_name)" 9 $BoxWhith \
-2>/tmp/user_pw
+	2>/tmp/user_pw
 #===============================================================================
 
 

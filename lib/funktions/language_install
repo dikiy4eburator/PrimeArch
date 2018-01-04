@@ -14,7 +14,6 @@ function f_german() {
 
 	# Generate kexboard config
 	f_generate_x_keyboard_config de
-
 }
 
 
@@ -33,7 +32,6 @@ function f_russian() {
 
 	# Generate kexboard config
 	f_generate_x_keyboard_config ru
-
 }
 
 
@@ -53,7 +51,6 @@ function f_english() {
 
 	# Generate kexboard config
 	f_generate_x_keyboard_config ru
-
 }
 
 
