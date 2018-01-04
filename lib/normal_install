@@ -1,5 +1,8 @@
 #!/bin/sh
 
+clear
+clear
+
 function f_normal() {
 
 
