@@ -1,10 +1,9 @@
-# Basis System pakete
 # ----------------------------------
-pamac-aur
 lightdm-slick-greeter
+pamac-aur
+neofetch
 sublime-text-dev
 tilix-git
 etcher
 vertex-icons-git
 vertex-themes
-neofetch
