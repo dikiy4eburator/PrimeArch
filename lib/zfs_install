@@ -220,14 +220,16 @@ function f_zfs() {
 	# Desktop installation
 	#===============================================================================
 	case $(</tmp/desktop) in
-		i3)
+		i3 )
 			f_install_i3 ;;
-		xfce)
-			f_install_xfce ;;
-		mate)
-			f_install_mate ;;
-		gnome)
-			f_install_gnome ;;
+		xfce )
+			f_install_desktop pakages_xfce4 ;;
+		mate )
+			f_install_desktop pakages_mate ;;
+		gnome )
+			f_install_desktop pakages_gnome ;;
+		cinnamon )
+			f_install_desktop pakages_cinnamon ;;
 		"No Desktop" )
 			;;
 	esac

@@ -110,11 +110,13 @@ function f_normal() {
 		i3 )
 			f_install_i3 ;;
 		xfce )
-			f_install_xfce ;;
+			f_install_desktop pakages_xfce4 ;;
 		mate )
-			f_install_mate ;;
+			f_install_desktop pakages_mate ;;
 		gnome )
-			f_install_gnome ;;
+			f_install_desktop pakages_gnome ;;
+		cinnamon )
+			f_install_desktop pakages_cinnamon ;;
 		"No Desktop" )
 			;;
 	esac

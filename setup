@@ -231,9 +231,10 @@ dialog \
 --title "Desktop" \
 --menu "\nChoose you Desktop" 15 $BoxWhith 6 \
 	i3 				1 \
-	mate 			2 \
-	xfce 			3 \
-	gnome 			4 \
+	cinnamon		2 \
+	mate 			3 \
+	xfce 			4 \
+	gnome 			5 \
 	"No Desktop" 	0 \
 	2>/tmp/desktop
 #===============================================================================
