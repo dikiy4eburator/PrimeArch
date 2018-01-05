@@ -105,12 +105,12 @@ function f_zfs() {
 
 	# Install base pacages
 	#===============================================================================
-	f_pacage_install pakages_base_zfs
-	f_pacage_install pakages_base_network
-	f_pacage_install pakages_base_video
-	f_pacage_install pakages_base_audio
-	f_pacage_install pakages_base_desktop
-	f_pacage_install pakages_base_cosmetik
+	f_pakage_install pakages_base_zfs
+	f_pakage_install pakages_base_network
+	f_pakage_install pakages_base_video
+	f_pakage_install pakages_base_audio
+	f_pakage_install pakages_base_desktop
+	f_pakage_install pakages_base_cosmetik
 	#===============================================================================
 
 
