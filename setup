@@ -311,7 +311,6 @@ dialog \
 case $(</tmp/installation_mod) in
 	1 )
 		f_normal ;;
-
 	2 )
 		f_zfs ;;
 esac
