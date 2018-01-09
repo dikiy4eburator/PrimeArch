@@ -248,12 +248,12 @@ dialog \
 --begin $BoxStartY $BoxStartX \
 --title "Video driver" \
 --menu "\nChoose you Video driver" 15 $BoxWhith 6 \
-	1 virtualbox \
-	2 Nvidia \
-	3 ATI \
-	4 Intel \
-	5 Nouveau \
-	0 'No Video driver' \
+	Virtualbox 			1 \
+	Nvidia 				2 \
+	Nouveau 			3 \
+	ATI 				4 \
+	Intel 				5 \
+	"No Video driver" 	6 \
 	2>/tmp/grafik_treiber
 #===============================================================================
 

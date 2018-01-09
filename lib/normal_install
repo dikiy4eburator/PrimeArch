@@ -127,17 +127,17 @@ function f_normal() {
 	# Grafiktreiber installation
 	#===============================================================================
   	case $(</tmp/grafik_treiber) in
-  		1 )
+  		Virtualbox )
   			pacstrap /mnt virtualbox-guest-dkms virtualbox-guest-utils ;;
-  		2 )
+  		Nvidia )
   			pacstrap /mnt nvidia-dkms ;;
-  		3 )
+  		ATI )
   			pacstrap /mnt xf86-video-ati ;;
-  		4 )
+  		Intel )
   			pacstrap /mnt xf86-video-intel ;;
-  		5 )
+  		Nouveau )
   			pacstrap /mnt xf86-video-nouveau ;;
-  		0 )
+  		"No Video driver" )
   			;;
   	esac
   	#===============================================================================

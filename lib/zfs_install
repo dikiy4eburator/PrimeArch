@@ -239,21 +239,20 @@ function f_zfs() {
 
 	# Grafik driver installation
 	#===============================================================================
-	case $(</tmp/grafik_treiber) in
-
-		1 )
-			pacstrap /mnt virtualbox-guest-dkms virtualbox-guest-utils ;;
-		2 )
-			pacstrap /mnt nvidia-dkms ;;
-		3 )
-			pacstrap /mnt xf86-video-ati ;;
-		4 )
-			pacstrap /mnt xf86-video-intel ;;
-		5 )
-			pacstrap /mnt xf86-video-nouveau ;;
-		0 )
-			;;
-	esac
+  	case $(</tmp/grafik_treiber) in
+  		Virtualbox )
+  			pacstrap /mnt virtualbox-guest-dkms virtualbox-guest-utils ;;
+  		Nvidia )
+  			pacstrap /mnt nvidia-dkms ;;
+  		ATI )
+  			pacstrap /mnt xf86-video-ati ;;
+  		Intel )
+  			pacstrap /mnt xf86-video-intel ;;
+  		Nouveau )
+  			pacstrap /mnt xf86-video-nouveau ;;
+  		"No Video driver" )
+  			;;
+  	esac
 	#===============================================================================
 
 
