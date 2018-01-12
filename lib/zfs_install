@@ -161,7 +161,7 @@ function f_zfs() {
 	arch-chroot /mnt /bin/bash -c "pacman --noconfirm -U /ZFS/*.tar.xz"
 	rm -R /mnt/ZFS
 	#===============================================================================
-sleep 30
+
 
 
 	#GENERATE SYSTEM LOCALE
