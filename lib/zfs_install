@@ -158,8 +158,8 @@ function f_zfs() {
 	#---	BACKUP	-------
 	cp -fvr /home/liveuser/ZFS /mnt/
 	arch-chroot /mnt /bin/bash -c "pacman --noconfirm -R linux linux-headers"
-	arch-chroot /mnt /bin/bash -c "pacman --noconfirm -U /zfs/*.tar.xz"
-	rm -R /mnt/zfs
+	arch-chroot /mnt /bin/bash -c "pacman --noconfirm -U /ZFS/*.tar.xz"
+	rm -R /mnt/ZFS
 	#===============================================================================
 sleep 30
 
