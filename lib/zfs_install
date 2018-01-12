@@ -156,12 +156,12 @@ function f_zfs() {
 
 	#------------------------------------------------------------------------------
 	#---	BACKUP	-------
-	cp -fvr /home/liveuser/zfs /mnt/
+	cp -fvr /home/liveuser/ZFS /mnt/
 	arch-chroot /mnt /bin/bash -c "pacman --noconfirm -R linux linux-headers"
 	arch-chroot /mnt /bin/bash -c "pacman --noconfirm -U /zfs/*.tar.xz"
 	rm -R /mnt/zfs
 	#===============================================================================
-exit
+sleep 30
 
 
 	#GENERATE SYSTEM LOCALE
