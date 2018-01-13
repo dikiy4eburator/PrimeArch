@@ -1,5 +1,6 @@
 # ----------------------------------
 i3-gaps
+i3status
 nitrogen
 rofi
 lxappearance-gtk3
