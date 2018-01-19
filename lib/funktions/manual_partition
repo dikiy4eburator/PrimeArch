@@ -1,8 +1,6 @@
 #!/bin/bash
 
 # MANUAL PARTITIONING
-#===============================================================================
-
 function f_man_part() {
 	dialog \
 	--backtitle "PrimeArch" \
@@ -101,6 +99,8 @@ function f_mount_boot() {
 	echo 'ok' >> /tmp/boot_mount
 }
 
+
+
 function f_mount_root() {
 	f_gen_part_menu ROOT
 	
@@ -109,6 +109,8 @@ function f_mount_root() {
 	echo 'ok' >> /tmp/root_mount
 }
 
+
+
 function f_mount_home() {
 	f_gen_part_menu HOME
 
@@ -116,7 +118,7 @@ function f_mount_home() {
 	--backtitle 'PrimeArch Installer' \
 	--title 'Formating' \
 	--begin $BoxStartY $BoxStartX \
-	--yesno '\nDo you want to format the HOME partition? \n' 7 $BoxWhith \
+	--yesno '\nDo you want to format the HOME partition?' 7 $BoxWhith \
 
 	if [[ $? -eq 0 ]];
 		then
@@ -129,6 +131,8 @@ function f_mount_home() {
 	mount -t ext4 -o defaults,noatime,discard /dev/$(</tmp/part_name) /mnt/home
 	echo 'ok' >> /tmp/home_mount
 }
+
+
 
 function f_show_info_for_partition() {
 	# Show Partitioning info depending on boot mode
