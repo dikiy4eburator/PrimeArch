@@ -80,7 +80,9 @@ function f_man_part() {
 			--title "SWAP" \
 			--inputbox '\nSWAP partition size (in MB)' 9 $BoxWhith \
 				2>/tmp/swap_size
-			;;
+			
+			# Back to main menu
+			f_man_part ;;
 
 		4 )
 			;;
