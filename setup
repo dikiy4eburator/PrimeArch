@@ -111,8 +111,9 @@ esac
 
 
 
-# GEN TIMEZONE
+# SET TIME
 #====================================================================================
+# SET TIMEZONE
 ls -l /usr/share/zoneinfo/ | awk '{ if($1 ~ /d/ && $9 !~ /posix/ && $9 !~ /right/ && $9 !~ /Etc/) print $9 " " ++s}' > /tmp/time_region_in
 
 dialog \
@@ -124,7 +125,7 @@ dialog \
 	2>/tmp/time_region_out
 
 
-# GEN TIMEREGION
+# SET SUBTIMEZONE
 ls -l /usr/share/zoneinfo/$(</tmp/time_region_out) | awk 'NR>=2{ print $9 " " ++s }' > /tmp/time_subregion_in
 
 dialog \
@@ -136,7 +137,7 @@ dialog \
 	2>/tmp/time_subregion_out
 
 
-# GEN TIMEFORMAT
+# SET TIMEFORMAT
 dialog \
 --backtitle "PrimeArch Installer" \
 --title "Time setup" \
@@ -149,7 +150,7 @@ dialog \
 
 
 
-# Set hostname
+# SET HOSTNAME
 #===============================================================================
 dialog \
 --backtitle "PrimeArch Installer" \
@@ -161,7 +162,7 @@ dialog \
 
 
 
-# Desktop installation
+# SET DESKTOP
 #===============================================================================
 dialog \
 --backtitle "PrimeArch" \
@@ -179,7 +180,7 @@ dialog \
 
 
 
-# Grafiktreiber installation
+# SET GRAFIKDRIWER
 #===============================================================================
 dialog \
 --backtitle "PrimeArch" \
@@ -220,15 +221,13 @@ case $(</tmp/installation_mod) in
 			Automatic	1 \
 			Manual		2 \
 			2>/tmp/partitionierung
-		#===============================================================================
-
+		
 		case $(</tmp/partitionierung) in
 			Automatic)
 				# Generate HDD selection menu
 				#===============================================================================
 				f_gen_hdd_menu
-				#===============================================================================
-
+				
 				# EXTRA HOME PARTITION DIALOG
 				#===============================================================================
 				dialog \
@@ -252,8 +251,7 @@ case $(</tmp/installation_mod) in
 					else
 						echo "nein" > /tmp/extrahome
 				fi
-				#===============================================================================
-
+				
 				# SWAP size dialog
 				#===============================================================================
 				dialog \
@@ -262,7 +260,7 @@ case $(</tmp/installation_mod) in
 				--title "SWAP" \
 				--inputbox '\nSWAP partition size (in MB)' 9 $BoxWhith \
 					2>/tmp/swap_size
-				#===============================================================================
+				
 				;;
 
 			Manual)
@@ -286,7 +284,7 @@ case $(</tmp/installation_mod) in
 		--checklist "\nShoose the hard drives for the ZPool" 16 $BoxWhith 7 \
 			$(awk 'NR>=2{ if($9 !~ /part/ ) print $9" "$11" " "off"}' < /tmp/hdlist) \
 			2>/tmp/hdd_by_id
-		#===============================================================================
+		
 
 		# select raidmod
 		#===============================================================================
@@ -299,7 +297,7 @@ case $(</tmp/installation_mod) in
 			mirror	"2+ harddrives" \
 			raidz 	"2+ harddrives" \
 			2>/tmp/raid
-		#===============================================================================
+		
 		;;
 esac
 #===============================================================================

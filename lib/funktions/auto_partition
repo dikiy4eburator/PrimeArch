@@ -24,6 +24,8 @@ function f_autopartition() {
 
 
 
+#AUTO MAKE PARTITION
+#===============================================================================
 function f_auto_part() {
 	wipefs -af 	/dev/$(</tmp/hdd_name)
 	sgdisk -Z 	/dev/$(</tmp/hdd_name)
@@ -49,7 +51,7 @@ function f_auto_part() {
 
 
 
-#HDD PATERN DEFENITION
+#SET PARTITION NAMES FOR SATA
 function f_def_hdd_patern_sata() {
 
 	ROOT_HD="$(</tmp/hdd_name)2"
@@ -71,6 +73,7 @@ function f_def_hdd_patern_sata() {
 
 
 
+#SET PARTITION NAMES FOR NVME
 function f_def_hdd_patern_nvme() {
 
 	ROOT_HD="$(</tmp/hdd_name)p2"
@@ -136,4 +139,3 @@ function f_mount() {
 			: ;;
 	esac
 }
-#===============================================================================
