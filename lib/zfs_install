@@ -151,11 +151,11 @@ function f_zfs() {
 	arch-chroot /mnt /bin/bash -c "pacman-key --lsign-key 5E1ABF240EE7A126"
 	arch-chroot /mnt /bin/bash -c "pacman -Syy"
 
+	#---	BACKUP	-------
 	# arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S spl-dkms"
  	# arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S zfs-dkms"
 
 	#------------------------------------------------------------------------------
-	#---	BACKUP	-------
 	cp -fvr /root/ZFS /mnt/
 	arch-chroot /mnt /bin/bash -c "pacman --noconfirm -R linux linux-headers"
 	arch-chroot /mnt /bin/bash -c "pacman --noconfirm -U /ZFS/*.tar.xz"
