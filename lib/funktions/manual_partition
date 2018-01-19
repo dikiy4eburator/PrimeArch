@@ -11,7 +11,8 @@ function f_man_part() {
 	--menu "" 10 $BoxWhith 3 \
 		1 "Partition a harddrive" \
 		2 "Mount Partitions" \
-		3 "Don!" \
+		3 "Set SWAP size" \
+		4 "Don!" \
 		2>/tmp/main_man_part
 
 	case $(</tmp/main_man_part) in
@@ -71,6 +72,17 @@ function f_man_part() {
 			f_man_part ;;
 
 		3 )
+			# SWAP size dialog
+			#===============================================================================
+			dialog \
+			--backtitle "PrimeArch Installer" \
+			--begin $BoxStartY $BoxStartX \
+			--title "SWAP" \
+			--inputbox '\nSWAP partition size (in MB)' 9 $BoxWhith \
+				2>/tmp/swap_size
+			;;
+
+		4 )
 			;;
 	esac
 }
