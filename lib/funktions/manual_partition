@@ -8,7 +8,7 @@ function f_man_part() {
 	--backtitle "PrimeArch" \
 	--begin $BoxStartY $BoxStartX \
 	--title "Manual Partitionig" \
-	--menu "" 10 $BoxWhith 3 \
+	--menu "" 11 $BoxWhith 4 \
 		1 "Partition a harddrive" \
 		2 "Mount Partitions" \
 		3 "Set SWAP size" \

@@ -86,7 +86,7 @@ dialog \
 #===============================================================================
 dialog \
 --backtitle "PrimeArch Installer" \
---title "Partitionierung" \
+--title "ROOT accaunt" \
 --begin $BoxStartY $BoxStartX \
 --menu "\nActivate ROOT accaunt?" 11 $BoxWhith 2 \
 	1 yes \
