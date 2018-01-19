@@ -63,6 +63,140 @@ esac
 
 
 
+#Set user
+#===============================================================================
+dialog \
+--backtitle "PrimeArch Installer" \
+--begin $BoxStartY $BoxStartX \
+--inputbox '\nEnter the name for the new user' 9 $BoxWhith \
+	2>/tmp/user_name
+
+dialog \
+--backtitle "PrimeArch Installer" \
+--begin $BoxStartY $BoxStartX \
+--title "User Password" \
+--insecure \
+--passwordbox "\nEnter the Password for $(</tmp/user_name)" 9 $BoxWhith \
+	2>/tmp/user_pw
+#===============================================================================
+
+
+
+#Set ROOT
+#===============================================================================
+dialog \
+--backtitle "PrimeArch Installer" \
+--title "Partitionierung" \
+--begin $BoxStartY $BoxStartX \
+--menu "\nActivate ROOT accaunt?" 11 $BoxWhith 2 \
+	1 yes \
+	2 no \
+	2>/tmp/root_status
+
+case $(</tmp/root_status) in
+		1 )
+			dialog \
+			--backtitle 'PrimeArch Installer' \
+			--begin $BoxStartY $BoxStartX \
+			--title 'ROOT Password' \
+			--insecure \
+			--passwordbox '\nEnter the ROOT Password' 9 $BoxWhith \
+				2>/tmp/root_pw
+			;;
+
+		2 )
+			;;
+esac
+#===============================================================================
+
+
+
+# GEN TIMEZONE
+#====================================================================================
+ls -l /usr/share/zoneinfo/ | awk '{ if($1 ~ /d/ && $9 !~ /posix/ && $9 !~ /right/ && $9 !~ /Etc/) print $9 " " ++s}' > /tmp/time_region_in
+
+dialog \
+--backtitle "PrimeArch Installer" \
+--title "Time setup" \
+--begin $BoxStartY $BoxStartX \
+--menu "\nSelect your regeon" 20 $BoxWhith 20 \
+	$( awk '{ print }' < /tmp/time_region_in ) \
+	2>/tmp/time_region_out
+
+
+# GEN TIMEREGION
+ls -l /usr/share/zoneinfo/$(</tmp/time_region_out) | awk 'NR>=2{ print $9 " " ++s }' > /tmp/time_subregion_in
+
+dialog \
+--backtitle "PrimeArch Installer" \
+--title "Time setup" \
+--begin $BoxStartY $BoxStartX \
+--menu "\nSelect your sub regeon" 20 $BoxWhith 20 \
+	$( awk '{ print }' < /tmp/time_subregion_in ) \
+	2>/tmp/time_subregion_out
+
+
+# GEN TIMEFORMAT
+dialog \
+--backtitle "PrimeArch Installer" \
+--title "Time setup" \
+--begin $BoxStartY $BoxStartX \
+--menu "\nSelect the time format" 11 $BoxWhith 2 \
+	utc         1 \
+	localtime   2 \
+	2>/tmp/time_format
+#====================================================================================
+
+
+
+# Set hostname
+#===============================================================================
+dialog \
+--backtitle "PrimeArch Installer" \
+--begin $BoxStartY $BoxStartX \
+--title "Hostname" \
+--inputbox '\nEnter the Hostnamen' 9 $BoxWhith \
+	2>/tmp/hostname
+#===============================================================================
+
+
+
+# Desktop installation
+#===============================================================================
+dialog \
+--backtitle "PrimeArch" \
+--begin $BoxStartY $BoxStartX \
+--title "Desktop" \
+--menu "\nChoose you Desktop" 15 $BoxWhith 6 \
+	i3 				1 \
+	cinnamon		2 \
+	mate 			3 \
+	xfce 			4 \
+	gnome 			5 \
+	"No Desktop" 	0 \
+	2>/tmp/desktop
+#===============================================================================
+
+
+
+# Grafiktreiber installation
+#===============================================================================
+dialog \
+--backtitle "PrimeArch" \
+--begin $BoxStartY $BoxStartX \
+--title "Video driver" \
+--menu "\nChoose you Video driver" 15 $BoxWhith 6 \
+	Virtualbox 			1 \
+	Nvidia 				2 \
+	Nouveau 			3 \
+	ATI 				4 \
+	Intel 				5 \
+	"No Video driver" 	6 \
+	2>/tmp/grafik_treiber
+#===============================================================================
+
+
+
 # SELECT INSTALL MODE
 #===============================================================================
 dialog \
@@ -132,8 +266,7 @@ case $(</tmp/installation_mod) in
 				;;
 
 			Manual)
-				f_man_part
-				;;
+				f_man_part ;;
 		esac
 		;;
 
@@ -169,140 +302,6 @@ case $(</tmp/installation_mod) in
 		#===============================================================================
 		;;
 esac
-#===============================================================================
-
-
-
-# Set hostname
-#===============================================================================
-dialog \
---backtitle "PrimeArch Installer" \
---begin $BoxStartY $BoxStartX \
---title "Hostname" \
---inputbox '\nEnter the Hostnamen' 9 $BoxWhith \
-	2>/tmp/hostname
-#===============================================================================
-
-
-
-# GEN TIMEZONE
-#====================================================================================
-ls -l /usr/share/zoneinfo/ | awk '{ if($1 ~ /d/ && $9 !~ /posix/ && $9 !~ /right/ && $9 !~ /Etc/) print $9 " " ++s}' > /tmp/time_region_in
-
-dialog \
---backtitle "PrimeArch Installer" \
---title "Time setup" \
---begin $BoxStartY $BoxStartX \
---menu "\nSelect your regeon" 20 $BoxWhith 20 \
-	$( awk '{ print }' < /tmp/time_region_in ) \
-	2>/tmp/time_region_out
-
-
-# GEN TIMEREGION
-ls -l /usr/share/zoneinfo/$(</tmp/time_region_out) | awk 'NR>=2{ print $9 " " ++s }' > /tmp/time_subregion_in
-
-dialog \
---backtitle "PrimeArch Installer" \
---title "Time setup" \
---begin $BoxStartY $BoxStartX \
---menu "\nSelect your sub regeon" 20 $BoxWhith 20 \
-	$( awk '{ print }' < /tmp/time_subregion_in ) \
-	2>/tmp/time_subregion_out
-
-
-# GEN TIMEFORMAT
-dialog \
---backtitle "PrimeArch Installer" \
---title "Time setup" \
---begin $BoxStartY $BoxStartX \
---menu "\nSelect the time format" 11 $BoxWhith 2 \
-	utc         1 \
-	localtime   2 \
-	2>/tmp/time_format
-#====================================================================================
-
-
-
-# Desktop installation
-#===============================================================================
-dialog \
---backtitle "PrimeArch" \
---begin $BoxStartY $BoxStartX \
---title "Desktop" \
---menu "\nChoose you Desktop" 15 $BoxWhith 6 \
-	i3 				1 \
-	cinnamon		2 \
-	mate 			3 \
-	xfce 			4 \
-	gnome 			5 \
-	"No Desktop" 	0 \
-	2>/tmp/desktop
-#===============================================================================
-
-
-
-# Grafiktreiber installation
-#===============================================================================
-dialog \
---backtitle "PrimeArch" \
---begin $BoxStartY $BoxStartX \
---title "Video driver" \
---menu "\nChoose you Video driver" 15 $BoxWhith 6 \
-	Virtualbox 			1 \
-	Nvidia 				2 \
-	Nouveau 			3 \
-	ATI 				4 \
-	Intel 				5 \
-	"No Video driver" 	6 \
-	2>/tmp/grafik_treiber
-#===============================================================================
-
-
-
-#Set ROOT
-#===============================================================================
-dialog \
---backtitle "PrimeArch Installer" \
---title "Partitionierung" \
---begin $BoxStartY $BoxStartX \
---menu "\nActivate ROOT accaunt?" 11 $BoxWhith 2 \
-	1 yes \
-	2 no \
-	2>/tmp/root_status
-
-case $(</tmp/root_status) in
-		1 )
-			dialog \
-			--backtitle 'PrimeArch Installer' \
-			--begin $BoxStartY $BoxStartX \
-			--title 'ROOT Password' \
-			--insecure \
-			--passwordbox '\nEnter the ROOT Password' 9 $BoxWhith \
-				2>/tmp/root_pw
-			;;
-
-		2 )
-			;;
-esac
-#===============================================================================
-
-
-
-#Set user
-#===============================================================================
-dialog \
---backtitle "PrimeArch Installer" \
---begin $BoxStartY $BoxStartX \
---inputbox '\nEnter the name for the new user' 9 $BoxWhith \
-	2>/tmp/user_name
-
-dialog \
---backtitle "PrimeArch Installer" \
---begin $BoxStartY $BoxStartX \
---title "User Password" \
---insecure \
---passwordbox "\nEnter the Password for $(</tmp/user_name)" 9 $BoxWhith \
-	2>/tmp/user_pw
 #===============================================================================
 
 
