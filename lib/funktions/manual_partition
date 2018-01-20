@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # MANUAL PARTITIONING
-function f_man_part() {
+function f_manual_partition() {
 	dialog \
 	--backtitle "PrimeArch" \
 	--begin $BoxStartY $BoxStartX \
@@ -10,7 +10,7 @@ function f_man_part() {
 		1 "Partition a harddrive" \
 		2 "Mount Partitions" \
 		3 "Set SWAP size" \
-		4 "Don!" \
+		4 "Done!" \
 		2>/tmp/main_man_part
 
 	case $(</tmp/main_man_part) in
@@ -22,7 +22,7 @@ function f_man_part() {
 			cgdisk /dev/$(</tmp/hdd_name)
 
 			# Back to main menu
-			f_man_part ;;
+			f_manual_partition ;;
 
 		2 )
 			# Mount ROOT
@@ -67,7 +67,7 @@ function f_man_part() {
 			esac
 
 			# Back to main menu
-			f_man_part ;;
+			f_manual_partition ;;
 
 		3 )
 			# SWAP size dialog
@@ -80,7 +80,7 @@ function f_man_part() {
 				2>/tmp/swap_size
 			
 			# Back to main menu
-			f_man_part ;;
+			f_manual_partition ;;
 
 		4 )
 			;;

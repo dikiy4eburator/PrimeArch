@@ -234,7 +234,7 @@ case $(</tmp/installation_mod) in
 				--backtitle "PrimeArch Installer" \
 				--begin $BoxStartY $BoxStartX \
 				--title "HOME" \
-				--yesno '\nDo you want an extra Home partition? \n' 7 $BoxWhith \
+				--yesno '\nDo you want an extra Home partition?' 7 $BoxWhith \
 
 				if [[ $? -eq 0 ]];
 					then
@@ -264,7 +264,7 @@ case $(</tmp/installation_mod) in
 				;;
 
 			Manual)
-				f_man_part ;;
+				f_manual_partition ;;
 		esac
 		;;
 
