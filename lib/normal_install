@@ -108,7 +108,8 @@ function f_normal() {
 	#===============================================================================
 	case $(</tmp/desktop) in
 		i3 )
-			f_install_desktop pakages_i3 ;;
+			f_install_desktop pakages_i3
+			f_install_i3 ;;
 		xfce )
 			f_install_desktop pakages_xfce4 ;;
 		mate )
