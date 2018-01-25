@@ -314,6 +314,11 @@ function f_zfs() {
 	# CLONE BOOTSECTOR
 	#===============================================================================
 	arch-chroot /mnt /bin/bash -c "mkinitcpio -p linux"
+	
+	cp -f -v /mnt/boot/vmlinuz-linux 					/mnt/boot/vmlinuz-linux-EmergencySys
+	cp -f -v /mnt/boot/initramfs-linux.img 				/mnt/boot/initramfs-linux-EmergencySys.img
+	# cp -f -v /mnt/boot/initramfs-linux-fallback.img 	/mnt/boot/initramfs-linux-fallback-EmergencySys.img
+
 	rsync -arvz /mnt/boot/ /mnt/boot2/
 	#===============================================================================
 
@@ -332,10 +337,10 @@ function f_zfs() {
 	echo "initrd         /initramfs-linux.img" 		>> /mnt/boot/loader/entries/arch.conf
 	echo "options        zfs=zroot/root rw" 		>> /mnt/boot/loader/entries/arch.conf
 
-	# echo "title          EmergencySys A" 			> /mnt/boot/loader/entries/EmergencySys.conf
-	# echo "linux          /vmlinuz-linux" 			>> /mnt/boot/loader/entries/EmergencySys.conf
-	# echo "initrd         /initramfs-linux.img" 		>> /mnt/boot/loader/entries/EmergencySys.conf
-	# echo "options        zfs=zroot/EmergencySys rw" 		>> /mnt/boot/loader/entries/EmergencySys.conf
+	echo "title          EmergencySys A" 						> /mnt/boot/loader/entries/EmergencySys.conf
+	echo "linux          /vmlinuz-linux-EmergencySys" 			>> /mnt/boot/loader/entries/EmergencySys.conf
+	echo "initrd         /initramfs-linux-EmergencySys.img" 	>> /mnt/boot/loader/entries/EmergencySys.conf
+	echo "options        zfs=zroot/EmergencySys rw" 			>> /mnt/boot/loader/entries/EmergencySys.conf
 
 	#------------------------------------------------------------------------------
 	arch-chroot /mnt /bin/bash -c "bootctl install --path=/boot2 --no-variables"
@@ -348,10 +353,10 @@ function f_zfs() {
 	echo "initrd         /initramfs-linux.img" 		>> /mnt/boot2/loader/entries/arch.conf
 	echo "options        zfs=zroot/root rw" 		>> /mnt/boot2/loader/entries/arch.conf
 
-	# echo "title          EmergencySys B" 			> /mnt/boot2/loader/entries/EmergencySys.conf
-	# echo "linux          /vmlinuz-linux" 			>> /mnt/boot2/loader/entries/EmergencySys.conf
-	# echo "initrd         /initramfs-linux.img" 		>> /mnt/boot2/loader/entries/EmergencySys.conf
-	# echo "options        zfs=zroot/EmergencySys rw" 		>> /mnt/boot2/loader/entries/EmergencySys.conf
+	echo "title          EmergencySys B" 							> /mnt/boot2/loader/entries/EmergencySys.conf
+	echo "linux          /vmlinuz-linux-EmergencySys" 				>> /mnt/boot2/loader/entries/EmergencySys.conf
+	echo "initrd         /initramfs-linux-EmergencySys.img" 		>> /mnt/boot2/loader/entries/EmergencySys.conf
+	echo "options        zfs=zroot/EmergencySys rw" 				>> /mnt/boot2/loader/entries/EmergencySys.conf
 
 	#------------------------------------------------------------------------------
 
@@ -375,10 +380,10 @@ function f_zfs() {
 	zfs snap zroot/root@virgina
 	zfs snap zroot/home@virgina
 
-	# zfs clone zroot/root@virgina zroot/EmergencySys
+	zfs clone zroot/root@virgina zroot/EmergencySys
 
 	zfs set canmount=noauto zroot/root
-	# zfs set canmount=noauto zroot/EmergencySys
+	zfs set canmount=noauto zroot/EmergencySys
 
 	zpool set cachefile=/etc/zfs/zpool.cache 	zroot
 	cp -f /etc/zfs/zpool.cache /mnt/etc/zfs
