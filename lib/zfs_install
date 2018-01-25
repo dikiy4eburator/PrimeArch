@@ -317,7 +317,7 @@ function f_zfs() {
 	
 	cp -f -v /mnt/boot/vmlinuz-linux 					/mnt/boot/vmlinuz-linux-EmergencySys
 	cp -f -v /mnt/boot/initramfs-linux.img 				/mnt/boot/initramfs-linux-EmergencySys.img
-	# cp -f -v /mnt/boot/initramfs-linux-fallback.img 	/mnt/boot/initramfs-linux-fallback-EmergencySys.img
+	cp -f -v /mnt/boot/initramfs-linux-fallback.img 	/mnt/boot/initramfs-linux-fallback-EmergencySys.img
 
 	rsync -arvz /mnt/boot/ /mnt/boot2/
 	#===============================================================================
