@@ -1,0 +1,10 @@
+mögliche fehler:
+
+- wenn setup abbricht. sistem neu booten. Weil: 
+
+	alte zpool-daten stören das setup. Datasets auser root werden nicht auf /mnt gemounted.
+	
+	=> mount.sevice fehler, datasets auser root werden nicht gemountet.
+
+- reflect hinzufügen um die mirror liste zu aktualisieren.
+
