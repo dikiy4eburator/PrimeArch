@@ -306,7 +306,7 @@ esac
 
 # UPDATE MIRRORLIST
 #===============================================================================
-reflector --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+reflector --verbose --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
 #===============================================================================
 
 
