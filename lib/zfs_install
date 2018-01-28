@@ -2,8 +2,6 @@
 
 function f_zfs_installation() {
 
-	f_zfs_harddrive_preparation
-
 	# Install base pacages
 	#===============================================================================
 	f_pakage_install pakages_base_zfs

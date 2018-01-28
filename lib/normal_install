@@ -2,18 +2,6 @@
 
 function f_normal_installation() {
 
-	# Partitionierung AUTO MANUEL
-	#===============================================================================
-	case $(</tmp/partitionierung) in
-		Automatic)
-			f_autopartition ;;
-		Manual)
-			;;
-	esac
-	#===============================================================================
-
-
-
 	# Install base pacages
 	#===============================================================================
 	f_pakage_install pakages_base

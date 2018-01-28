@@ -255,6 +255,7 @@ case $(</tmp/installation_mod) in
 				--inputbox '\nSWAP partition size (in MB)' 9 $BoxWhith \
 					2>/tmp/swap_size
 				
+				f_autopartition
 				;;
 
 			Manual)
@@ -307,6 +308,7 @@ case $(</tmp/installation_mod) in
 			raidz 	"2+ harddrives" \
 			2>/tmp/raid
 		
+		f_zfs_harddrive_preparation
 		;;
 esac
 #===============================================================================
