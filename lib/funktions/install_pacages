@@ -52,7 +52,7 @@ function f_install_yaourt() {
 
 
 
-function f_install_cosmetiks() {
+function f_install_yaourt_cosmetiks() {
 
 	while read line
 		do

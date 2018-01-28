@@ -22,6 +22,22 @@ function f_set_root_pw() {
 
 
 
+# CREATE NEW USER
+#===============================================================================
+function f_create_new_user() {
+
+	arch-chroot /mnt /bin/bash -c "useradd -m -g users -G wheel,storage,power,network,video,audio -s /usr/bin/fish '$(</tmp/user_name)'"
+
+	f_set_user_pw
+
+	echo "%wheel ALL=(ALL) ALL" >> /mnt/etc/sudoers.back
+}
+#===============================================================================
+
+
+
+
+
 # GENERATE AND WRITE USER PW
 #===============================================================================
 function f_set_user_pw() {
@@ -42,18 +58,6 @@ function f_set_user_pw() {
 
 
 
-# CREATE NEW USER
-#===============================================================================
-function f_create_new_user() {
-
-	arch-chroot /mnt /bin/bash -c "useradd -m -g users -G wheel,storage,power,network,video,audio -s /usr/bin/fish '$(</tmp/user_name)'"
-
-	f_set_user_pw
-
-	echo "%wheel ALL=(ALL) ALL" >> /mnt/etc/sudoers.back
-}
-#===============================================================================
-
 
 
 # Set Time
@@ -63,6 +67,8 @@ function f_set_time() {
     arch-chroot /mnt /bin/bash -c "hwclock --systohc --$(</tmp/time_format)"
 }
 #===============================================================================
+
+
 
 
 

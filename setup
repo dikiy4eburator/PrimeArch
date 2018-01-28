@@ -255,8 +255,7 @@ case $(</tmp/installation_mod) in
 				--inputbox '\nSWAP partition size (in MB)' 9 $BoxWhith \
 					2>/tmp/swap_size
 				
-				f_autopartition
-				;;
+				f_autopartition	;;
 
 			Manual)
 				f_manual_partition ;;
@@ -319,7 +318,7 @@ esac
 #===============================================================================
 dialog \
 	--backtitle 'PrimeArch Installer' \
-	--title 'Partition Table' \
+	--title 'Mirrorlist Update' \
 	--begin $BoxStartY $BoxStartX \
 	--infobox '\nUpdating Mirrorlist\n\nit could take some time\nPlease do not close the terminal\n' 10 $BoxWhith
 
