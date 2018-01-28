@@ -311,11 +311,12 @@ esac
 # UPDATE MIRRORLIST
 #===============================================================================
 dialog \
-			--backtitle 'PrimeArch Installer' \
-			--title 'Partition Table' \
-			--begin $BoxStartY $BoxStartX \
-			--msgbox '\nUpdating Mirrorlist\n' 7 $BoxWhith
-reflector --verbose --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+	--backtitle 'PrimeArch Installer' \
+	--title 'Partition Table' \
+	--begin $BoxStartY $BoxStartX \
+	--msgbox '\nUpdating Mirrorlist\n' 7 $BoxWhith
+
+reflector --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
 #===============================================================================
 
 
