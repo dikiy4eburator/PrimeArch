@@ -1,8 +1,5 @@
 #!/bin/bash
 
-clear
-clear
-
 function f_zfs_installation() {
 
 	f_zfs_harddrive_preparation
