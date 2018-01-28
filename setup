@@ -286,9 +286,9 @@ case $(</tmp/installation_mod) in
 		dialog \
 		--backtitle "PrimeArch" \
 		--begin $BoxStartY $BoxStartX \
-		--infobox "You have to select atleast 2 hard drives.\nUse the SPACE-buton to select them.\n\nAtention: the hard drives will be wiped compleatly." 5 $BoxWhith \
+		--infobox "You have to select atleast 2 hard drives.\nUse the SPACE-buton to select them.\n\nAtention the hard drives will be wiped compleatly." 10 $BoxWhith \
 		--and-widget \
-		--begin $(($BoxStartY+7)) $BoxStartX \
+		--begin $(($BoxStartY+10)) $BoxStartX \
 		--title "HDD Selektion" \
 		--separate-output \
 		--checklist "\nShoose the hard drives for the ZPool" 16 $BoxWhith 7 \
@@ -321,7 +321,7 @@ dialog \
 	--backtitle 'PrimeArch Installer' \
 	--title 'Partition Table' \
 	--begin $BoxStartY $BoxStartX \
-	--msgbox '\nUpdating Mirrorlist\it could take some time\nPlease do not close the terminal\n' 7 $BoxWhith
+	--infobox '\nUpdating Mirrorlist\nit could take some time\nPlease do not close the terminal\n' 10 $BoxWhith
 
 reflector --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
 #===============================================================================
