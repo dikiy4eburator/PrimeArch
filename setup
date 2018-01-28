@@ -286,7 +286,7 @@ case $(</tmp/installation_mod) in
 		dialog \
 		--backtitle "PrimeArch" \
 		--begin $BoxStartY $BoxStartX \
-		--infobox "You have to select atleast 2 hard drives.\nUse the SPACE-buton to select them.\n\nAtention the hard drives will be wiped compleatly." 10 $BoxWhith \
+		--infobox "You have to select atleast 2 hard drives.\nUse the SPACE-buton to select them.\n\nAtention the hard drives will be wiped compleatly." 7 $BoxWhith \
 		--and-widget \
 		--begin $(($BoxStartY+10)) $BoxStartX \
 		--title "HDD Selektion" \
