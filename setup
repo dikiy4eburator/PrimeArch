@@ -269,7 +269,13 @@ case $(</tmp/installation_mod) in
 				echo "UEFI OK"
 				break
 			else
-				echo "NOT UEFI MOD !!!"
+				dialog \
+					--backtitle 'PrimeArch Installer' \
+					--title 'Partition Table' \
+					--begin $BoxStartY $BoxStartX \
+					--msgbox '\nTo use ZFS installation you have\nto boot in UEFI mode.\n\nAborting setup.\n' 10 $BoxWhith
+				
+				read -p "press ENTER"
 				exit
 		fi
 		
