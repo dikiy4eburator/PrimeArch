@@ -321,7 +321,7 @@ dialog \
 	--backtitle 'PrimeArch Installer' \
 	--title 'Partition Table' \
 	--begin $BoxStartY $BoxStartX \
-	--infobox '\nUpdating Mirrorlist\nit could take some time\nPlease do not close the terminal\n' 10 $BoxWhith
+	--infobox '\nUpdating Mirrorlist\n\nit could take some time\nPlease do not close the terminal\n' 10 $BoxWhith
 
 reflector --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
 #===============================================================================
