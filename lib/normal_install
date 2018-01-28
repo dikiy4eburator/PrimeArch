@@ -94,9 +94,7 @@ function f_normal_installation() {
 
 	# INSTALL YAOURT
 	#===============================================================================
-	mv -f -v $working_dir/lib/funktions/yaourt.sh /mnt/home/$(</tmp/user_name)/yaourt.sh
-	arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) sh /home/$(</tmp/user_name)/yaourt.sh"
-	rm /mnt/home/$(</tmp/user_name)/yaourt.sh
+	f_install_yaourt
 	#===============================================================================
 
 
@@ -106,15 +104,20 @@ function f_normal_installation() {
 	case $(</tmp/desktop) in
 		i3 )
 			f_install_desktop pakages_i3
-			f_install_i3 ;;
+			f_install_i3_cosmetics ;;
+		
 		xfce )
 			f_install_desktop pakages_xfce4 ;;
+		
 		mate )
 			f_install_desktop pakages_mate ;;
+		
 		gnome )
 			f_install_desktop pakages_gnome ;;
+		
 		cinnamon )
 			f_install_desktop pakages_cinnamon ;;
+		
 		"No Desktop" )
 			;;
 	esac
@@ -127,14 +130,19 @@ function f_normal_installation() {
   	case $(</tmp/grafik_treiber) in
   		Virtualbox )
   			pacstrap /mnt virtualbox-guest-dkms virtualbox-guest-utils ;;
+  		
   		Nvidia )
   			pacstrap /mnt nvidia-dkms ;;
+  		
   		ATI )
   			pacstrap /mnt xf86-video-ati ;;
+  		
   		Intel )
   			pacstrap /mnt xf86-video-intel ;;
+  		
   		Nouveau )
   			pacstrap /mnt xf86-video-nouveau ;;
+  		
   		"No Video driver" )
   			;;
   	esac
@@ -142,7 +150,7 @@ function f_normal_installation() {
 
 
 
-	# INSTALL YAOURT COAMETICS
+	# INSTALL YAOURT + COSMETICS
 	#===============================================================================
 	f_install_cosmetiks
 	mv -f -v $working_dir/lib/configs/lightdm-config/lightdm.conf /mnt/etc/lightdm/lightdm.conf
