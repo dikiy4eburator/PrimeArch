@@ -1,9 +1,6 @@
 #!/bin/bash
 
-clear
-clear
-
-function f_normal() {
+function f_normal_installation() {
 
 	# Partitionierung AUTO MANUEL
 	#===============================================================================

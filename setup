@@ -18,15 +18,10 @@ working_dir=$(pwd)
 
 
 # includes
-source $working_dir/lib/funktions/auto_partition
-source $working_dir/lib/funktions/manual_partition
-source $working_dir/lib/funktions/menu_generator
-source $working_dir/lib/funktions/MKSWAP
-
-source $working_dir/lib/funktions/install_pacages
-source $working_dir/lib/funktions/time_setup
-source $working_dir/lib/funktions/language_install
+source $working_dir/lib/funktions/harddrive_operations
 source $working_dir/lib/funktions/user_operations
+source $working_dir/lib/funktions/menu_generator
+source $working_dir/lib/funktions/install_pacages
 
 source $working_dir/lib/zfs_install
 source $working_dir/lib/normal_install
@@ -226,7 +221,7 @@ case $(</tmp/installation_mod) in
 			Automatic)
 				# Generate HDD selection menu
 				#===============================================================================
-				f_gen_hdd_menu
+				f_generate_harddrive_menu
 				
 				# EXTRA HOME PARTITION DIALOG
 				#===============================================================================
@@ -269,6 +264,15 @@ case $(</tmp/installation_mod) in
 		;;
 
 	2 )
+		if [[ -d "/sys/firmware/efi/efivars" ]];
+			then
+				echo "UEFI OK"
+				break
+			else
+				echo "NOT UEFI MOD !!!"
+				exit
+		fi
+		
 		#Prepare Disklist
 		#===============================================================================
 		ls -l /dev/disk/by-id/  > /tmp/hdlist
@@ -306,6 +310,11 @@ esac
 
 # UPDATE MIRRORLIST
 #===============================================================================
+dialog \
+			--backtitle 'PrimeArch Installer' \
+			--title 'Partition Table' \
+			--begin $BoxStartY $BoxStartX \
+			--msgbox '\nUpdating Mirrorlist\n' 7 $BoxWhith
 reflector --verbose --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
 #===============================================================================
 
@@ -315,9 +324,9 @@ reflector --verbose --age 12 --protocol https --sort rate --save /etc/pacman.d/m
 #===============================================================================
 case $(</tmp/installation_mod) in
 	1 )
-		f_normal ;;
+		f_normal_installation ;;
 	2 )
-		f_zfs ;;
+		f_zfs_installation ;;
 esac
 #===============================================================================
 

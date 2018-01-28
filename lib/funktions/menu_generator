@@ -3,7 +3,7 @@
 # DYNAMIC MENU GENERATION
 #===============================================================================
 
-function f_gen_hdd_menu() {
+function f_generate_harddrive_menu() {
 
 	#Prepare Disklist
 	lsblk -o NAME,SIZE,MODEL,TYPE | grep disk > /tmp/hdlist
@@ -19,7 +19,7 @@ function f_gen_hdd_menu() {
 
 
 
-function f_gen_part_menu() {
+function f_generate_partition_menu() {
 
 	#Prepare Partitionlist
 	lsblk -l -o NAME,SIZE,MODEL,TYPE | grep part > /tmp/partlist
