@@ -234,8 +234,8 @@ function f_zfs_installation() {
 	#===============================================================================
 	arch-chroot /mnt /bin/bash -c "bootctl install --path=/boot --no-variables"
 
-	echo "timeout 5"	> /mnt/boot/loader/loader.conf
-	echo "default arch"	>> /mnt/boot/loader/loader.conf
+	echo "timeout 5"		> /mnt/boot/loader/loader.conf
+	echo "default arch"		>> /mnt/boot/loader/loader.conf
 
 	echo "title		PrimeArch boot A"			> /mnt/boot/loader/entries/arch.conf
 	echo "linux		/vmlinuz-linux"				>> /mnt/boot/loader/entries/arch.conf
