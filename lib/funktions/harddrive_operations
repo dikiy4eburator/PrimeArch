@@ -11,13 +11,13 @@ function f_autopartition() {
 	# Make Partitions
 	f_auto_part
 
- 	# Generate HDD Patern
- 	case $(</tmp/hdd_name) in
-    	nvme*)
-   			f_def_hdd_patern_nvme ;;
- 		sd*)
-   			f_def_hdd_patern_sata ;;
- 	esac
+	# Generate HDD Patern
+	case $(</tmp/hdd_name) in
+	nvme*)
+			f_def_hdd_patern_nvme ;;
+		sd*)
+			f_def_hdd_patern_sata ;;
+	esac
 
 	# Format Partition
 	f_format
@@ -61,9 +61,9 @@ function f_def_hdd_patern_sata() {
 	ROOT_HD="$(</tmp/hdd_name)2"
 
 	if [[ -d "/sys/firmware/efi/efivars" ]];
- 		then
+		then
 			BOOT_HD="$(</tmp/hdd_name)1"
- 		else
+		else
 			:
 	fi
 
@@ -355,14 +355,14 @@ function f_zfs_harddrive_preparation() {
 	#===============================================================================
 	while read line
 		do
-	 		echo ======================================================
+			echo ======================================================
 			wipefs -af 	/dev/disk/by-id/$line
-	 		sgdisk -Z 	/dev/disk/by-id/$line
-	 		sgdisk -g 	/dev/disk/by-id/$line
-	 		sgdisk -o 	/dev/disk/by-id/$line
+			sgdisk -Z 	/dev/disk/by-id/$line
+			sgdisk -g 	/dev/disk/by-id/$line
+			sgdisk -o 	/dev/disk/by-id/$line
 
-	 		sgdisk -n 1:0:+256M 	-c 1:"EFI" 	-t 1:ef00 /dev/disk/by-id/$line
-	 		sgdisk -n 2:0:0 		-c 2:"ROOT" -t 2:bf00 /dev/disk/by-id/$line
+			sgdisk -n 1:0:+256M 	-c 1:"EFI" 	-t 1:ef00 /dev/disk/by-id/$line
+			sgdisk -n 2:0:0 		-c 2:"ROOT" -t 2:bf00 /dev/disk/by-id/$line
 
 	done < /tmp/hdd_by_id
 
@@ -371,7 +371,7 @@ function f_zfs_harddrive_preparation() {
 	echo ======================================================
 	while read line
 		do
-	 		mkfs.fat -F 32 /dev/disk/by-id/"$line-part1"
+			mkfs.fat -F 32 /dev/disk/by-id/"$line-part1"
 	done < /tmp/hdd_by_id
 	echo ======================================================
 

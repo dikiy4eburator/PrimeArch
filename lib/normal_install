@@ -14,11 +14,11 @@ function f_normal_installation() {
 
 
 
-    # GO TO NO PASSWORD MODE
-    #===============================================================================
-    cp -f -v /mnt/etc/sudoers /mnt/etc/sudoers.back
-    echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /mnt/etc/sudoers
-    #===============================================================================
+	# GO TO NO PASSWORD MODE
+	#===============================================================================
+	cp -f -v /mnt/etc/sudoers /mnt/etc/sudoers.back
+	echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /mnt/etc/sudoers
+	#===============================================================================
 
 
 
@@ -41,12 +41,12 @@ function f_normal_installation() {
 	f_set_time
 
 	case $(</tmp/language) in
-  		1 )
-  			f_english ;;
-  		2 )
-  			f_german ;;
-  		3 )
-  			f_russian ;;
+		1 )
+			f_english ;;
+		2 )
+			f_german ;;
+		3 )
+			f_russian ;;
 	esac
 
 	arch-chroot /mnt /bin/bash -c locale-gen
@@ -115,26 +115,26 @@ function f_normal_installation() {
 
 	# Grafiktreiber installation
 	#===============================================================================
-  	case $(</tmp/grafik_treiber) in
-  		Virtualbox )
-  			pacstrap /mnt virtualbox-guest-dkms virtualbox-guest-utils ;;
-  		
-  		Nvidia )
-  			pacstrap /mnt nvidia-dkms ;;
-  		
-  		ATI )
-  			pacstrap /mnt xf86-video-ati ;;
-  		
-  		Intel )
-  			pacstrap /mnt xf86-video-intel ;;
-  		
-  		Nouveau )
-  			pacstrap /mnt xf86-video-nouveau ;;
-  		
-  		"No Video driver" )
-  			;;
-  	esac
-  	#===============================================================================
+	case $(</tmp/grafik_treiber) in
+		Virtualbox )
+			pacstrap /mnt virtualbox-guest-dkms virtualbox-guest-utils ;;
+		
+		Nvidia )
+			pacstrap /mnt nvidia-dkms ;;
+		
+		ATI )
+			pacstrap /mnt xf86-video-ati ;;
+		
+		Intel )
+			pacstrap /mnt xf86-video-intel ;;
+		
+		Nouveau )
+			pacstrap /mnt xf86-video-nouveau ;;
+		
+		"No Video driver" )
+			;;
+	esac
+	#===============================================================================
 
 
 

@@ -44,15 +44,12 @@ function f_zfs_installation() {
 	# install_zfs
 	#===============================================================================
 	arch-chroot /mnt /bin/bash -c "pacman-key -r 5E1ABF240EE7A126"
-	sleep 3
-	arch-chroot /mnt /bin/bash -c "pacman-key --lsign-key 5E1ABF240EE7A126"
-	sleep 3
 	arch-chroot /mnt /bin/bash -c "pacman-key --lsign-key 5E1ABF240EE7A126"
 	arch-chroot /mnt /bin/bash -c "pacman -Syy"
 
 	#---	BACKUP	-------
 	# arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S spl-dkms"
- 	# arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S zfs-dkms"
+	# arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S zfs-dkms"
 
 	#------------------------------------------------------------------------------
 	cp -fvr /root/ZFS /mnt/
@@ -142,25 +139,25 @@ function f_zfs_installation() {
 
 	# Grafik driver installation
 	#===============================================================================
-  	case $(</tmp/grafik_treiber) in
-  		Virtualbox )
-  			pacstrap /mnt virtualbox-guest-dkms virtualbox-guest-utils ;;
-  		
-  		Nvidia )
-  			pacstrap /mnt nvidia-dkms ;;
-  		
-  		ATI )
-  			pacstrap /mnt xf86-video-ati ;;
-  		
-  		Intel )
-  			pacstrap /mnt xf86-video-intel ;;
-  		
-  		Nouveau )
-  			pacstrap /mnt xf86-video-nouveau ;;
-  		
-  		"No Video driver" )
-  			;;
-  	esac
+	case $(</tmp/grafik_treiber) in
+		Virtualbox )
+			pacstrap /mnt virtualbox-guest-dkms virtualbox-guest-utils ;;
+		
+		Nvidia )
+			pacstrap /mnt nvidia-dkms ;;
+		
+		ATI )
+			pacstrap /mnt xf86-video-ati ;;
+		
+		Intel )
+			pacstrap /mnt xf86-video-intel ;;
+		
+		Nouveau )
+			pacstrap /mnt xf86-video-nouveau ;;
+		
+		"No Video driver" )
+			;;
+	esac
 	#===============================================================================
 
 
@@ -203,7 +200,7 @@ function f_zfs_installation() {
 	arch-chroot /mnt /bin/bash -c "systemctl enable sshd.socket"
 
 	# NFS utils
- 	arch-chroot /mnt /bin/bash -c "systemctl enable rpcbind"
+	arch-chroot /mnt /bin/bash -c "systemctl enable rpcbind"
 
 	# Cronie
 	arch-chroot /mnt /bin/bash -c "systemctl enable cronie.service"
