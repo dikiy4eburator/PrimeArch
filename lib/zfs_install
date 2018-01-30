@@ -220,9 +220,9 @@ function f_zfs_installation() {
 	#===============================================================================
 	arch-chroot /mnt /bin/bash -c "mkinitcpio -p linux"
 	
-	cp -f -v /mnt/boot/vmlinuz-linux 					/mnt/boot/vmlinuz-linux-EmergencySys
-	cp -f -v /mnt/boot/initramfs-linux.img 				/mnt/boot/initramfs-linux-EmergencySys.img
-	cp -f -v /mnt/boot/initramfs-linux-fallback.img 	/mnt/boot/initramfs-linux-fallback-EmergencySys.img
+	cp -f -v /mnt/boot/vmlinuz-linux					/mnt/boot/vmlinuz-linux-EmergencySys
+	cp -f -v /mnt/boot/initramfs-linux.img				/mnt/boot/initramfs-linux-EmergencySys.img
+	cp -f -v /mnt/boot/initramfs-linux-fallback.img		/mnt/boot/initramfs-linux-fallback-EmergencySys.img
 
 	rsync -arvz /mnt/boot/ /mnt/boot2/
 	#===============================================================================
@@ -234,34 +234,34 @@ function f_zfs_installation() {
 	#===============================================================================
 	arch-chroot /mnt /bin/bash -c "bootctl install --path=/boot --no-variables"
 
-	echo "timeout 5" 	> /mnt/boot/loader/loader.conf
-	echo "default arch" >> /mnt/boot/loader/loader.conf
+	echo "timeout 5"	> /mnt/boot/loader/loader.conf
+	echo "default arch"	>> /mnt/boot/loader/loader.conf
 
-	echo "title          PrimeArch boot A" 			> /mnt/boot/loader/entries/arch.conf
-	echo "linux          /vmlinuz-linux" 			>> /mnt/boot/loader/entries/arch.conf
-	echo "initrd         /initramfs-linux.img" 		>> /mnt/boot/loader/entries/arch.conf
-	echo "options        zfs=zroot/root rw" 		>> /mnt/boot/loader/entries/arch.conf
+	echo "title		PrimeArch boot A"			> /mnt/boot/loader/entries/arch.conf
+	echo "linux		/vmlinuz-linux"				>> /mnt/boot/loader/entries/arch.conf
+	echo "initrd	/initramfs-linux.img"		>> /mnt/boot/loader/entries/arch.conf
+	echo "options	zfs=zroot/root rw"			>> /mnt/boot/loader/entries/arch.conf
 
-	echo "title          EmergencySys A" 						> /mnt/boot/loader/entries/EmergencySys.conf
-	echo "linux          /vmlinuz-linux-EmergencySys" 			>> /mnt/boot/loader/entries/EmergencySys.conf
-	echo "initrd         /initramfs-linux-EmergencySys.img" 	>> /mnt/boot/loader/entries/EmergencySys.conf
-	echo "options        zfs=zroot/EmergencySys rw" 			>> /mnt/boot/loader/entries/EmergencySys.conf
+	echo "title		EmergencySys A"						> /mnt/boot/loader/entries/EmergencySys.conf
+	echo "linux		/vmlinuz-linux-EmergencySys"		>> /mnt/boot/loader/entries/EmergencySys.conf
+	echo "initrd	/initramfs-linux-EmergencySys.img"	>> /mnt/boot/loader/entries/EmergencySys.conf
+	echo "options	zfs=zroot/EmergencySys rw"			>> /mnt/boot/loader/entries/EmergencySys.conf
 
 	#------------------------------------------------------------------------------
 	arch-chroot /mnt /bin/bash -c "bootctl install --path=/boot2 --no-variables"
 
-	echo "timeout 5" 		> /mnt/boot2/loader/loader.conf
-	echo "default arch" 	>> /mnt/boot2/loader/loader.conf
+	echo "timeout 5"		> /mnt/boot2/loader/loader.conf
+	echo "default arch"		>> /mnt/boot2/loader/loader.conf
 
-	echo "title          PrimeArch boot B" 			> /mnt/boot2/loader/entries/arch.conf
-	echo "linux          /vmlinuz-linux" 			>> /mnt/boot2/loader/entries/arch.conf
-	echo "initrd         /initramfs-linux.img" 		>> /mnt/boot2/loader/entries/arch.conf
-	echo "options        zfs=zroot/root rw" 		>> /mnt/boot2/loader/entries/arch.conf
+	echo "title		PrimeArch boot B"			> /mnt/boot2/loader/entries/arch.conf
+	echo "linux		/vmlinuz-linux"				>> /mnt/boot2/loader/entries/arch.conf
+	echo "initrd	/initramfs-linux.img"		>> /mnt/boot2/loader/entries/arch.conf
+	echo "options	zfs=zroot/root rw"			>> /mnt/boot2/loader/entries/arch.conf
 
-	echo "title          EmergencySys B" 							> /mnt/boot2/loader/entries/EmergencySys.conf
-	echo "linux          /vmlinuz-linux-EmergencySys" 				>> /mnt/boot2/loader/entries/EmergencySys.conf
-	echo "initrd         /initramfs-linux-EmergencySys.img" 		>> /mnt/boot2/loader/entries/EmergencySys.conf
-	echo "options        zfs=zroot/EmergencySys rw" 				>> /mnt/boot2/loader/entries/EmergencySys.conf
+	echo "title		EmergencySys B"							> /mnt/boot2/loader/entries/EmergencySys.conf
+	echo "linux		/vmlinuz-linux-EmergencySys"			>> /mnt/boot2/loader/entries/EmergencySys.conf
+	echo "initrd	/initramfs-linux-EmergencySys.img"		>> /mnt/boot2/loader/entries/EmergencySys.conf
+	echo "options	zfs=zroot/EmergencySys rw"				>> /mnt/boot2/loader/entries/EmergencySys.conf
 
 	#------------------------------------------------------------------------------
 
