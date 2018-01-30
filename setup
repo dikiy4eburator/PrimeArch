@@ -37,17 +37,17 @@ dialog \
 --title "Languge" \
 --begin $BoxStartY $BoxStartX \
 --menu "\nSelect your languge" 12 $BoxWhith 3 \
-	1 English \
-	2 German \
-	3 Russian \
+	English		1 \
+	German		2 \
+	Russian		3 \
 	2>/tmp/language
 
 case $(</tmp/language) in
-		1 )
+		English )
 			loadkeys en ;;
-		2 )
+		German )
 			loadkeys de ;;
-		3 )
+		Russian )
 			loadkeys ru ;;
 esac
 #===============================================================================
@@ -80,22 +80,21 @@ dialog \
 --title "ROOT accaunt" \
 --begin $BoxStartY $BoxStartX \
 --menu "\nActivate ROOT accaunt?" 11 $BoxWhith 2 \
-	1 yes \
-	2 no \
+	yes		1 \
+	no		2 \
 	2>/tmp/root_status
 
 case $(</tmp/root_status) in
-		1 )
+		yes )
 			dialog \
 			--backtitle 'PrimeArch Installer' \
 			--begin $BoxStartY $BoxStartX \
 			--title 'ROOT Password' \
 			--insecure \
 			--passwordbox '\nEnter the ROOT Password' 9 $BoxWhith \
-				2>/tmp/root_pw
-			;;
+			2>/tmp/root_pw ;;
 
-		2 )
+		no )
 			;;
 esac
 #===============================================================================

@@ -65,12 +65,12 @@ function f_zfs_installation() {
 	f_set_time
 
 	case $(</tmp/language) in
-		1 )
-			f_english ;;
-		2 )
-			f_german ;;
-		3 )
-			f_russian ;;
+		English )
+			f_set_english_language ;;
+		German )
+			f_set_german_language ;;
+		Russian )
+			f_set_russian_language ;;
 	esac
 
 	arch-chroot /mnt /bin/bash -c locale-gen
@@ -88,9 +88,9 @@ function f_zfs_installation() {
 	#Set ROOT
 	#===============================================================================
 	case $(</tmp/root_status) in
-		1 )
+		yes )
 			f_set_root_pw ;;
-		2 )
+		no )
 			arch-chroot /mnt /bin/bash -c "passwd -l root" ;;
 	esac
 	#===============================================================================
