@@ -242,10 +242,10 @@ function f_zfs_installation() {
 	echo "initrd	/initramfs-linux.img"		>> /mnt/boot/loader/entries/arch.conf
 	echo "options	zfs=zroot/root rw"			>> /mnt/boot/loader/entries/arch.conf
 
-	echo "title		EmergencySys A"						> /mnt/boot/loader/entries/EmergencySys.conf
-	echo "linux		/vmlinuz-linux-EmergencySys"		>> /mnt/boot/loader/entries/EmergencySys.conf
-	echo "initrd	/initramfs-linux-EmergencySys.img"	>> /mnt/boot/loader/entries/EmergencySys.conf
-	echo "options	zfs=zroot/EmergencySys rw"			>> /mnt/boot/loader/entries/EmergencySys.conf
+	echo "title		EmergencySys A"							> /mnt/boot/loader/entries/EmergencySys.conf
+	echo "linux		/vmlinuz-linux-EmergencySys"			>> /mnt/boot/loader/entries/EmergencySys.conf
+	echo "initrd	/initramfs-linux-EmergencySys.img"		>> /mnt/boot/loader/entries/EmergencySys.conf
+	echo "options	zfs=zroot/EmergencySys rw"				>> /mnt/boot/loader/entries/EmergencySys.conf
 
 	#------------------------------------------------------------------------------
 	arch-chroot /mnt /bin/bash -c "bootctl install --path=/boot2 --no-variables"
