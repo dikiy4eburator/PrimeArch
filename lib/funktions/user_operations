@@ -74,7 +74,7 @@ function f_set_time() {
 
 # Set Languages
 #===============================================================================
-function f_set_german_languge() {
+function f_set_german_language() {
 
 	# /etc/locale.conf
 	echo LANG=de_DE.UTF-8 				>> /mnt/etc/locale.conf
@@ -91,7 +91,7 @@ function f_set_german_languge() {
 }
 
 
-function f_set_russian_languge() {
+function f_set_russian_language() {
 
 	# /etc/locale.conf
 	echo LANG=ru_RU.UTF-8 				>> /mnt/etc/locale.conf
@@ -110,7 +110,7 @@ function f_set_russian_languge() {
 
 
 
-function f_set_english_languge() {
+function f_set_english_language() {
 
 	# /etc/locale.conf
 	echo LANG=en_US.UTF-8 				>> /mnt/etc/locale.conf
