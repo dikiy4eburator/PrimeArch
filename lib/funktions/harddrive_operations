@@ -13,8 +13,9 @@ function f_autopartition() {
 
 	# Generate HDD Patern
 	case $(</tmp/hdd_name) in
-	nvme*)
+		nvme*)
 			f_def_hdd_patern_nvme ;;
+		
 		sd*)
 			f_def_hdd_patern_sata ;;
 	esac
@@ -47,6 +48,7 @@ function f_auto_part() {
 		ja )
 			sgdisk -n 2:0:+$(</tmp/root_size)G 	-c 2:"ROOT" -t 2:8300 /dev/$(</tmp/hdd_name)
 			sgdisk -n 3:0:0 -c 3:"HOME" -t 3:8300 /dev/$(</tmp/hdd_name) ;;
+		
 		nein )
 			sgdisk -n 2:0:0 -c 2:"ROOT" -t 2:8300 /dev/$(</tmp/hdd_name) ;;
 	esac
@@ -418,7 +420,7 @@ function f_zfs_harddrive_preparation() {
 	zpool set bootfs=zroot/root zroot
 	zpool export zroot
 
-	# MOUNT POOL and BOOT
+	# MOUNT POOL and BOOT PARTITIONS
 	# ------------------------------------------------------------------------------
 	zpool import -R /mnt zroot
 
