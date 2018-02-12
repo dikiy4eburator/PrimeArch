@@ -4,34 +4,28 @@
 ######	Automatc partition funktions	########################################
 ################################################################################
 
-#AUTO PARTITION FUNKTION
-#===============================================================================
+# Automatic partitioning control function
 function f_autopartition() {
 
-	# Make Partitions
-	f_auto_part
+	# wipe hard drive and make new partitions
+	f_auto_generate_partitions
 
-	# Generate HDD Patern
-	case $(</tmp/hdd_name) in
-		nvme*)
-			f_def_hdd_patern_nvme ;;
-		
-		sd*)
-			f_def_hdd_patern_sata ;;
-	esac
+	# Generate Hard drive partition names
+	f_generate_partition_names
 
-	# Format Partition
-	f_format
+	# Format Partitions
+	f_auto_format
 
-	# Mount Partition
-	f_mount
+	# Mount Partitions
+	f_auto_mount
 }
 
 
 
 #AUTO MAKE PARTITION
 #===============================================================================
-function f_auto_part() {
+function f_auto_generate_partitions() {
+	
 	wipefs -af 	/dev/$(</tmp/hdd_name)
 	sgdisk -Z 	/dev/$(</tmp/hdd_name)
 	sgdisk -g 	/dev/$(</tmp/hdd_name)
@@ -58,51 +52,59 @@ function f_auto_part() {
 
 
 #SET PARTITION NAMES FOR SATA
-function f_def_hdd_patern_sata() {
+function f_generate_partition_names() {
 
-	ROOT_HD="$(</tmp/hdd_name)2"
+	case $(</tmp/hdd_name) in
+		nvme*)
+			
+			ROOT_HD="$(</tmp/hdd_name)p2"
 
-	if [[ -d "/sys/firmware/efi/efivars" ]];
-		then
-			BOOT_HD="$(</tmp/hdd_name)1"
-		else
-			:
-	fi
+			if [[ -d "/sys/firmware/efi/efivars" ]];
+				then
+					BOOT_HD="$(</tmp/hdd_name)p1"
+				else
+					:
+			fi
 
-	case $(</tmp/extrahome)  in
-		ja )
-			HOME_HD="$(</tmp/hdd_name)3" ;;
-		nein )
-			: ;;
+			case $(</tmp/extrahome)  in
+				ja )
+					HOME_HD="$(</tmp/hdd_name)p3" ;;
+				nein )
+					: ;;
+			esac
+			;;
+		
+		sd*)
+			
+			ROOT_HD="$(</tmp/hdd_name)2"
+
+			if [[ -d "/sys/firmware/efi/efivars" ]];
+				then
+					BOOT_HD="$(</tmp/hdd_name)1"
+				else
+					:
+			fi
+
+			case $(</tmp/extrahome)  in
+				ja )
+					HOME_HD="$(</tmp/hdd_name)3" ;;
+				nein )
+					: ;;
+			esac
+			;;
 	esac
 }
 
 
 
 #SET PARTITION NAMES FOR NVME
-function f_def_hdd_patern_nvme() {
-
-	ROOT_HD="$(</tmp/hdd_name)p2"
-
-	if [[ -d "/sys/firmware/efi/efivars" ]];
-		then
-			BOOT_HD="$(</tmp/hdd_name)p1"
-		else
-			:
-	fi
-
-	case $(</tmp/extrahome)  in
-		ja )
-			HOME_HD="$(</tmp/hdd_name)p3" ;;
-		nein )
-			: ;;
-	esac
-}
+#function f_def_hdd_patern_nvme() {
+#}
 
 
 
 # FORMAT HARDDRIVES
-function f_format() {
+function f_auto_format() {
 
 	mkfs.ext4 /dev/$ROOT_HD
 
@@ -124,7 +126,7 @@ function f_format() {
 
 
 # MOUNT HARDDRIVES
-function f_mount() {
+function f_auto_mount() {
 
 	mount -t ext4 -o defaults,noatime,discard /dev/$ROOT_HD /mnt
 
@@ -353,7 +355,7 @@ function f_show_info_for_partition() {
 
 function f_zfs_harddrive_preparation() {
 
-	# reset/generate parttable
+	# reset/generate partition table
 	#===============================================================================
 	while read line
 		do
@@ -369,7 +371,7 @@ function f_zfs_harddrive_preparation() {
 	done < /tmp/hdd_by_id
 
 
-	# format efi part
+	# format efi partition
 	echo ======================================================
 	while read line
 		do
@@ -420,6 +422,7 @@ function f_zfs_harddrive_preparation() {
 	zpool set bootfs=zroot/root zroot
 	zpool export zroot
 
+
 	# MOUNT POOL and BOOT PARTITIONS
 	# ------------------------------------------------------------------------------
 	zpool import -R /mnt zroot
@@ -453,7 +456,7 @@ function f_zfs_harddrive_preparation() {
 
 
 ################################################################################
-######	SWAP partition funktions	############################################
+######	SWAP File funktions	####################################################
 ################################################################################
 
 function f_make_swap_file() {
