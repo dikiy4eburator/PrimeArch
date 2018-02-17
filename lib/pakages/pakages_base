@@ -11,5 +11,6 @@ rsync
 ranger
 dkms
 git
+reflector
 grub
 os-prober
