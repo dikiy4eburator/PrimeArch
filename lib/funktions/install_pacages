@@ -32,7 +32,7 @@ function f_install_i3_cosmetics() {
 
 	rm -R /mnt/home/$(</tmp/user_name)/.config/i3
 	git clone https://github.com/dikiy4eburator/i3-config.git /mnt/home/$(</tmp/user_name)/.config/i3
-	arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) yaourt -S --noconfirm polybar"
+	arch-chroot /mnt /bin/bash -c "sudo -u $(</tmp/user_name) yaourt -S --noconfirm polybar-git"
 }
 #===============================================================================
 
