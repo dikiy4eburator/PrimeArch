@@ -471,7 +471,7 @@ function f_Btrfs_harddrive_preparation(){
 		else
 			sgdisk -n 1:0:+5M 	-c 1:"BIOS" -t 1:ef02 /dev/$(</tmp/hdd_name)
 	fi
-	sgdisk -n 2:0:+$(</tmp/swap_size) -c 2:"SWAP" -t 2:8200 /dev/$(</tmp/hdd_name)
+	sgdisk -n 2:0:+$(</tmp/swap_size)M -c 2:"SWAP" -t 2:8200 /dev/$(</tmp/hdd_name)
 	sgdisk -n 3:0:0 -c 3:"ROOT" -t 3:8300 /dev/$(</tmp/hdd_name)
 
 	
