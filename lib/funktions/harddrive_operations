@@ -481,7 +481,7 @@ function f_Btrfs_harddrive_preparation(){
 
 	if [[ -d "/sys/firmware/efi/efivars" ]];
 		then
-			mkfs.fat -F32 /dev/$BOOT_HD
+			mkfs.fat -F32 /dev/$(</tmp/hdd_name)
 		else
 			:
 	fi
@@ -503,8 +503,8 @@ function f_Btrfs_harddrive_preparation(){
 	
 	if [[ -d "/sys/firmware/efi/efivars" ]];
 		then
-			mkdir -p /mnt/boot/efi
-			mount /dev/$BOOT_HD /mnt/boot/efi
+			mkdir -p /mnt/boot
+			mount /dev/$BOOT_HD /mnt/boot
 		else
 			:
 	fi
