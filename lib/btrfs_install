@@ -4,7 +4,7 @@ function f_btrfs_installation() {
 
 	# Install base pacages
 	#===============================================================================
-	f_pakage_install pakages_base_btrfs
+	f_pakage_install pakages_base
 	f_pakage_install pakages_base_network
 	f_pakage_install pakages_base_video
 	f_pakage_install pakages_base_audio
