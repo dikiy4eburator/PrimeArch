@@ -486,7 +486,7 @@ function f_Btrfs_harddrive_preparation(){
 			:
 	fi
 
-	mount -t btrfs -o defaults,noatime,discard /dev/$ROOT_HD /mnt
+	mount -t btrfs -o defaults,noatime,discard /dev/$(</tmp/hdd_name)3 /mnt
 
 	cd /mnt
 
