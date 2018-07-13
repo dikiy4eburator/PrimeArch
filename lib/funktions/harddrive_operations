@@ -491,6 +491,8 @@ function f_Btrfs_harddrive_preparation(){
 	cd /mnt
 
 	btrfs subvolume create ROOT
+
+	exit
 	
 }
 
