@@ -5,6 +5,7 @@ function f_btrfs_installation() {
 	# Install base pacages
 	#===============================================================================
 	f_pakage_install pakages_base
+	f_pakage_install pakages_base_btrfs
 	f_pakage_install pakages_base_network
 	f_pakage_install pakages_base_video
 	f_pakage_install pakages_base_audio
@@ -186,21 +187,22 @@ function f_btrfs_installation() {
 	arch-chroot /mnt /bin/bash -c "systemctl enable lightdm.service"
 	#===============================================================================
 
+	refind-install --usedefault /dev/$(</tmp/hdd_name)1
+	refind-mkrlconf 
 
-
-	#GRUB INSTALLATION
-	#===============================================================================
-	if [[ -d "/sys/firmware/efi/efivars" ]];
-		then
-			# install grub efi
-			arch-chroot /mnt /bin/bash -c "grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$(</mnt/etc/hostname)"
-		else
-			# install grub legacy
-			arch-chroot /mnt /bin/bash -c "grub-install /dev/$(</tmp/hdd_name)"
-	fi
-
-	arch-chroot /mnt /bin/bash -c "grub-mkconfig -o /boot/grub/grub.cfg"
-	#===============================================================================
+	##GRUB INSTALLATION
+	##===============================================================================
+	#if [[ -d "/sys/firmware/efi/efivars" ]];
+	#	then
+	#		# install grub efi
+	#		arch-chroot /mnt /bin/bash -c "grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$(</mnt/etc/hostname)"
+	#	else
+	#		# install grub legacy
+	#		arch-chroot /mnt /bin/bash -c "grub-install /dev/$(</tmp/hdd_name)"
+	#fi
+	#
+	#arch-chroot /mnt /bin/bash -c "grub-mkconfig -o /boot/grub/grub.cfg"
+	##===============================================================================
 	
 
 
