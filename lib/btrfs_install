@@ -26,7 +26,7 @@ function f_btrfs_installation() {
 
 	# Generate fstab
 	#===============================================================================
-	genfstab -U -p /mnt > /tmp/fstab
+	genfstab -U -p /mnt > /mnt/etc/fstab
 	#===============================================================================
 
 
@@ -185,8 +185,9 @@ function f_btrfs_installation() {
 	arch-chroot /mnt /bin/bash -c "systemctl enable lightdm.service"
 	#===============================================================================
 
-	refind-install --usedefault /dev/$(</tmp/hdd_name)1
-	refind-mkrlconf 
+	refind-install
+	mkrlconf
+	
 
 	##GRUB INSTALLATION
 	##===============================================================================
