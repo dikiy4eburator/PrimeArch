@@ -208,7 +208,7 @@ function f_btrfs_installation() {
 
 
 	# get uuid for btrfs partition
-	lsblk -f | grep $(</tmp/hdd_name) > /tmp/uuid
+	lsblk -f | grep $(</tmp/hdd_name)3 > /tmp/uuid
 	awk ' { print $3 } ' < /tmp/uuid > /tmp/uuid_2
 
 
