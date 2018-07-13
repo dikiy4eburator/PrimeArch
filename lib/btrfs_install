@@ -190,17 +190,15 @@ function f_btrfs_installation() {
 
 	#GRUB INSTALLATION
 	#===============================================================================
-	arch-chroot /mnt /bin/bash -c "bootctl install --path=/boot --no-variables"
+	if [[ -d "/sys/firmware/efi/efivars" ]];
+		then
+			# install grub efi
+			arch-chroot /mnt /bin/bash -c "grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$(</mnt/etc/hostname)"
+		else
+			# install grub legacy
+			arch-chroot /mnt /bin/bash -c "grub-install /dev/$(</tmp/hdd_name)"
+	fi
 
-	echo "timeout 5"		> /mnt/boot/loader/loader.conf
-	echo "default arch"		>> /mnt/boot/loader/loader.conf
-
-	echo "title		PrimeArch boot A"			> /mnt/boot/loader/entries/arch.conf
-	echo "linux		/vmlinuz-linux"				>> /mnt/boot/loader/entries/arch.conf
-	echo "initrd	/initramfs-linux.img"		>> /mnt/boot/loader/entries/arch.conf
-	echo "options	zfs=zroot/root rw"			>> /mnt/boot/loader/entries/arch.conf
-
-	efibootmgr -c -d /dev/$(</tmp/hdd_name)3 -p 1 -l /EFI/systemd/systemd-bootx64.efi -L "ARCH_MAIN"
-
+	arch-chroot /mnt /bin/bash -c "grub-mkconfig -o /boot/grub/grub.cfg"
 	#===============================================================================
 }
