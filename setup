@@ -309,8 +309,21 @@ case $(</tmp/installation_mod) in
 		;;
 
 	3 )
+		# Generate HDD selection menu
+		#===============================================================================
+		f_generate_harddrive_menu
+				
+		# SWAP size dialog
+		#===============================================================================
+		dialog \
+		--backtitle "PrimeArch Installer" \
+		--begin $BoxStartY $BoxStartX \
+		--title "SWAP" \
+		--inputbox '\nSWAP partition size (in MB)' 9 $BoxWhith \
+			2>/tmp/swap_size
+				
 		f_Btrfs_harddrive_preparation
-		
+
 		;;
 esac
 #===============================================================================
