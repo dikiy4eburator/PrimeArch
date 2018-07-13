@@ -492,6 +492,7 @@ function f_Btrfs_harddrive_preparation(){
 
 	btrfs subvolume create ROOT
 
+read -p "press ENTER"
 	exit
 	
 }
