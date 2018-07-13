@@ -477,7 +477,7 @@ function f_Btrfs_harddrive_preparation(){
 	f_generate_partition_names
 
 	mkfs.btrfs -f /dev/$(</tmp/hdd_name)3
-	mkfs.swap /dev/$(</tmp/hdd_name)2
+	mkswap /dev/$(</tmp/hdd_name)2
 
 	if [[ -d "/sys/firmware/efi/efivars" ]];
 		then
