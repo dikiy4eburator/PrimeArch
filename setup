@@ -195,7 +195,7 @@ dialog \
 --backtitle "PrimeArch Installer" \
 --title "Installation Mode" \
 --begin $BoxStartY $BoxStartX \
---menu "\nWhat kind of installation you want?" 11 $BoxWhith 2 \
+--menu "\nWhat kind of installation you want?" 12 $BoxWhith 3 \
 	1 "Normal installation" \
 	2 "ROOT ON ZFS" \
 	3 "Btrfs with Snapper" \
