@@ -27,8 +27,6 @@ function f_btrfs_installation() {
 	# Generate fstab
 	#===============================================================================
 	genfstab -U -p /mnt > /tmp/fstab
-	awk '{ if($2 ~ /boot/) print }' /tmp/fstab > /tmp/fstab.new
-	mv -fv /tmp/fstab.new /mnt/etc/fstab
 	#===============================================================================
 
 
