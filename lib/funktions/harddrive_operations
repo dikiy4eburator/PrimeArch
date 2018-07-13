@@ -493,14 +493,31 @@ function f_Btrfs_harddrive_preparation(){
 	btrfs subvolume create ROOT
 	btrfs subvolume create home
 	btrfs subvolume create snapshots
-	btrfs subvolume create opt
 	btrfs subvolume create pkg
 	btrfs subvolume create var
 	btrfs subvolume create tmp
 
 	umount /mnt
 
-	mount -o rw,defaults,noatime,compress=lzo,subvol=ROOT
+	mount -o rw,defaults,noatime,compress=lzo,subvol=ROOT /dev/$(</tmp/hdd_name)3 /mnt
+	
+	if [[ -d "/sys/firmware/efi/efivars" ]];
+		then
+			mkdir -p /mnt/boot/efi
+			mount /dev/$BOOT_HD /mnt/boot/efi
+		else
+			:
+	fi
+
+	mkdir /mnt/home
+	mkdir /mnt/snapshots
+	mkdir -p /mnt/var/cache/pacman/pkg
+	mkdir /mnt/tmp
+	
+	mount -o rw,defaults,noatime,compress=lzo,subvol=home /dev/$(</tmp/hdd_name)3 /mnt/home
+	mount -o rw,defaults,noatime,compress=lzo,subvol=snapshots /dev/$(</tmp/hdd_name)3 /mnt/snapshots
+	mount -o rw,defaults,noatime,compress=lzo,subvol=pkg /dev/$(</tmp/hdd_name)3 /mnt/var/cache/pacman/pkg
+	mount -o rw,defaults,noatime,compress=lzo,subvol=tmp /dev/$(</tmp/hdd_name)3 /mnt/tmp
 
 
 	read -p "press ENTER"
