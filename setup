@@ -21,6 +21,7 @@ source $working_dir/lib/funktions/install_pacages
 
 source $working_dir/lib/zfs_install
 source $working_dir/lib/normal_install
+source $working_dir/lib/btrfs_install
 
 
 # /////////////////////////////////////////////////////////////
@@ -197,6 +198,7 @@ dialog \
 --menu "\nWhat kind of installation you want?" 11 $BoxWhith 2 \
 	1 "Normal installation" \
 	2 "ROOT ON ZFS" \
+	3 "Btrfs with Snapper" \
 	2>/tmp/installation_mod
 
 case $(</tmp/installation_mod) in
@@ -305,6 +307,11 @@ case $(</tmp/installation_mod) in
 		
 		f_zfs_harddrive_preparation
 		;;
+
+	3 )
+		f_Btrfs_harddrive_preparation
+		
+		;;
 esac
 #===============================================================================
 
@@ -330,6 +337,8 @@ case $(</tmp/installation_mod) in
 		f_normal_installation ;;
 	2 )
 		f_zfs_installation ;;
+	3 )
+		f_btrfs_installation ;;
 esac
 #===============================================================================
 
