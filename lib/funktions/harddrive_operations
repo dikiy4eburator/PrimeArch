@@ -476,7 +476,7 @@ function f_Btrfs_harddrive_preparation(){
 
 	f_generate_partition_names
 
-	mkfs.btrfs /dev/$ROOT_HD
+	mkfs.btrfs -f compression=lzo /dev/$ROOT_HD
 	mkfs.swap /dev//dev/$(</tmp/hdd_name)2
 
 	if [[ -d "/sys/firmware/efi/efivars" ]];
