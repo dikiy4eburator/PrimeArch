@@ -187,17 +187,35 @@ function f_btrfs_installation() {
 	arch-chroot /mnt /bin/bash -c "mkinitcpio -p linux"
 
 
-	#GRUB INSTALLATION
-	#===============================================================================
-	if [[ -d "/sys/firmware/efi/efivars" ]];
-		then
-			# install grub efi
-			arch-chroot /mnt /bin/bash -c "grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$(</mnt/etc/hostname)"
-		else
-			# install grub legacy
-			arch-chroot /mnt /bin/bash -c "grub-install /dev/$(</tmp/hdd_name)"
-	fi
+	##GRUB INSTALLATION
+	##===============================================================================
+	#if [[ -d "/sys/firmware/efi/efivars" ]];
+	#	then
+	#		# install grub efi
+	#		arch-chroot /mnt /bin/bash -c "grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$(</mnt/etc/hostname)"
+	#	else
+	#		# install grub legacy
+	#		arch-chroot /mnt /bin/bash -c "grub-install /dev/$(</tmp/hdd_name)"
+	#fi
+	#
+	#arch-chroot /mnt /bin/bash -c "grub-mkconfig -o /boot/grub/grub.cfg"
+	##===============================================================================
 
-	arch-chroot /mnt /bin/bash -c "grub-mkconfig -o /boot/grub/grub.cfg"
+
+
+	# BOOTCTL INSTALLATION
 	#===============================================================================
+	arch-chroot /mnt /bin/bash -c "bootctl install --path=/boot --no-variables"
+
+	echo "timeout 5"		> /mnt/boot/loader/loader.conf
+	echo "default arch"		>> /mnt/boot/loader/loader.conf
+
+	echo "title		PrimeArch"									> /mnt/boot/loader/entries/arch.conf
+	echo "linux		/vmlinuz-linux"								>> /mnt/boot/loader/entries/arch.conf
+	echo "initrd	/initramfs-linux.img"						>> /mnt/boot/loader/entries/arch.conf
+	echo "options	root=LABEL=ROOT rootflags=subvol=ROOT rw"	>> /mnt/boot/loader/entries/arch.conf
+
+	efibootmgr -c -d /dev/$(</tmp/hdd_name) -p 1 -l /EFI/systemd/systemd-bootx64.efi -L "PrimeArch"
+	#===============================================================================
+
 }
