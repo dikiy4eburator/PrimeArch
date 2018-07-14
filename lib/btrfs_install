@@ -10,7 +10,7 @@ function f_btrfs_installation() {
 	f_pakage_install pakages_base_video
 	f_pakage_install pakages_base_audio
 	f_pakage_install pakages_base_desktop
-	f_pakage_install pakages_base_cosmetik
+	#f_pakage_install pakages_base_cosmetik
 	#===============================================================================
 
 
