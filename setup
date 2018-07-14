@@ -336,7 +336,7 @@ dialog \
 	--backtitle 'PrimeArch Installer' \
 	--title 'Mirrorlist Update' \
 	--begin $BoxStartY $BoxStartX \
-	--infobox '\nUpdating Mirrorlist\n\nit could take some time\nPlease do not close the terminal\n' 10 $BoxWhith
+	--infobox '\nUpdating Mirrorlist\n\nthis could take some time\nPlease do not close the terminal\n' 10 $BoxWhith
 
 reflector --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
 #===============================================================================
