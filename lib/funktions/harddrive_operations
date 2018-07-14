@@ -474,8 +474,6 @@ function f_Btrfs_harddrive_preparation(){
 	sgdisk -n 2:0:+$(</tmp/swap_size)M -c 2:"SWAP" -t 2:8200 /dev/$(</tmp/hdd_name)
 	sgdisk -n 3:0:0 -c 3:"ROOT" -t 3:8300 /dev/$(</tmp/hdd_name)
 
-	# f_generate_partition_names
-
 	mkfs.btrfs -f /dev/$(</tmp/hdd_name)3
 	mkswap /dev/$(</tmp/hdd_name)2
 
@@ -486,7 +484,7 @@ function f_Btrfs_harddrive_preparation(){
 			:
 	fi
 
-	mount -t btrfs -o defaults,noatime,discard /dev/$(</tmp/hdd_name)3 /mnt
+	mount /dev/$(</tmp/hdd_name)3 /mnt
 
 	cd /mnt
 
@@ -497,6 +495,7 @@ function f_Btrfs_harddrive_preparation(){
 	btrfs subvolume create var
 	btrfs subvolume create tmp
 
+	cd ..
 	umount /mnt
 
 	mount -o rw,defaults,noatime,compress=lzo,subvol=ROOT /dev/$(</tmp/hdd_name)3 /mnt
@@ -513,6 +512,7 @@ function f_Btrfs_harddrive_preparation(){
 	mkdir /mnt/.snapshots
 	mkdir -p /mnt/var/cache/pacman/pkg
 	mkdir /mnt/tmp
+	swapon /dev/$(</tmp/hdd_name)2
 	
 	mount -o rw,defaults,noatime,compress=lzo,subvol=home /dev/$(</tmp/hdd_name)3 /mnt/home
 	mount -o rw,defaults,noatime,compress=lzo,subvol=snapshots /dev/$(</tmp/hdd_name)3 /mnt/.snapshots
