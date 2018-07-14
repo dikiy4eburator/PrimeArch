@@ -191,26 +191,9 @@ function f_btrfs_installation() {
 	#mkrlconf
 	
 
-	##GRUB INSTALLATION
-	##===============================================================================
-	#if [[ -d "/sys/firmware/efi/efivars" ]];
-	#	then
-	#		# install grub efi
-	#		arch-chroot /mnt /bin/bash -c "grub-install --efi-directory=/boot/efi --bootloader-id=Arch_$(</mnt/etc/hostname)"
-	#	else
-	#		# install grub legacy
-	#		arch-chroot /mnt /bin/bash -c "grub-install /dev/$(</tmp/hdd_name)"
-	#fi
-	#
-	#arch-chroot /mnt /bin/bash -c "grub-mkconfig -o /boot/grub/grub.cfg"
-	##===============================================================================
-	
 
 
-
-
-
-	 get uuid for btrfs partition
+	get uuid for btrfs partition
 	lsblk -f | grep $(</tmp/hdd_name)3 > /tmp/uuid
 	awk ' { print $3 } ' < /tmp/uuid > /tmp/uuid_2
 
