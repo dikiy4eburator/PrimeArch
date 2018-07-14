@@ -188,8 +188,8 @@ function f_btrfs_installation() {
 	arch-chroot /mnt /bin/bash -c "mkinitcpio -p linux"
 
 
-	refind-install
-	mkrlconf
+	refind-install --usedefault
+	mkrlconf --force
 	
 
 
