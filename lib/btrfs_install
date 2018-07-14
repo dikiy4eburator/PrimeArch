@@ -160,7 +160,7 @@ function f_btrfs_installation() {
 	arch-chroot /mnt /bin/bash -c "chmod -R 0700 /home/$(</tmp/user_name)"
 	#===============================================================================
 
-	arch-chroot /mnt /bin/bash -c "mkinitcpio -p linux"
+	
 
 
 	# START DAEMONS
@@ -184,6 +184,8 @@ function f_btrfs_installation() {
 	# lightdm
 	arch-chroot /mnt /bin/bash -c "systemctl enable lightdm.service"
 	#===============================================================================
+	
+	arch-chroot /mnt /bin/bash -c "mkinitcpio -p linux"
 
 	refind-install
 	mkrlconf
