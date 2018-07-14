@@ -1,6 +1,8 @@
 base
 base-devel
 linux-headers
+grub
+os-prober
 efibootmgr
 acpid
 dbus
@@ -12,5 +14,4 @@ ranger
 dkms
 git
 reflector
-grub
-os-prober
+

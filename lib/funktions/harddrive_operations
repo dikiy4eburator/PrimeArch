@@ -499,8 +499,6 @@ function f_Btrfs_harddrive_preparation(){
 	btrfs subvolume create pkg
 	btrfs subvolume create var
 	btrfs subvolume create tmp
-
-
 	cd ..
 	umount /mnt
 
