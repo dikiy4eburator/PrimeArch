@@ -179,7 +179,7 @@ function f_btrfs_installation() {
 	arch-chroot /mnt /bin/bash -c "systemctl enable rpcbind"
 
 	# Cronie
-	arch-chroot /mnt /bin/bash -c "systemctl enable cronie.service"
+	#arch-chroot /mnt /bin/bash -c "systemctl enable cronie.service"
 
 	# lightdm
 	arch-chroot /mnt /bin/bash -c "systemctl enable lightdm.service"
@@ -187,14 +187,12 @@ function f_btrfs_installation() {
 	
 	arch-chroot /mnt /bin/bash -c "mkinitcpio -p linux"
 
+	arch-chroot /mnt /bin/bash -c "refind-install --usedefault"
+	arch-chroot /mnt /bin/bash -c "mkrlconf --force"
 
-	refind-install --usedefault
-	mkrlconf --force
+
 	
-
-
-
-	#get uuid for btrfs partition
+		#get uuid for btrfs partition
 	#lsblk -f | grep $(</tmp/hdd_name)3 > /tmp/uuid
 	#awk ' { print $3 } ' < /tmp/uuid > /tmp/uuid_2
 
